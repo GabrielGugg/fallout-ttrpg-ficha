@@ -1,6 +1,6 @@
 # Backlog de Issues — ZaitBr-bit/D-D_2024
 
-> Revalidado em 2026-10-05, a partir da API do GitHub (issues abertas, sem PRs).
+> Revalidado em 2026-10-16, a partir da API do GitHub (issues abertas, sem PRs).
 > Ordenado por **tipo** (Bug / Melhoria) e depois por **complexidade**. Ticket
 > aqui é a issue do GitHub — ver [`TRIAGEM-ISSUES.md`](TRIAGEM-ISSUES.md) para
 > o procedimento de investigar e corrigir.
@@ -79,50 +79,34 @@
 > abertas, lista batendo uma a uma; #126 ganhou dois comentários, sugerindo
 > compartilhar magias/itens personalizados entre fichas da conta). Dos cinco
 > bugs novos, quatro tinham causa raiz no código e foram corrigidos com oráculo
-> vermelho antes (#130, #131, #135, #138); #129 não reproduziu. Sem commit e sem
-> `versao.js` ainda (o dono diz a versão).
+> vermelho antes (#130, #131, #135, #138); #129 não reproduziu.
+>
+> **Revalidação de 2026-10-16**: 27 issues abertas (contagem conferida na API,
+> lista batendo uma a uma). Saíram onze: #130, #131, #135, #138 (3.0.22),
+> #128, #133, #134 (3.1.1), #125 (3.1.3), #95 (Artífice, 3.2.0), #129
+> (fechada pelo dono sem commit, "acredito que foi corrigido") e #93 (fechada
+> no GitHub em 2026-10-03, antes da revalidação anterior, que a listou por
+> engano). Entraram cinco: **#139 a #143** — dois bugs abertos na 3.3.5 e
+> três melhorias de conteúdo/homebrew. Detalhe das fechadas nas notas de
+> manutenção.
+>
+> **Mudança de escopo**: desde a 3.2.0 o app traz conteúdo de fora do PHB 2024
+> (`dados/tasha/` com o Artífice, `dados/arcana-unleashed/`, `dados/ravenloft/`
+> com o Renascido, selo de origem do livro na seleção). "Fora do PHB 2024"
+> deixou de bastar para fechar pedido de conteúdo: cada livro é decisão do dono
+> (P4). Ver a seção "Conteúdo de outros livros".
+>
+> Ordem sugerida: **#143** (P1, ficha não sincroniza), depois #142 (P2,
+> pedir dados ao autor).
 
 ---
 
 ## 🐛 Bugs
 
-### Baixa
-
-_(nenhuma nesta faixa no momento — ver notas de manutenção)_
-
 ### Média
 
-_(nenhuma nesta faixa no momento — ver notas de manutenção)_
-
-### Média–Alta
-
-_(nenhuma nesta faixa no momento — ver notas de manutenção)_
-
----
-
-## 🆕 Novas, sem triagem (2026-10-05)
-
-Abertas na 3.0.21 (ou 3.0.x); **nenhuma foi investigada contra o código** — o
-que segue é o resumo do que o autor descreve, a confirmar na triagem.
-
-**Bugs** — triados em 2026-10-05; #130, #131, #135 e #138 corrigidos (aguardam commit e versão), #129 não reproduzido.
-
-- [ ] **#129** — Mago que adquire o talento Mestre das Armas perde o botão de trocar/preparar magias no Descanso Longo. **Não reproduzido**: Mago 5 com o talento e magias preparadas mostra os três botões (`mago-mestre-das-armas-descanso.spec.mjs`). O botão só some quando a ficha não tem nenhuma magia preparada de círculo 1+ (o portão de `hp-descanso.js` exige uma candidata a sair); nada no fluxo do talento esvazia `magias_preparadas`. Falta perguntar ao autor se o Mago dele tinha magias preparadas; ver `PERGUNTAS-PENDENTES.txt`.
-- [x] **#130** — Nome de magia grande cortado pelo check. Causa: `.opcao-check` é absoluto (28 px) e o nome, filho direto do card denso, passava por baixo dele. `app.css`: `padding-right: 24px` e `overflow-wrap: anywhere` em `.opcao-grid.densa .opcao-card > .opcao-nome`. Teste: `grimorio-mago-personalizada-badge-e-nome-longo.spec.mjs`.
-- [x] **#131** — Selo "Personalizada" no Mago. Causa: a grade do Mago é montada de `char.grimorio` (`{nome, circulo}`), sem a marca `personalizada`. `mostrarBuscaMagia` (`grimorio.js`) agora cruza a entrada sem par no acervo com `magias_customizadas` e acrescenta selo, escola e fonte. Mesmo spec do #130.
-- [x] **#135** — Propriedade personalizada fora de arma. Causa: `htmlDetalheItem` (`inventario.js`) só chamava `htmlPropriedadesEMaestria` dentro de `if (d.categoria)`. Agora vale para todo item personalizado (o nome da propriedade também passou por `escHtml`). Teste: `item-customizado-propriedade-nao-arma.spec.mjs`.
-- [x] **#138** — Reação recusada. Causa: o gatilho digitado ("...ataque com uma arma") passava pela lista negra `arma|ataque desarmado` de `tempoConjuracaoMagiaValido` (`grimorio.js`), feita para filtrar o índice. A validação agora olha só o trecho antes da primeira vírgula. Teste: `magia-personalizada-reacao-gatilho.spec.mjs`.
-
-**Melhorias**
-
-- [x] **#125** — Comprar item personalizado (descontar moedas ao adicionar, como na loja). Aguarda commit e versão. Causa: o modal "Item Customizado" não tinha como pagar. O rodapé da criação ganhou o bloco "Pagar" (valor + moeda, padrão PO; o campo de preço em texto livre foi removido do formulário; itens antigos continuam exibindo o preço gravado); cobra sempre que há valor, só depois de o formulário validar, e não grava nada no item; o modal de edição não tem o bloco. A lógica comum saiu para `preco-informado-ui.js` (`htmlCampoPrecoInformado`, `cobrarPrecoInformado`), usada também pelo modal do item mágico (ids e comportamento mantidos). Arquivos: `preco-informado-ui.js`, `sheet/inventario.js`, `itens-magicos-ui.js`. Testes: `item-customizado-compra.spec.mjs`, `item-magico-preco-informado.spec.mjs`.
-- [ ] **#126** — Passar magias e itens de uma ficha para outra (hoje é um a um).
-- [ ] **#127** — Campo "Conjuração como magia de Círculo" nas magias personalizadas e formulário de magia mais compacto (como o de item).
-- [x] **#128** — Deixar claro que só o Mago troca de truque no Descanso Longo (o texto sugere que qualquer conjurador troca). Aguarda commit e versão. Causa: a troca de truque é regra da casa (o livro só permite ao Mago), e os dois modais não diziam isso. `avisoTrocaTruqueForaDoLivro` (`regras-preparo-magias.js`) gera o aviso; `hp-descanso.js` (modal do Descanso Longo, `<p class="aviso-regra-livro">`) e `grimorio.js` (modal de troca no grimório, dentro da info-box) o exibem para quem não é Mago. A regra da casa foi mantida; a decisão está em `PERGUNTAS-PENDENTES.txt`. Testes: `troca-truque-aviso.test.mjs`, `troca-truque-aviso-livro.spec.mjs`.
-- [x] **#133** — Converter moedas também "para baixo" (platina → ouro). Aguarda commit e versão. Causa: a Carteira só convertia para cima. `moedas.js` ganhou `proximaDenominacaoMenor` e `converterParaMenor` (usam as taxas customizadas); `sheet/inventario.js` ganhou o botão "↓" (`data-moeda-conv-baixo`) em cada linha de moeda e o layout da linha foi ajustado para caber em 360 px. Testes: `moedas-converter-menor.test.mjs`, `carteira-converter-baixo.spec.mjs`.
-- [x] **#134** — Item personalizado: tipo de armadura (leve/média/pesada) para a proficiência aparecer, e mostrar CA, requisito, desvantagem, custo e peso na descrição. Aguarda commit e versão. Causa: o item personalizado de categoria Armadura não guardava o tipo, então não havia selo de proficiência nem resumo. `item-customizado-form.js` ganhou `TIPOS_ARMADURA` e o bloco de tipo, requisito de Força e desvantagem em Furtividade (`tipo_armadura`, `requisito_forca`, `furtividade`, vazios fora de Armadura); `sheet/inventario.js` mostra o selo de proficiência (`badge-prof-sm`) e `htmlResumoItemCustomizado` no detalhe (CA, requisito, furtividade, custo e peso). CA e penalidades de armadura não mudaram. Testes: `item-customizado-armadura.test.mjs`, `item-customizado-armadura.spec.mjs`.
-- [ ] **#136** — Modo escuro/noturno. **Duplicata de #22** (mesmo pedido): consolidar.
-- [ ] **#137** — Pastas/grupos de fichas na página inicial.
+- [x] **#143** (NOVA, 2026-10-15, 3.3.5, **P1**) — Ficha não sincroniza entre aparelhos; o relatório de erro de salvamento traz `FirebaseError invalid-argument: Nested arrays are not supported` (tentativa 19, documento de 14,2 KB, inventário 9 KB). **Causa raiz no código**: `camposMagicos` (`itens-magicos-catalogo.js:154`, desde a 3.1.0, commit `6dda28c`) copia `tabelas` do acervo para `dados` da instância no inventário, e `tabelas[].dados` é lista de linhas (array de arrays), que o Firestore recusa no `tx.set` de `salvarPersonagemCloud` (`auth.js`), que não sanitiza. 55 dos 350 itens mágicos têm tabela (Amuleto dos Planos, Anel de Resistência, Armadura Encantada, Baralho das Muitas Coisas, Cajado da Cura...). A gravação local funciona, então só a nuvem fica para trás; a divergência relatada (itens e PO diferentes no outro aparelho) é consequência direta. A varredura de `dados/` não achou outro array aninhado. Sem reprodução com Firebase real. **Corrigida em 2026-10-16, versão 3.3.6.** Cada linha da tabela passa a ser gravada como `{ celulas: [...] }` (`site/js/regras-tabelas-item.js`: `tabelasParaGravar`, `celulasDaLinha`, `normalizarTabelasInventario`), em três pontos: na origem (`camposMagicos`), na abertura da ficha (`migrarTabelasItensMagicos`, `sheet/migracoes.js`) e no envio à nuvem (`salvarPersonagemCloud`, para ficha ainda na fila ou não reaberta). `htmlTabelasItemMagico` lê os dois formatos (o acervo continua em array). Testes, ambos vermelhos antes: `item-magico-sem-array-aninhado.test.mjs` (todos os 55 itens com tabela, montados por `montarItemInventario`) e `item-magico-tabela-sincroniza.spec.mjs` (ficha no formato antigo é migrada e o detalhe, aberto por clique, mostra a tabela). O envio à nuvem não tem prova automatizada (não há Firebase nos testes). Regressão: 109 testes de unidade (catálogo, `multiclasse-fundacao`, sync, store) e 133 e2e de itens mágicos, pergaminho e Artífice; 1 falha, a intermitente "Amuleto da Saúde: PV máximo" (`itens-magicos-atributo.spec.mjs`), que falhou também sem a correção (1 de 5 rodadas isoladas).
+- [ ] **#142** (NOVA, 2026-10-15, 3.3.5, **P2**) — PDF da ficha não baixa (Android, "Google"). **Não investigado**: o relato não diz o que aparece (nada, erro, aba em branco) nem o navegador exato. Mesmo sintoma da #70 e da #114 (fechadas; o download já usa `baixarArquivo` em `utils.js`). Pedir ao autor o navegador, se aparece algum aviso e se o export JSON da home baixa; se não reproduzir em emulação, o caminho é teste em aparelho (`adb reverse` + `chrome://inspect`).
 
 ---
 
@@ -134,50 +118,68 @@ _(nenhuma nesta faixa no momento — ver notas de manutenção)_
 
 ### Baixa–Média
 
-_(nenhuma nesta faixa no momento — ver notas de manutenção)_
+- [ ] **#127** — Campo "Conjuração como magia de Círculo" nas magias personalizadas e formulário de magia mais compacto (como o de item). Conferido em 2026-10-16: nada entregue nas versões 3.1–3.3.
 
 ### Média
 
-- [ ] **#22** — Modo escuro. Nenhum `prefers-color-scheme`/`data-theme` hoje; exige tokenizar cores em CSS custom properties.
-- [x] **#103** (NOVA, 2026-09-21, **P3**) — **Fechada em 2026-10-05**: a parte (b) foi entregue na versão 3.1.1 e a parte (a) foi respondida na issue (as 10 variantes existem em Itens Mágicos desde a 3.1.0); a issue foi fechada como concluída pelo GitHub, com comentário (o commit saiu com `Refs #103`). Parte (b): regra pura em `regras-pergaminho.js` (círculo, magia, tabela de CD/ataque); `pergaminho-ui.js` traz a grade de cards com "Em branco" fixo e busca (clicar no card abre os detalhes da magia; o círculo do card seleciona); o Pergaminho Mágico sai da listagem de Equipamento **só na ficha** (`ctx.permitirMagicos`; o criador continua listando) e é adicionado por Itens Mágicos; a magia pode ser trocada depois de adicionado (bloco e botão no detalhe, selo "Em branco" na linha); custo `consome` em `regras-magias-itens.js` (`consumirPergaminho` após conjuração confirmada, em `sheet/magias.js`). Testes: `pergaminho-magico.test.mjs`, `pergaminho-magico.spec.mjs`. Limitação: a grade usa o índice de todas as classes, sem filtrar pela lista de classe do leitor. Texto anterior: **Atualização 2026-10-05 (3.1.0): a parte (a) está respondida.** A categoria Itens Mágicos traz o *Pergaminho Mágico* do Guia do Mestre com as 10 variantes (Truque e 1º a 9º círculo); só falta responder na issue. **A parte (b) segue aberta**: o item entra no inventário sem magia (`magias: null` no acervo) e não há seletor. A infraestrutura nova ajuda: o bloco Magias de Itens (3.1.0) já sabe listar e conjurar uma magia gravada no item, então o seletor pode gravar `dados.magias` na instância (círculo da variante como teto). Texto original: Pergaminho Mágico: (a) só existem "Pergaminho Mágico (Truque)" e "(1º Círculo)" no catálogo (`dados/equipamento/equipamento_aventura.json`); (b) não dá para escolher qual magia está no pergaminho. Investigado: (a) é fiel ao PHB 2024 — o capítulo de equipamento só lista esses dois; os de 2º a 9º círculo são itens mágicos do Guia do Mestre, fora do escopo atual. (b) é melhoria real: seletor de magia (filtrado pelo círculo do pergaminho) gravado na instância do item + exibição no detalhe. Fazer só (b), e responder (a) na issue.
-- [ ] **#107** (NOVA, 2026-09-21, **P3**) — Aba de registro de campanha: missões realizadas, histórico de XP (comentário acrescenta criaturas encontradas). Investigado: hoje só existe `char.xp` numérico (editado em `sheet/edicao.js`), sem histórico. Seção nova de diário com entradas datadas; o log de XP pode alimentar `char.xp`.
-
-### Média–Alta
-
-- [ ] **#93** — **Atualização 2026-10-05 (3.1.0): parcial.** Os sentidos concedidos por **item** (Visão no Escuro, Visão Verdadeira, Visão às Cegas; Óculos da Noite somam à base da espécie; o maior vale entre fontes) agora aparecem em Sentidos, na impressão e no PDF. **Seguem faltando** os concedidos por **magia** e por **traço/subclasse**, a Sismoconsciência (Sentido Sísmico) e o Guardião 18 só entra pela classe. Texto original: Sentidos passivos (Visão no Escuro, Visão às Cegas, Sismoconsciência, Visão Verdadeira) concedidos por magia/traço/item não aparecem na ficha. Conferido: não existe NENHUM campo `sentidos_passivos`/tratamento equivalente em `sheet/ficha.js`/`sheet/combate.js` hoje — gap real, não regressão. Precisa mapear cada fonte que concede sentido e escrever no bloco de sentidos da ficha, com prioridade entre fontes (ex.: dois "Visão no Escuro" de alcances diferentes).
+- [ ] **#22** + **#136** — Modo escuro. **Consolidar as duas** (#136 é o mesmo pedido). Nenhum `prefers-color-scheme`/`data-theme` hoje; exige tokenizar cores em CSS custom properties. Ao fazer, revisar `COR_MOEDA` (`moedas.js`), calibrada contra fundo branco.
+- [ ] **#107** (2026-09-21, **P3**) — Aba de registro de campanha: missões realizadas, histórico de XP (comentário acrescenta criaturas encontradas). Investigado: hoje só existe `char.xp` numérico (editado em `sheet/edicao.js`), sem histórico. Seção nova de diário com entradas datadas; o log de XP pode alimentar `char.xp`.
+- [ ] **#126** — Passar magias e itens de uma ficha para outra (hoje é um a um). Os dois comentários pedem compartilhar magias/itens **personalizados** entre as fichas da conta.
+- [ ] **#137** — Pastas/grupos de fichas na página inicial.
 
 ### Alta
 
 - [ ] **#69** + **#65** + **#14** — Reduzir/retroceder nível com histórico de progressão. **Consolidar as três** — #14 já propõe o desenho técnico (snapshot por nível).
 - [ ] **#38** + **#52** — Talentos customizados/criação de talentos. **Consolidar as duas.**
-- [ ] **#41** — Antecedentes customizados (concede atributo + perícia + talento de origem + equipamento — 4 integrações no criador).
-- [ ] **#53** — Montaria na ficha (entidade nova, bloco de estatísticas de criatura).
-- [ ] **#23** + **#26** — Espécie customizada / Warforged. **Consolidar as duas** (espécie alimenta deslocamento, sentidos, truques, resistências).
+- [ ] **#41** + **#140** — Antecedentes customizados (concede atributo + perícia + talento de origem + equipamento — 4 integrações no criador). **Consolidar as duas**: #140 (2026-10-13) pede o mesmo, citando a regra do livro (3 atributos, 1 ferramenta, 2 perícias, 1 talento de origem).
+- [ ] **#53** — Montaria na ficha (entidade nova, bloco de estatísticas de criatura). `dados/monstros/criaturas.json` (3.3.0) já traz blocos de criatura que podem servir de base.
+- [ ] **#23** + **#26** — Espécie customizada / Warforged. **Consolidar as duas** (espécie alimenta deslocamento, sentidos, truques, resistências). #139 pede espécies de suplementos; a customizada atenderia.
 
 ### Muito alta
 
-- [ ] **#40** — Classe e subclasse customizadas (núcleo do app: progressão, conjuração, dado de vida, características por nível).
+- [ ] **#40** — Classe e subclasse customizadas (núcleo do app: progressão, conjuração, dado de vida, características por nível). Comentário de 2026-10-14 apoia o pedido.
 - [ ] **#47** + **#32** — Homebrew geral com alteração de bônus / homebrew de raças-classes-origens + compartilhar. **Guarda-chuva de #23/#38/#40/#41** — considerar fechar como duplicata se as específicas cobrirem o pedido.
-- [ ] **#95** (NOVA, 2026-09-20, não investigada) — Pede a classe Artificer (Tasha's/Eberron, fora do PHB 2024) OU uma forma de criar/editar classes próprias — o próprio pedido já dá as duas opções. **Provável duplicata de #40** (classe customizada resolveria o pedido de fundo sem exigir Artificer especificamente) — mas se o pedido for SÓ pela classe oficial, é conteúdo de livro fora de escopo, como #18/#28. Precisa perguntar ao autor qual das duas antes de agir.
+
+### Conteúdo de outros livros (P4 — decisão do dono por livro)
+
+Até a 3.1 estas ficavam "fora do escopo" por não serem do PHB 2024. Com
+Tasha's, Arcana Unleashed e Ravenloft já no app, cada pedido depende de o dono
+decidir trazer o livro; enquanto isso, a resposta é apontar o homebrew (#40,
+#38/#52, #23/#26).
+
+- [ ] **#18** — Subclasse Paladino Juramento dos Gênios Nobres (Heroes of Faerûn).
+- [ ] **#28** — Subclasse Guerreiro do Eco (Wildemount, 5e 2014 — sem versão 2024).
+- [ ] **#109** (2026-09-22) — Conteúdo de "Tasha's Cauldron of Everything" (subclasses como Guerreiro Rúnico, talentos). O Artífice de Tasha's entrou na 3.2.0 (`dados/tasha/artifice/`); o resto do livro não. Três comentários apontam homebrew (#40, #38/#52).
+- [ ] **#139** (NOVA, 2026-10-10) — Mais espécies de suplementos (Tabaxi, Warforged, Tritão, Genasi, Minotauro, Goblin, Hobgoblin, Firbolg, Aarakocra...). Sobrepõe #23/#26; hoje só o Renascido (Ravenloft) veio de fora do PHB.
+- [ ] **#141** (NOVA, 2026-10-14) — Subclasse de Bruxo Lâmina Maldita (Hexblade, Guia de Xanathar, 5e 2014 — sem versão 2024). O autor anexou prints e link para PDF do livro; não usar como fonte. Mesmo caso de #28.
 
 ### Fora do escopo atual
 
-- [ ] **#18** — Subclasse Paladino Juramento dos Gênios Nobres (Heroes of Faerûn — fora do PHB 2024).
-- [ ] **#28** — Subclasse Guerreiro do Eco (Wildemount, 5e 2014 — sem versão 2024).
-- [ ] **#109** (NOVA, 2026-09-22, **P4 — fora do escopo**) — Conteúdo de "Tasha's Cauldron of Everything" (subclasses como Guerreiro Rúnico, talentos). Livro de 5e 2014, fora do PHB 2024, como #18/#28. Um comentário na issue já aponta o caminho: criação de subclasse/talento personalizado (#40, #38/#52) atende o pedido sem adicionar livro por livro. Responder apontando para #40 e fechar como duplicata do guarda-chuva #47/#32.
 - [ ] **#56** — Compatibilidade com iOS 15. Falta diagnóstico: precisa saber qual API/recurso quebra no dispositivo antes de estimar.
 
 ---
 
 ## Notas de manutenção
 
+- **Fechadas entre 2026-10-05 e 2026-10-16** (revalidação de 2026-10-16):
+  - **#125**, versão 3.1.3 (commit `570d7bf`): o modal "Item Customizado" ganhou o bloco "Pagar" no rodapé da criação (valor + moeda, padrão PO; o campo de preço em texto livre saiu do formulário; itens antigos continuam exibindo o preço gravado). Cobra sempre que há valor, só depois de o formulário validar, e não grava nada no item; o modal de edição não tem o bloco. Lógica comum em `preco-informado-ui.js` (`htmlCampoPrecoInformado`, `cobrarPrecoInformado`), usada também pelo modal do item mágico. Testes: `item-customizado-compra.spec.mjs`, `item-magico-preco-informado.spec.mjs`.
+  - **#128**, versão 3.1.1 (commit `0320f9d`): a troca de truque é regra da casa (o livro só permite ao Mago). `avisoTrocaTruqueForaDoLivro` (`regras-preparo-magias.js`) gera o aviso; `hp-descanso.js` e `grimorio.js` o exibem para quem não é Mago. Regra da casa mantida (`PERGUNTAS-PENDENTES.txt`). Testes: `troca-truque-aviso.test.mjs`, `troca-truque-aviso-livro.spec.mjs`.
+  - **#133**, versão 3.1.1: `moedas.js` ganhou `proximaDenominacaoMenor` e `converterParaMenor` (usam as taxas customizadas); botão "↓" (`data-moeda-conv-baixo`) em cada linha da Carteira, linha ajustada para 360 px. Testes: `moedas-converter-menor.test.mjs`, `carteira-converter-baixo.spec.mjs`.
+  - **#134**, versão 3.1.1: item personalizado de Armadura grava `tipo_armadura`, `requisito_forca` e `furtividade` (`TIPOS_ARMADURA` em `item-customizado-form.js`); `sheet/inventario.js` mostra o selo de proficiência e `htmlResumoItemCustomizado` (CA, requisito, furtividade, custo e peso). CA e penalidades não mudaram. Testes: `item-customizado-armadura.test.mjs` e `.spec.mjs`.
+  - **#130, #131, #135, #138**, versão 3.0.22 (commit `cad4033`): ver a nota da 3.0.22 abaixo. #130: `padding-right: 24px` e `overflow-wrap: anywhere` em `.opcao-grid.densa .opcao-card > .opcao-nome`. #131: `mostrarBuscaMagia` cruza entrada do grimório sem par no acervo com `magias_customizadas`. #135: `htmlPropriedadesEMaestria` fora do `if (d.categoria)`. #138: `tempoConjuracaoMagiaValido` olha só o trecho antes da primeira vírgula.
+  - **#103**, fechada em 2026-10-05: parte (b) na 3.1.1 (`Refs #103`), parte (a) respondida na issue (as 10 variantes do Pergaminho Mágico estão em Itens Mágicos desde a 3.1.0). Regra pura em `regras-pergaminho.js`; grade de cards em `pergaminho-ui.js`; o Pergaminho sai da listagem de Equipamento só na ficha (`ctx.permitirMagicos`); `consumirPergaminho` (`regras-magias-itens.js`) após conjuração confirmada. Testes: `pergaminho-magico.test.mjs` e `.spec.mjs`. Limitação: a grade não filtra pela lista de classe do leitor.
+  - **#95**, versão 3.2.0 (commit `e803623`, `Closes #95`): classe Artífice (Tasha's, versão 2024) com as cinco subclasses e Replicar Item Mágico; o pedido alternativo (classe customizada) segue em #40.
+  - **#129**: fechada pelo dono em 2026-10-05 sem commit, após a triagem não reproduzir (`mago-mestre-das-armas-descanso.spec.mjs`); se o autor reabrir, perguntar se o Mago tinha magias preparadas de círculo 1+.
+  - **#93**: fechada como concluída no GitHub em 2026-10-03, sem commit nosso. O que ficou de fora quando fechou (entregue só a parte dos itens, na 3.1.0): sentidos concedidos por magia e por traço/subclasse, Sismoconsciência, e o Guardião 18 só entra pela classe. Se voltar a ser pedido, abrir issue nova.
+- **Entregas sem issue entre 3.2.0 e 3.3.5 (2026-10-06 a 2026-10-09)**: Artífice e selo de origem do livro (3.2.0); ataques, mãos e atributo do modificador por item (3.2.1); Necromante, Familiar, Forma Selvagem, Invocações do Bruxo e espécie Renascido (3.3.0); cabeçalho retrátil no celular; correções de CA com Armadura Arcana e Invocar Morto-Vivo (3.3.1); sincronização que não sobrescreve a nuvem com cópia antiga e relatório do erro ao salvar (3.3.2 — é esse relatório que trouxe o diagnóstico da #143); espaços do inventário reordenáveis e categoria Componentes de Magia (3.3.3); itens mágicos de mão (3.3.4); Vitalidade Vazia e Banquete de Heróis (3.3.5); Recuperação Arcana com botões, truque concedido por subclasse e fontes com rótulos genéricos/atribuição do SRD 5.2.1. Detalhe nos commits.
+
 - **Rodada 3 (2026-10-05), sem issue própria além da #125**: (1) a Poção de Cura sai da listagem de Equipamento na ficha, como o Pergaminho Mágico: o filtro agora vale para todo registro reaproveitado pelo acervo mágico (`nomesReaproveitadosDoEquipamento`), só com `ctx.permitirMagicos`; o criador lista tudo; fichas antigas não precisam de migração (`pocao-cura-so-magicos.spec.mjs`, `itens-nomes-so-magicos.test.mjs`). Isto resolve o item "pendente de aprovação do dono" da rodada 2. (2) Cada moeda tem cor própria no cabeçalho do inventário e no saldo do modal da Carteira (`COR_MOEDA` e `htmlCarteira` em `moedas.js`, contraste >= 4,5:1 contra branco); `formatarCarteira` segue texto puro para impressão/PDF/"Disponível" do grimório (`moedas-html-carteira.test.mjs`, `carteira-cores.spec.mjs`). Ao mudar o tema/fundo do app, revisar `COR_MOEDA`.
 
 - **Seletor de itens no celular (versão 3.1.2, 2026-10-05)** — pedido do dono, sem issue: modal "Adicionar Item" com altura fixa e categoria em dropdown, categoria "Todos" (busca em todas as categorias, limite de 80 resultados), ajuste ao teclado virtual (`site/js/modal-teclado.js`), destaque da raridade ativa e botões "Loja" e "Novo Espaço". Teclado virtual provado só por simulação de `visualViewport`; falta conferir em iPhone/Android reais.
 
-- **Entregues em 2026-10-05 (rodada 2), versão 3.1.1**: #128, #133, #134, parte (b) da #103 e, sem issue própria, o preço informado ao adicionar item mágico e a auditoria de itens duplicados. Causas, arquivos e testes nas entradas das issues. **Preço informado**: o modal de item mágico (`itens-magicos-ui.js`) ganhou campo de preço no rodapé (`interpretarPrecoInformado` em `moedas.js`); cobra sempre que há valor, independe do flag Comprar e não grava nada no item; também ganhou trava contra abertura/confirmação em duplicidade. Testes: `preco-informado.test.mjs`, `item-magico-preco-informado.spec.mjs`. **Auditoria de duplicados**: `scripts/auditar_itens_duplicados.py` gera `docs/AUDITORIA-ITENS-DUPLICADOS.md` (o script regera A, B e C e preserva a seção D, escrita à mão); duplicatas reais: Pergaminho Mágico (Truque), Pergaminho Mágico (1º Círculo) e Poção de Cura; teste-guarda `itens-duplicados-catalogo.test.mjs`. **Pendente de aprovação do dono**: tirar a Poção de Cura da listagem de Equipamento (hoje continua listada); qualquer filtro generalizado deve valer só com `ctx.permitirMagicos`. #107 fora desta rodada. **Regressão**: 230 e2e nas suítes de troca de truque, carteira, item customizado, pergaminho, trocas, descanso, itens mágicos, loja, inventário e ficha (229 passaram na primeira rodada; `itens-magicos-atributo.spec.mjs` "Amuleto da Saúde: PV máximo sobe ao sintonizar" falhou uma vez sob carga e passou nas três reexecuções isoladas, uma delas só no retry: intermitente); unidade 5106 testes, 4848 passam, 1 falha antiga (`gatilhos-ui-cobertos`).
+- **Entregues em 2026-10-05 (rodada 2), versão 3.1.1**: #128, #133, #134, parte (b) da #103 e, sem issue própria, o preço informado ao adicionar item mágico e a auditoria de itens duplicados. Causas, arquivos e testes na nota "Fechadas entre 2026-10-05 e 2026-10-16", acima. **Preço informado**: o modal de item mágico (`itens-magicos-ui.js`) ganhou campo de preço no rodapé (`interpretarPrecoInformado` em `moedas.js`); cobra sempre que há valor, independe do flag Comprar e não grava nada no item; também ganhou trava contra abertura/confirmação em duplicidade. Testes: `preco-informado.test.mjs`, `item-magico-preco-informado.spec.mjs`. **Auditoria de duplicados**: `scripts/auditar_itens_duplicados.py` gera `docs/AUDITORIA-ITENS-DUPLICADOS.md` (o script regera A, B e C e preserva a seção D, escrita à mão); duplicatas reais: Pergaminho Mágico (Truque), Pergaminho Mágico (1º Círculo) e Poção de Cura; teste-guarda `itens-duplicados-catalogo.test.mjs`. **Pendente de aprovação do dono**: tirar a Poção de Cura da listagem de Equipamento (hoje continua listada); qualquer filtro generalizado deve valer só com `ctx.permitirMagicos`. #107 fora desta rodada. **Regressão**: 230 e2e nas suítes de troca de truque, carteira, item customizado, pergaminho, trocas, descanso, itens mágicos, loja, inventário e ficha (229 passaram na primeira rodada; `itens-magicos-atributo.spec.mjs` "Amuleto da Saúde: PV máximo sobe ao sintonizar" falhou uma vez sob carga e passou nas três reexecuções isoladas, uma delas só no retry: intermitente); unidade 5106 testes, 4848 passam, 1 falha antiga (`gatilhos-ui-cobertos`).
 
-- **Corrigidas em 2026-10-05 (versão 3.0.22)**: #130, #131, #135, #138 (bugs abertos na 3.0.21). Causas e testes nas entradas da seção "Novas, sem triagem". Regressão: 208 e2e nas suítes de grimório, magia, item customizado, descanso, trocas e inventário (0 falhas); unidade 5065 testes, 1 falha antiga (`gatilhos-ui-cobertos`). #129 segue aberta, não reproduzida.
+- **Corrigidas em 2026-10-05 (versão 3.0.22)**: #130, #131, #135, #138 (bugs abertos na 3.0.21). Causas e testes na nota "Fechadas entre 2026-10-05 e 2026-10-16", acima. Regressão: 208 e2e nas suítes de grimório, magia, item customizado, descanso, trocas e inventário (0 falhas); unidade 5065 testes, 1 falha antiga (`gatilhos-ui-cobertos`). #129 segue aberta, não reproduzida.
 
 - **Entregue na versão 3.1.0 (2026-10-05)** — melhoria do dono do produto, **sem issue**: itens mágicos do Livro do Mestre (capítulo 7). 350 itens traduzidos e catalogados (`dados/livro-do-mestre/capitulo7/`, extração e curadoria em `scripts/livro-do-mestre/`); na ficha: categoria Itens Mágicos no Adicionar Item, bônus automáticos (CA, salvaguardas, ataque/CD de magia, ataque/dano de arma), atributo em jogo (Cinturão de Força do Gigante, Amuleto da Saúde, Pedras Ioun, aumentos permanentes de Manuais/Tomos/Livros), cargas e usos com recuperação no Descanso Longo, magias conjuradas pelo item, resistências/imunidades/deslocamento/sentidos/vantagens passivos e aviso de sintonização restrita. Dez planos de implementação (em `docs/superpowers/plans/`, não versionados). Corrigidos no caminho, sem issue: PV com o Amuleto da Saúde ao editar Constituição/reverter/ASI/talento/dádiva, rótulo "(Rolado: N)" do level-up, Exaustão nos Deslocamentos especiais fixos, Visão às Cegas do Guardião multiclasse e itens duplicados em Deslocamento/Condições. **Limitações de modelo conhecidas** (itens que exigem vocabulário novo: voo condicional do Manto do Morcego, imunidade à magia Mísseis Mágicos do Broche Protetor, Visão no Escuro a 30 cm dos Olhos de Visão Minuciosa, aliados em auras, restrições de uso das magias de itens, Túnica das Estrelas, Cubo de Invocação, Lâmina e Pedra da Boa Sorte, Cabras de Marfim, Elmo do Brilho) estão em `scripts/livro-do-mestre/GUIA-MECANICA.md`. Tocam as issues abertas **#103** (parte (a) respondida) e **#93** (sentidos por item entregues), registradas nas entradas delas.
 

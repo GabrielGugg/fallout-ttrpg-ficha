@@ -25,7 +25,7 @@ import { renderFichaCompleta } from '../sheet/ficha.js';
 import { carregarCriaturasArtifice } from '../sheet/companheiros-artifice.js';
 import { carregarCriaturasFamiliar } from '../sheet/familiar.js';
 import { carregarDescricoesMagias } from '../sheet/impressao.js';
-import { migrarCopiasCustomizadasDoGrimorio, migrarEscolhasClasseLegadas, migrarEspacosMagia, migrarMagiaClasse, migrarMagiasCustomizadasSemprePreparadas, migrarMagiasDominio, migrarConcessoesSubclasseMago, migrarMagiasLegadoEspecie, migrarMagiasSemprePreparadas, migrarMulticlasse, migrarNomePericiaLidarAnimais, migrarPericiaEspecie, migrarPericiasEspecie, migrarPericiasTalentos, migrarProficienciasTalentos, migrarSlotsMagiaLivre, migrarTalentoVersatilHumano, migrarTruquesEspecie, migrarTruquesFixosSubclasse } from '../sheet/migracoes.js';
+import { migrarCopiasCustomizadasDoGrimorio, migrarEscolhasClasseLegadas, migrarEspacosMagia, migrarMagiaClasse, migrarMagiasCustomizadasSemprePreparadas, migrarMagiasDominio, migrarConcessoesSubclasseMago, migrarMagiasLegadoEspecie, migrarMagiasSemprePreparadas, migrarMulticlasse, migrarNomePericiaLidarAnimais, migrarPericiaEspecie, migrarPericiasEspecie, migrarPericiasTalentos, migrarProficienciasTalentos, migrarSlotsMagiaLivre, migrarTabelasItensMagicos, migrarTalentoVersatilHumano, migrarTruquesEspecie, migrarTruquesFixosSubclasse } from '../sheet/migracoes.js';
 import { baixarPdfFicha } from '../sheet/pdf.js';
 import { migrarAdeptoElementalTipos, migrarIniciadoEmMagiaInstancias } from '../sheet/talentos.js';
 let _syncSubscribed = false;
@@ -196,6 +196,7 @@ export async function renderSheet(container, charId) {
     migrarProficienciasTalentos();
     migrarIniciadoEmMagiaInstancias();
     migrarAdeptoElementalTipos();
+    migrarTabelasItensMagicos();
 
     // Migrar fichas legadas: magias preparadas normais já existentes pertencem ao grimório.
     // `normalizarGrimorioMago` só age quando `char.classe === 'Mago'` (o

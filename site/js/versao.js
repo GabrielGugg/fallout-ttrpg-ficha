@@ -13,13 +13,40 @@
 // ============================================================
 
 /** Versão exibida no header e marcada como atual na lista de notas. */
-export const VERSAO_ATUAL = '3.3.5';
+export const VERSAO_ATUAL = '3.3.6';
 
 // Cada entrada é uma versão. `melhorias` e `correcoes` são listas de
 // grupos, e cada grupo tem um título curto e seus itens. O emoji do
 // grupo entra no próprio título -- é o que separa visualmente melhoria
 // de correção sem depender de cor.
 export const NOTAS_VERSAO = [
+  {
+    versao: '3.3.6',
+    data: '2026-10-16',
+    rotulo: 'Sincronização',
+    resumo: 'Fichas com item mágico que tem tabela voltam a sincronizar '
+      + 'entre aparelhos.',
+    melhorias: [
+      {
+        grupo: '🐛 Correções',
+        itens: [
+          'Ficha com item mágico que tem tabela (Anel de Resistência, '
+            + 'Baralho das Muitas Coisas, Cajado da Cura e outros) não '
+            + 'salvava na nuvem e ficava diferente em outro aparelho. Ao '
+            + 'abrir a ficha ela é corrigida e volta a sincronizar.',
+          'Truque concedido pela subclasse (Raio de Gelo, Fagulha Estelar) '
+            + 'aparece entre os truques conhecidos e mostra a descrição.',
+        ],
+      },
+      {
+        grupo: '✨ Melhorias',
+        itens: [
+          'Recuperação Arcana: os espaços recuperados são escolhidos com '
+            + 'botões − e +, sem digitar números.',
+        ],
+      },
+    ],
+  },
   {
     versao: '3.3.5',
     data: '2026-10-07',

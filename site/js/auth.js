@@ -4,6 +4,7 @@
 // ============================================================
 
 import { podeSobrescreverNuvem } from './sync-merge.js';
+import { normalizarTabelasInventario } from './regras-tabelas-item.js';
 
 // Configuracao do projeto Firebase (produção)
 const FIREBASE_CONFIG = {
@@ -128,6 +129,8 @@ export async function salvarPersonagemCloud(personagem) {
   const docRef = doc(_db, _colecaoPath(), personagem.id);
   // Remover campos undefined que o Firestore nao aceita
   const dados = JSON.parse(JSON.stringify(personagem));
+  // Ficha ainda não migrada (na fila ou não aberta desde a correção): o Firestore recusa array aninhado (#143).
+  normalizarTabelasInventario(dados.inventario);
   // Transação: lê a versão da nuvem e só grava se ela não for mais nova. Antes era um
   // setDoc cego, e uma cópia velha presa na fila apagava edições feitas em outro aparelho.
   return runTransaction(_db, async (tx) => {

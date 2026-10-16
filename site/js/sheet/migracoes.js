@@ -13,6 +13,7 @@ import { getTruquesFixosAcumulados } from '../regras-conjuracao-subclasse.js';
 import { classesDe, nivelNa, subclasseDe, temClasse } from '../regras-multiclasse.js';
 import { ESCOLHAS_SUBCLASSE_APP, aplicarConcessaoAutomatica } from '../regras-subclasse-escolhas.js';
 import { getLimitesMagias } from '../utils.js';
+import { normalizarTabelasInventario } from '../regras-tabelas-item.js';
 import { char, indiceMagiasCache, magiasDominioCache, magiasSempreCache, salvar } from './estado.js';
 import { getSubclasseConjuradoraConjuracao, magiaContaNoLimite } from './magias.js';
 // superficiesDaFicha (Tarefa 3, sub-projeto "tela magias por classe"):
@@ -331,6 +332,14 @@ export function migrarEscolhasClasseLegadas() {
   });
 
   if (alterado) salvar();
+}
+
+/**
+ * Issue #143: converte as linhas de tabela de item mágico gravadas como array
+ * para { celulas }, formato que o Firestore aceita.
+ */
+export function migrarTabelasItensMagicos() {
+  if (normalizarTabelasInventario(char?.inventario)) salvar();
 }
 
 /** Migra nome legado da pericia 'Adestrar Animais' para 'Lidar com Animais' (Livro do Jogador 2024) */

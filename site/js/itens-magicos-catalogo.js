@@ -13,6 +13,7 @@ import { atributoEfetivo, fonteAtributoItem, temBaseDoMartelo } from './regras-a
 import { PASSIVOS_VERSAO, estadoInicialRecursos } from './regras-recursos-itens.js';
 import { ROTULO_MODO, ROTULO_SENTIDO } from './regras-passivos-itens.js';
 import { circuloDoPergaminho, magiaDoPergaminho, nomeDoPergaminho } from './regras-pergaminho.js';
+import { tabelasParaGravar } from './regras-tabelas-item.js';
 
 export const RARIDADES_ORDEM = ['Comum', 'Incomum', 'Rara', 'Muito Rara', 'Lendária', 'Artefato'];
 export const TIPOS_ACERVO = ['Anel', 'Arma', 'Armadura', 'Bastão', 'Cajado', 'Item Maravilhoso', 'Pergaminho', 'Poção', 'Varinha'];
@@ -151,7 +152,8 @@ function camposMagicos(item, variante) {
     efeitos: structuredClone((variante ? (variante.efeitos ?? item.efeitos) : item.efeitos) || []),
     linha_tipo: item.linha_tipo || '',
     descricao_magica: item.descricao || '',
-    tabelas: structuredClone(item.tabelas || []),
+    // Linhas como { celulas }: o Firestore recusa array dentro de array (#143).
+    tabelas: tabelasParaGravar(item.tabelas),
     // Variante sem recursos próprios herda os do item-pai.
     recursos: structuredClone((variante ? (variante.recursos ?? item.recursos) : item.recursos) ?? null),
     // Variante sem magias próprias herda as do item-pai.

@@ -10,6 +10,7 @@ import { aplicarEspaco, htmlEscolhaEspaco, lerEspacoEscolhido } from './espacos-
 import { abrirModal, escHtml, inserirNoInicio, mdParaHtml, toast } from './utils.js';
 import { cobrarPrecoInformado, htmlCampoPrecoInformado } from './preco-informado-ui.js';
 import { circuloDoPergaminho } from './regras-pergaminho.js';
+import { celulasDaLinha } from './regras-tabelas-item.js';
 import { carregarMagiasIndicePergaminho, htmlSeletorMagiaPergaminho, ligarSeletorMagiaPergaminho, magiaSelecionadaPergaminho } from './pergaminho-ui.js';
 import {
   casaEmPortugues, filtrarAcervo, opcoesDeBase, montarItemInventario,
@@ -228,7 +229,7 @@ export function htmlTabelasItemMagico(tabelas = []) {
     ${t.titulo ? `<div style="font-weight:700;font-size:0.8rem;margin:8px 0 4px">${escHtml(t.titulo)}</div>` : ''}
     <div class="table-wrapper"><table>
       <tr>${(t.cabecalhos || []).map(c => `<th>${escHtml(c)}</th>`).join('')}</tr>
-      ${(t.dados || []).map(linha => `<tr>${linha.map(c => `<td>${escHtml(c)}</td>`).join('')}</tr>`).join('')}
+      ${(t.dados || []).map(linha => `<tr>${celulasDaLinha(linha).map(c => `<td>${escHtml(c)}</td>`).join('')}</tr>`).join('')}
     </table></div>`).join('');
 }
 
