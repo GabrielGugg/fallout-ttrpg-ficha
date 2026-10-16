@@ -14,7 +14,9 @@ import { getConcentracaoAtiva } from './magias.js';
 import { quebrarConcentracaoAtiva } from './hp-descanso.js';
 import { abrirModalModificadores } from './modificadores.js';
 import { estaIncapacitado, condicaoIncapacitante } from '../regras-condicoes.js';
+import { encerrarCancaoSeImpedida } from '../regras-lamina-cantante.js';
 import { temProficienciaArma, temProficienciaArmadura, badgeProficiencia } from '../regras-equipamento.js';
+import { armasCatalogoEmCache } from '../itens-seletor.js';
 
 // --- Proficiência de armas/armaduras na ficha ---
 
@@ -24,7 +26,7 @@ import { temProficienciaArma, temProficienciaArmadura, badgeProficiencia } from 
  * mantido porque varios pontos da ficha ja chamam por este nome.
  */
 export function sheetTemProfArma(arma) {
-  return temProficienciaArma(char, arma);
+  return temProficienciaArma(char, arma, armasCatalogoEmCache());
 }
 
 /** Proficiencia de armadura do personagem ATUAL da ficha. Ver sheetTemProfArma. */
@@ -533,6 +535,8 @@ export function setupEventosCondicoes() {
       const motivoIncapacitado = condicaoIncapacitante(novas);
 
       char.condicoes = novas;
+      // Ficar Incapacitado encerra a Canção da Lâmina.
+      encerrarCancaoSeImpedida(char);
       // Se Exaustao foi removida, zerar nivel
       if (!novas.includes('Exaustão') && char.exaustao > 0) {
         char.exaustao = 0;

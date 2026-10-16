@@ -65,11 +65,16 @@ async function proximo(page) {
  * (helpers-regras.mjs): espera fixa e curta é instável sob 4 workers.
  */
 async function irAteDescobertasMagicas(page) {
-  const seletores = page.locator('[data-subclasse-escolha="subclasse_descobertas_magicas"]');
-  for (let i = 0; i < 8 && !(await seletores.count()); i++) {
+  const cartoes = page.locator('[data-subclasse-cartoes="subclasse_descobertas_magicas"]');
+  for (let i = 0; i < 8 && !(await cartoes.count()); i++) {
     if (!await proximo(page)) break;
   }
-  return seletores;
+  return cartoes;
+}
+
+/** Marca um card de magia pelo círculo de seleção (o corpo do card abre o popup). */
+async function marcar(cartoes, nome) {
+  await cartoes.locator(`[data-opcao="${nome}"] .opcao-check`).click();
 }
 
 test('level-up: o Bardo do Colégio do Conhecimento escolhe as 2 Descobertas Mágicas e sobe para o 6', async ({ context }) => {
@@ -77,27 +82,28 @@ test('level-up: o Bardo do Colégio do Conhecimento escolhe as 2 Descobertas Má
     'regras-conhecimento-descobertas');
   expect(await abrirModalLevelUp(page)).toBe(true);
 
-  const seletores = await irAteDescobertasMagicas(page);
-  await expect(seletores, 'o livro pede 2 magias, então deveriam existir 2 seletores')
-    .toHaveCount(2);
+  const cartoes = await irAteDescobertasMagicas(page);
+  await expect(cartoes, 'a escolha das Descobertas Mágicas deveria existir').toHaveCount(1);
+  await expect(page.locator('select[data-subclasse-escolha="subclasse_descobertas_magicas"]')).toHaveCount(0);
 
-  // A lista chega por promessa depois do HTML: espera a opção real, não um
-  // timeout fixo. Sem o carregamento assíncrono, o seletor fica para sempre
-  // com a única linha vazia -- que é o defeito da issue #44.
-  const primeiro = seletores.first();
-  await expect(primeiro.locator(`option[value="${MAGIA_DE_MAGO_NO_TETO}"]`),
-    `o seletor deveria oferecer ${MAGIA_DE_MAGO_NO_TETO} (3º círculo de Mago)`)
+  // A lista chega por promessa depois do HTML: espera o card real, não um
+  // timeout fixo. Sem o carregamento assíncrono, a lista fica para sempre
+  // vazia -- que é o defeito da issue #44.
+  const primeiro = cartoes;
+  await expect(primeiro.locator(`[data-opcao="${MAGIA_DE_MAGO_NO_TETO}"]`),
+    `a lista deveria oferecer ${MAGIA_DE_MAGO_NO_TETO} (3º círculo de Mago)`)
     .toHaveCount(1);
-  await expect(primeiro.locator(`option[value="${TRUQUE_DE_DRUIDA}"]`),
+  await expect(primeiro.locator('.opcao-card.selecionada')).toHaveCount(0);
+  await expect(primeiro.locator(`[data-opcao="${TRUQUE_DE_DRUIDA}"]`),
     `o livro deixa escolher truque, então ${TRUQUE_DE_DRUIDA} deveria estar na lista`)
     .toHaveCount(1);
 
   // As duas fronteiras da regra, medidas na TELA e não só no resolvedor: o
   // teto de espaços do nível 6 e as três listas de classe permitidas.
-  await expect(primeiro.locator(`option[value="${MAGIA_ACIMA_DO_TETO}"]`),
+  await expect(primeiro.locator(`[data-opcao="${MAGIA_ACIMA_DO_TETO}"]`),
     `${MAGIA_ACIMA_DO_TETO} é de 4º círculo e o Bardo nível 6 não tem esse espaço`)
     .toHaveCount(0);
-  await expect(primeiro.locator(`option[value="${MAGIA_SO_DE_BARDO}"]`),
+  await expect(primeiro.locator(`[data-opcao="${MAGIA_SO_DE_BARDO}"]`),
     `${MAGIA_SO_DE_BARDO} só existe na lista de Bardo, fora das três que o livro permite`)
     .toHaveCount(0);
 
@@ -106,20 +112,19 @@ test('level-up: o Bardo do Colégio do Conhecimento escolhe as 2 Descobertas Má
   // conceder nada. As duas listas onde esta característica grava precisam
   // estar cobertas -- o truque veio de `magias_conhecidas`, a magia de
   // `magias_preparadas` (ver a semente).
-  await expect(primeiro.locator(`option[value="${TRUQUE_JA_CONHECIDO}"]`),
+  await expect(primeiro.locator(`[data-opcao="${TRUQUE_JA_CONHECIDO}"]`),
     `${TRUQUE_JA_CONHECIDO} já está em magias_conhecidas e continuou sendo oferecida`)
     .toHaveCount(0);
-  await expect(primeiro.locator(`option[value="${MAGIA_JA_PREPARADA}"]`),
+  await expect(primeiro.locator(`[data-opcao="${MAGIA_JA_PREPARADA}"]`),
     `${MAGIA_JA_PREPARADA} já está em magias_preparadas e continuou sendo oferecida`)
     .toHaveCount(0);
 
-  // Escolhe as duas. `selectOption` é o gesto do jogador num <select>
-  // nativo (um clique cru não seleciona opção em <select> no Chromium):
-  // dispara o mesmo evento `change` que o bind de levelup-ui.js escuta.
-  await primeiro.selectOption(MAGIA_DE_MAGO_NO_TETO);
+  // Escolhe as duas clicando nos cards (o círculo seleciona; o corpo abre o popup).
+  await marcar(cartoes, MAGIA_DE_MAGO_NO_TETO);
   await assentar(page).catch(() => {});
-  await seletores.nth(1).selectOption(TRUQUE_DE_DRUIDA);
+  await marcar(cartoes, TRUQUE_DE_DRUIDA);
   await assentar(page).catch(() => {});
+  await expect(cartoes.locator('.opcao-card.selecionada')).toHaveCount(2);
 
   // O nível 6 do Bardo também ganha uma magia nova da própria classe
   // (Magias Preparadas 9 → 10): esse passo é obrigatório e precisa ser
@@ -205,12 +210,12 @@ test('level-up: sem escolher as 2 Descobertas Mágicas, a subida é recusada', a
     'regras-conhecimento-descobertas-recusa');
   expect(await abrirModalLevelUp(page)).toBe(true);
 
-  const seletores = await irAteDescobertasMagicas(page);
-  await expect(seletores).toHaveCount(2);
+  const cartoes = await irAteDescobertasMagicas(page);
+  await expect(cartoes).toHaveCount(1);
 
   // Escolhe SÓ a primeira das duas e tenta concluir.
-  await expect(seletores.first().locator(`option[value="${MAGIA_DE_MAGO_NO_TETO}"]`)).toHaveCount(1);
-  await seletores.first().selectOption(MAGIA_DE_MAGO_NO_TETO);
+  await expect(cartoes.locator(`[data-opcao="${MAGIA_DE_MAGO_NO_TETO}"]`)).toHaveCount(1);
+  await marcar(cartoes, MAGIA_DE_MAGO_NO_TETO);
   await assentar(page).catch(() => {});
 
   for (let i = 0; i < 5; i++) {
@@ -246,17 +251,16 @@ test('level-up: se as listas de magia não carregarem, a tela DIZ que falhou', a
     'regras-conhecimento-descobertas-falha');
   expect(await abrirModalLevelUp(page)).toBe(true);
 
-  const seletores = await irAteDescobertasMagicas(page);
-  await expect(seletores).toHaveCount(2);
+  const cartoes = await irAteDescobertasMagicas(page);
+  await expect(cartoes).toHaveCount(1);
 
   const aviso = page.locator('[data-subclasse-escolha-aviso="subclasse_descobertas_magicas"]');
   await expect(aviso, 'a lista veio vazia e a tela não avisou nada -- seletor mudo é a #44 de volta')
     .toBeVisible();
   await expect(aviso).toContainText(/não foi possível carregar/i);
 
-  // E o seletor não pode mentir dizendo "— escolha —" como se houvesse o
-  // que escolher: com a lista vazia, a única opção é a que carrega o aviso.
-  await expect(seletores.first().locator('option')).toHaveCount(1);
+  // Com a lista vazia não pode haver card nenhum para escolher.
+  await expect(cartoes.locator('[data-opcao]')).toHaveCount(0);
 
   // Sem asserção de console limpo AQUI de propósito: `db.js` registra o
   // erro de fetch, e é bom que registre -- este teste existe justamente

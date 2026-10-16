@@ -18,6 +18,17 @@
         "artifice/criaturas.json": "Defensor de Aço, Canhão Místico e Servo Homúnculo com fórmulas",
         "artifice/_lotes/": "Fonte editável; os seis arquivos acima são gerados por scripts/tasha/artifice.mjs montar"
       }
+    },
+    {
+      "id": "mago",
+      "titulo": "Mago (Magias Adicionais e Lâmina Cantante)",
+      "pdf_extraido": "Informacoes Separadas/PDF/Tasha's Cauldron of Everything D&D 5e.pdf",
+      "paginas_pdf": { "mago": "68-69", "magias": "104-117" },
+      "arquivos": {
+        "mago/magias.json": "13 magias novas da lista do Mago, formato de dados/arcana-unleashed/magias.json",
+        "mago/magias_adicionais.json": "Lista Magias Adicionais de Mago do livro, com o nome usado no site",
+        "mago/subclasses_mago.json": "Lâmina Cantante no formato de dados/classes/mago.json, níveis adaptados ao Mago 2024"
+      }
     }
   ]
 }

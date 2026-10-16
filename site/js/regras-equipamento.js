@@ -11,8 +11,23 @@ import { atributoEfetivo } from './regras-atributos.js';
 import { armadurasDoPersonagem, armasDoPersonagem } from './regras-multiclasse-proficiencias.js';
 import { temClasse } from './regras-multiclasse.js';
 
-/** Verifica se o personagem tem proficiencia com uma arma especifica */
-export function temProficienciaArma(personagem, arma) {
+/** Normaliza um campo de arma para comparar assinaturas (ignora caixa e espaços repetidos). */
+function _campoAssinatura(v) {
+  return String(v ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+/** Nome da arma do catálogo com a mesma categoria+dano+propriedades+maestria, ou null se faltar campo ou catálogo. */
+export function nomeCatalogoPorAssinatura(arma, catalogo) {
+  if (!Array.isArray(catalogo) || !catalogo.length) return null;
+  const alvo = [arma?.categoria, arma?.dano, arma?.propriedades, arma?.maestria].map(_campoAssinatura);
+  if (alvo.some((c) => !c)) return null;
+  const achada = catalogo.find((c) => (
+    [c.categoria, c.dano, c.propriedades, c.maestria].map(_campoAssinatura).every((v, i) => v === alvo[i])));
+  return achada?.nome || null;
+}
+
+/** Verifica se o personagem tem proficiencia com uma arma; `catalogo` opcional reconhece arma renomeada pela assinatura. */
+export function temProficienciaArma(personagem, arma, catalogo = null) {
   // As categorias vem da UNIAO das classes da ficha (livro:2051), nao do
   // espelho `personagem.classe`. Num Mago 5/Guerreiro 1 o espelho aponta
   // para o Mago e o Guerreiro nao concedia arma nenhuma.
@@ -20,6 +35,12 @@ export function temProficienciaArma(personagem, arma) {
   if (!armasClasse.length && !(personagem?.proficiencias_extra || []).length) return false;
   const cat = (arma?.categoria || '').toLowerCase();
   const extras = (personagem?.proficiencias_extra || []).map(p => p.toLowerCase());
+
+  // Proficiência com uma arma específica (Lâmina Cantante): o nome do catálogo em proficiencias_extra.
+  if (arma?.nome && extras.includes(String(arma.nome).toLowerCase())) return true;
+  // Arma renomeada: resolve pelo catálogo (categoria+dano+propriedades+maestria) e confere o nome dele.
+  const nomeCatalogo = nomeCatalogoPorAssinatura(arma, catalogo);
+  if (nomeCatalogo && extras.includes(nomeCatalogo.toLowerCase())) return true;
 
   // Proficiencia completa na categoria
   if (armasClasse.includes('Marcial') && cat.includes('marciai')) return true;

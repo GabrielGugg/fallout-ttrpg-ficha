@@ -10,7 +10,7 @@ import {
 } from './levelup-flow.js';
 // Fonte assincrona de opcoes de uma escolha de subclasse (Descobertas
 // Magicas): ver o bloco no fim de bindEventosEscolhasClasse.
-import { resolvedorDaLinha, opcoesDaLinhaAsync } from './regras-subclasse-escolhas.js';
+import { resolvedorDaLinha, opcoesDaLinhaAsync, opcoesDaLinha, cartoesDaLinha, armasDaLinhaOuNomes } from './regras-subclasse-escolhas.js';
 import {
   renderCardEscolhaClasse, renderCardGanhosNivel, renderCardSubclasse, renderCardASI,
   renderCardEscolhasClasse, renderCardMagias, renderCardManobrasGuerreiro, renderCardPlanosArtifice,
@@ -1521,7 +1521,77 @@ function bindEventosEscolhasClasse(ctx, state) {
     });
   }
 
+  montarCartoesSubclasseSincronos(ctx, state);
   popularEscolhasSubclasseAssincronas(ctx, state);
+}
+
+/** Monta os cards da linha em `[data-subclasse-cartoes]` e grava os ids em `state.escolhasSubclasse[campo]`. */
+function montarCartoesDaLinha(linha, state, opcoes) {
+  const el = document.querySelector(`[data-subclasse-cartoes="${linha.campo}"]`);
+  if (!el) return;
+  montarSeletor(el, {
+    opcoes,
+    densidade: 'densa',
+    max: linha.quantidade,
+    selecionadas: state.escolhasSubclasse?.[linha.campo] || [],
+    aoMudar: (sel) => {
+      if (!state.escolhasSubclasse) state.escolhasSubclasse = {};
+      state.escolhasSubclasse[linha.campo] = sel;
+    },
+  });
+}
+
+/** Monta os cards das linhas de armas e estilos de luta; armas caem para a lista de nomes se armas.json falhar. */
+function montarCartoesSubclasseSincronos(ctx, state) {
+  const linhas = escolhasSubclasseDoNivel(ctx, state)
+    .filter((l) => cartoesDaLinha(l) && !resolvedorDaLinha(l));
+  for (const linha of linhas) {
+    const nomes = opcoesDaLinha(linha);
+    if (cartoesDaLinha(linha) === 'estilos-luta') {
+      const base = OPCOES_ESTILO_LUTA_BASE.filter((o) => nomes.includes(o.nome));
+      montarCartoesDaLinha(linha, state, deEstilosLuta(base));
+    } else if (cartoesDaLinha(linha) === 'armas') {
+      const montar = (dadosArmas) => {
+        const descricoesMaestria = new Map(
+          (dadosArmas?.propriedades || []).map((p) => [p.nome, p.descricao]));
+        montarCartoesDaLinha(linha, state,
+          deArmas(armasDaLinhaOuNomes(dadosArmas, nomes), { descricoesMaestria }));
+      };
+      getArmas().then(montar).catch(() => montar(null));
+    }
+  }
+}
+
+/**
+ * Carrega a lista assíncrona de uma linha de magias e monta os cards. Lista
+ * vazia ou falha mostra o aviso da linha e zera a escolha no state.
+ */
+function popularCartoesAssincronos(linha, state, contexto) {
+  const falhou = () => {
+    const el = document.querySelector(`[data-subclasse-cartoes="${linha.campo}"]`);
+    if (!el) return;
+    el.innerHTML = '';
+    const aviso = document.querySelector(`[data-subclasse-escolha-aviso="${linha.campo}"]`);
+    if (aviso) {
+      aviso.textContent = 'Não foi possível carregar a lista de magias. ' +
+        'Recarregue a página e, se continuar, avise pelo botão de reportar problema.';
+      aviso.style.display = 'block';
+    }
+    if (!state.escolhasSubclasse) state.escolhasSubclasse = {};
+    state.escolhasSubclasse[linha.campo] = [];
+  };
+  opcoesDaLinhaAsync(linha, contexto).then((opcoes) => {
+    if (!document.querySelector(`[data-subclasse-cartoes="${linha.campo}"]`)) return;
+    if (!opcoes.length) {
+      console.error(`"${linha.rotulo}": a lista de opções voltou vazia.`);
+      falhou();
+      return;
+    }
+    montarCartoesDaLinha(linha, state, deMagias(opcoes));
+  }).catch((err) => {
+    console.error(`Falha ao carregar as opções de "${linha.rotulo}":`, err);
+    falhou();
+  });
 }
 
 /** Rótulo de uma opção de magia num <select>: o nome e o círculo dela. */
@@ -1601,6 +1671,10 @@ function popularEscolhasSubclasseAssincronas(ctx, state) {
   };
 
   for (const linha of linhas) {
+    if (cartoesDaLinha(linha)) {
+      popularCartoesAssincronos(linha, state, { circuloMaximo, jaTem });
+      continue;
+    }
     opcoesDaLinhaAsync(linha, { circuloMaximo, jaTem }).then((opcoes) => {
       const seletores = [...document.querySelectorAll(`[data-subclasse-escolha="${linha.campo}"]`)];
       if (!seletores.length) return; // o jogador já saiu deste passo

@@ -27,6 +27,7 @@ import { carregarCriaturasFamiliar } from '../sheet/familiar.js';
 import { carregarDescricoesMagias } from '../sheet/impressao.js';
 import { migrarCopiasCustomizadasDoGrimorio, migrarEscolhasClasseLegadas, migrarEspacosMagia, migrarMagiaClasse, migrarMagiasCustomizadasSemprePreparadas, migrarMagiasDominio, migrarConcessoesSubclasseMago, migrarMagiasLegadoEspecie, migrarMagiasSemprePreparadas, migrarMulticlasse, migrarNomePericiaLidarAnimais, migrarPericiaEspecie, migrarPericiasEspecie, migrarPericiasTalentos, migrarProficienciasTalentos, migrarSlotsMagiaLivre, migrarTabelasItensMagicos, migrarTalentoVersatilHumano, migrarTruquesEspecie, migrarTruquesFixosSubclasse } from '../sheet/migracoes.js';
 import { baixarPdfFicha } from '../sheet/pdf.js';
+import { carregarDadosEquipSheet } from '../itens-seletor.js';
 import { migrarAdeptoElementalTipos, migrarIniciadoEmMagiaInstancias } from '../sheet/talentos.js';
 let _syncSubscribed = false;
 
@@ -222,6 +223,8 @@ export async function renderSheet(container, charId) {
     migrarEspacosMagia();
 
     _carregarEstadoColapso();
+    // Catálogo de armas em cache antes do 1º render: a proficiência por assinatura (arma renomeada) o lê de forma síncrona.
+    await carregarDadosEquipSheet().catch(() => {});
     renderFichaCompleta();
   } finally {
     concluirAberturaFicha();

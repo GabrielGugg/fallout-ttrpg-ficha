@@ -149,7 +149,7 @@ decidir trazer o livro; enquanto isso, a resposta é apontar o homebrew (#40,
 
 - [ ] **#18** — Subclasse Paladino Juramento dos Gênios Nobres (Heroes of Faerûn).
 - [ ] **#28** — Subclasse Guerreiro do Eco (Wildemount, 5e 2014 — sem versão 2024).
-- [ ] **#109** (2026-09-22) — Conteúdo de "Tasha's Cauldron of Everything" (subclasses como Guerreiro Rúnico, talentos). O Artífice de Tasha's entrou na 3.2.0 (`dados/tasha/artifice/`); o resto do livro não. Três comentários apontam homebrew (#40, #38/#52).
+- [ ] **#109** (2026-09-22) — Conteúdo de "Tasha's Cauldron of Everything" (subclasses como Guerreiro Rúnico, talentos). O Artífice de Tasha's entrou na 3.2.0 (`dados/tasha/artifice/`) e, na 3.3.7, o Mago (Lâmina Cantante e 13 magias novas, `dados/tasha/mago/`); o resto do livro não. Três comentários apontam homebrew (#40, #38/#52).
 - [ ] **#139** (NOVA, 2026-10-10) — Mais espécies de suplementos (Tabaxi, Warforged, Tritão, Genasi, Minotauro, Goblin, Hobgoblin, Firbolg, Aarakocra...). Sobrepõe #23/#26; hoje só o Renascido (Ravenloft) veio de fora do PHB.
 - [ ] **#141** (NOVA, 2026-10-14) — Subclasse de Bruxo Lâmina Maldita (Hexblade, Guia de Xanathar, 5e 2014 — sem versão 2024). O autor anexou prints e link para PDF do livro; não usar como fonte. Mesmo caso de #28.
 

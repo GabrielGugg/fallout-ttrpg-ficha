@@ -1,13 +1,16 @@
-# Ativa ambiente virtual
-& .\.venv\Scripts\Activate.ps1
+# Ativa o ambiente virtual, se existir
+$venv = Join-Path $PSScriptRoot '.venv\Scripts\Activate.ps1'
+if (Test-Path $venv) { & $venv }
 
-# Inicia servidor HTTP em background
-Write-Host "Iniciando servidor D&D na porta 8000..." -ForegroundColor Green
-Write-Host "Site: http://localhost:8000" -ForegroundColor Cyan
-Write-Host ""
+# Escolhe um Python real: ignora o atalho da Microsoft Store (WindowsApps)
+$python = Get-Command python, python3 -All -ErrorAction SilentlyContinue |
+    Where-Object { $_.Source -notlike '*\WindowsApps\*' } |
+    Select-Object -First 1
+if (-not $python) {
+    Write-Host 'Python não encontrado. Instale o Python ou crie o .venv.' -ForegroundColor Red
+    exit 1
+}
 
-# Abre navegador
-Start-Process "http://localhost:8000"
-
-# Inicia servidor
-python -m http.server 8000
+# Serve a pasta do projeto, independente de onde o script foi chamado
+Set-Location $PSScriptRoot
+& $python.Source -m http.server 8000

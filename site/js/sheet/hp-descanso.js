@@ -9,6 +9,7 @@ import { atributoEfetivo } from '../regras-atributos.js';
 import { aplicarDescansoRecursos, aplicarRecuperacaoInformada, itensComRecuperacaoPendente } from '../regras-recursos-itens.js';
 import { restaurarRecursosTalentos } from '../regras-cobertura.js';
 import { descansoCurtoArtifice, descansoLongoArtifice } from '../regras-artifice.js';
+import { descansoCancao } from '../regras-lamina-cantante.js';
 import { removerItensExpirados } from '../regras-itens-temporarios.js';
 import { elixiresDoDescanso } from '../regras-subclasses-artifice.js';
 import { gastarDadosVida, nivelNa, reservasDadosVida, restaurarTodosDadosVida, subclasseDe, temClasse } from '../regras-multiclasse.js';
@@ -652,6 +653,7 @@ export function setupEventosDescanso() {
     // Usos de itens que voltam no Descanso Curto; cargas não voltam.
     aplicarDescansoRecursos(char, 'curto');
     descansoCurtoArtifice(char);
+    descansoCancao(char);
 
     // Bárbaro: recupera 1 uso de Fúria no descanso curto
     // temClasse: char.classe e a classe INICIAL -- um Ladino 5/Barbaro 5
@@ -1048,6 +1050,7 @@ export function setupEventosDescanso() {
     const _expirados = removerItensExpirados(char, 'descanso_longo');
     if (_expirados.length) toast(`Desapareceram: ${_expirados.join(', ')}`, 'info');
     descansoLongoArtifice(char);
+    descansoCancao(char);
     // Alquimista: os elixires do descanso anterior já sumiram (removerItensExpirados, acima); nascem os novos.
     const _elixires = elixiresDoDescanso(char);
     if (_elixires.length) toast(`Elixires criados: ${_elixires.join(', ')}`, 'info');

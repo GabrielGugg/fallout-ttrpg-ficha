@@ -10,6 +10,7 @@ import { getAtributoConjuracaoSubclasse, getConjuracaoSubclasse } from './regras
 // Acessores de multiclasse. Não há ciclo: regras-multiclasse.js importa
 // apenas dados-classes.js, que utils.js já importa acima.
 import { classesDe, temClasse } from './regras-multiclasse.js';
+import { bonusCancao, cancaoAtiva } from './regras-lamina-cantante.js';
 // preparadasPorClasse: sem ciclo -- regras-magia-classe.js importa
 // regras-origens-magia.js e regras-multiclasse-conjuracao.js, nenhum dos
 // dois importa utils.js. Ver o comentario de normalizarGrimorioMago abaixo
@@ -548,6 +549,9 @@ export function calcCA(personagem, passivos = null) {
       if ((ef.valor || 0) > ca) ca = ef.valor;
     }
   }
+
+  // Canção da Lâmina ativa: + mod. Int (mínimo +1); recalculada a cada chamada a partir do estado.
+  if (cancaoAtiva(personagem)) ca += bonusCancao(personagem);
 
   // Bônus genérico de CA de talentos
   ca += passivos?.bonusCA || 0;

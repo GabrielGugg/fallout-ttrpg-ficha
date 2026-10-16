@@ -45,7 +45,7 @@ function htmlLinhaAtaque(item, idx) {
     ? `<button class="btn btn-sm btn-secondary no-print" data-ataque-empunhar="${idx}">${item.dados.empunhadura === 'duas' ? 'Empunhar com uma mão' : 'Empunhar com duas mãos'}</button>`
     : '';
   // Selos como na linha do inventário: proficiência e raridade/sintonização de arma mágica do acervo.
-  const profBadge = sheetBadgeProf(sheetTemProfArma({ categoria: item.dados.categoria || '', propriedades: item.dados.propriedades || '' }));
+  const profBadge = sheetBadgeProf(sheetTemProfArma({ nome: item.dados.nome_base || item.nome, categoria: item.dados.categoria || '', dano: item.dados.dano, propriedades: item.dados.propriedades || '', maestria: item.dados.maestria }));
   let magicoBadge = '';
   if (item.dados.magico_id) {
     if (item.dados.raridade) magicoBadge += `<span class="badge" style="font-size:0.6rem;background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8">${escHtml(item.dados.raridade)}</span> `;

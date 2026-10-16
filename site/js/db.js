@@ -56,7 +56,7 @@ async function carregarJSON(caminho) {
 
 // Subclasses de livros de expansão que entram numa classe do Livro do Jogador,
 // juntadas depois das subclasses dela (cada subclasse traz o campo `fonte`).
-const SUBCLASSES_DE_EXPANSAO = { 'Mago': ['arcana-unleashed/subclasses_mago.json'] };
+const SUBCLASSES_DE_EXPANSAO = { 'Mago': ['arcana-unleashed/subclasses_mago.json', 'tasha/mago/subclasses_mago.json'] };
 const _classesComExpansao = {};
 
 /**
@@ -209,7 +209,7 @@ let _expansaoMagias = null;
 
 // Magias de livros de expansão que não pertencem a uma classe de expansão (a lista
 // de classes vem no campo `classes` de cada magia).
-const MAGIAS_DE_LIVRO = ['arcana-unleashed/magias.json'];
+const MAGIAS_DE_LIVRO = ['arcana-unleashed/magias.json', 'tasha/mago/magias.json'];
 
 /** Fonte (livro de origem) das magias de expansão já carregadas, por nome. */
 const _fonteDasMagias = new Map();

@@ -27,14 +27,14 @@ test('as sete características do livro, nos níveis certos e em português', ()
   assert.ok(!/\b(feet|foot|ft)\b/.test(todo), 'medida em pés sobrou');
 });
 
-test('getClasse("Mago") junta a subclasse às quatro do Livro do Jogador, sem duplicar', async () => {
+test('getClasse("Mago") junta Necromante e Lâmina Cantante às quatro do Livro do Jogador, sem duplicar', async () => {
   const { db } = await modulosApp();
   const mago = await db.getClasse('Mago');
   assert.deepEqual(mago.subclasses.map((s) => s.nome),
-    ['Abjurador', 'Adivinhador', 'Evocador', 'Ilusionista', 'Necromante']);
-  assert.equal(mago.subclasses.at(-1).fonte, 'arcana-unleashed');
+    ['Abjurador', 'Adivinhador', 'Evocador', 'Ilusionista', 'Necromante', 'Lâmina Cantante']);
+  assert.equal(mago.subclasses.at(-2).fonte, 'arcana-unleashed');
   const denovo = await db.getClasse('Mago');
-  assert.equal(denovo.subclasses.length, 5);
+  assert.equal(denovo.subclasses.length, 6);
 });
 
 test('Versado em Necromancia: a escola da subclasse é Necromancia, igual ao índice de magias', async () => {

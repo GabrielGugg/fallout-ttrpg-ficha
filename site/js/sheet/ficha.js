@@ -16,6 +16,7 @@ import { armadurasDoPersonagem, armasDoPersonagem } from '../regras-multiclasse-
 import { classesDe, reservasDadosVida } from '../regras-multiclasse.js';
 import { possuiAlgumaMagia } from '../regras-origens-magia.js';
 import { ehProficienteEmSalvaguarda } from '../regras-salvaguardas.js';
+import { bonusCancao, cancaoAtiva } from '../regras-lamina-cantante.js';
 import { resolverPassivosTalentos } from '../talentos-effects.js';
 import { bonusProficiencia, calcBonusPericia, calcCA, calcMod, calcPVMulticlasse, calcSalvaguarda, coletarCAsAlternativas, conjuracoesPorClasse, equipamentoDeCA, escHtml, escolherCAAlternativa, fmtMod, getDeslocamento, getTamanho } from '../utils.js';
 import { renderSecaoCaracteristicas, renderSecaoSubclasse, renderSecaoTracosEspecie } from './caracteristicas.js';
@@ -24,6 +25,7 @@ import { setupEventosArtifice } from './classes/artifice.js';
 import { renderSecaoCompanheirosArtifice, setupEventosCompanheirosArtifice } from './companheiros-artifice.js';
 import { renderSecaoFamiliar, setupEventosFamiliar } from './familiar.js';
 import { renderSecaoMortosVivos, setupEventosMortosVivos } from './necromante.js';
+import { renderSecaoLaminaCantante, setupEventosLaminaCantante } from './lamina-cantante.js';
 import { renderSecaoFormaSelvagem, setupEventosFormaSelvagem } from './forma-selvagem.js';
 import { getEstadoRecursosGuardiao } from './classes/guardiao.js';
 import { getEstadoRecursosPaladino } from './classes/paladino.js';
@@ -531,6 +533,10 @@ export function renderFichaCompleta() {
           if (vd.notas?.length) {
             indicadorSalv += `<span class="pericia-vd-badge vantagem-nota" data-vd-info="${vd.notas.map(escHtml).join('; ')}">V*</span>`;
           }
+          // Canção da Lâmina: + Int nas salvaguardas de Constituição para manter Concentração.
+          if (key === 'constituicao' && cancaoAtiva(char)) {
+            indicadorSalv += `<span class="pericia-vd-badge vantagem-nota" data-vd-info="Canção da Lâmina: +${bonusCancao(char)} para manter a Concentração">+${bonusCancao(char)}C</span>`;
+          }
           return `
             <div class="salva-item ${proficiente ? 'proficiente' : ''}">
               <div class="pericia-prof ${proficiente ? 'ativo' : ''}"></div>
@@ -657,6 +663,7 @@ export function renderFichaCompleta() {
       classes de verdade (regras-multiclasse-conjuracao.js), Magia de Pacto
       inclusive.
     -->
+    ${renderSecaoLaminaCantante()}
     ${renderSecaoMortosVivos()}
     ${renderSecaoFamiliar()}
     ${temSecaoMagias ? renderSecaoMagias(renderFaixaRecursosMagias(recursosClasse.magias)) : ''}
@@ -689,6 +696,7 @@ export function renderFichaCompleta() {
   setupEventosArtifice();
   setupEventosCompanheirosArtifice();
   setupEventosFamiliar();
+  setupEventosLaminaCantante();
   setupEventosMortosVivos();
   setupEventosFormaSelvagem();
   ligarSelosFonte(containerRef);

@@ -11,6 +11,7 @@ import { PERICIAS } from '../dados-classes.js';
 import { abrirModal, calcMod, escHtml, fmtPeso, getMultiplicadorCarga, PERICIAS_CONHECIMENTO_PRIMORDIAL, somaModificadoresManuais, toast } from '../utils.js';
 import { nivelNa, subclasseDe } from '../regras-multiclasse.js';
 import { estaIncapacitado } from '../regras-condicoes.js';
+import { cancaoAtiva, SUBCLASSE_LAMINA } from '../regras-lamina-cantante.js';
 import { modeloAtivo, bonusIniciativaAtlas } from '../regras-subclasses-artifice.js';
 import { getEstadoFuria } from './classes/barbaro.js';
 import { getProgressaoMonge } from './classes/monge.js';
@@ -55,6 +56,8 @@ export function calcVantagemDesvantagemPericia(nomePericia) {
 
   // Armeiro Infiltrador: Campo Silenciador, Vantagem em Furtividade; a ficha (ficha.js) anula com a Desvantagem da armadura.
   if (nomePericia === 'Furtividade' && modeloAtivo(char) === 'Infiltrador') vantagens.push('Campo Silenciador');
+  // Canção da Lâmina ativa: Vantagem em testes de Destreza (Acrobacia).
+  if (nomePericia === 'Acrobacia' && cancaoAtiva(char)) vantagens.push('Canção da Lâmina');
 
   // --- Barbaro em Furia: Vantagem em testes de Forca ---
   // Inclui as pericias do Conhecimento Primordial (Barbaro 3): o livro
@@ -305,6 +308,8 @@ export function getDeslocamentoFinal(baseDeslocamento) {
 
   // Armeiro Infiltrador: Passos Potencializados, +1,5 m com a Armadura Arcana ativa.
   if (modeloAtivo(char) === 'Infiltrador') final += 1.5;
+  // Canção da Lâmina ativa: Deslocamento +3 m.
+  if (cancaoAtiva(char)) final += 3;
 
   // Bônus de deslocamento de talentos (resolvido centralmente)
   const passivos = passivosTalentosCache || {};
@@ -477,6 +482,8 @@ export function getAtaquesPorAcao() {
   // Artífice: Ataque Extra do Ferreiro de Batalha e do Armeiro, no nível 5 DE ARTÍFICE.
   if (['Ferreiro de Batalha', 'Armeiro'].includes(subclasseDe(char, 'Artífice'))
       && nivelNa(char, 'Artífice') >= 5) ataques = Math.max(ataques, 2);
+  // Mago Lâmina Cantante: Ataque Extra no 6º nível DE MAGO.
+  if (subclasseDe(char, 'Mago') === SUBCLASSE_LAMINA && nivelNa(char, 'Mago') >= 6) ataques = Math.max(ataques, 2);
 
   // Bruxo: a invocacao Lamina Sedenta (Classes.md:1002-1006, Bruxo 5 +
   // Pacto da Lamina) concede Ataque Extra a arma de pacto, e Lamina

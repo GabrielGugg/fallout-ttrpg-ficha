@@ -7,6 +7,7 @@ import { bonusProficiencia, calcMod } from '../utils.js';
 import { modAtaqueArmaArtifice } from '../regras-artifice.js';
 import { efeitosDaArma } from '../regras-itens-magicos.js';
 import { ATRIBUTOS_MODIFICADOR, atributoPadraoArma, atributoExplicito, danoBaseEmpunhado, danoVersatil } from '../regras-ataque.js';
+import { bonusDanoCancaoVitoria } from '../regras-lamina-cantante.js';
 import { getEstadoFuria } from './classes/barbaro.js';
 import { sheetTemProfArma } from './condicoes.js';
 import { char, passivosTalentosCache } from './estado.js';
@@ -40,7 +41,7 @@ export function calcularAtaqueItem(item) {
   const modAtq = calcMod(atributoEfetivo(char, atributo));
   const usaForcaNoAtaque = atributo === 'forca';
 
-  const temProf = sheetTemProfArma({ categoria: item.dados.categoria, propriedades: item.dados.propriedades || '' });
+  const temProf = sheetTemProfArma({ nome: item.dados.nome_base || item.nome, categoria: item.dados.categoria, dano: item.dados.dano, propriedades: item.dados.propriedades || '', maestria: item.dados.maestria });
   // Bônus mágico da própria arma (acervo ou customizado), sintonizada quando exige: entra no ataque e no dano.
   const magiaArma = efeitosDaArma(item);
   const passivos = passivosTalentosCache || {};
@@ -58,6 +59,8 @@ export function calcularAtaqueItem(item) {
     const sufixo = resto || '';
     const estadoFuria = getEstadoFuria();
     const bonusFuria = estadoFuria?.ativa && usaForcaNoAtaque ? (estadoFuria.dano || 0) : 0;
+    // Canção da Vitória (Lâmina Cantante 14): + Int no dano de arma corpo a corpo.
+    const bonusVitoria = isDistancia ? 0 : bonusDanoCancaoVitoria(char);
     const ehArremesso = props.includes('arremesso');
     // Duas mãos (propriedade ou empunhadura versátil escolhida) e Pesada não recebem o bônus de uma mão.
     // A empunhadura "duas" só vale em arma versátil; em outra arma o valor residual é ignorado.
@@ -69,10 +72,10 @@ export function calcularAtaqueItem(item) {
 
     if (modExistente) {
       const modBase = parseInt(String(modExistente).replace(/\s+/g, '')) || 0;
-      const modFinal = modBase + bonusFuria + bonusDanoTalento + magiaArma.dano;
+      const modFinal = modBase + bonusFuria + bonusVitoria + bonusDanoTalento + magiaArma.dano;
       danoExibicao = `${dado}${modFinal >= 0 ? `+${modFinal}` : modFinal}${sufixo}`.replace(/\s+/g, ' ').trim();
     } else {
-      const total = modAtq + bonusFuria + magiaArma.dano + bonusDanoTalento;
+      const total = modAtq + bonusFuria + bonusVitoria + magiaArma.dano + bonusDanoTalento;
       danoExibicao = total !== 0
         ? `${dado}${total >= 0 ? `+${total}` : total}${sufixo}`.replace(/\s+/g, ' ').trim()
         : danoBase;

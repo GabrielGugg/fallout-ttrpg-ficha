@@ -83,14 +83,16 @@ test('level-up: o Estilo de Luta Adicional do Campeão é exigido e fica gravado
   const { page, erros } = await abrirFicha(context, CAMPEAO, 'regras-campeao-lvl7');
   expect(await abrirModalLevelUp(page)).toBe(true);
 
-  const seletor = page.locator('[data-subclasse-escolha="subclasse_estilo_luta_extra"]');
+  const seletor = page.locator('[data-subclasse-cartoes="subclasse_estilo_luta_extra"]');
   for (let i = 0; i < 4 && !(await seletor.count()); i++) {
     if (!await proximo(page)) break;
   }
   await expect(seletor, 'o Campeão nível 7 deveria ganhar um seletor de Estilo de Luta')
     .toHaveCount(1);
 
-  await seletor.selectOption('Duelismo');
+  await expect(seletor.locator('.opcao-card.selecionada')).toHaveCount(0);
+  await seletor.locator('[data-opcao="Duelismo"]').click();
+  await expect(seletor.locator('.opcao-card.selecionada')).toHaveCount(1);
   await assentar(page).catch(() => {});
 
   for (let i = 0; i < 6; i++) {

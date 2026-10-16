@@ -74,6 +74,11 @@ export function montarFerramentasLoja(tabela = []) {
   return saida;
 }
 
+/** Armas do catálogo já carregadas por carregarDadosEquipSheet, ou null se ainda não carregou. */
+export function armasCatalogoEmCache() {
+  return _cacheEquipSheet?.armas || null;
+}
+
 /** Carrega (com cache) armas, armaduras, equipamento de aventura/munição e ferramentas usados pelo seletor e pelo popup de detalhe de item da ficha */
 export async function carregarDadosEquipSheet() {
   if (_cacheEquipSheet) return _cacheEquipSheet;

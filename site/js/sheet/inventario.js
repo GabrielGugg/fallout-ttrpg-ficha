@@ -34,6 +34,7 @@ import { aplicarAumentoPermanente, aumentoPermanenteDoItem } from '../regras-aum
 import { atendeRequisito, lerRequisito } from '../regras-sintonizacao-restrita.js';
 import { abrirModalRecuperacao, sincronizarBonusPvNiveis } from './hp-descanso.js';
 import { perguntarUltimaCarga } from './ultima-carga.js';
+import { encerrarCancaoSeImpedida } from '../regras-lamina-cantante.js';
 import { CHAVE_MOCHILA, aplicarEspaco, htmlEscolhaEspaco, lerEspacoEscolhido, moverEspacoPara, ordemDosEspacos } from '../espacos-inventario.js';
 
 // --- Inventário na ficha ---
@@ -233,7 +234,7 @@ function renderSheetInvItem(item, idx) {
   // Badge de proficiência
   let profBadge = '';
   if ((item.tipo === 'arma' || ehArmaCustom) && item.dados?.categoria) {
-    profBadge = sheetBadgeProf(sheetTemProfArma({ categoria: item.dados.categoria, propriedades: item.dados.propriedades || '' }));
+    profBadge = sheetBadgeProf(sheetTemProfArma({ nome: item.dados.nome_base || item.nome, categoria: item.dados.categoria, dano: item.dados.dano, propriedades: item.dados.propriedades || '', maestria: item.dados.maestria }));
   }
   if ((item.tipo === 'armadura' || item.tipo === 'escudo') && item.dados?.categoria) {
     profBadge = sheetBadgeProf(sheetTemProfArmadura({ categoria: item.dados.categoria, nome: nomeBaseDoItem(item) }));
@@ -812,6 +813,8 @@ export function setupEventosInventarioSheet() {
           if (!char.recursos) char.recursos = {};
           char.recursos.furia_ativa = false;
         }
+        // Escudo ou armadura Média/Pesada encerram a Canção da Lâmina.
+        if (encerrarCancaoSeImpedida(char)) toast('A Canção da Lâmina terminou.', 'info');
 
         salvar();
         // Re-renderizar ficha inteira para recalcular CA e outros stats

@@ -94,7 +94,7 @@ test('level-up: o Ilusionista que já conhece Ilusão Menor escolhe um truque de
   await cardSubclasse.click();
   await assentar(page).catch(() => {});
 
-  const seletor = page.locator('[data-subclasse-escolha="subclasse_truque_substituto"]');
+  const seletor = page.locator('[data-subclasse-cartoes="subclasse_truque_substituto"]');
   for (let i = 0; i < 4 && !(await seletor.count()); i++) {
     if (!await proximo(page)) break;
   }
@@ -108,28 +108,27 @@ test('level-up: o Ilusionista que já conhece Ilusão Menor escolhe um truque de
   // A lista chega por promessa depois do HTML: espera a opção real, não um
   // timeout fixo. Sem o carregamento assíncrono o seletor fica para sempre
   // com a única linha "Carregando…".
-  await expect(seletor.locator(`option[value="${SUBSTITUTO}"]`),
+  await expect(seletor.locator(`[data-opcao="${SUBSTITUTO}"]`),
     `${SUBSTITUTO} é truque de Mago e o personagem não o conhece -- deveria estar na lista`)
     .toHaveCount(1);
+  await expect(seletor.locator('.opcao-card.selecionada')).toHaveCount(0);
 
   // As duas fronteiras da regra, medidas na TELA: "um truque de MAGO" e
   // "DIFERENTE" (nem o que a característica concederia, nem outro que ele
   // já tenha -- escolhê-los gastaria a característica sem conceder nada).
-  await expect(seletor.locator(`option[value="${TRUQUE_FORA_DA_LISTA_DE_MAGO}"]`),
+  await expect(seletor.locator(`[data-opcao="${TRUQUE_FORA_DA_LISTA_DE_MAGO}"]`),
     `${TRUQUE_FORA_DA_LISTA_DE_MAGO} não está na lista de Mago`)
     .toHaveCount(0);
-  await expect(seletor.locator(`option[value="${TRUQUE_DA_CARACTERISTICA}"]`),
+  await expect(seletor.locator(`[data-opcao="${TRUQUE_DA_CARACTERISTICA}"]`),
     `${TRUQUE_DA_CARACTERISTICA} é justamente o truque que ele já conhece -- o livro manda ` +
     'aprender um DIFERENTE')
     .toHaveCount(0);
-  await expect(seletor.locator(`option[value="${TRUQUE_JA_CONHECIDO}"]`),
+  await expect(seletor.locator(`[data-opcao="${TRUQUE_JA_CONHECIDO}"]`),
     `${TRUQUE_JA_CONHECIDO} já está em magias_conhecidas e continuou sendo oferecido`)
     .toHaveCount(0);
 
-  // O gesto do jogador num <select> nativo (um clique cru não seleciona
-  // opção em <select> no Chromium): dispara o mesmo evento `change` que o
-  // bind de levelup-ui.js escuta.
-  await seletor.selectOption(SUBSTITUTO);
+  // O círculo do card seleciona; o corpo do card abre o popup de detalhes.
+  await seletor.locator(`[data-opcao="${SUBSTITUTO}"] .opcao-check`).click();
   await assentar(page).catch(() => {});
 
   // O nível 3 do Mago também exige o Grimório (+2) e as 2 magias de Ilusão
@@ -202,7 +201,7 @@ test('level-up: o Ilusionista que NÃO conhece Ilusão Menor não recebe seletor
   // Vai até o passo de magias, passando pelo passo das escolhas de
   // classe/subclasse -- e ali o seletor do substituto não pode existir.
   for (let i = 0; i < 4; i++) {
-    await expect(page.locator('[data-subclasse-escolha="subclasse_truque_substituto"]'),
+    await expect(page.locator('[data-subclasse-cartoes="subclasse_truque_substituto"]'),
       'o seletor apareceu para quem ainda não conhece Ilusão Menor')
       .toHaveCount(0);
     if (await page.locator('#btn-lvlup-grimorio').count()) break;

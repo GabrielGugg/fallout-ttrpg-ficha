@@ -13,13 +13,49 @@
 // ============================================================
 
 /** Versão exibida no header e marcada como atual na lista de notas. */
-export const VERSAO_ATUAL = '3.3.6';
+export const VERSAO_ATUAL = '3.3.7';
 
 // Cada entrada é uma versão. `melhorias` e `correcoes` são listas de
 // grupos, e cada grupo tem um título curto e seus itens. O emoji do
 // grupo entra no próprio título -- é o que separa visualmente melhoria
 // de correção sem depender de cor.
 export const NOTAS_VERSAO = [
+  {
+    versao: '3.3.7',
+    data: '2026-10-16',
+    rotulo: 'Lâmina Cantante',
+    resumo: 'Nova subclasse de Mago do Tasha\'s e 13 magias novas na lista '
+      + 'do Mago.',
+    melhorias: [
+      {
+        grupo: '✨ Melhorias',
+        itens: [
+          'Subclasse Lâmina Cantante (Mago, Tasha\'s): a Canção da Lâmina '
+            + 'tem botão para ativar e encerrar, com usos por descanso. '
+            + 'Enquanto ativa, a ficha soma a Inteligência na CA, +3 m de '
+            + 'deslocamento, Vantagem em Acrobacia e bônus na Concentração. '
+            + 'Também entram o Ataque Extra, a Canção da Defesa (gasta um '
+            + 'espaço de magia) e a Canção da Vitória (dano corpo a corpo).',
+          'A Canção da Lâmina termina sozinha ao equipar escudo ou armadura '
+            + 'Média ou Pesada, ao ficar Incapacitado e ao fazer um '
+            + 'descanso.',
+          '13 magias novas do Tasha\'s na lista do Mago, com o selo de '
+            + 'origem: Chicote Elétrico, Farpa Mental, Lâmina da Chama '
+            + 'Esverdeada, Lâmina Estrondosa, Rompante de Espadas, Beberagem '
+            + 'Cáustica de Tasha, Chicote Mental de Tasha, Fortaleza '
+            + 'Intelectual, Invocar Prole Sombria, Mortalha Espiritual, '
+            + 'Disfarce Sobrenatural de Tasha, Sonho do Véu Azul e Lâmina do '
+            + 'Desastre.',
+          'Na subida de nível, a arma da Lâmina Cantante, as Descobertas '
+            + 'Mágicas do Bardo, o truque do Ilusionista e o Estilo de Luta '
+            + 'do Campeão são escolhidos em cards, e o toque no card abre os '
+            + 'detalhes.',
+          'A proficiência com a arma escolhida vale também para uma arma '
+            + 'personalizada renomeada que tenha as mesmas características.',
+        ],
+      },
+    ],
+  },
   {
     versao: '3.3.6',
     data: '2026-10-16',

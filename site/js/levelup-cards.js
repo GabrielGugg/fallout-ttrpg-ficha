@@ -9,7 +9,7 @@ import { rotuloPericia } from './opcoes-dominio.js';
 import { seloFonte } from './fontes.js';
 import { obterTalentosElegiveis } from './levelup.js';
 import { calcularConjuracao, calcularSubclasseArcana, escolhasSubclasseDoNivel } from './levelup-flow.js';
-import { opcoesDaLinha, resolvedorDaLinha } from './regras-subclasse-escolhas.js';
+import { opcoesDaLinha, resolvedorDaLinha, cartoesDaLinha } from './regras-subclasse-escolhas.js';
 // preparadasPorClasse (Item 1 da revisão final do sub-projeto "magia sabe a
 // classe"): ver uso perto de `magiasAtuais`, em renderCardMagias.
 import { preparadasPorClasse, truquesPorClasse } from './regras-magia-classe.js';
@@ -624,7 +624,14 @@ export function montarCardsEscolhaSubclasse(ctx, state) {
     const assincrona = !!resolvedorDaLinha(linha);
     const opcoes = assincrona ? [] : opcoesDaLinha(linha);
     const escolhidas = state?.escolhasSubclasse?.[linha.campo] || [];
-    const seletores = Array.from({ length: linha.quantidade }, (_, i) => {
+    // Linhas cujas opções trazem informação viram cards (montados por
+    // bindEventosEscolhasClasse em levelup-ui.js); as demais ficam em <select>.
+    const comCartoes = !!cartoesDaLinha(linha);
+    const seletores = comCartoes
+      ? `<div data-subclasse-cartoes="${linha.campo}" data-quantidade="${linha.quantidade}">
+           <div class="opcao-contagem">Carregando…</div>
+         </div>`
+      : Array.from({ length: linha.quantidade }, (_, i) => {
       // Enquanto a lista nao chega, o seletor ao menos mostra o que ja foi
       // escolhido -- voltar ao passo nao pode parecer que a escolha sumiu.
       const opcoesDoSeletor = assincrona

@@ -46,6 +46,9 @@ const TATICAS_DEFENSIVAS = ['Defesa Contra Ataques Múltiplos', 'Escapar de Hord
 const COMPANHEIROS_PRIMAIS = ['Fera da Terra', 'Fera do Céu', 'Fera do Mar'];        // Classes.md:3573
 const TERRENOS_CIRCULO_TERRA = ['Árido', 'Polar', 'Temperado', 'Tropical'];          // Classes.md:2406
 const PERICIAS_GLAMOUR = ['Atuação', 'Enganação', 'Persuasão'];                      // Classes.md:3480
+// Armas Marciais corpo a corpo sem Duas Mãos (Tasha's p. 68); confrontada com dados/equipamento/armas.json por teste.
+export const ARMAS_LAMINA_CANTANTE = ['Chicote', 'Cimitarra', 'Espada Curta', 'Espada Longa', 'Maça Estrela',
+  'Machado de Batalha', 'Mangual', 'Martelo de Guerra', 'Picareta de Guerra', 'Rapieira', 'Tridente'];
 
 export const ESCOLHAS_SUBCLASSE_APP = [
   // ---------- Concessões automáticas: o livro concede sem perguntar ----------
@@ -97,6 +100,9 @@ export const ESCOLHAS_SUBCLASSE_APP = [
     // "Você tem Resistência a dano Necrótico" e "A magia Convocar Familiar aparece
     // no seu livro de magias": as duas concessões automáticas desta característica.
     automatica: { resistencias: ['Necrótico'], grimorio: [{ nome: 'Convocar Familiar', circulo: 1 }] } },
+  { subclasse: 'Lâmina Cantante', nivel: 3, caracteristica: 'Treinamento na Guerra e na Música',
+    livro: 'dados/tasha/mago/subclasses_mago.json',
+    automatica: { extras: ['Armadura Leve'], pericias: ['Atuação'] } },
   { subclasse: 'Armeiro', nivel: 3, caracteristica: 'Ferramentas da Profissão',
     livro: 'dados/tasha/artifice/classe.json',
     automatica: { extras: ['Armadura Pesada'], ferramentas: ['Ferramentas de Ferreiro'] } },
@@ -124,7 +130,7 @@ export const ESCOLHAS_SUBCLASSE_APP = [
     // conhece o truque.
     substituto: {
       tipo: 'subclasse_truque_substituto', campo: 'subclasse_truque_substituto',
-      quantidade: 1, fonteOpcoes: 'truques-mago', destino: 'truque_de_subclasse',
+      quantidade: 1, fonteOpcoes: 'truques-mago', destino: 'truque_de_subclasse', cartoes: 'magias',
       rotulo: 'Ilusões Aprimoradas — truque de Mago substituto',
     } },
 
@@ -135,7 +141,7 @@ export const ESCOLHAS_SUBCLASSE_APP = [
     rotulo: 'Proficiências Bônus — escolha 3 perícias' },
   { subclasse: 'Colégio do Conhecimento', nivel: 6, caracteristica: 'Descobertas Mágicas',
     livro: 'Classes.md:770', tipo: 'subclasse_descobertas_magicas', campo: 'subclasse_descobertas_magicas',
-    quantidade: 2, fonteOpcoes: 'magias-qualquer', destino: 'magias_preparadas',
+    quantidade: 2, fonteOpcoes: 'magias-qualquer', destino: 'magias_preparadas', cartoes: 'magias',
     rotulo: 'Descobertas Mágicas — escolha 2 magias' },
   { subclasse: 'Mestre da Batalha', nivel: 3, caracteristica: 'Estudioso da Guerra',
     livro: 'Classes.md:4061', tipo: 'subclasse_estudioso_ferramenta', campo: 'subclasse_estudioso_ferramenta',
@@ -158,7 +164,7 @@ export const ESCOLHAS_SUBCLASSE_APP = [
     // outra caracteristica, outro nivel, outro campo -- que por acaso oferece
     // a mesma lista.
     tipo: 'subclasse_estilo_luta_extra', campo: 'subclasse_estilo_luta_extra',
-    quantidade: 1, fonteOpcoes: 'estilos-luta', destino: 'escolhas_classe.estilo_luta',
+    quantidade: 1, fonteOpcoes: 'estilos-luta', destino: 'escolhas_classe.estilo_luta', cartoes: 'estilos-luta',
     rotulo: 'Estilo de Luta Adicional' },
   { subclasse: 'Círculo da Terra', nivel: 3, caracteristica: 'Magias do Círculo da Terra',
     livro: 'Classes.md:2406', tipo: 'subclasse_terreno', campo: 'subclasse_terreno',
@@ -188,6 +194,10 @@ export const ESCOLHAS_SUBCLASSE_APP = [
     quantidade: 1, opcoes: COMPANHEIROS_PRIMAIS,
     destino: 'recursos.guardiao.subclasses.feras.companheiro_tipo',
     rotulo: 'Companheiro Primal' },
+  { subclasse: 'Lâmina Cantante', nivel: 3, caracteristica: 'Treinamento na Guerra e na Música',
+    livro: 'dados/tasha/mago/subclasses_mago.json', tipo: 'subclasse_lamina_arma', campo: 'subclasse_lamina_arma',
+    quantidade: 1, opcoes: ARMAS_LAMINA_CANTANTE, destino: 'proficiencias_extra', cartoes: 'armas',
+    rotulo: 'Treinamento na Guerra e na Música — arma corpo a corpo de uma mão' },
 ];
 
 /**
@@ -245,6 +255,20 @@ export function linhasDaSubclasseNoNivel(subclasse, nivel, truquesConhecidos = n
   return ESCOLHAS_SUBCLASSE_APP
     .filter((l) => l.subclasse === subclasse && l.nivel === nivel)
     .map((l) => ramoDaLinha(l, truquesConhecidos));
+}
+
+/** Tipo de card da linha ('armas' | 'magias' | 'estilos-luta') ou null quando ela fica em <select>. */
+export function cartoesDaLinha(linha) {
+  return linha?.cartoes || null;
+}
+
+/**
+ * Armas do catálogo cujos nomes estão em `nomes`; se o catálogo faltar ou
+ * não casar nenhuma, devolve `{ nome }` por nome para a escolha não travar.
+ */
+export function armasDaLinhaOuNomes(dadosArmas, nomes) {
+  const doCatalogo = (dadosArmas?.armas || []).filter((a) => nomes.includes(a.nome));
+  return doCatalogo.length ? doCatalogo : nomes.map((nome) => ({ nome }));
 }
 
 /**
@@ -335,7 +359,7 @@ async function resolverDescobertasMagicas({ circuloMaximo = Infinity, jaTem = ne
         if (!nome || jaTem.has(nome)) continue;
         // Uma magia em duas das três listas (Curar Ferimentos, por exemplo)
         // não pode aparecer duas vezes no mesmo seletor.
-        if (!porNome.has(nome)) porNome.set(nome, { nome, circulo });
+        if (!porNome.has(nome)) porNome.set(nome, { nome, circulo, escola: magia?.escola });
       }
     }
   }
@@ -370,7 +394,7 @@ async function resolverTruquesMago({ jaTem = new Set() } = {}) {
     const nome = typeof magia === 'string' ? magia : magia?.nome;
     // `circulo: 0` é forçado porque a lista por classe não traz o campo: é o
     // balde 'Truques' que diz o círculo, e quem monta o seletor precisa dele.
-    if (nome && !jaTem.has(nome) && !porNome.has(nome)) porNome.set(nome, { nome, circulo: 0 });
+    if (nome && !jaTem.has(nome) && !porNome.has(nome)) porNome.set(nome, { nome, circulo: 0, escola: magia?.escola });
   }
   return [...porNome.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 }
@@ -482,7 +506,7 @@ function acrescentarNaLista(personagem, campo, valores) {
 export function aplicarEscolhaSubclasse(personagem, linha, valores, contexto = {}) {
   const lista = (Array.isArray(valores) ? valores : [valores]).filter(Boolean);
   if (!lista.length) return;
-  if (linha.destino === 'pericias_proficientes' || linha.destino === 'proficiencias_ferramentas') {
+  if (linha.destino === 'pericias_proficientes' || linha.destino === 'proficiencias_ferramentas' || linha.destino === 'proficiencias_extra') {
     acrescentarNaLista(personagem, linha.destino, lista);
     return;
   }
