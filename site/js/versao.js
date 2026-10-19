@@ -13,13 +13,49 @@
 // ============================================================
 
 /** Versão exibida no header e marcada como atual na lista de notas. */
-export const VERSAO_ATUAL = '3.3.7';
+export const VERSAO_ATUAL = '3.3.8';
 
 // Cada entrada é uma versão. `melhorias` e `correcoes` são listas de
 // grupos, e cada grupo tem um título curto e seus itens. O emoji do
 // grupo entra no próprio título -- é o que separa visualmente melhoria
 // de correção sem depender de cor.
 export const NOTAS_VERSAO = [
+  {
+    versao: '3.3.8',
+    data: '2026-10-19',
+    rotulo: 'PDF e importação',
+    resumo: 'O PDF de ficha multiclasse sai com as características de cada '
+      + 'classe, o botão Gerar PDF volta a responder sempre e a importação '
+      + 'de fichas ficou mais confiável.',
+    melhorias: [
+      {
+        grupo: '🐛 Correções',
+        itens: [
+          'PDF de ficha multiclasse: as características saíam só da '
+            + 'primeira classe e pelo nível total (Guerreiro 3 / Bruxo 1 '
+            + 'saía como Guerreiro 4). Agora cada classe tem a sua seção, '
+            + 'pelo nível nela.',
+          'O botão Gerar PDF parava de responder depois de qualquer '
+            + 'alteração na ficha, e só voltava ao recarregar a página. O '
+            + 'mesmo valia para o botão Escolher agora das manobras '
+            + 'pendentes.',
+          'Ficha importada de um arquivo que aparecia e sumia logo depois, '
+            + 'ou dava "personagem não encontrado" ao abrir, quando o mesmo '
+            + 'personagem tinha sido excluído antes.',
+        ],
+      },
+      {
+        grupo: '✨ Melhorias',
+        itens: [
+          'Se a importação de um arquivo der problema, abre um relatório '
+            + 'com o motivo de cada ficha recusada, um botão para copiar e '
+            + 'um link para relatar o problema (anexe o arquivo .json da '
+            + 'ficha ao relato).',
+          'O título do app passou a ser Ficha 5.5.',
+        ],
+      },
+    ],
+  },
   {
     versao: '3.3.7',
     data: '2026-10-16',
