@@ -1,4 +1,4 @@
-# Criador de Ficha de Personagem — compatível com a 5ª edição (2024)
+# Criador de Ficha de Personagem — 5.5 (revisão de 2024 da 5ª edição)
 
 **[▶ Abrir o app](https://zaitbr-bit.github.io/D-D_2024/)** &nbsp;·&nbsp;
 **[🐛 Relatar um problema](https://github.com/ZaitBr-bit/D-D_2024/issues/new?template=bug.yml)** &nbsp;·&nbsp;
@@ -6,7 +6,7 @@
 versão atual **3.2.1**
 
 Aplicativo web **gratuito e em português** para criar e usar fichas de personagem
-compatíveis com a **5ª edição (revisão de 2024)**. Roda no navegador do celular e do computador,
+da **5.5 (revisão de 2024 da 5ª edição)**. Roda no navegador do celular e do computador,
 **funciona offline** e não precisa de cadastro: seus personagens ficam salvos no
 próprio aparelho, e a conta Google é opcional, só para sincronizar entre
 dispositivos.
@@ -154,7 +154,7 @@ opcional, só para sincronizar entre aparelhos.
 **Funciona sem internet?** Sim, depois da primeira abertura. Ele se instala no
 navegador e continua funcionando offline.
 
-**Serve para a 5ª edição de 2014?** Não. O conteúdo segue a revisão de 2024.
+**Serve para a 5ª edição de 2014?** Não. O conteúdo segue a revisão de 2024 (5.5).
 
 **Meus dados são meus?** Ficam no seu aparelho. Se você entrar com o Google, uma
 cópia vai para a nuvem para sincronizar; sem login, nada sai do aparelho.

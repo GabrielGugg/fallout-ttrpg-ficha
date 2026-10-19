@@ -17,7 +17,8 @@ import { getEstadoRecursosBruxo } from './classes/bruxo.js';
 import { forcaPrimordialAtiva, getAtaquesPorAcao, getDeslocamentoFinal, getModIniciativa, textoDadosExtrasIniciativa } from './combate.js';
 import { visaoNoEscuroDaEspecie } from './condicoes.js';
 import { defesasDeItens, ROTULO_SENTIDO, sentidosDeItens } from '../regras-passivos-itens.js';
-import { char, classeData, especiesCache, indiceMagiasCache, passivosTalentosCache, seloPrerequisitoDispensado, talentosCache } from './estado.js';
+import { contextosDeClasse } from './contexto-classe.js';
+import { char, especiesCache, indiceMagiasCache, passivosTalentosCache, seloPrerequisitoDispensado, talentosCache } from './estado.js';
 import { conjuraPorAlgumaClasse } from '../regras-multiclasse-conjuracao.js';
 import { armadurasDoPersonagem, armasDoPersonagem } from '../regras-multiclasse-proficiencias.js';
 import { classesDe, reservasDadosVida, temClasse } from '../regras-multiclasse.js';
@@ -36,6 +37,78 @@ import { reservasDeEspacos } from './reservas-espacos.js';
 // ============================================================
 // IMPRESSAO DE FICHA - Versao formatada para impressao
 // ============================================================
+
+/** HTML de uma caracteristica de classe/subclasse na impressao. */
+function _htmlFeatureImpressao(nome, nivel, descricao) {
+  return `
+          <div class="print-feature">
+            <div class="print-feature-name">${nome} <span style="font-weight:400;font-size:7pt;color:#666">(Nível ${nivel})</span></div>
+            ${descricao ? `<div class="print-feature-desc"><div class="md-content">${mdParaHtml(descricao)}</div></div>` : ''}
+          </div>`;
+}
+
+/**
+ * Secao "Caracteristicas de Classe" de UMA classe, filtrada pelo nivel nela.
+ * Mesmo filtro de subclasse de `renderCaracteristicasDeUmaClasse` (caracteristicas.js).
+ * @param {{classe, subclasse, nivelClasse, dados}} ctx Contexto de `contextosDeClasse`.
+ * @param {boolean} mostrarNomeClasse Com duas ou mais classes o titulo leva classe e nivel.
+ * @returns {string} HTML, ou string vazia.
+ */
+function _htmlCaracteristicasClasseImpressao(ctx, mostrarNomeClasse) {
+  const dados = ctx.dados;
+  if (!dados?.caracteristicas?.length) return '';
+  let feats = dados.caracteristicas.filter(c => c.nivel <= ctx.nivelClasse);
+
+  // Filtrar features de subclasses nao selecionadas
+  if (dados.subclasses?.length) {
+    const outrasSubclasses = dados.subclasses.filter(s => s.nome !== ctx.subclasse);
+    const featsOutras = new Set();
+    outrasSubclasses.forEach(sc => (sc.caracteristicas || []).forEach(f => featsOutras.add(f.nome)));
+    const scAtual = ctx.subclasse ? dados.subclasses.find(s => s.nome === ctx.subclasse) : null;
+    const featsSelecionada = new Set((scAtual?.caracteristicas || []).map(f => f.nome));
+    feats = feats.filter(f => !featsOutras.has(f.nome) || featsSelecionada.has(f.nome));
+    if (scAtual) {
+      const featsSC = new Set((scAtual.caracteristicas || []).filter(c => c.nivel <= ctx.nivelClasse).map(c => `${c.nivel}|${c.nome}`));
+      feats = feats.filter(f => !featsSC.has(`${f.nivel}|${f.nome}`));
+    }
+  }
+  if (!feats.length) return '';
+
+  const titulo = mostrarNomeClasse
+    ? `Características de Classe &mdash; ${escHtml(ctx.classe)} ${ctx.nivelClasse}`
+    : 'Características de Classe';
+  let html = `<div class="print-section"><div class="print-section-title">${titulo}</div>`;
+  feats.forEach(f => {
+    // Para Ordem Divina/Primal, exibir somente a opcao selecionada
+    let descPrint = f.descricao || '';
+    if (f.nome === 'Ordem Divina' || f.nome === 'Ordem Primal') {
+      const _chvOrd = f.nome === 'Ordem Divina' ? 'ordem_divina' : 'ordem_primal';
+      const _ordEsc = char[_chvOrd] || char.escolhas_classe?.[_chvOrd]?.[0] || '';
+      if (_ordEsc) {
+        const _rxOrd = new RegExp(`\\*\\*${_ordEsc}\\.\\*\\*\\s*(.+?)(?=\\n\\*\\*|$)`, 's');
+        const _mOrd = descPrint.match(_rxOrd);
+        descPrint = _mOrd ? `**${_ordEsc}.** ${_mOrd[1].trim()}` : descPrint;
+      }
+    }
+    html += _htmlFeatureImpressao(f.nome, f.nivel, descPrint);
+  });
+  return html + `</div>`;
+}
+
+/**
+ * Secao "Subclasse" de UMA classe, filtrada pelo nivel nela.
+ * @param {{classe, subclasse, nivelClasse, dados}} ctx Contexto de `contextosDeClasse`.
+ * @returns {string} HTML, ou string vazia.
+ */
+function _htmlSubclasseImpressao(ctx) {
+  if (!ctx.subclasse || !ctx.dados?.subclasses?.length) return '';
+  const sc = ctx.dados.subclasses.find(s => s.nome === ctx.subclasse);
+  const feats = sc?.caracteristicas?.filter(c => c.nivel <= ctx.nivelClasse) || [];
+  if (!feats.length) return '';
+  let html = `<div class="print-section"><div class="print-section-title">Subclasse &mdash; ${escHtml(ctx.subclasse)}</div>`;
+  feats.forEach(f => { html += _htmlFeatureImpressao(f.nome, f.nivel, f.descricao); });
+  return html + `</div>`;
+}
 
 /**
  * Separa os dados de um item de inventario em Efeito (o que ele FAZ na
@@ -626,68 +699,10 @@ export async function gerarHtmlImpressao() {
     pag2 += `</div>`;
   }
 
-  // --- Caracteristicas de Classe ---
-  if (classeData?.caracteristicas?.length) {
-    let feats = classeData.caracteristicas.filter(c => c.nivel <= char.nivel);
-
-    // Filtrar features de subclasses nao selecionadas
-    if (classeData.subclasses?.length) {
-      const outrasSubclasses = classeData.subclasses.filter(s => s.nome !== char.subclasse);
-      const featsOutras = new Set();
-      outrasSubclasses.forEach(sc => (sc.caracteristicas || []).forEach(f => featsOutras.add(f.nome)));
-      const featsSelecionada = new Set();
-      if (char.subclasse) {
-        const scAtual = classeData.subclasses.find(s => s.nome === char.subclasse);
-        (scAtual?.caracteristicas || []).forEach(f => featsSelecionada.add(f.nome));
-      }
-      feats = feats.filter(f => !featsOutras.has(f.nome) || featsSelecionada.has(f.nome));
-      if (char.subclasse) {
-        const scAtual = classeData.subclasses.find(s => s.nome === char.subclasse);
-        const featsSC = new Set((scAtual?.caracteristicas || []).filter(c => c.nivel <= char.nivel).map(c => `${c.nivel}|${c.nome}`));
-        feats = feats.filter(f => !featsSC.has(`${f.nivel}|${f.nome}`));
-      }
-    }
-
-    if (feats.length > 0) {
-      pag2 += `<div class="print-section"><div class="print-section-title">Características de Classe</div>`;
-      feats.forEach(f => {
-        // Para Ordem Divina/Primal, exibir somente a opcao selecionada
-        let descPrint = f.descricao || '';
-        if (f.nome === 'Ordem Divina' || f.nome === 'Ordem Primal') {
-          const _chvOrd = f.nome === 'Ordem Divina' ? 'ordem_divina' : 'ordem_primal';
-          const _ordEsc = char[_chvOrd] || char.escolhas_classe?.[_chvOrd]?.[0] || '';
-          if (_ordEsc) {
-            const _rxOrd = new RegExp(`\\*\\*${_ordEsc}\\.\\*\\*\\s*(.+?)(?=\\n\\*\\*|$)`, 's');
-            const _mOrd = descPrint.match(_rxOrd);
-            descPrint = _mOrd ? `**${_ordEsc}.** ${_mOrd[1].trim()}` : descPrint;
-          }
-        }
-        pag2 += `
-          <div class="print-feature">
-            <div class="print-feature-name">${f.nome} <span style="font-weight:400;font-size:7pt;color:#666">(Nível ${f.nivel})</span></div>
-            ${descPrint ? `<div class="print-feature-desc"><div class="md-content">${mdParaHtml(descPrint)}</div></div>` : ''}
-          </div>`;
-      });
-      pag2 += `</div>`;
-    }
-  }
-
-  // --- Caracteristicas de Subclasse ---
-  if (char.subclasse && classeData?.subclasses?.length) {
-    const sc = classeData.subclasses.find(s => s.nome === char.subclasse);
-    const feats = sc?.caracteristicas?.filter(c => c.nivel <= char.nivel) || [];
-    if (feats.length > 0) {
-      pag2 += `<div class="print-section"><div class="print-section-title">Subclasse &mdash; ${escHtml(char.subclasse)}</div>`;
-      feats.forEach(f => {
-        pag2 += `
-          <div class="print-feature">
-            <div class="print-feature-name">${f.nome} <span style="font-weight:400;font-size:7pt;color:#666">(Nível ${f.nivel})</span></div>
-            ${f.descricao ? `<div class="print-feature-desc"><div class="md-content">${mdParaHtml(f.descricao)}</div></div>` : ''}
-          </div>`;
-      });
-      pag2 += `</div>`;
-    }
-  }
+  // --- Caracteristicas de Classe e de Subclasse, uma secao por classe (issue #144) ---
+  const ctxsClasse = contextosDeClasse();
+  for (const ctx of ctxsClasse) pag2 += _htmlCaracteristicasClasseImpressao(ctx, ctxsClasse.length > 1);
+  for (const ctx of ctxsClasse) pag2 += _htmlSubclasseImpressao(ctx);
 
   // --- Tracos de Especie (usa multi-colunas para aproveitar espaco) ---
   if (_espData?.tracos?.length) {

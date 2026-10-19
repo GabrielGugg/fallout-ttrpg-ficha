@@ -1,13 +1,14 @@
 // ============================================================
 // Pagina inicial - Lista de personagens
 // ============================================================
-import { listarPersonagens, removerPersonagem, duplicarPersonagem, exportarTodos, exportarPersonagem, importarPersonagens, atualizarListaLocal, backupPersonagensLocais, restaurarPersonagensLocais } from '../store.js';
+import { listarPersonagens, removerPersonagem, duplicarPersonagem, exportarTodos, exportarPersonagem, importarPersonagensDetalhado, atualizarListaLocal, backupPersonagensLocais, restaurarPersonagensLocais } from '../store.js';
 import { enfileirarSync, obterIdsPendentesRemocao } from '../sync.js';
 import { toast, abrirModal, fmtData, escHtml, baixarArquivo } from '../utils.js';
 import { CLASSES_INFO } from '../dados-classes.js';
 import { classesDe } from '../regras-multiclasse.js';
 import { iniciarAuth, getUsuario, loginComGoogle, logout, onAuthChange, buscarEstadoCloud } from '../auth.js';
 import { reconciliar, escolherNoMerge } from '../sync-merge.js';
+import { mostrarResultadoImportacao } from '../importacao-ui.js';
 
 let _containerRef = null;
 let _sincronizando = false;
@@ -304,13 +305,12 @@ function setupImportar(container) {
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
-          const result = importarPersonagens(ev.target.result);
-          if (result >= 0) {
-            toast(`${result} personagem(ns) importado(s)!`, 'success');
-            renderHome(container);
-          } else {
-            toast('Erro ao importar arquivo', 'error');
-          }
+          const resultado = importarPersonagensDetalhado(ev.target.result);
+          if (resultado.importados.length) renderHome(container);
+          mostrarResultadoImportacao(resultado, file);
+        };
+        reader.onerror = () => {
+          mostrarResultadoImportacao({ importados: [], jaExistentes: [], ignorados: [], erro: `falha ao ler o arquivo: ${reader.error?.message || 'desconhecida'}` }, file);
         };
         reader.readAsText(file);
       });

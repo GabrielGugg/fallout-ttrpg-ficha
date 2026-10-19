@@ -35,8 +35,11 @@ const nomesDoArquivo = (arquivo) => {
     new URL(`../../../dados/magias/${arquivo}`, import.meta.url), 'utf-8'));
   return (j.magias || j);
 };
-const TRUQUES = nomesDoArquivo('truques.json').map((m) => m.nome);
-const PRIMEIRO_CIRCULO = nomesDoArquivo('circulo_1.json').map((m) => m.nome);
+// Magias do Tasha para o Mago (3.3.7) têm fonte primária própria, com o círculo de cada uma.
+const TASHA_MAGO = JSON.parse(readFileSync(
+  new URL('../../../dados/tasha/mago/magias.json', import.meta.url), 'utf-8')).magias;
+const TRUQUES = [...nomesDoArquivo('truques.json'), ...TASHA_MAGO.filter((m) => m.circulo === 0)].map((m) => m.nome);
+const PRIMEIRO_CIRCULO = [...nomesDoArquivo('circulo_1.json'), ...TASHA_MAGO.filter((m) => m.circulo === 1)].map((m) => m.nome);
 
 /**
  * Leva o criador até o passo de Magias, escolhendo Mago na classe. Usa

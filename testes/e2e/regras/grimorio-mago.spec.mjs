@@ -41,7 +41,8 @@ test('Mago nível 5, grimório vazio: o modal de cópia oferece o 1º, o 2º E o
   const grupo3 = page.locator('[data-grimorio-circulo="3"]');
   await expect(grupo3, 'o 3º círculo não deveria desaparecer da lista mesmo com o 1º e o 2º somando mais de 50 magias')
     .toHaveCount(1);
-  await expect(grupo3.locator('summary')).toContainText('3º Círculo (32)');
+  // 32 do livro base + 3 do Tasha (Fortaleza Intelectual, Invocar Prole Sombria, Mortalha Espiritual; 3.3.7).
+  await expect(grupo3.locator('summary')).toContainText('3º Círculo (35)');
 
   expect(erros, `erros de console/página: ${erros.join('; ')}`).toEqual([]);
 });

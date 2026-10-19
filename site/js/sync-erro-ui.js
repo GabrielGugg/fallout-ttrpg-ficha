@@ -12,7 +12,7 @@ import { abrirModal, escHtml, toast } from './utils.js';
  * @param {HTMLTextAreaElement|null} campo Campo com o mesmo texto, usado como alternativa.
  * @returns {Promise<boolean>} true se copiou.
  */
-async function copiarTexto(texto, campo) {
+export async function copiarTexto(texto, campo) {
   try {
     await navigator.clipboard.writeText(texto);
     return true;

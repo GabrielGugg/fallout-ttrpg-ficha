@@ -30,6 +30,7 @@ import { baixarPdfFicha } from '../sheet/pdf.js';
 import { carregarDadosEquipSheet } from '../itens-seletor.js';
 import { migrarAdeptoElementalTipos, migrarIniciadoEmMagiaInstancias } from '../sheet/talentos.js';
 let _syncSubscribed = false;
+let _botoesRecriadosLigados = false;
 
 const LIMITE_PULL_NUVEM_MS = 2500;
 
@@ -237,28 +238,42 @@ export async function renderSheet(container, charId) {
     ligarDetalheErroSync();
   }
 
-  document.getElementById('btn-print')?.addEventListener('click', () => baixarPdfFicha());
+  _ligarBotoesRecriadosNoRender();
 
   // Pre-aquecer cache de descricoes de magias em segundo plano, para que o
   // clique em Imprimir nao dependa de fetch de rede (mobile exige window.print()
   // sincrono no gesto do usuario; fetch no meio quebra a ativacao e o print e ignorado).
   carregarDescricoesMagias().catch(() => {});
+}
 
-  document.getElementById('btn-escolher-manobras-pendentes')?.addEventListener('click', () => {
-    const estado = getEstadoRecursosGuerreiro();
-    if (!estado) return;
-    const opcoesDisponiveis = classeData?.subclasses?.find(sc => sc.nome === 'Mestre da Batalha')?.opcoes_manobra || [];
-    const jaTem = new Set(char.manobras_conhecidas || []);
-    const candidatas = opcoesDisponiveis.filter(m => !jaTem.has(m.nome));
-    const selSet = new Set();
-    const qtdPendente = estado.manobrasPendentes;
-    abrirGridManobras(`Escolher ${qtdPendente} manobra(s) pendente(s)`, qtdPendente, candidatas, selSet, (selecionadas) => {
-      if (selecionadas.length !== qtdPendente) return;
-      char.manobras_conhecidas = [...jaTem, ...selecionadas];
-      salvar();
-      window.fecharModal();
-      renderFichaCompleta();
-    });
+/** Abre a grade para escolher as manobras pendentes do Mestre da Batalha. */
+function _escolherManobrasPendentes() {
+  const estado = getEstadoRecursosGuerreiro();
+  if (!estado) return;
+  const opcoesDisponiveis = classeData?.subclasses?.find(sc => sc.nome === 'Mestre da Batalha')?.opcoes_manobra || [];
+  const jaTem = new Set(char.manobras_conhecidas || []);
+  const candidatas = opcoesDisponiveis.filter(m => !jaTem.has(m.nome));
+  const selSet = new Set();
+  const qtdPendente = estado.manobrasPendentes;
+  abrirGridManobras(`Escolher ${qtdPendente} manobra(s) pendente(s)`, qtdPendente, candidatas, selSet, (selecionadas) => {
+    if (selecionadas.length !== qtdPendente) return;
+    char.manobras_conhecidas = [...jaTem, ...selecionadas];
+    salvar();
+    window.fecharModal();
+    renderFichaCompleta();
+  });
+}
+
+/**
+ * Liga, uma vez por sessão, "Gerar PDF" e "Escolher agora" (manobras) por delegação.
+ * Os dois botões são recriados a cada renderFichaCompleta; listener direto morria no 1º re-render (issue #144).
+ */
+function _ligarBotoesRecriadosNoRender() {
+  if (_botoesRecriadosLigados) return;
+  _botoesRecriadosLigados = true;
+  document.addEventListener('click', (ev) => {
+    if (ev.target.closest?.('#btn-print')) baixarPdfFicha();
+    else if (ev.target.closest?.('#btn-escolher-manobras-pendentes')) _escolherManobrasPendentes();
   });
 }
 

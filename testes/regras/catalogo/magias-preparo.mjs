@@ -184,8 +184,8 @@ export const EXCECOES_LISTA_ORIGEM = {
   // Necromante; era 68 antes da Tarefa 3, sub-projeto "tela magias por
   // classe" -- migrarSlotsMagiaLivre passou a derivar a superfície de
   // conjuração ativa de classes[] em vez dos espelhos char.classe/
-  // classeData/char.nivel, o que deslocou o resto da função).
-  'sheet/migracoes.js:108': 'Migração de dado legado: classifica origens de personagens ' +
+  // classeData/char.nivel, o que deslocou o resto da função; de 108 pelo import de migrarTabelasItensMagicos, 3.3.6).
+  'sheet/migracoes.js:109': 'Migração de dado legado: classifica origens de personagens ' +
     'salvos por versões antigas do app, incluindo `telecinetico`, que nenhuma das listas ' +
     'vivas usa. Não governa o limite de nenhum personagem novo.',
   // Linha 294 (era 295 antes da revisão final #105/#61 -- os docblocks de

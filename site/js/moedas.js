@@ -1,6 +1,6 @@
 // ============================================================
 // Sistema de carteira multi-moeda (PC, PP, PE, PO, PL) com conversao automatica
-// Tabela oficial D&D 5e 2024: 10 PC = 1 PP | 10 PP = 1 PO | 2 PE = 1 PO | 10 PO = 1 PL
+// Tabela oficial D&D 5.5 (2024): 10 PC = 1 PP | 10 PP = 1 PO | 2 PE = 1 PO | 10 PO = 1 PL
 // ============================================================
 
 // Ordem decrescente de valor (maior -> menor)
@@ -22,7 +22,7 @@ export const ICONE_MOEDA = {
   pc: '🟤'
 };
 
-// Taxas padrao (D&D 5e 2024): valor de cada denominacao em PC, a unidade-base de conversao
+// Taxas padrao (D&D 5.5, 2024): valor de cada denominacao em PC, a unidade-base de conversao
 const TAXAS_PADRAO = { pl: 1000, po: 100, pe: 50, pp: 10, pc: 1 };
 
 // Valor de cada denominacao em PC. Mutavel via definirTaxas() para permitir taxas customizadas.
@@ -56,7 +56,7 @@ export function definirTaxas(taxas) {
   return { sucesso: true, taxas: { ...VALOR_EM_COBRE } };
 }
 
-/** Restaura as taxas de conversao padrao (D&D 5e 2024) */
+/** Restaura as taxas de conversao padrao (D&D 5.5, 2024) */
 export function resetarTaxas() {
   Object.assign(VALOR_EM_COBRE, TAXAS_PADRAO);
   return { ...VALOR_EM_COBRE };

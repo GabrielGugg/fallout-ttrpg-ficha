@@ -100,9 +100,14 @@ test('home: exportar e importar de volta preserva o personagem inteiro', async (
   await expect(page.locator('.char-card').first(),
     'o card deveria trazer o nome do personagem importado').toContainText(SEMENTE.nome);
 
-  const restaurado = (await personagensSalvos(page))[0];
+  // `atualizado_em` é recarimbado na importação (issue #145: o carimbo antigo
+  // perdia para a lápide de exclusão na nuvem); o resto volta igual.
+  const { atualizado_em: carimboNovo, ...restaurado } = (await personagensSalvos(page))[0];
+  const { atualizado_em: carimboAntigo, ...semCarimbo } = original;
   expect(restaurado,
-    'a ida e volta deveria devolver o personagem byte a byte igual').toEqual(original);
+    'a ida e volta deveria devolver o personagem igual, fora o carimbo').toEqual(semCarimbo);
+  expect(new Date(carimboNovo).getTime(), 'a importação carimba agora')
+    .toBeGreaterThan(new Date(carimboAntigo || 0).getTime());
 
   expect(erros, `erros de console/página: ${erros.join('; ')}`).toEqual([]);
 });

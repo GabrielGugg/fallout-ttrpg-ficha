@@ -1,7 +1,7 @@
 {
-  "name": "Ficha de Personagem 5e",
-  "short_name": "Ficha 5e",
-  "description": "Criador de fichas de personagem compatível com a 5ª edição (2024)",
+  "name": "Ficha de Personagem 5.5",
+  "short_name": "Ficha 5.5",
+  "description": "Criador de fichas de personagem para a 5.5 (revisão de 2024 da 5ª edição)",
   "id": "./",
   "scope": "./",
   "start_url": "./index.html",

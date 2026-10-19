@@ -239,9 +239,18 @@ export function migrarEdicoesLegado(p) {
  * @returns {boolean} true se o objeto e um personagem valido.
  */
 export function _validarPersonagem(p) {
-  if (!p || typeof p !== 'object' || Array.isArray(p)) return false;
-  if (typeof p.id !== 'string' || !p.id.trim()) return false;
-  if (typeof p.nome !== 'string' || !p.nome.trim()) return false;
+  return motivoPersonagemInvalido(p) === null;
+}
+
+/**
+ * Mesma validacao de _validarPersonagem, devolvendo o motivo da rejeicao (exibido no relatorio de importacao).
+ * @param {object} p - Objeto a validar.
+ * @returns {string|null} motivo em pt-BR, ou null se o personagem e valido.
+ */
+export function motivoPersonagemInvalido(p) {
+  if (!p || typeof p !== 'object' || Array.isArray(p)) return 'não é um objeto de personagem';
+  if (typeof p.id !== 'string' || !p.id.trim()) return 'sem id';
+  if (typeof p.nome !== 'string' || !p.nome.trim()) return 'sem nome';
   // Nível: aceita o escalar legado OU a soma de classes[]. A validação
   // roda no import, ANTES de qualquer migração, então precisa entender
   // os dois formatos -- senão a ficha é descartada em silêncio.
@@ -274,7 +283,7 @@ export function _validarPersonagem(p) {
   // acima: aquele era dano hipotético adiante, este destrói a ficha na hora).
   if (temClassesArray && p.classes.some(
     (c) => !Number.isInteger(c?.nivel) || c.nivel < 1
-        || typeof c?.classe !== 'string' || !c.classe.trim())) return false;
+        || typeof c?.classe !== 'string' || !c.classe.trim())) return 'entrada de classes[] sem classe ou com nível inválido';
   const nivelSomado = temClassesArray
     ? p.classes.reduce((s, c) => s + (Number(c.nivel) || 0), 0)
     : p.nivel;
@@ -284,38 +293,53 @@ export function _validarPersonagem(p) {
   // (ex.: 2.5). `Number.isInteger` já implica finito e numérico, então
   // cobre sozinho o que `typeof` + `isFinite` faziam juntos.
   if (typeof nivelSomado !== 'number' || !Number.isInteger(nivelSomado)
-      || nivelSomado < 1 || nivelSomado > 20) return false;
-  if (!p.atributos || typeof p.atributos !== 'object' || Array.isArray(p.atributos)) return false;
-  return true;
+      || nivelSomado < 1 || nivelSomado > 20) return `nível inválido (${JSON.stringify(nivelSomado)}; precisa ser inteiro de 1 a 20)`;
+  if (!p.atributos || typeof p.atributos !== 'object' || Array.isArray(p.atributos)) return 'sem atributos';
+  return null;
 }
 
-/** Importa personagens de um JSON string (merge com existentes) */
+/** Importa personagens de um JSON string (merge com existentes). Devolve quantos entraram, ou -1 se o arquivo não pôde ser lido. */
 export function importarPersonagens(jsonStr) {
+  const r = importarPersonagensDetalhado(jsonStr);
+  return r.erro ? -1 : r.importados.length;
+}
+
+/**
+ * Importa personagens de um JSON string e devolve o relatório da importação.
+ * O personagem novo recebe `atualizado_em` de agora: o carimbo antigo do arquivo perdia para a lápide de exclusão na nuvem (issue #145).
+ * @param {string} jsonStr Conteúdo do arquivo.
+ * @returns {{importados: string[], jaExistentes: string[], ignorados: {indice: number, id: *, nome: *, motivo: string}[], erro: string|null}}
+ */
+export function importarPersonagensDetalhado(jsonStr) {
+  const r = { importados: [], jaExistentes: [], ignorados: [], erro: null };
   try {
     const importados = JSON.parse(jsonStr);
-    if (!Array.isArray(importados)) throw new Error('Formato inválido');
+    if (!Array.isArray(importados)) throw new Error('o arquivo não contém uma lista de personagens');
     const lista = listarPersonagens();
-    let countNovos = 0;
     for (let i = 0; i < importados.length; i++) {
       const p = importados[i];
-      migrarMoedasLegado(p);
-      if (!_validarPersonagem(p)) {
-        console.warn('importarPersonagens: personagem ignorado (estrutura invalida)', p?.id ?? `indice ${i}`);
-        continue;
-      }
-      if (!lista.find(e => e.id === p.id)) {
+      try {
+        if (p && typeof p === 'object') migrarMoedasLegado(p);
+        const motivo = motivoPersonagemInvalido(p);
+        if (motivo) {
+          r.ignorados.push({ indice: i, id: p?.id ?? null, nome: p?.nome ?? null, motivo });
+          continue;
+        }
+        if (lista.find(e => e.id === p.id)) { r.jaExistentes.push(p.nome); continue; }
+        p.atualizado_em = new Date().toISOString();
         lista.push(p);
-        countNovos++;
-        // Enfileirar sync na nuvem
+        r.importados.push(p.nome);
         enfileirarSync(p);
+      } catch (err) {
+        r.ignorados.push({ indice: i, id: p?.id ?? null, nome: p?.nome ?? null, motivo: `erro inesperado: ${err?.message || err}` });
       }
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-    return countNovos;
   } catch (err) {
     console.error('Erro ao importar:', err);
-    return -1;
+    r.erro = err?.message || String(err);
   }
+  return r;
 }
 
 /** Cria template de personagem vazio */
