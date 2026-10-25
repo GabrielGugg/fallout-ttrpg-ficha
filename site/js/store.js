@@ -1,429 +1,122 @@
 // ============================================================
-// Persistencia de personagens no localStorage + Firestore (se logado)
+// Persistência dos personagens no localStorage do aparelho
 // ============================================================
-import { gerarId, normalizarGrimorioMago } from './utils.js';
-import { enfileirarSync, enfileirarRemocao } from './sync.js';
-import { criarCarteiraVazia, normalizarCarteira, definirTaxas, resetarTaxas } from './moedas.js';
+import { gerarId } from './utils.js';
 
-const STORAGE_KEY = 'dnd_personagens';
-const BACKUP_KEY = 'dnd_personagens_backup';
-const TAXAS_MOEDA_KEY = 'dnd_taxas_moeda';
-const COMPRAR_ATIVO_KEY = 'dnd_comprar_ativo_padrao';
+const STORAGE_KEY = 'fallout_personagens';
+export const SISTEMA = 'fallout-ttrpg-2.1';
+export const SCHEMA_VERSAO = 1;
 
-/** Preferencia global do usuario (todos os personagens): togle "Comprar" do seletor de itens vem marcado por padrao */
-export function carregarComprarAtivoPadrao() {
-  return localStorage.getItem(COMPRAR_ATIVO_KEY) === '1';
-}
-
-/** Salva a preferencia global do togle "Comprar" */
-export function salvarComprarAtivoPadrao(ativo) {
-  localStorage.setItem(COMPRAR_ATIVO_KEY, ativo ? '1' : '0');
-}
-
-/** Carrega taxas de conversao de moeda customizadas (se houver) e aplica no motor de moedas */
-export function carregarTaxasMoeda() {
-  try {
-    const raw = localStorage.getItem(TAXAS_MOEDA_KEY);
-    if (raw) definirTaxas(JSON.parse(raw));
-  } catch {
-    // ignora taxas corrompidas, mantem o padrao
-  }
-}
-
-/** Salva e aplica taxas de conversao customizadas. Retorna { sucesso, erro? } */
-export function salvarTaxasMoeda(taxas) {
-  const resultado = definirTaxas(taxas);
-  if (resultado.sucesso) {
-    localStorage.setItem(TAXAS_MOEDA_KEY, JSON.stringify(resultado.taxas));
-  }
-  return resultado;
-}
-
-/** Restaura as taxas de conversao padrao e remove a customizacao salva */
-export function resetarTaxasMoeda() {
-  const taxas = resetarTaxas();
-  localStorage.removeItem(TAXAS_MOEDA_KEY);
-  return taxas;
-}
-
-/** Retorna todos os personagens salvos */
+/** Lista todos os personagens salvos neste aparelho. */
 export function listarPersonagens() {
   try {
-    const dados = localStorage.getItem(STORAGE_KEY);
-    const lista = dados ? JSON.parse(dados) : [];
-    let grimorioAlterado = false;
-    const personagens = lista.map(p => {
-      const personagem = migrarEdicoesLegado(migrarMoedasLegado(p));
-      if (normalizarGrimorioMago(personagem).alterado) grimorioAlterado = true;
-      return personagem;
-    });
-    if (grimorioAlterado) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(personagens));
-      } catch {
-        // A ficha já carregada continua disponível se a persistência falhar.
-      }
-    }
-    return personagens;
+    const lista = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    return Array.isArray(lista) ? lista : [];
   } catch {
     return [];
   }
 }
 
-/** Busca um personagem por ID */
+/** Grava a lista inteira. */
+function gravar(lista) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+}
+
+/** Busca um personagem pelo id. */
 export function getPersonagem(id) {
   return listarPersonagens().find(p => p.id === id) || null;
 }
 
-/**
- * Serializa o personagem sem o carimbo de recência, para comparar conteúdo.
- * @param {object} p
- * @returns {string}
- */
-function _conteudoSemCarimbo(p) {
-  return JSON.stringify({ ...p, atualizado_em: null });
-}
-
-/**
- * Salva ou atualiza um personagem.
- * - Conteúdo idêntico ao guardado: não grava, não carimba e não envia à nuvem
- *   (restaura o carimbo guardado no objeto em memória).
- * - `opcoes.preservarCarimbo`: grava o conteúdo mas mantém o `atualizado_em`
- *   guardado e não envia à nuvem (migrações da abertura da ficha).
- * - Caso contrário: carimba `atualizado_em` e enfileira o envio.
- * @param {object} personagem
- * @param {{preservarCarimbo?: boolean}} [opcoes]
- * @returns {object} o próprio personagem
- */
-export function salvarPersonagem(personagem, opcoes = {}) {
+/** Salva (cria ou atualiza) um personagem e carimba a data. */
+export function salvarPersonagem(p) {
   const lista = listarPersonagens();
-  const idx = lista.findIndex(p => p.id === personagem.id);
-
-  if (idx >= 0) {
-    const guardado = lista[idx];
-    if (_conteudoSemCarimbo(guardado) === _conteudoSemCarimbo(personagem)) {
-      personagem.atualizado_em = guardado.atualizado_em;
-      return personagem;
-    }
-    if (opcoes.preservarCarimbo) {
-      personagem.atualizado_em = guardado.atualizado_em;
-      lista[idx] = personagem;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-      return personagem;
-    }
-    personagem.atualizado_em = new Date().toISOString();
-    lista[idx] = personagem;
-  } else {
-    personagem.atualizado_em = new Date().toISOString();
-    if (!personagem.id) personagem.id = gerarId();
-    if (!personagem.criado_em) personagem.criado_em = new Date().toISOString();
-    lista.push(personagem);
-  }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-
-  // Enfileirar sync na nuvem (processa se logado e online, aguarda caso contrário)
-  enfileirarSync(personagem);
-
-  return personagem;
+  if (!p.id) p.id = gerarId();
+  if (!p.criado_em) p.criado_em = new Date().toISOString();
+  p.atualizado_em = new Date().toISOString();
+  const i = lista.findIndex(x => x.id === p.id);
+  if (i >= 0) lista[i] = p; else lista.push(p);
+  gravar(lista);
+  return p;
 }
 
-/** Remove um personagem por ID */
+/** Remove um personagem. */
 export function removerPersonagem(id) {
-  const lista = listarPersonagens().filter(p => p.id !== id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-
-  // Enfileirar remoção na nuvem (processa se logado e online, aguarda caso contrário)
-  enfileirarRemocao(id);
+  gravar(listarPersonagens().filter(p => p.id !== id));
 }
 
-/** Duplica um personagem */
+/** Duplica um personagem com novo id. */
 export function duplicarPersonagem(id) {
-  const original = getPersonagem(id);
-  if (!original) return null;
-  const copia = JSON.parse(JSON.stringify(original));
+  const orig = getPersonagem(id);
+  if (!orig) return null;
+  const copia = JSON.parse(JSON.stringify(orig));
   copia.id = gerarId();
   copia.nome = `${copia.nome} (cópia)`;
-  copia.criado_em = new Date().toISOString();
-  copia.atualizado_em = new Date().toISOString();
+  copia.criado_em = null;
+  return salvarPersonagem(copia);
+}
+
+/** Exporta um ou todos os personagens como texto JSON (sempre uma lista). */
+export function exportar(id = null) {
+  const lista = id ? [getPersonagem(id)].filter(Boolean) : listarPersonagens();
+  return JSON.stringify(lista, null, 2);
+}
+
+/**
+ * Importa personagens de um JSON exportado por este app. Ignora fichas de
+ * outro sistema (ex.: D&D) e dá id novo a quem colidir com um existente.
+ * Devolve { importados, ignorados }.
+ */
+export function importar(texto) {
+  const dados = JSON.parse(texto);
+  const entrada = Array.isArray(dados) ? dados : [dados];
   const lista = listarPersonagens();
-  lista.push(copia);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-
-  // Enfileirar sync na nuvem
-  enfileirarSync(copia);
-
-  return copia;
-}
-
-/** Exporta todos os personagens como JSON string */
-export function exportarTodos() {
-  return JSON.stringify(listarPersonagens(), null, 2);
-}
-
-/** Exporta um único personagem (por id) como JSON string, no mesmo formato (array) usado por exportarTodos/importarPersonagens */
-export function exportarPersonagem(id) {
-  const p = getPersonagem(id);
-  if (!p) return null;
-  return JSON.stringify([p], null, 2);
-}
-
-/** Substitui toda a lista local (usado apos sincronizacao com nuvem) */
-export function atualizarListaLocal(lista) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-}
-
-/**
- * Troca (ou remove, com `p === null`) o personagem local de um id por uma
- * versão vinda da nuvem. Não carimba `atualizado_em` e não enfileira envio:
- * o que veio da nuvem já está lá.
- */
-export function substituirPersonagemLocal(p, id) {
-  const resto = listarPersonagens().filter(x => x.id !== id);
-  if (p) resto.push(p);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(resto));
-}
-
-/**
- * Faz backup dos personagens locais antes de trocar para a nuvem.
- * So cria backup se ainda nao existir (preserva estado original pre-login).
- */
-export function backupPersonagensLocais() {
-  if (localStorage.getItem(BACKUP_KEY)) return;
-  const atual = localStorage.getItem(STORAGE_KEY) || '[]';
-  localStorage.setItem(BACKUP_KEY, atual);
-}
-
-/**
- * Restaura personagens locais do backup (feito antes do login).
- * Remove o backup apos restaurar.
- */
-export function restaurarPersonagensLocais() {
-  const backup = localStorage.getItem(BACKUP_KEY);
-  if (backup) {
-    localStorage.setItem(STORAGE_KEY, backup);
+  let importados = 0;
+  let ignorados = 0;
+  for (const p of entrada) {
+    if (!p || p.sistema !== SISTEMA) { ignorados++; continue; }
+    if (lista.some(x => x.id === p.id)) p.id = gerarId();
+    lista.push(p);
+    importados++;
   }
-  localStorage.removeItem(BACKUP_KEY);
+  gravar(lista);
+  return { importados, ignorados };
 }
 
-/**
- * Migra um personagem salvo no formato antigo (campo unico `po`) para a
- * carteira multi-moeda `moedas`. Preserva o valor antigo como PO (nao redistribui),
- * evitando reshuffle de saldo em personagens ja existentes. Idempotente.
- */
-export function migrarMoedasLegado(p) {
-  if (!p || typeof p !== 'object') return p;
-  const base = p.moedas && typeof p.moedas === 'object' ? p.moedas : { po: p.po };
-  p.moedas = normalizarCarteira(base);
-  delete p.po;
-  return p;
-}
-
-/** Adiciona metadados de edição sem alterar campos existentes da ficha. */
-export function migrarEdicoesLegado(p) {
-  if (!p || typeof p !== 'object') return p;
-  if (!p.edicoes || p.edicoes.versao !== 1) p.edicoes = { versao: 1, campos: {} };
-  if (!p.edicoes.campos || typeof p.edicoes.campos !== 'object') p.edicoes.campos = {};
-  if (!p.configuracao_criacao || typeof p.configuracao_criacao !== 'object') p.configuracao_criacao = {};
-  if (!p.configuracao_criacao.atributos) {
-    p.configuracao_criacao.atributos = { metodo: null, valoresBase: null, rolagens: null };
-  }
-  return p;
-}
-
-/**
- * Valida que um objeto tem a estrutura minima de personagem.
- * Campos exigidos: id (string nao vazia), nome (string nao vazia), atributos (objeto), e nivel
- * num de dois formatos: o escalar legado `nivel` (numero inteiro 1-20) OU `classes[]` (array nao
- * vazio de entradas cada uma com `nivel` inteiro >= 1, cuja SOMA tem de ser um inteiro entre 1 e 20).
- * @param {object} p - Objeto a validar.
- * @returns {boolean} true se o objeto e um personagem valido.
- */
-export function _validarPersonagem(p) {
-  return motivoPersonagemInvalido(p) === null;
-}
-
-/**
- * Mesma validacao de _validarPersonagem, devolvendo o motivo da rejeicao (exibido no relatorio de importacao).
- * @param {object} p - Objeto a validar.
- * @returns {string|null} motivo em pt-BR, ou null se o personagem e valido.
- */
-export function motivoPersonagemInvalido(p) {
-  if (!p || typeof p !== 'object' || Array.isArray(p)) return 'não é um objeto de personagem';
-  if (typeof p.id !== 'string' || !p.id.trim()) return 'sem id';
-  if (typeof p.nome !== 'string' || !p.nome.trim()) return 'sem nome';
-  // Nível: aceita o escalar legado OU a soma de classes[]. A validação
-  // roda no import, ANTES de qualquer migração, então precisa entender
-  // os dois formatos -- senão a ficha é descartada em silêncio.
-  const temClassesArray = Array.isArray(p.classes) && p.classes.length > 0;
-  // A soma sozinha não basta: esta função é a ÚNICA fronteira do app com
-  // dado que não veio dos nossos caminhos de produção (importarPersonagens
-  // lê um JSON escolhido pelo usuário num seletor de arquivo -- export
-  // editado à mão, arquivo de outra ferramenta, backup truncado). Duas
-  // entradas -- uma inflada e uma negativa que a compensa -- podem somar
-  // dentro de 1..20 e passar pela checagem de soma (25 + -20 = 5) mesmo
-  // sendo estrutura inválida; sem esta guarda por entrada, a ficha
-  // corrompida entra em localStorage e o sintoma só aparece bem depois,
-  // longe daqui (ex.: nivelNa devolvendo 25 e alimentando um find() que
-  // retorna undefined numa tabela de características de 20 linhas). Não
-  // precisa de teto por entrada: com toda entrada >= 1, o teto de 20 da
-  // soma abaixo já limita cada uma.
-  // `c?.nivel`, não `c.nivel`: uma entrada NÃO-OBJETO (null, undefined,
-  // string, número -- saída comum de serializador ou de arquivo editado à
-  // mão) não pode fazer `.nivel` LANÇAR. Um TypeError aqui sobe até o
-  // try/catch de importarPersonagens e aborta o import do ARQUIVO INTEIRO,
-  // inclusive as fichas boas do mesmo arquivo -- pior que a rejeição que a
-  // guarda deveria produzir. `c?.nivel` sobre uma entrada não-objeto vale
-  // `undefined`, e `Number.isInteger(undefined)` é `false`: a ficha é
-  // rejeitada, não abortada.
-  // `c?.classe`, mesma cautela do `c?.nivel` acima: entrada não-objeto não
-  // pode lançar. Toda entrada precisa de uma classe (string não vazia) --
-  // sem esta guarda, `classes:[{nivel:3, ordem:0}]` passava na validação e
-  // a migração sobrescrevia `char.classe` com `''`, apagando a identidade
-  // da ficha (achado da revisão final, mais grave que o buraco numérico
-  // acima: aquele era dano hipotético adiante, este destrói a ficha na hora).
-  if (temClassesArray && p.classes.some(
-    (c) => !Number.isInteger(c?.nivel) || c.nivel < 1
-        || typeof c?.classe !== 'string' || !c.classe.trim())) return 'entrada de classes[] sem classe ou com nível inválido';
-  const nivelSomado = temClassesArray
-    ? p.classes.reduce((s, c) => s + (Number(c.nivel) || 0), 0)
-    : p.nivel;
-  // `Number.isInteger` (em vez do antigo `Number.isFinite`) fecha a
-  // assimetria com a guarda por entrada acima: o JSDoc sempre disse
-  // "numero inteiro", mas o ramo do escalar legado aceitava fracionário
-  // (ex.: 2.5). `Number.isInteger` já implica finito e numérico, então
-  // cobre sozinho o que `typeof` + `isFinite` faziam juntos.
-  if (typeof nivelSomado !== 'number' || !Number.isInteger(nivelSomado)
-      || nivelSomado < 1 || nivelSomado > 20) return `nível inválido (${JSON.stringify(nivelSomado)}; precisa ser inteiro de 1 a 20)`;
-  if (!p.atributos || typeof p.atributos !== 'object' || Array.isArray(p.atributos)) return 'sem atributos';
-  return null;
-}
-
-/** Importa personagens de um JSON string (merge com existentes). Devolve quantos entraram, ou -1 se o arquivo não pôde ser lido. */
-export function importarPersonagens(jsonStr) {
-  const r = importarPersonagensDetalhado(jsonStr);
-  return r.erro ? -1 : r.importados.length;
-}
-
-/**
- * Importa personagens de um JSON string e devolve o relatório da importação.
- * O personagem novo recebe `atualizado_em` de agora: o carimbo antigo do arquivo perdia para a lápide de exclusão na nuvem (issue #145).
- * @param {string} jsonStr Conteúdo do arquivo.
- * @returns {{importados: string[], jaExistentes: string[], ignorados: {indice: number, id: *, nome: *, motivo: string}[], erro: string|null}}
- */
-export function importarPersonagensDetalhado(jsonStr) {
-  const r = { importados: [], jaExistentes: [], ignorados: [], erro: null };
-  try {
-    const importados = JSON.parse(jsonStr);
-    if (!Array.isArray(importados)) throw new Error('o arquivo não contém uma lista de personagens');
-    const lista = listarPersonagens();
-    for (let i = 0; i < importados.length; i++) {
-      const p = importados[i];
-      try {
-        if (p && typeof p === 'object') migrarMoedasLegado(p);
-        const motivo = motivoPersonagemInvalido(p);
-        if (motivo) {
-          r.ignorados.push({ indice: i, id: p?.id ?? null, nome: p?.nome ?? null, motivo });
-          continue;
-        }
-        if (lista.find(e => e.id === p.id)) { r.jaExistentes.push(p.nome); continue; }
-        p.atualizado_em = new Date().toISOString();
-        lista.push(p);
-        r.importados.push(p.nome);
-        enfileirarSync(p);
-      } catch (err) {
-        r.ignorados.push({ indice: i, id: p?.id ?? null, nome: p?.nome ?? null, motivo: `erro inesperado: ${err?.message || err}` });
-      }
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
-  } catch (err) {
-    console.error('Erro ao importar:', err);
-    r.erro = err?.message || String(err);
-  }
-  return r;
-}
-
-/** Cria template de personagem vazio */
+/** Personagem novo, vazio, no schema atual. */
 export function criarPersonagemVazio() {
   return {
-    id: gerarId(),
+    id: null,
+    sistema: SISTEMA,
+    schema_versao: SCHEMA_VERSAO,
     nome: '',
-    imagem: '',
+    raca: null,
+    subtipo: null,
+    variantes: [],
+    ferramentas_robo: [],
+    special: { FOR: 5, PER: 5, RES: 5, CAR: 5, INT: 5, AGI: 5, SOR: 5 },
+    antecedente: null,
+    pericias_antecedente: [],
+    atributo_pericia: {},
+    pontos_pericia: {},
     nivel: 1,
     xp: 0,
-    exaustao: 0,
-    classe: '',
-    subclasse: '',
-    especie: '',
-    antecedente: '',
-    alinhamento: '',
-    ordem_divina: '',
-    ordem_primal: '',
-    tracos_escolhidos: [],
-    extras_classe: {},
-    escolhas_classe: {},
-    escolhas_antecedente: {},
-    proficiencias_extra: [],
-    atributos: {
-      forca: 10,
-      destreza: 10,
-      constituicao: 10,
-      inteligencia: 10,
-      sabedoria: 10,
-      carisma: 10
-    },
-    configuracao_criacao: {
-      atributos: { metodo: null, valoresBase: null, rolagens: null }
-    },
-    edicoes: { versao: 1, campos: {} },
-    atributos_base: {
-      forca: 10,
-      destreza: 10,
-      constituicao: 10,
-      inteligencia: 10,
-      sabedoria: 10,
-      carisma: 10
-    },
-    bonus_antecedente: {},
-    pv_max: 0,
-    pv_atual: 0,
-    pv_temporario: 0,
-    dados_vida_total: 1,
-    dados_vida_usados: 0,
-    pericias_proficientes: [],
-    pericias_expertise: [],
-    salvaguardas_proficientes: [],
+    progressao: [],
+    tracos: { personagem: [], antecedente: null },
+    equipamento_escolha: 'antecedente',
     inventario: [],
-    escolha_equip_classe: null,
-    escolha_equip_antecedente: null,
-    moedas: criarCarteiraVazia(),
-    magias_conhecidas: [],
-    magias_preparadas: [],
-    grimorio: [],
-    espacos_magia: {},
-    talentos: [],
-    itens_customizados: [],
-    magias_customizadas: [],
-    efeitos_magicos: [],
-    usos_habilidades: {},
-    aparencia: '',
-    personalidade: '',
-    ideais: '',
-    lacos: '',
-    defeitos: '',
-    historia_personagem: '',
-    notas: '',
-    idiomas: ['Comum'],
-    tamanho: '',
-    config: { sobrecarga_afeta_deslocamento: false },
+    tampinhas: 0,
+    pv_atual: null,
+    pe_atual: null,
+    pe_temp: 0,
+    pv_temp: 0,
+    karma_viradas: 0,
+    fome: 0,
+    desidratacao: 0,
+    exaustao: 0,
+    radiacao: 0,
     condicoes: [],
-    resistencias: [],
-    vulnerabilidades: [],
-    imunidades: [],
-    proficiencias_ferramentas: [],
-    proficiencias_instrumentos: [],
-    talentos_flags: {},
-    talentos_parametros: {},
-    criado_em: new Date().toISOString(),
-    atualizado_em: new Date().toISOString()
+    suspiros: { sucessos: 0, falhas: 0 },
+    detalhes: { idade: '', aparencia: '', personalidade: '', historia: '', jogador: '' },
+    notas: '',
   };
 }

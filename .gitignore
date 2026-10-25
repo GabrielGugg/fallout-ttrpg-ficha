@@ -1,127 +1,20 @@
-# .gitignore para o projeto D&D
-# Arquivos e pastas gerados localmente que não devem ser comitados
-
 # Sistema operacional
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Python
+# Python e Node
 __pycache__/
 *.py[cod]
-*$py.class
-venv/
-env/
-.env
-.env.local
-.env.*
-.pytest_cache/
-htmlcov/
-build/
-dist/
-*.egg-info/
-
-# Node (caso usado localmente)
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Manifesto de precache dos modulos: ARTEFATO de deploy, gerado pelo workflow
-# varrendo site/js/**. Versiona-lo garantiria que um dia ficaria desatualizado
-# em relacao a arvore -- que e exatamente o problema que ele resolve.
+# Artefatos de deploy, gerados pelo workflow
 site/js-precache.json
+site/dados-precache.json
 
-# Playwright (testes/e2e/) - a aplicacao em site/ continua sem dependencia de
-# Node; so a suite de testes usa. Os artefatos de execucao nao vao pro repo.
-testes/e2e/test-results/
-testes/e2e/playwright-report/
-testes/e2e/blob-report/
-testes/e2e/package-lock.json
-
-# Visual Studio Code
+# Editores e ferramentas locais
 .vscode/
-*.code-workspace
-
-# IDEs JetBrains
 .idea/
-
-# Logs e caches
-*.log
-.coverage
-coverage/
-.cache/
-
-# Bancos de dados e arquivos de sessão
-*.sqlite3
-*.db
-
-# Arquivos de chave/credenciais
-credentials.json
-*.key
-*.pem
-
-# Worktrees
-.worktrees/
-
-# Arquivos temporários
-tmp/
-temp/
-
-# Arquivos estáticos/gerados da pasta site que não queira versionar (ajuste conforme necessário)
-site/.DS_Store
-site/.cache/
-
-# Notas:
-# - Ajuste este arquivo conforme seus fluxos (por exemplo, remova `site/.cache/` se você realmente deseja versionar cache).
-# - Para aplicar o .gitignore a arquivos já comitados: execute os comandos sugeridos abaixo.
-
-# Rascunho das skills (mockups de brainstorming, ledger e pacotes de revisão)
-.superpowers/
-
-# ------------------------------------------------------------------
-# Material interno: fica no disco, fora do repositorio publico.
-# Decisao de 2026-08-17, ao abrir o repositorio para issues. A limpeza
-# do historico (estes arquivos continuam nos commits antigos) fica para
-# quando o repositorio privado existir.
-# ------------------------------------------------------------------
-
-# Planos, specs e tentativas anteriores -- processo de decisao interno.
-# `docs/ARQUITETURA.md` e `docs/DEPLOY.md` CONTINUAM versionados: sao a
-# documentacao publica do projeto, linkada pelo README.
-docs/superpowers/
-docs/historico/
-
-# Texto de regras do livro. E a referencia humana e o oraculo da suite
-# de regras (testes/regras/ le estes .md) -- quem for rodar a suite
-# precisa da pasta no disco, ela nao vem do clone.
-Informacoes Separadas/
-
-# Anotacoes de trabalho e configuracao local de ferramentas.
-situação.txt
-.mcp.json
-
-# ------------------------------------------------------------------
-# Material pesado ou de terceiro que nao pertence ao repositorio.
-# ------------------------------------------------------------------
-
-# Dumps de raspagem (4,9 MB). Sao dotfiles, mas `git add .` os pega.
-scripts/itens-magicos/
-
-# Arte-fonte por classe: 24 MB, e o site NAO referencia esta pasta --
-# os icones que o app usa vivem em site/img/ e somam 12 KB. Versionar
-# aqui triplicaria o repositorio por arquivos que ninguem baixa. Se um
-# dia entrarem na interface, o caminho e otimizar e por em site/img/.
-Icones-classes/
-
-# Configuracao local do assistente. Hoje so nao entra porque o ignore
-# GLOBAL desta maquina cobre um arquivo especifico -- a regra tem de
-# viver no repositorio, nao na maquina.
 .claude/
-
-# Preventivos
+*.log
 *.bak
-~$*
-.venv/
-*.zip
-docs/PERGUNTAS-PENDENTES.txt

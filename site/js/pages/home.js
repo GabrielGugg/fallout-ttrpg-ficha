@@ -1,389 +1,93 @@
 // ============================================================
-// Pagina inicial - Lista de personagens
+// Tela inicial: lista de personagens, importar e exportar
 // ============================================================
-import { listarPersonagens, removerPersonagem, duplicarPersonagem, exportarTodos, exportarPersonagem, importarPersonagensDetalhado, atualizarListaLocal, backupPersonagensLocais, restaurarPersonagensLocais } from '../store.js';
-import { enfileirarSync, obterIdsPendentesRemocao } from '../sync.js';
-import { toast, abrirModal, fmtData, escHtml, baixarArquivo } from '../utils.js';
-import { CLASSES_INFO } from '../dados-classes.js';
-import { classesDe } from '../regras-multiclasse.js';
-import { iniciarAuth, getUsuario, loginComGoogle, logout, onAuthChange, buscarEstadoCloud } from '../auth.js';
-import { reconciliar, escolherNoMerge } from '../sync-merge.js';
-import { mostrarResultadoImportacao } from '../importacao-ui.js';
+import { listarPersonagens, removerPersonagem, duplicarPersonagem, exportar, importar } from '../store.js';
+import { escHtml, abrirModal, fecharModal, toast, baixarArquivo, fmtData } from '../utils.js';
 
-let _containerRef = null;
-let _sincronizando = false;
+const NOMES_RACA = {
+  humano: 'Humano', necrotico: 'Necrótico', sintetico: 'Sintético Gen 2', robo: 'Robô', super_mutante: 'Super Mutante',
+};
 
-/**
- * Decide qual versão de um personagem vence no merge com a nuvem.
- * Só por atualizado_em (recência), como o app sempre fez.
- *
- * Uma guarda por schema_versao existiu aqui brevemente (correção final,
- * item 3) e foi removida: ela não protegia do cenário que a justificava --
- * salvarPersonagem() persiste o objeto inteiro, então um build antigo em
- * cache de Service Worker preserva schema_versao: 2 e classes[], grava
- * nivel: 6, e no merge vLocal === vCloud faria a guarda nunca disparar --,
- * e DISPARAVA num caso que ninguém desenhou: cópia local nunca aberta
- * (schema 1) perdia para cópia de nuvem mais ANTIGA (schema 2), mudando o
- * comportamento em relação à recência sempre vencendo. A reconciliação de
- * migrarParaMulticlasse (regras-multiclasse.js) torna a guarda
- * desnecessária: uma ficha que um build antigo deixou inconsistente se
- * conserta sozinha na próxima abertura.
- * @returns {object} o objeto que deve ficar.
- */
-export function _escolherNoMerge(local, cloud) {
-  return escolherNoMerge(local, cloud);
-}
-
+/** Desenha a tela inicial. */
 export function renderHome(container) {
-  _containerRef = container;
-  const personagens = listarPersonagens();
-  const usuario = getUsuario();
-
-  // Iniciar Firebase em background (nao bloqueia a renderizacao)
-  iniciarAuth().then(() => {
-    // Registrar callback de auth apenas uma vez
-    if (!renderHome._authRegistrado) {
-      renderHome._authRegistrado = true;
-      onAuthChange(() => {
-        // Re-renderizar ao mudar estado de auth
-        if (_containerRef) renderHome(_containerRef);
-      });
-    }
-  });
-
-  _renderConteudo(container, personagens, usuario);
-}
-
-function _renderConteudo(container, personagens, usuario) {
-  // Barra de conta Google (opcional)
-  const contaHtml = usuario
-    ? `<div class="card" style="display:flex;align-items:center;gap:10px;padding:10px 14px;margin-bottom:12px;background:var(--bg-input)">
-        <img src="${escHtml(usuario.photoURL || '')}" alt="" style="width:32px;height:32px;border-radius:50%;${usuario.photoURL ? '' : 'display:none'}" referrerpolicy="no-referrer">
-        <div style="flex:1;min-width:0">
-          <div style="font-size:0.85rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(usuario.displayName || usuario.email || '')}</div>
-          <div style="font-size:0.7rem;color:var(--text-muted)">Personagens sincronizados com a nuvem</div>
-        </div>
-        <button class="btn btn-sm btn-secondary" id="btn-sync-cloud" title="Sincronizar agora">&#x21bb;</button>
-        <button class="btn btn-sm btn-secondary" id="btn-logout" title="Sair da conta">Sair</button>
-      </div>`
-    : `<div class="card" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;margin-bottom:12px;background:var(--bg-input)">
-        <button class="btn btn-sm" id="btn-login-google" style="display:flex;align-items:center;gap:8px;background:#fff;color:#444;border:1px solid var(--border);padding:6px 14px;font-weight:600;font-size:0.85rem;border-radius:var(--radius)">
-          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#FBBC05" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Entrar com Google
-        </button>
-        <span style="font-size:0.75rem;color:var(--text-muted)">Opcional - salva na nuvem</span>
-      </div>`;
-
-  if (personagens.length === 0) {
-    container.innerHTML = `
-      ${contaHtml}
-      <div class="empty-state">
-        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#7b2d26" stroke-width="1.5">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-          <path d="M2 17l10 5 10-5"/>
-          <path d="M2 12l10 5 10-5"/>
-        </svg>
-        <h2>Nenhum personagem criado</h2>
-        <p>Crie seu primeiro personagem e comece sua aventura!</p>
-        <button class="btn btn-primary btn-lg" onclick="navegar('criar')">
-          + Novo Personagem
-        </button>
-      </div>
-      <div class="text-center mt-3">
-        <button class="btn btn-secondary btn-sm" id="btn-importar">Importar Personagens</button>
-      </div>
-    `;
-    _setupAuthEvents(container);
-    setupImportar(container);
-
-    // Sincronizar automaticamente ao renderizar a home se logado
-    _sincronizarSeLogado(container);
-    return;
-  }
-
+  const lista = listarPersonagens().sort((a, b) => (b.atualizado_em || '').localeCompare(a.atualizado_em || ''));
   container.innerHTML = `
-    ${contaHtml}
-    <div class="flex justify-between items-center mb-1">
-      <h2 style="font-size:1.1rem;color:var(--text)">Meus Personagens</h2>
-      <div class="flex gap-1">
-        <button class="btn btn-sm btn-secondary" id="btn-exportar" title="Exportar todos os personagens num único arquivo">Exportar Todos</button>
-        <button class="btn btn-sm btn-secondary" id="btn-importar" title="Importar arquivo com 1 ou vários personagens">Importar</button>
-      </div>
-    </div>
-    <p style="font-size:0.72rem;color:var(--text-muted);margin:0 0 10px 0">
-      "Exportar Todos" salva a lista inteira num arquivo. Pra exportar um personagem só, use o botão &#x21E9; no card dele. "Importar" aceita arquivos com 1 ou vários personagens.
-    </p>
-    <div class="char-list">
-      ${personagens.map(p => renderCharCard(p)).join('')}
-    </div>
-    <div class="mt-3 text-center">
-      <button class="btn btn-primary btn-lg btn-block" onclick="navegar('criar')">
-        + Novo Personagem
-      </button>
-    </div>
-  `;
-
-  // Eventos de clique nos cards
-  container.querySelectorAll('.char-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.char-actions')) return;
-      navegar(`ficha/${card.dataset.id}`);
-    });
-  });
-
-  // Botões de ação nos cards
-  container.querySelectorAll('[data-action="duplicar"]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const id = btn.closest('.char-card').dataset.id;
-      duplicarPersonagem(id);
-      toast('Personagem duplicado!', 'success');
-      renderHome(container);
-    });
-  });
-
-  container.querySelectorAll('[data-action="exportar-individual"]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const id = btn.closest('.char-card').dataset.id;
-      const p = personagens.find(x => x.id === id);
-      const json = exportarPersonagem(id);
-      if (!json) {
-        toast('Erro ao exportar personagem', 'error');
-        return;
-      }
-      const blob = new Blob([json], { type: 'application/json' });
-      baixarArquivo(blob, `dnd_personagem_${(p?.nome || 'sem_nome').replace(/[^\w\-]+/g, '_')}_${Date.now()}.json`);
-      toast(`${p?.nome || 'Personagem'} exportado!`, 'success');
-    });
-  });
-
-  container.querySelectorAll('[data-action="excluir"]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const id = btn.closest('.char-card').dataset.id;
-      const p = personagens.find(x => x.id === id);
-      abrirModal(
-        'Excluir Personagem',
-        `<p>Tem certeza que deseja excluir <strong>${escHtml(p?.nome) || 'este personagem'}</strong>?</p><p style="color:var(--danger);font-size:0.85rem;margin-top:8px;">Esta ação não pode ser desfeita.</p>`,
-        `<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
-         <button class="btn btn-danger" id="btn-confirmar-excluir">Excluir</button>`
-      );
-      document.getElementById('btn-confirmar-excluir').addEventListener('click', () => {
-        removerPersonagem(id);
-        window.fecharModal();
-        toast('Personagem excluído', 'error');
-        renderHome(container);
-      });
-    });
-  });
-
-  // Exportar
-  const btnExportar = document.getElementById('btn-exportar');
-  if (btnExportar) {
-    btnExportar.addEventListener('click', () => {
-      const json = exportarTodos();
-      const blob = new Blob([json], { type: 'application/json' });
-      baixarArquivo(blob, `dnd_personagens_${Date.now()}.json`);
-      toast('Exportados com sucesso!', 'success');
-    });
-  }
-
-  setupImportar(container);
-  _setupAuthEvents(container);
-
-  // Sincronizar automaticamente ao renderizar a home se logado
-  _sincronizarSeLogado(container);
-}
-
-/** Configura eventos de login/logout/sync */
-function _setupAuthEvents(container) {
-  // Login com Google
-  document.getElementById('btn-login-google')?.addEventListener('click', async () => {
-    try {
-      toast('Abrindo login com Google...', 'info');
-      await loginComGoogle();
-      toast('Login realizado com sucesso!', 'success');
-      // A re-renderizacao sera feita pelo onAuthChange callback
-    } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') {
-        toast('Login cancelado', 'info');
-      } else {
-        console.error('Erro no login:', err);
-        toast('Erro ao fazer login: ' + (err.message || 'desconhecido'), 'error');
-      }
-    }
-  });
-
-  // Logout
-  document.getElementById('btn-logout')?.addEventListener('click', async () => {
-    try {
-      // Restaurar personagens locais ANTES do logout,
-      // pois onAuthChange re-renderiza durante o signOut
-      restaurarPersonagensLocais();
-      await logout();
-      toast('Desconectado da conta Google', 'info');
-    } catch (err) {
-      toast('Erro ao desconectar', 'error');
-    }
-  });
-
-  // Sincronizar manualmente
-  document.getElementById('btn-sync-cloud')?.addEventListener('click', () => {
-    _sincronizarSeLogado(container, true);
-  });
-}
-
-/**
- * Sincroniza personagens com a nuvem (se logado).
- * Usa merge por atualizado_em: para cada personagem, vence a versão mais recente.
- * Personagens locais mais recentes são reenviados à nuvem via enfileirarSync.
- */
-async function _sincronizarSeLogado(container, manual = false) {
-  const usuario = getUsuario();
-  if (!usuario || _sincronizando) return;
-
-  _sincronizando = true;
-  try {
-    if (manual) toast('Sincronizando...', 'info');
-    backupPersonagensLocais();
-    // Documentos da nuvem incluem lápides de exclusão (sync-merge.js).
-    const nuvem = await buscarEstadoCloud();
-    const listaLocal = listarPersonagens();
-    const mapaLocal = new Map(listaLocal.map(p => [p.id, p]));
-    const { lista: listaMergida, paraEnviarCloud } = reconciliar({
-      locais: listaLocal,
-      nuvem,
-      idsPendentesRemocao: obterIdsPendentesRemocao(),
-    });
-
-    atualizarListaLocal(listaMergida);
-
-    // Reenviar à nuvem os personagens em que o local estava mais atualizado
-    for (const p of paraEnviarCloud) {
-      enfileirarSync(p);
-    }
-
-    if (manual) {
-      toast('Sincronizado com sucesso!', 'success');
-      renderHome(container);
-    } else {
-      // Re-renderizar se houve mudança de IDs ou de conteúdo (atualizado_em)
-      const mudou = listaMergida.length !== listaLocal.length ||
-        listaMergida.some(m => {
-          const l = mapaLocal.get(m.id);
-          return !l || m.atualizado_em !== l.atualizado_em;
-        });
-      if (mudou) renderHome(container);
-    }
-  } catch (err) {
-    console.warn('Erro na sincronizacao:', err);
-    if (manual) toast('Erro ao sincronizar: ' + (err.message || ''), 'error');
-  } finally {
-    _sincronizando = false;
-  }
-}
-
-/**
- * Re-sincroniza a lista quando o app volta ao primeiro plano estando na home
- * (PWA que ficou em segundo plano com a lista desatualizada).
- */
-export function sincronizarHomeAoVoltar() {
-  const hash = location.hash.replace(/^#/, '');
-  if (_containerRef && (hash === '' || hash === 'home')) _sincronizarSeLogado(_containerRef);
-}
-
-function setupImportar(container) {
-  const btnImportar = document.getElementById('btn-importar');
-  if (btnImportar) {
-    btnImportar.addEventListener('click', () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.json';
-      input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          const resultado = importarPersonagensDetalhado(ev.target.result);
-          if (resultado.importados.length) renderHome(container);
-          mostrarResultadoImportacao(resultado, file);
-        };
-        reader.onerror = () => {
-          mostrarResultadoImportacao({ importados: [], jaExistentes: [], ignorados: [], erro: `falha ao ler o arquivo: ${reader.error?.message || 'desconhecida'}` }, file);
-        };
-        reader.readAsText(file);
-      });
-      input.click();
-    });
-  }
-}
-
-/**
- * Monta o texto de classes do cartão da home: "Mago (Evocação) 5 / Bruxo 3".
- *
- * Lê `classesDe`, NUNCA o espelho `p.classe`. `sincronizarEspelhos`
- * (regras-multiclasse.js) define esse espelho como a classe INICIAL e
- * `p.nivel` como o nível TOTAL -- então o cartão não ficava incompleto,
- * ficava FALSO: um Mago 5/Bruxo 3 aparecia como "Mago" ao lado de "Nv. 8",
- * que se lê como um Mago de nível 8.
- *
- * Terceira instância da mesma forma; as duas primeiras já estão corrigidas
- * e têm o mesmo formato: sheet/impressao.js (cabeçalho da impressão) e
- * sheet/pdf.js (`montarSubtituloCartaoPdf`). Com UMA classe só o nível por
- * classe fica escondido -- ele já aparece no selo "Nv. N" ao lado, e
- * repeti-lo mudaria a tela de quem não é multiclasse.
- *
- * @param {object} p Personagem.
- * @returns {string} HTML já escapado, ou '' quando não há classe nenhuma.
- */
-function montarTextoClassesCartao(p) {
-  const cs = classesDe(p);
-  if (!cs.length) return '';
-  return cs.map((c) =>
-    `${escHtml(c.classe)}${c.subclasse ? ` (${escHtml(c.subclasse)})` : ''}${cs.length > 1 ? ` ${escHtml(c.nivel)}` : ''}`
-  ).join(' / ');
-}
-
-/**
- * Dados de vida DISTINTOS de todas as classes do personagem ("d6/d8").
- *
- * O livro mantém as reservas separadas quando as classes têm dados
- * diferentes (livro:2043, mesma regra que `sincronizarEspelhos` aplica em
- * `p.dados_vida`). Mostrar só o da classe inicial escondia metade da
- * reserva. Classe fora de CLASSES_INFO é ignorada, sem inventar dado.
- *
- * @param {object} p Personagem.
- * @returns {string} Ex.: "d6/d8", ou '' se nenhuma classe tem dado conhecido.
- */
-function montarDadosVidaCartao(p) {
-  const faces = classesDe(p)
-    .map((c) => CLASSES_INFO[c.classe]?.dado_vida)
-    .filter((d) => Number.isFinite(d));
-  return [...new Set(faces)].sort((a, b) => a - b).map((d) => `d${d}`).join('/');
-}
-
-function renderCharCard(p) {
-  const inicial = (p.nome || p.classe || '?')[0].toUpperCase();
-  const textoClasses = montarTextoClassesCartao(p);
-  const dadoVida = montarDadosVidaCartao(p);
-
-  return `
-    <div class="card char-card" data-id="${escHtml(p.id)}">
-      <div class="char-avatar">${p.imagem ? `<img src="${escHtml(p.imagem)}" alt="">` : escHtml(inicial)}</div>
-      <div class="char-info">
-        <div class="char-nome">${escHtml(p.nome) || 'Sem nome'}</div>
-        <div class="char-detalhe">
-          ${escHtml(p.especie || '')} ${textoClasses}
-          ${dadoVida ? `&middot; ${dadoVida}` : ''}
+    <div class="home">
+      <div class="home-acoes">
+        <button class="btn btn-primary btn-lg" id="btn-novo">+ Novo personagem</button>
+        <div class="home-acoes-sec">
+          <button class="btn btn-secondary btn-sm" id="btn-importar">Importar</button>
+          ${lista.length ? '<button class="btn btn-secondary btn-sm" id="btn-exportar-todos">Exportar todos</button>' : ''}
         </div>
+        <input type="file" id="input-importar" accept=".json,application/json" hidden>
       </div>
-      <div class="char-nivel">Nv. ${escHtml(p.nivel ?? 1)}</div>
-      <div class="char-actions" style="display:flex;gap:4px;margin-left:8px;">
-        <button class="btn btn-sm btn-secondary" data-action="exportar-individual" title="Exportar este personagem (arquivo só com ele)">&#x21E9;</button>
-        <button class="btn btn-sm btn-secondary" data-action="duplicar" title="Duplicar">&#x2398;</button>
-        <button class="btn btn-sm btn-danger" data-action="excluir" title="Excluir">&times;</button>
+      ${lista.length ? `<div class="char-list">${lista.map(cardPersonagem).join('')}</div>` : `
+        <div class="empty-state">
+          <div class="empty-icone">☢</div>
+          <h2>Nenhum personagem ainda</h2>
+          <p>Crie seu primeiro habitante do ermo. As fichas ficam salvas neste aparelho.</p>
+        </div>`}
+    </div>`;
+
+  container.querySelector('#btn-novo').onclick = () => window.navegar('criar');
+  container.querySelector('#btn-exportar-todos')?.addEventListener('click', () => {
+    baixarArquivo(new Blob([exportar()], { type: 'application/json' }), 'personagens-fallout.json');
+  });
+  const input = container.querySelector('#input-importar');
+  container.querySelector('#btn-importar').onclick = () => input.click();
+  input.onchange = async () => {
+    const arq = input.files[0];
+    if (!arq) return;
+    try {
+      const { importados, ignorados } = importar(await arq.text());
+      toast(`${importados} importado(s)${ignorados ? `, ${ignorados} ignorado(s) por não serem fichas de Fallout` : ''}.`, 'sucesso');
+      renderHome(container);
+    } catch {
+      toast('Arquivo inválido.', 'erro');
+    }
+  };
+  container.querySelectorAll('[data-home-acao]').forEach(btn => {
+    btn.onclick = e => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      const acao = btn.dataset.homeAcao;
+      if (acao === 'abrir') window.navegar(`ficha/${id}`);
+      if (acao === 'duplicar') { duplicarPersonagem(id); renderHome(container); }
+      if (acao === 'exportar') {
+        const p = lista.find(x => x.id === id);
+        baixarArquivo(new Blob([exportar(id)], { type: 'application/json' }), `${(p?.nome || 'personagem').replace(/[^\w-]+/g, '_')}.json`);
+      }
+      if (acao === 'remover') confirmarRemocao(id, container);
+    };
+  });
+}
+
+/** Card de um personagem na lista. */
+function cardPersonagem(p) {
+  return `
+    <div class="char-card" data-home-acao="abrir" data-id="${escHtml(p.id)}">
+      <div class="char-avatar">${escHtml((p.nome || '?').charAt(0).toUpperCase())}</div>
+      <div class="char-info">
+        <div class="char-nome">${escHtml(p.nome || 'Sem nome')}</div>
+        <div class="char-detalhe">${escHtml(NOMES_RACA[p.raca] || '')} · Nível ${p.nivel || 1}</div>
+        <div class="char-data">Atualizado em ${fmtData(p.atualizado_em)}</div>
       </div>
-    </div>
-  `;
+      <div class="char-botoes">
+        <button class="btn-icon" title="Duplicar" data-home-acao="duplicar" data-id="${escHtml(p.id)}">⧉</button>
+        <button class="btn-icon" title="Exportar" data-home-acao="exportar" data-id="${escHtml(p.id)}">⇩</button>
+        <button class="btn-icon perigo" title="Excluir" data-home-acao="remover" data-id="${escHtml(p.id)}">✕</button>
+      </div>
+    </div>`;
+}
+
+/** Pede confirmação antes de excluir. */
+function confirmarRemocao(id, container) {
+  const p = listarPersonagens().find(x => x.id === id);
+  abrirModal('Excluir personagem', `<p>Excluir <strong>${escHtml(p?.nome || 'este personagem')}</strong>? Não dá para desfazer.</p>`,
+    '<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button><button class="btn btn-danger" id="btn-confirmar-remocao">Excluir</button>');
+  document.getElementById('btn-confirmar-remocao').onclick = () => {
+    removerPersonagem(id);
+    fecharModal();
+    renderHome(container);
+  };
 }

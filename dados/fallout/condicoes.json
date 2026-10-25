@@ -1,0 +1,152 @@
+[
+ {
+  "id": "cego",
+  "nome": "Cego",
+  "texto": "Uma criatura cega não enxerga e falha automaticamente em qualquer teste de atributo que exija visão. Rolagens de ataque contra uma criatura cega têm vantagem. Uma criatura cega pode atacar criaturas com um ataque às cegas se tiver consciência delas."
+ },
+ {
+  "id": "sangramento",
+  "nome": "Sangramento",
+  "texto": "No início de cada um dos seus turnos, para cada nível de sangramento que você tem, você perde pontos de vida iguais à metade do seu Fator de Cura (arredondado para baixo). Uma criatura morrendo com qualquer nível desta condição falha em um teste de Suspiro Final no início dos seus turnos. Se uma criatura com qualquer nível de sangramento for curada, ela não ganha nenhum ponto de vida; em vez disso, remove dois níveis de sangramento."
+ },
+ {
+  "id": "queimando",
+  "nome": "Queimando",
+  "texto": "Uma criatura queimando sofre 1d10 de dano de fogo no início dos seus turnos. Ela pode gastar 6 PA para se apagar."
+ },
+ {
+  "id": "leso",
+  "nome": "Léso",
+  "texto": "Enquanto está léso, você tem desvantagem em todos os testes de atributo e de perícia de Inteligência e Percepção, e vantagem em todos os testes de atributo e de perícia de Resistência e Força."
+ },
+ {
+  "id": "atordoado",
+  "nome": "Atordoado",
+  "texto": "O máximo de PA de uma criatura atordoada é reduzido em 3, e ela não pode reciclar PA."
+ },
+ {
+  "id": "surdo",
+  "nome": "Surdo",
+  "texto": "Uma criatura surda não ouve e falha automaticamente em qualquer teste de atributo que exija audição."
+ },
+ {
+  "id": "desidratacao",
+  "nome": "Desidratação",
+  "texto": "Sempre que você rolar um d20 (exceto Sorte), o total é reduzido em 1 para cada nível de desidratação que você tem. No fim de cada dia, ou a cada 24 horas, se você não consumiu pelo menos três bebidas ou uma bebida com a propriedade hidratante, você ganha três níveis de desidratação. Quando você ganha seu décimo nível de desidratação, você morre."
+ },
+ {
+  "id": "bebado",
+  "nome": "Bêbado",
+  "texto": "Enquanto está bêbado, você ganha os efeitos de Léso, tem 2 PA a menos, e seu máximo de pontos de estamina aumenta em um número igual ao seu nível."
+ },
+ {
+  "id": "sobrecarregado",
+  "nome": "Sobrecarregado",
+  "texto": "Uma criatura sobrecarregada se move devagar (2 PA a cada 1,5 m). O passo de viagem da criatura é reduzido pela metade, e você ganha um nível de Fadiga a cada hora que passa sobrecarregado."
+ },
+ {
+  "id": "exaustao",
+  "nome": "Exaustão",
+  "texto": "Sempre que você rolar um d20 (exceto Sorte), o total é reduzido em 1 para cada nível de exaustão que você tem. Quando você ganha seu décimo nível de exaustão, você morre. Se você é humano, necrótico ou super mutante, pode remover um nível de exaustão depois de descansar por pelo menos 6 horas. Se você é robô ou sintético gen-2, pode remover um nível de exaustão depois de descansar por pelo menos 2 horas."
+ },
+ {
+  "id": "fadiga",
+  "nome": "Fadiga",
+  "texto": "Sempre que você rolar um d20 (exceto Sorte), o total é reduzido em 1 para cada nível de fadiga que você tem. Você só pode ter um total de nove níveis de fadiga. No fim de cada um dos seus turnos, você perde um nível de fadiga."
+ },
+ {
+  "id": "amedrontado",
+  "nome": "Amedrontado",
+  "texto": "Quando uma criatura fica amedrontada, ela deve ser bem-sucedida em um teste de atributo de Resistência ou Carisma com CD igual a 8 + o bônus de perícia de Intimidação da criatura que a amedronta.\n\n- Se ela tiver sucesso nesse teste por 10 ou mais, não fica amedrontada.\n- Se ela tiver sucesso nesse teste, pode escolher ficar amedrontada de Fuga, Luta, Paralisia ou Bajulação por metade (arredondada para baixo) do tempo determinado.\n- Se ela falhar nesse teste, pode escolher ficar amedrontada de Fuga, Luta, Paralisia ou Bajulação pelo tempo determinado.\n- Se ela falhar nesse teste por 5 ou mais, pode escolher ficar amedrontada de Fuga ou Paralisia pelo tempo determinado.\n- Se ela falhar criticamente nesse teste, pode escolher ficar amedrontada de Fuga ou Paralisia pelo dobro do tempo determinado.\n\n***Amedrontado - Fuga.*** Uma criatura com esta condição deve usar seus pontos de ação no seu turno para se afastar o máximo possível da fonte do seu medo.\n\n***Amedrontado - Luta.*** Uma criatura com esta condição deve usar seus pontos de ação no seu turno para atacar, com intenção de matar, a fonte do seu medo. Ela não pode gastar pontos de ação para se afastar da fonte do seu medo.\n\n***Amedrontado - Paralisia.*** Uma criatura com esta condição não pode gastar nenhum PA no seu turno, exceto para Preparar, enquanto a fonte do seu medo estiver à vista. Ela ainda pode reciclar o que não usar.\n\n***Amedrontado - Bajulação.*** Uma criatura com esta condição usa todos os seus PA no seu turno para atacar quaisquer criaturas consideradas inimigas da fonte do seu medo, ou realiza quaisquer outras ações que curariam ou ajudariam a fonte do seu medo."
+ },
+ {
+  "id": "agarrado",
+  "nome": "Agarrado",
+  "texto": "Uma criatura agarrada não pode gastar PA para se mover."
+ },
+ {
+  "id": "mamado",
+  "nome": "Mamado",
+  "texto": "Enquanto está mamado, você ganha os efeitos de Léso e Bêbado. Além disso, seu máximo de pontos de estamina aumenta em um número igual ao seu nível, e sempre que você rolar um d20 (exceto Sorte), o resultado é reduzido em 5."
+ },
+ {
+  "id": "muito_sobrecarregado",
+  "nome": "Muito Sobrecarregado",
+  "texto": "Uma criatura muito sobrecarregada se move devagar (3 PA a cada 1,5 m). O passo de viagem da criatura é reduzido pela metade. A cada hora que uma criatura muito sobrecarregada viaja, seu máximo de pontos de estamina é reduzido em 2 (reinicia ao dormir). A cada dia que uma criatura muito sobrecarregada viaja, sua capacidade de carga é reduzida em 10 (reinicia ao viajar um dia sem estar sobrecarregada)."
+ },
+ {
+  "id": "fome",
+  "nome": "Fome",
+  "texto": "Sempre que você rolar um d20 (exceto Sorte), o total é reduzido em 1 para cada nível de fome que você tem. No fim de cada dia, ou depois de 24 horas, se você não consumiu pelo menos uma comida, você ganha um nível de fome. Quando você ganha seu décimo nível de fome, você morre."
+ },
+ {
+  "id": "hipotermia",
+  "nome": "Hipotermia",
+  "texto": "Estas regras estão na página de condições, mas também aparecem aqui por conveniência.\n\nSempre que você rolar um d20 (exceto Sorte), o total é reduzido em 1 para cada nível de hipotermia que você tem. Além disso, seus pontos de ação são reduzidos em um número igual à metade da quantidade de níveis de hipotermia que você tem, arredondado para baixo. Quando você ganha seu décimo nível de hipotermia, você morre.\n\n***Prevenindo a Hipotermia.*** Você não pode ganhar níveis de hipotermia se estiver a até 1,5 m de uma fonte de calor."
+ },
+ {
+  "id": "invisivel",
+  "nome": "Invisível",
+  "texto": "Uma criatura invisível é impossível de ver. Para fins de esconder-se, a criatura está muito obscurecida. A localização da criatura pode ser detectada por qualquer ruído que ela faça ou por quaisquer rastros que deixe. Rolagens de ataque contra a criatura têm desvantagem, e as rolagens de ataque da criatura têm vantagem."
+ },
+ {
+  "id": "superaquecimento",
+  "nome": "Superaquecimento",
+  "texto": "Estas regras estão na página de condições, mas também aparecem aqui por conveniência.\n\nSempre que você rolar um d20 (exceto Sorte), o total é reduzido em 1 para cada nível de superaquecimento que você tem. Além disso, seus pontos de ação são reduzidos em um número igual à metade da quantidade de níveis de superaquecimento que você tem, arredondado para baixo. Quando você ganha seu décimo nível de superaquecimento, você morre.\n\n***Removendo o Superaquecimento.*** A cada hora que você passa em um abrigo que tenha uma fonte de refrigeração ou que não seja considerado Calor Extremo, você remove um nível de superaquecimento."
+ },
+ {
+  "id": "envenenado",
+  "nome": "Envenenado",
+  "texto": "Uma criatura envenenada tem desvantagem em todas as rolagens de d20."
+ },
+ {
+  "id": "caido",
+  "nome": "Caído",
+  "texto": "A única opção de movimento de uma criatura caída é rastejar, a menos que ela se levante e, com isso, encerre a condição. A criatura tem desvantagem nas rolagens de ataque. Uma rolagem de ataque contra a criatura tem vantagem se o atacante estiver a até 1,5 m dela. Caso contrário, a rolagem de ataque tem desvantagem."
+ },
+ {
+  "id": "radiacao_ou_rads",
+  "nome": "Radiação ou Rads",
+  "texto": "Sempre que você rolar um d20 (exceto Sorte), o total é reduzido em 1 para cada nível de rads que você tem. Além disso, cada vez que você ganha um nível de rads, você sofre 1d4 de dano de radiação nos seus pontos de vida e pontos de estamina, que não pode ser curado até você não ter mais nenhum nível de rads.\n\nSe esse dano de radiação reduzir você a 0 pontos de vida, ou se você ganhar seu 10º nível de radiação, você morre. Role um teste de Sorte com CD 20. Se tiver sucesso, você volta à vida como necrótico com 1 ponto de vida. Se rolar menos de 5 nesse teste, você volta à vida como um necrótico selvagem e o MJ controla seu personagem."
+ },
+ {
+  "id": "contido",
+  "nome": "Contido",
+  "texto": "Uma criatura contida não pode se mover. Quando uma criatura contida sofre dano, ele não pode ser subtraído dos seus pontos de estamina."
+ },
+ {
+  "id": "oculto",
+  "nome": "Oculto",
+  "texto": "Enquanto você está oculto, você não pode ser detectado pela visão por criaturas que não tenham visão noturna. Se uma criatura tem consciência da sua presença e não tem visão noturna, ela pode tentar mirar em você com um ataque às cegas."
+ },
+ {
+  "id": "choque",
+  "nome": "Choque",
+  "texto": "Uma criatura em choque não pode recuperar pontos de estamina e tem desvantagem em todas as rolagens de d20."
+ },
+ {
+  "id": "curto_circuito",
+  "nome": "Curto-Circuito",
+  "texto": "No início de cada um dos seus turnos, para cada nível de curto-circuito que você tem, você sofre 1d12 de dano de eletricidade nos seus pontos de vida e seu máximo de PA é reduzido em 1. Se você ficar molhado enquanto tiver níveis de curto-circuito, você ganha o dobro de níveis. Você remove todos os níveis de curto-circuito se começar a morrer ou for curado até os pontos de vida máximos. Você também pode gastar 6 PA no seu turno para redirecionar e reiniciar seu circuito; quando faz isso, você remove um nível de curto-circuito."
+ },
+ {
+  "id": "lento",
+  "nome": "Lento",
+  "texto": "Uma criatura lenta começa seu turno com um máximo de 6 PA."
+ },
+ {
+  "id": "inconsciente",
+  "nome": "Inconsciente",
+  "texto": "Quando uma criatura fica inconsciente, ela larga tudo o que estava segurando e todos os seus pontos de estamina caem para 0. Ela não pode se mover nem falar, e não tem consciência do que a cerca."
+ },
+ {
+  "id": "esbagacado",
+  "nome": "Esbagaçado",
+  "texto": "Enquanto está esbagaçado, você ganha os efeitos de Léso, Bêbado e Mamado. Além disso, você não se lembra de nada do tempo em que estiver esbagaçado e cai inconsciente depois de uma hora."
+ },
+ {
+  "id": "morrendo",
+  "nome": "Morrendo",
+  "texto": "*[Condição citada no original (veja \"Suspiro Final\" em Dano e Cura), mas sem entrada própria na lista de condições.]* Uma criatura morrendo está caída, tem seus PA limitados conforme descrito em Chegando a 0 Pontos de Vida e faz testes de Suspiro Final no início dos seus turnos."
+ }
+]

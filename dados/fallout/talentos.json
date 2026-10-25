@@ -1,0 +1,2226 @@
+[
+ {
+  "id": "reflexos_adaptativos",
+  "nome": "Reflexos Adaptativos",
+  "grupo": "Gerais",
+  "requisito": "Mão, braço, pé ou perna perdidos",
+  "requisitos": {
+   "especial": "Mão, braço, pé ou perna perdidos"
+  },
+  "texto": "Você aprendeu a suportar e superar a sua deficiência. Se você perdeu o pé ou a perna, você não está mais limitado a se mover apenas 6 m por turno. Se você perdeu a mão ou o pé: você ganha 3 pontos que pode usar para aumentar qualquer um dos seus valores de atributo na quantidade usada. Se você perdeu o braço ou a perna: você ganha 5 pontos que pode usar para aumentar qualquer um dos seus valores de atributo na quantidade usada.\n\n***Repetição.*** Você pode pegar este talento tantas vezes quantos forem os braços ou pernas que você perdeu."
+ },
+ {
+  "id": "diabo_cego",
+  "nome": "Diabo Cego",
+  "grupo": "Gerais",
+  "requisito": "Cegueira permanente",
+  "requisitos": {
+   "especial": "Cegueira permanente"
+  },
+  "texto": "Adaptar-se à perda da visão aguçou seus outros sentidos. Você percebe o ambiente ao redor com precisão milimétrica. Você consegue, na prática, \"ver\" qualquer alvo a uma distância, em pés, igual a 5 x seu valor de Percepção. Além disso, seus Sentidos Passivos aumentam em 5 e você tem vantagem em todas as suas rolagens de Iniciativa."
+ },
+ {
+  "id": "cowboy",
+  "nome": "Cowboy",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Sempre que você gastar PA para sacar um rifle de ação por alavanca, um repetidor cowboy ou um revólver, o custo em PA é reduzido para 1. Além disso, se você atacar e acertar uma criatura surpresa com um rifle de ação por alavanca, um repetidor cowboy ou um revólver, o ataque é um acerto crítico."
+ },
+ {
+  "id": "mira_cravada",
+  "nome": "Mira Cravada",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Sempre que você rolar ataque ou dano com uma arma de longo alcance, some 2 ao resultado. Além disso, sempre que você fizer uma rolagem de ataque mirado à cabeça com uma arma de longo alcance, some mais 2 ao resultado.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes."
+ },
+ {
+  "id": "duelista",
+  "nome": "Duelista",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Sempre que você rolar ataque ou dano com uma arma desarmada ou corpo a corpo, some 2 ao resultado.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes."
+ },
+ {
+  "id": "instruido",
+  "nome": "Instruído",
+  "grupo": "Gerais",
+  "requisito": "Inteligência 4 ou menos",
+  "requisitos": {
+   "maximo": {
+    "INT": 4
+   }
+  },
+  "texto": "Você ganha 4 pontos de perícia ao chegar aos Níveis 5, 9, 13, 17, 21, 25 e 29, em vez de 3. Além disso, você ganha um número de pontos de perícia igual ao total disponível no seu nível como se o seu valor de Inteligência fosse igual a 5. (Use a Tabela de Evolução como referência.)"
+ },
+ {
+  "id": "entomologo",
+  "nome": "Entomólogo",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Você conhece a anatomia de vários insetos. Sempre que você rolar dano de uma rolagem de ataque contra os pontos de vida de uma criatura do tipo inseto, a TD dela não é subtraída do seu dano total. (Insetos incluem formigas, moscas-de-radiação, cazadores, escorpiões-rad etc.)"
+ },
+ {
+  "id": "viva_a_revolucao",
+  "nome": "Viva a Revolução!",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Você já cansou dessas tais \"autoridades\"! Sempre que você sofrer dano nos seus pontos de vida de uma criatura ligada a uma facção, sua TD aumenta em 1. Além disso, sempre que você causar dano a uma criatura ligada a uma facção, o dano aumenta em 1. (Exemplos de facções: NCR, Irmandade do Aço, Legião de César, Instituto ou Ferrovia. A critério do MJ.)\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes."
+ },
+ {
+  "id": "aqui_e_agora",
+  "nome": "Aqui e Agora",
+  "grupo": "Gerais",
+  "requisito": "Nível 3",
+  "requisitos": {
+   "nivel": 3
+  },
+  "texto": "Você e cada outro personagem jogador ganham imediatamente 1000 XP. Depois que este talento for pego, nenhum outro personagem jogador pode pegá-lo."
+ },
+ {
+  "id": "purificador",
+  "nome": "Purificador",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Sempre que você fizer uma rolagem de ataque com uma arma desarmada ou corpo a corpo contra uma abominação, some 3 ao resultado. (Abominações incluem super mutantes, garras da morte, mirelurks, rastejadores da névoa etc.)\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes."
+ },
+ {
+  "id": "imperialista_desdenhoso",
+  "nome": "Imperialista Desdenhoso",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Você não leva a bem saqueadores, viciados ou aproveitadores. Sempre que você rolar dano de uma rolagem de ataque contra um humanoide sem ligação com nenhuma facção, some 3 ao resultado.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes."
+ },
+ {
+  "id": "aprendiz_rapido",
+  "nome": "Aprendiz Rápido",
+  "grupo": "Gerais",
+  "requisito": "",
+  "requisitos": {},
+  "texto": "Sempre que o MJ conceder XP, você e cada outro personagem jogador ganham um bônus adicional de 20%.\n\n***Repetição.*** Este talento pode ser pego no máximo duas vezes por um personagem jogador, ou uma vez por um total de dois personagens jogadores."
+ },
+ {
+  "id": "peso_pesado",
+  "nome": "Peso-Pesado",
+  "grupo": "Força",
+  "requisito": "Força 4",
+  "requisitos": {
+   "atributos": {
+    "FOR": 4
+   }
+  },
+  "texto": "Você pode gastar 6 pontos de ação para fazer um ataque desarmado especial chamado ataque desarmado pesado. Um ataque desarmado pesado é idêntico a um ataque desarmado, mas o dano aumenta em 2d4. Além disso, você é imune à condição sobrecarregado. Porém, você ainda pode ganhar a condição muito sobrecarregado."
+ },
+ {
+  "id": "manejo_de_armas",
+  "nome": "Manejo de Armas",
+  "grupo": "Força",
+  "requisito": "Força 4",
+  "requisitos": {
+   "atributos": {
+    "FOR": 4
+   }
+  },
+  "texto": "Não é sobre o tamanho, é sobre como você usa. Você não tem mais desvantagem nas rolagens de ataque feitas com armas cujo requisito de Força você não cumpre. Além disso, você ignora os efeitos negativos dos dois primeiros Níveis de Desgaste de todas as armas."
+ },
+ {
+  "id": "acougueiro",
+  "nome": "Açougueiro",
+  "grupo": "Força",
+  "requisito": "Força 5",
+  "requisitos": {
+   "atributos": {
+    "FOR": 5
+   }
+  },
+  "texto": "Você está picando, batendo e cortando essa carne! Sempre que você rolar dano de uma rolagem de ataque feita com uma arma corpo a corpo, some 2 ao resultado. Além disso, se você fizer um ataque mirado com uma arma corpo a corpo cortante aos braços ou pernas de uma criatura e causar nos pontos de vida dela mais do que o dobro dos pontos de vida em dano, você decepa o membro!"
+ },
+ {
+  "id": "pancadaria",
+  "nome": "Pancadaria",
+  "grupo": "Força",
+  "requisito": "Força 5",
+  "requisitos": {
+   "atributos": {
+    "FOR": 5
+   }
+  },
+  "texto": "Dê neles o um-dois! Sempre que você rolar dano de uma rolagem de ataque feita com um ataque desarmado e o dano for causado nos pontos de estamina do alvo, some 3 ao resultado. Além disso, se você fizer um ataque mirado desarmado à cabeça de uma criatura e causar nos pontos de vida dela mais pontos de dano do que o nível dela, ela fica atordoada por um número de rodadas igual a 8 − o valor de Resistência dela (mínimo de 1)."
+ },
+ {
+  "id": "arremesso_pesado",
+  "nome": "Arremesso Pesado!",
+  "grupo": "Força",
+  "requisito": "Força 5",
+  "requisitos": {
+   "atributos": {
+    "FOR": 5
+   }
+  },
+  "texto": "Que arremesso! Sempre que você arremessar um objeto ou uma criatura, a distância que você consegue arremessá-lo é dobrada."
+ },
+ {
+  "id": "acumulador",
+  "nome": "Acumulador",
+  "grupo": "Força",
+  "requisito": "Força 5",
+  "requisitos": {
+   "atributos": {
+    "FOR": 5
+   }
+  },
+  "texto": "Sua Capacidade de Carga máxima aumenta em 50. Além disso, quando você carrega objetos pesados, você não fica lento."
+ },
+ {
+  "id": "mostra_quem_manda",
+  "nome": "Mostra Quem Manda",
+  "grupo": "Força",
+  "requisito": "Força 5",
+  "requisitos": {
+   "atributos": {
+    "FOR": 5
+   }
+  },
+  "texto": "Você pode gastar 4 pontos de ação no seu turno para amedrontar uma criatura alvo que esteja a até 9 m de você. (Veja a condição amedrontado.) Você não pode amedrontar uma criatura que você já amedrontou."
+ },
+ {
+  "id": "sai_de_cima",
+  "nome": "Sai de Cima",
+  "grupo": "Força",
+  "requisito": "Força 5",
+  "requisitos": {
+   "atributos": {
+    "FOR": 5
+   }
+  },
+  "texto": "Você pode gastar 3 PA para Escapar de agarrões, amarras ou estrangulamentos, e sempre tem vantagem na rolagem. Além disso, você pode atravessar o espaço de um inimigo no seu turno sem gastar um ponto de ação adicional."
+ },
+ {
+  "id": "potencia_saltitante",
+  "nome": "Potência Saltitante",
+  "grupo": "Força",
+  "requisito": "Força 6",
+  "requisitos": {
+   "atributos": {
+    "FOR": 6
+   }
+  },
+  "texto": "Você tem os joelhos mais fortes do ermo! Sempre que você fizer um salto em distância, você supera 3 m adicionais, e sempre que fizer um salto em altura, você supera 90 cm adicionais. Além disso, sempre que você sofrer dano de impacto por uma queda, você sofre metade."
+ },
+ {
+  "id": "supercolisao",
+  "nome": "Supercolisão!",
+  "grupo": "Força",
+  "requisito": "Força 6",
+  "requisitos": {
+   "atributos": {
+    "FOR": 6
+   }
+  },
+  "texto": "Se você gastar seus pontos de ação para se mover pelo menos 4,5 m em linha reta, seu próximo ataque desarmado ou com arma corpo a corpo tem vantagem. Se esse ataque acertar e causar dano nos pontos de vida da criatura, você pode escolher que o alvo caia caído ou seja empurrado para trás por um número de pés igual a 5 x seu modificador de Força."
+ },
+ {
+  "id": "parede_de_pedra",
+  "nome": "Parede de Pedra",
+  "grupo": "Força",
+  "requisito": "Força 6",
+  "requisitos": {
+   "atributos": {
+    "FOR": 6
+   }
+  },
+  "texto": "Sua tolerância a dano aumenta em 2 e, sempre que você fizer um teste de Força ou de atributo para resistir a ser agarrado, contido ou derrubado, você tem vantagem ou pode virar uma das suas Tampas de Karma para ser bem-sucedido automaticamente."
+ },
+ {
+  "id": "nocaute",
+  "nome": "Nocaute",
+  "grupo": "Força",
+  "requisito": "Força 7",
+  "requisitos": {
+   "atributos": {
+    "FOR": 7
+   }
+  },
+  "texto": "Sempre que você causar dano aos pontos de vida de uma criatura alvo pela primeira vez com uma rolagem de ataque desarmado ou com arma corpo a corpo, ela fica atordoada por 2 rodadas."
+ },
+ {
+  "id": "golpes_perfurantes",
+  "nome": "Golpes Perfurantes",
+  "grupo": "Força",
+  "requisito": "Força 7",
+  "requisitos": {
+   "atributos": {
+    "FOR": 7
+   }
+  },
+  "texto": "Você sabe fazer ataques devastadores através de bloqueios. Sempre que você causar dano com um ataque desarmado ou com arma corpo a corpo, a TD do alvo é subtraída em um número igual ao seu modificador de Força, até um mínimo de 0."
+ },
+ {
+  "id": "mao_dupla",
+  "nome": "Mão Dupla",
+  "grupo": "Força",
+  "requisito": "Força 7",
+  "requisitos": {
+   "atributos": {
+    "FOR": 7
+   }
+  },
+  "texto": "Dois é melhor que um! Se você empunhar uma arma corpo a corpo ou desarmada em uma mão enquanto empunha outra arma corpo a corpo ou desarmada na outra mão, você pode gastar PA adicionais quando atacar com uma arma para fazer outro ataque com a outra arma. Os PA adicionais são iguais à metade do custo em PA da segunda arma (arredondado para cima)."
+ },
+ {
+  "id": "soco_paralisante",
+  "nome": "Soco Paralisante",
+  "grupo": "Força",
+  "requisito": "Força 8",
+  "requisitos": {
+   "atributos": {
+    "FOR": 8
+   }
+  },
+  "texto": "Se você acertar uma única criatura alvo com pelo menos três ataques corpo a corpo em um turno, ela ganha 2 níveis de fadiga. Se uma criatura chegar a 4 níveis de fadiga dessa forma, ela fica paralisada até o fim do seu próximo turno. Depois que uma criatura ficar paralisada dessa forma, ela não pode ficar paralisada de novo até você rolar Iniciativa."
+ },
+ {
+  "id": "enraizado",
+  "nome": "Enraizado",
+  "grupo": "Força",
+  "requisito": "Força 8",
+  "requisitos": {
+   "atributos": {
+    "FOR": 8
+   }
+  },
+  "texto": "Você é meio árvore! Você pode gastar 4 pontos de ação no seu turno para ficar Enraizado. Enquanto estiver Enraizado, sua TD aumenta em 5 e qualquer dano que você causar com um ataque feito com arma desarmada ou corpo a corpo aumenta em 2. Porém, mover-se 1,5 m custa 2 pontos de ação. Você pode gastar 3 pontos de ação para encerrar a condição Enraizado."
+ },
+ {
+  "id": "forca_imparavel",
+  "nome": "Força Imparável",
+  "grupo": "Força",
+  "requisito": "Força 9",
+  "requisitos": {
+   "atributos": {
+    "FOR": 9
+   }
+  },
+  "texto": "Seu poderio marcial é verdadeiramente lendário. Sempre que você rolar dano de uma rolagem de ataque desarmado ou com arma corpo a corpo contra os pontos de vida de uma criatura, a TD dela não é subtraída do seu dano total."
+ },
+ {
+  "id": "nunca_desarmado",
+  "nome": "Nunca Desarmado",
+  "grupo": "Força",
+  "requisito": "Força 9",
+  "requisitos": {
+   "atributos": {
+    "FOR": 9
+   }
+  },
+  "texto": "Qualquer coisa pode ser uma arma se você souber segurar direito. Você não tem mais desvantagem nas rolagens de ataque improvisado (a menos que você já tenha desvantagem por outro motivo, como a condição caído ou o alcance longo de objetos arremessados), e sua chance de acerto crítico é reduzida em 2 quando você ataca com uma arma improvisada."
+ },
+ {
+  "id": "armas_vivas",
+  "nome": "Armas Vivas",
+  "grupo": "Força",
+  "requisito": "Força 10",
+  "requisitos": {
+   "atributos": {
+    "FOR": 10
+   }
+  },
+  "texto": "Você pode usar outras criaturas como armas improvisadas melhoradas. Se elas não estiverem dispostas, precisam primeiro ser agarradas para serem usadas como arma improvisada. Usar uma criatura como arma improvisada custa 5 PA, usa sua perícia Corpo a Corpo para acertar, acerta criticamente com 20 (x2) e causa um número de d6 de dano de impacto dependendo do tamanho dela. Criaturas pequenas causam 3d6 de dano de impacto, criaturas médias causam 4d6 e criaturas grandes causam 5d6 (você não pode usar uma criatura enorme ou maior como arma improvisada). Você também pode arremessá-las por um número de pés igual a 2 x seu valor de Força. Se você arremessar uma criatura contra outra criatura e causar dano de impacto nos pontos de vida dela, as duas ficam caídas. Sempre que uma criatura é usada como arma improvisada, ela sofre metade do dano de impacto causado nos seus pontos de vida."
+ },
+ {
+  "id": "exterminador",
+  "nome": "Exterminador",
+  "grupo": "Força",
+  "requisito": "Força 10",
+  "requisitos": {
+   "atributos": {
+    "FOR": 10
+   }
+  },
+  "texto": "O exterminador anda pela Terra. Sempre que você gastar PA para atacar com um ataque desarmado ou com arma corpo a corpo, ele custa 1 a menos. Além disso, sua chance de acerto crítico com todas as armas desarmadas e corpo a corpo diminui em 1."
+ },
+ {
+  "id": "mira_cuidadosa",
+  "nome": "Mira Cuidadosa",
+  "grupo": "Percepção",
+  "requisito": "Percepção 4",
+  "requisitos": {
+   "atributos": {
+    "PER": 4
+   }
+  },
+  "texto": "Você tira um tempo para atacar, o que o deixa mais preciso. Sempre que você gastar pontos de ação para fazer uma rolagem de ataque com uma arma de longo alcance, você pode gastar 1 ponto de ação adicional para somar 1 ao resultado da rolagem. Você pode gastar até 3 pontos de ação adicionais para somar mais 1 ao ataque por ponto de ação usado."
+ },
+ {
+  "id": "amigo_da_noite",
+  "nome": "Amigo da Noite",
+  "grupo": "Percepção",
+  "requisito": "Percepção 4",
+  "requisitos": {
+   "atributos": {
+    "PER": 4
+   }
+  },
+  "texto": "Você se adaptou a condições de pouca luz e sabe usar a escuridão a seu favor. Você não tem mais desvantagem em nenhuma rolagem de ataque, teste de atributo ou teste de perícia prejudicados por condições de pouca luz.\n\n***Repetição.*** Se você pegar este talento de novo, você sofreu uma mutação ou uma melhoria para se adaptar à escuridão. Você tem visão noturna até 30 m."
+ },
+ {
+  "id": "alerta",
+  "nome": "Alerta",
+  "grupo": "Percepção",
+  "requisito": "Percepção 5",
+  "requisitos": {
+   "atributos": {
+    "PER": 5
+   }
+  },
+  "texto": "Você aprendeu a manter seus sentidos atentos a qualquer perigo. Se você não sair de um único local, de no máximo 6 m de raio, por pelo menos 10 minutos, você ganha um bônus nos seus Sentidos Passivos igual ao seu valor de Percepção. (Simplificando: seus Sentidos Passivos são iguais a 12 + o dobro do seu modificador de Percepção.)"
+ },
+ {
+  "id": "infiltrador",
+  "nome": "Infiltrador",
+  "grupo": "Percepção",
+  "requisito": "Percepção 5",
+  "requisitos": {
+   "atributos": {
+    "PER": 5
+   }
+  },
+  "texto": "Você entra e sai de lugares com facilidade. Você pode gastar 3 pontos de ação e examinar uma fechadura ou um computador a até 1,5 m de você para descobrir a CD de Sabotagem. Além disso, sempre que você falhar em um teste de Sabotagem, pode virar uma das suas Tampas de Karma para ser bem-sucedido automaticamente."
+ },
+ {
+  "id": "energia_potencializada",
+  "nome": "Energia Potencializada",
+  "grupo": "Percepção",
+  "requisito": "Percepção 5",
+  "requisitos": {
+   "atributos": {
+    "PER": 5
+   }
+  },
+  "texto": "Sempre que você rolar dano de um ataque com uma arma de energia, você pode rolar um dado de dano adicional. Além disso, sempre que você causar um acerto crítico com uma arma de energia, pode escolher entre fazer um ataque adicional (até no máximo um por turno) ou dobrar o dano do acerto crítico.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes, aumentando a cada vez em um os dados de dano da sua arma de energia."
+ },
+ {
+  "id": "impasse",
+  "nome": "Impasse",
+  "grupo": "Percepção",
+  "requisito": "Percepção 5",
+  "requisitos": {
+   "atributos": {
+    "PER": 5
+   }
+  },
+  "texto": "Sempre que você rolar Iniciativa, você e uma outra criatura a até 9 m de você ganham um bônus igual ao seu modificador de Percepção.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes; a cada vez que o pegar, aumenta em um o número de criaturas que você pode afetar."
+ },
+ {
+  "id": "diagnostico_eficiente",
+  "nome": "Diagnóstico Eficiente",
+  "grupo": "Percepção",
+  "requisito": "Percepção 5",
+  "requisitos": {
+   "atributos": {
+    "PER": 5
+   }
+  },
+  "texto": "Você sabe onde e por que dói. Sempre que você usar um Stimpak, um kit de primeiros socorros ou uma maleta médica em outra criatura, ela cura 2 pontos de vida adicionais; alternativamente, você pode virar uma das suas Tampas de Karma para curar o dobro do que normalmente curaria.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes, aumentando a cada vez em 2 a quantidade curada."
+ },
+ {
+  "id": "faro_para_encrenca",
+  "nome": "Faro para Encrenca",
+  "grupo": "Percepção",
+  "requisito": "Percepção 5",
+  "requisitos": {
+   "atributos": {
+    "PER": 5
+   }
+  },
+  "texto": "Você tem uma conexão aguçada com o seu sexto sentido. Ataques furtivos causam metade do dano em você. Se uma criatura rolar um teste de Furtividade contra os seus Sentidos Passivos e for bem-sucedida por 5 ou menos, você percebe a presença, mas não consegue detectar a localização da criatura escondida. Além disso, você sempre sabe se falhou em um teste de Furtividade para se esconder."
+ },
+ {
+  "id": "rato_de_carga",
+  "nome": "Rato de Carga",
+  "grupo": "Percepção",
+  "requisito": "Percepção 6",
+  "requisitos": {
+   "atributos": {
+    "PER": 6
+   }
+  },
+  "texto": "A Capacidade de Carga de cada personagem jogador aumenta em 10. Além disso, qualquer item que você carregue com carga menor que 3 passa a ter carga 1.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes, aumentando a cada vez em 10 a Capacidade de Carga de cada personagem jogador."
+ },
+ {
+  "id": "estilhacos",
+  "nome": "Estilhaços",
+  "grupo": "Percepção",
+  "requisito": "Percepção 6",
+  "requisitos": {
+   "atributos": {
+    "PER": 6
+   }
+  },
+  "texto": "Quando você está bem no meio do território inimigo, você simplesmente começa a jogar granadas e torce para dar certo. Sempre que você atacar com uma arma ou equipamento que tenha área de efeito, a área aumenta em metade.\n\n***Repetição.*** Se você pegar este talento de novo, o tamanho da área de efeito aumenta em metade outra vez (na prática, dobrando o tamanho da sua área de efeito)."
+ },
+ {
+  "id": "detonacoes_cuidadosas",
+  "nome": "Detonações Cuidadosas",
+  "grupo": "Percepção",
+  "requisito": "Percepção 6",
+  "requisitos": {
+   "atributos": {
+    "PER": 6
+   }
+  },
+  "texto": "Sempre que você arremessar um explosivo que não seja colocado, pode escolher uma área de 1,5 m de raio. Quaisquer criaturas ou objetos nessa área de 1,5 m não sofrem dano e não sofrem nenhum efeito do explosivo. Alternativamente, sempre que você arremessar ou detonar um explosivo, pode escolher que o raio da área de efeito seja até 1,5 m menor."
+ },
+ {
+  "id": "perfuracao_pulsante",
+  "nome": "Perfuração Pulsante",
+  "grupo": "Percepção",
+  "requisito": "Percepção 7",
+  "requisitos": {
+   "atributos": {
+    "PER": 7
+   }
+  },
+  "texto": "Seus tiros atravessam seus inimigos! Sempre que você fizer uma rolagem de ataque com uma arma de energia, você pode escolher que o ataque atinja até três criaturas em linha. A linha é traçada a partir da sua posição.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes. Se pegá-lo de novo, você pode atingir até seis criaturas em linha."
+ },
+ {
+  "id": "especialista_em_demolicao",
+  "nome": "Especialista em Demolição",
+  "grupo": "Percepção",
+  "requisito": "Percepção 7",
+  "requisitos": {
+   "atributos": {
+    "PER": 7
+   }
+  },
+  "texto": "Você é um especialista na arte refinada de manusear explosivos. Sempre que você causar dano com um explosivo, o dano aumenta em um dado adicional.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes."
+ },
+ {
+  "id": "agir_por_instinto",
+  "nome": "Agir por Instinto",
+  "grupo": "Percepção",
+  "requisito": "Percepção 7",
+  "requisitos": {
+   "atributos": {
+    "PER": 7
+   }
+  },
+  "texto": "Quando você rola Iniciativa, você ganha 3 PA que pode gastar imediatamente antes de qualquer outra criatura agir no combate. Se uma ação tiver acontecido para iniciar o combate, como um inimigo atacando de um esconderijo, você gasta esses pontos de ação depois dessa ação."
+ },
+ {
+  "id": "abaixa",
+  "nome": "Abaixa!",
+  "grupo": "Percepção",
+  "requisito": "Percepção 8",
+  "requisitos": {
+   "atributos": {
+    "PER": 8
+   }
+  },
+  "texto": "Você reage muito rápido à palavra \"granada!\". Sempre que você sofrer dano nos seus pontos de estamina de um explosivo, o dano é reduzido pela metade.\n\n***Repetição.*** Você pode pegar este talento no máximo uma vez."
+ },
+ {
+  "id": "derretimento",
+  "nome": "Derretimento",
+  "grupo": "Percepção",
+  "requisito": "Percepção 8",
+  "requisitos": {
+   "atributos": {
+    "PER": 8
+   }
+  },
+  "texto": "Sempre que você causar dano suficiente para levar outra criatura a 0 pontos de vida com uma rolagem de ataque feita com uma arma que cause dano de laser, plasma ou eletricidade, você pode escolher que essa criatura exploda em uma corona de energia. Cada criatura a até 3 m dela sofre dano igual ao que você causou.\n\n***Repetição.*** Você pode pegar este talento no máximo uma vez."
+ },
+ {
+  "id": "atirador_de_elite",
+  "nome": "Atirador de Elite",
+  "grupo": "Percepção",
+  "requisito": "Percepção 9",
+  "requisitos": {
+   "atributos": {
+    "PER": 9
+   }
+  },
+  "texto": "Sempre que você gastar pontos de ação para fazer uma rolagem de ataque com uma arma de longo alcance de duas mãos, você pode gastar 1 ponto de ação adicional para somar 2 ao resultado da rolagem. Você pode gastar até 3 pontos de ação adicionais para somar mais 2 ao ataque por ponto de ação usado. Além disso, se você fizer uma rolagem de ataque mirado à cabeça com um rifle que tenha a modificação Luneta, você acerta criticamente na rolagem de ataque e, se causar dano nos pontos de vida do alvo, o alvo morre, desde que não consiga viver sem a cabeça ou não esteja usando um capacete de armadura potente."
+ },
+ {
+  "id": "arremessador_volatil",
+  "nome": "Arremessador Volátil",
+  "grupo": "Percepção",
+  "requisito": "Percepção 9",
+  "requisitos": {
+   "atributos": {
+    "PER": 9
+   }
+  },
+  "texto": "Sempre que você gastar pontos de ação para arremessar um explosivo, você gasta 1 ponto de ação a menos, até o mínimo de 3. Além disso, se você tirar 20 no seu teste de Explosivos, o explosivo explode no fim do seu turno e causa dano extra igual ao dobro dos dados de dano."
+ },
+ {
+  "id": "mestre_da_medicina",
+  "nome": "Mestre da Medicina",
+  "grupo": "Percepção",
+  "requisito": "Percepção 10",
+  "requisitos": {
+   "atributos": {
+    "PER": 10
+   }
+  },
+  "texto": "Quando outra criatura descansa por pelo menos uma hora, você pode usar um kit de primeiros socorros, um Stimpak ou uma maleta médica para curar metade do total dos pontos de vida dela. Se ela descansar por pelo menos 4 horas, você pode usar um kit de primeiros socorros, um Stimpak ou uma maleta médica para curar todos os pontos de vida dela.\n\n***Repetição.*** Se você pegar este talento de novo, quando outra criatura descansa por pelo menos uma hora, você pode usar um kit de primeiros socorros, um Stimpak ou uma maleta médica para curar todos os pontos de vida dela."
+ },
+ {
+  "id": "oraculo",
+  "nome": "Oráculo",
+  "grupo": "Percepção",
+  "requisito": "Percepção 10",
+  "requisitos": {
+   "atributos": {
+    "PER": 10
+   }
+  },
+  "texto": "Suas previsões de encrenca são sobrenaturais. Sempre que você rolar Iniciativa, você pode trocar as rolagens de Iniciativa de qualquer número de criaturas dispostas.\n\n***Repetição.*** Se você pegar este talento de novo, sempre que rolar Iniciativa, você pode trocar as rolagens de Iniciativa de até três criaturas adicionais (elas não precisam estar dispostas)."
+ },
+ {
+  "id": "mestre_cuca",
+  "nome": "Mestre-Cuca",
+  "grupo": "Resistência",
+  "requisito": "Resistência 4",
+  "requisitos": {
+   "atributos": {
+    "RES": 4
+   }
+  },
+  "texto": "Você sabe dar tempero a qualquer refeição. Você pode gastar 5 minutos cozinhando uma comida pronta ou, sempre que fizer uma comida cozida, ela sempre tem a propriedade saciante; se tiver a propriedade insosso, passa a ter a propriedade saboroso; e qualquer criatura que consumir a comida ganha pontos de estamina temporários iguais ao seu nível."
+ },
+ {
+  "id": "doador_de_vida",
+  "nome": "Doador de Vida",
+  "grupo": "Resistência",
+  "requisito": "Resistência 4",
+  "requisitos": {
+   "atributos": {
+    "RES": 4
+   }
+  },
+  "texto": "Seus pontos de vida máximos aumentam em 10 e os pontos de vida máximos de cada outro personagem jogador aumentam em 1.\n\n***Repetição.*** Se você pegar este talento de novo, seus pontos de vida máximos aumentam em 10 e os pontos de vida máximos de cada outro personagem jogador aumentam em 1."
+ },
+ {
+  "id": "resiliente",
+  "nome": "Resiliente",
+  "grupo": "Resistência",
+  "requisito": "Resistência 5",
+  "requisitos": {
+   "atributos": {
+    "RES": 5
+   }
+  },
+  "texto": "Sua TD aumenta em 1 e, sempre que você fizer um teste para resistir a ficar amedrontado, você não fica amedrontado se passar por 5 ou menos.\n\n***Repetição.*** Se você pegar este talento de novo, sua TD aumenta em 1 e você tem vantagem em testes para resistir a ficar amedrontado."
+ },
+ {
+  "id": "alem_mar",
+  "nome": "Além-Mar",
+  "grupo": "Resistência",
+  "requisito": "Resistência 5",
+  "requisitos": {
+   "atributos": {
+    "RES": 5
+   }
+  },
+  "texto": "Sempre que você gastar pontos de ação para se mover na água, você pode gastar 1 ponto de ação para se mover 1,5 m em vez de 3 m. Além disso, beber água suja não dá nenhum nível de radiação a você."
+ },
+ {
+  "id": "corrida_louca",
+  "nome": "Corrida Louca",
+  "grupo": "Resistência",
+  "requisito": "Resistência 5",
+  "requisitos": {
+   "atributos": {
+    "RES": 5
+   }
+  },
+  "texto": "Sempre que você gastar pontos de ação no seu turno para correr, você se move 24 m em linha reta em vez de 15 m."
+ },
+ {
+  "id": "passa_logo",
+  "nome": "Passa Logo",
+  "grupo": "Resistência",
+  "requisito": "Resistência 5",
+  "requisitos": {
+   "atributos": {
+    "RES": 5
+   }
+  },
+  "texto": "Sempre que você ganhar uma condição de membro, os efeitos duram metade do tempo. Além disso, desde que a condição de membro não seja grave, você pode virar sua Tampa de Karma para ignorar os efeitos da condição."
+ },
+ {
+  "id": "instinto_de_desbravador",
+  "nome": "Instinto de Desbravador",
+  "grupo": "Resistência",
+  "requisito": "Resistência 5",
+  "requisitos": {
+   "atributos": {
+    "RES": 5
+   }
+  },
+  "texto": "Quando você começa a viajar, uma vez por dia você pode fazer um teste da perícia Sobrevivência com CD 12. A CD aumenta em 2 se a rota que você está seguindo passar por terreno difícil, for mais longa que 3 dias de viagem ou for em território desconhecido. Em uma rolagem bem-sucedida, você e cada outra criatura que viaja com você se movem 3 km por hora mais rápido. Além disso, você tem vantagem em qualquer rolagem de encontro."
+ },
+ {
+  "id": "vies_do_sobrevivente",
+  "nome": "Viés do Sobrevivente",
+  "grupo": "Resistência",
+  "requisito": "Resistência 5",
+  "requisitos": {
+   "atributos": {
+    "RES": 5
+   }
+  },
+  "texto": "Seu conhecimento sobre outras criaturas e o que elas podem fazer lhe dá vantagem contra elas. Sempre que você puder perceber outra criatura, desde que você já tenha rolado Iniciativa contra aquele tipo e subtipo de criatura antes, você pode gastar 3 pontos de ação para descobrir o total de pontos de vida, pontos de estamina, pontos de ação, DF ou TD de qualquer uma delas. Além disso, você pode gastar 6 pontos de ação para descobrir um dos ataques dela ou qualquer fraqueza que ela tenha (se houver).\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes. A cada vez que o pegar, você descobre uma estatística, ação ou fraqueza adicional ao gastar seus pontos de ação."
+ },
+ {
+  "id": "raca",
+  "nome": "Raça",
+  "grupo": "Resistência",
+  "requisito": "Resistência 6",
+  "requisitos": {
+   "atributos": {
+    "RES": 6
+   }
+  },
+  "texto": "Sempre que você estiver morrendo, o movimento não custa pontos de ação extras e você ganha um ponto de ação adicional no início do seu turno.\n\n***Repetição.*** Se você pegar este talento de novo, você ganha dois pontos de ação adicionais no início do seu turno enquanto estiver morrendo (num total de 3)."
+ },
+ {
+  "id": "a_longa_estrada",
+  "nome": "A Longa Estrada",
+  "grupo": "Resistência",
+  "requisito": "Resistência 6",
+  "requisitos": {
+   "atributos": {
+    "RES": 6
+   }
+  },
+  "texto": "Ao viajar, você e cada personagem jogador podem viajar uma hora adicional sem ganhar um nível de exaustão. Além disso, você recupera todos os seus pontos de estamina depois de descansar por uma hora em vez de oito."
+ },
+ {
+  "id": "vivinho_da_silva",
+  "nome": "Vivinho da Silva",
+  "grupo": "Resistência",
+  "requisito": "Resistência 6",
+  "requisitos": {
+   "atributos": {
+    "RES": 6
+   }
+  },
+  "texto": "Seu espírito energético vai além do esperado! Você ignora os efeitos negativos dos três primeiros níveis de exaustão."
+ },
+ {
+  "id": "movido_a_sol",
+  "nome": "Movido a Sol",
+  "grupo": "Resistência",
+  "requisito": "Resistência 7",
+  "requisitos": {
+   "atributos": {
+    "RES": 7
+   }
+  },
+  "texto": "Sempre que você descansar por pelo menos uma hora sob luz solar direta, você ganha pontos de estamina temporários iguais ao seu nível. Além disso, você pode usar essa energia solar para carregar suas armas. Sempre que você rolar dano, pode perder qualquer quantidade dos pontos de estamina temporários ganhos com este talento para aumentar o dano em um valor igual aos pontos de estamina temporários perdidos."
+ },
+ {
+  "id": "vida_ao_relento",
+  "nome": "Vida ao Relento",
+  "grupo": "Resistência",
+  "requisito": "Resistência 7",
+  "requisitos": {
+   "atributos": {
+    "RES": 7
+   }
+  },
+  "texto": "Você se sente mais em casa sob as estrelas do que sob um teto. Sempre que você descansar ao ar livre por pelo menos 1 hora, você ganha pontos de vida temporários e pontos de estamina temporários iguais ao seu nível pelas próximas 8 horas.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes. Quando o pegar de novo, cada outra criatura à sua escolha que também descansar com você ganha o mesmo bônus."
+ },
+ {
+  "id": "casca_grossa",
+  "nome": "Casca Grossa",
+  "grupo": "Resistência",
+  "requisito": "Resistência 7",
+  "requisitos": {
+   "atributos": {
+    "RES": 7
+   }
+  },
+  "texto": "Sua DF aumenta em 1, mesmo que você não esteja de armadura. Além disso, quando você bloqueia, não precisa estar empunhando uma arma corpo a corpo. Se estiver empunhando uma arma corpo a corpo, sua TD aumenta em 2 contra outros ataques corpo a corpo."
+ },
+ {
+  "id": "pura_determinacao",
+  "nome": "Pura Determinação",
+  "grupo": "Resistência",
+  "requisito": "Resistência 8",
+  "requisitos": {
+   "atributos": {
+    "RES": 8
+   }
+  },
+  "texto": "Quando você chega a 0 pontos de vida pela primeira vez em um turno, você pode virar uma das suas Tampas de Karma para curar um número de pontos de vida igual ao seu Fator de Cura. Além disso, você é imune à condição choque."
+ },
+ {
+  "id": "recuperacao_rapida",
+  "nome": "Recuperação Rápida",
+  "grupo": "Resistência",
+  "requisito": "Resistência 8",
+  "requisitos": {
+   "atributos": {
+    "RES": 8
+   }
+  },
+  "texto": "Você pode gastar 3 pontos de ação no seu turno para curar um número de pontos de estamina ou de pontos de vida igual ao seu Fator de Cura. Depois de usar esta habilidade, você não pode usá-la de novo até descansar por pelo menos 6 horas. Além disso, sempre que você curar pontos de vida, você ganha um bônus igual ao seu modificador de Resistência."
+ },
+ {
+  "id": "implante_y_7",
+  "nome": "Implante Y-7",
+  "grupo": "Resistência",
+  "requisito": "Resistência 9",
+  "requisitos": {
+   "atributos": {
+    "RES": 9
+   }
+  },
+  "texto": "Seus pontos de vida máximos aumentam em um número igual ao dobro do seu nível. Além disso, seu Fator de Cura aumenta em 2."
+ },
+ {
+  "id": "armadura_subdermica_de_nemeia",
+  "nome": "Armadura Subdérmica de Nemeia",
+  "grupo": "Resistência",
+  "requisito": "Resistência 9",
+  "requisitos": {
+   "atributos": {
+    "RES": 9
+   }
+  },
+  "texto": "Você pode gastar 3 pontos de ação para ativar seu implante e, quando fizer isso, você ganha resistência a três tipos de dano à sua escolha (ácido, contusão, balístico, frio, eletricidade, explosivo, fogo, impacto, laser, perfurante, plasma, veneno, radiação ou cortante). Isso dura 3 rodadas (ou 15 segundos). Depois disso, você não pode ativar seu implante de novo até descansar por pelo menos 1 hora ou rolar Iniciativa."
+ },
+ {
+  "id": "espirito_indomavel",
+  "nome": "Espírito Indomável",
+  "grupo": "Resistência",
+  "requisito": "Resistência 10",
+  "requisitos": {
+   "atributos": {
+    "RES": 10
+   }
+  },
+  "texto": "Quando você rola Iniciativa, você e quaisquer criaturas à sua escolha ganham pontos de vida temporários iguais ao seu modificador de Resistência. Além disso, você pode gastar 3 pontos de ação em uma criatura morrendo a até 1,5 m de você; se fizer isso, ela passa em um Suspiro Final."
+ },
+ {
+  "id": "implante_fenix",
+  "nome": "Implante Fênix",
+  "grupo": "Resistência",
+  "requisito": "Resistência 10",
+  "requisitos": {
+   "atributos": {
+    "RES": 10
+   }
+  },
+  "texto": "Você pode gastar 3 pontos de ação para ativar seu implante e, quando fizer isso, você cura, no início do seu turno, um número de pontos de vida igual ao seu Fator de Cura. Isso dura 6 rodadas (ou 30 segundos). Depois disso, você não pode ativar seu implante de novo até descansar por pelo menos 1 hora ou rolar Iniciativa."
+ },
+ {
+  "id": "vendedor_esperto",
+  "nome": "Vendedor Esperto",
+  "grupo": "Carisma",
+  "requisito": "Carisma 4",
+  "requisitos": {
+   "atributos": {
+    "CAR": 4
+   }
+  },
+  "texto": "Sempre que você comprar um item, o preço é reduzido em uma porcentagem igual a 2 x seu valor de Carisma."
+ },
+ {
+  "id": "rei_do_camarote",
+  "nome": "Rei do Camarote",
+  "grupo": "Carisma",
+  "requisito": "Carisma 4",
+  "requisitos": {
+   "atributos": {
+    "CAR": 4
+   }
+  },
+  "texto": "Ninguém se diverte como você! Você não pode ficar viciado em Álcool e, sempre que beber uma bebida alcoólica, você recupera um número de pontos de estamina igual ao seu nível."
+ },
+ {
+  "id": "provocar_e_zombar",
+  "nome": "Provocar e Zombar",
+  "grupo": "Carisma",
+  "requisito": "Carisma 5",
+  "requisitos": {
+   "atributos": {
+    "CAR": 5
+   }
+  },
+  "texto": "Você é bom em causar confusão! Você pode gastar 3 pontos de ação no seu turno para provocar uma criatura alvo. Faça um teste de Carisma; essa criatura deve ser bem-sucedida em um teste de atributo de Carisma com CD igual ao total do seu teste. Se ela falhar, a próxima rolagem de ataque contra a criatura provocada que não seja sua tem vantagem. Além disso, no próximo turno dela, ela só pode atacar você. Se você tentar provocar uma criatura que já provocou antes, ela tem vantagem no teste de Carisma dela. Você não pode provocar uma criatura mais de duas vezes."
+ },
+ {
+  "id": "escolha_do_negociante",
+  "nome": "Escolha do Negociante",
+  "grupo": "Carisma",
+  "requisito": "Carisma 5",
+  "requisitos": {
+   "atributos": {
+    "CAR": 5
+   }
+  },
+  "texto": "Você tem jeito para vender até a sucata mais inútil. Sempre que vender um item, você pode vendê-lo por 75% do preço em vez de 50%."
+ },
+ {
+  "id": "poker_face",
+  "nome": "Poker Face",
+  "grupo": "Carisma",
+  "requisito": "Carisma 5",
+  "requisitos": {
+   "atributos": {
+    "CAR": 5
+   }
+  },
+  "texto": "Você é totalmente ilegível. Sempre que você rolar um teste da perícia Persuasão e o resultado for menor que 9, o total passa a ser 9 + seu bônus de Persuasão. Além disso, sempre que você apostar em um jogo de cartas ou dados, pode somar seu valor de Carisma à rolagem."
+ },
+ {
+  "id": "ego_inflado",
+  "nome": "Ego Inflado",
+  "grupo": "Carisma",
+  "requisito": "Carisma 5",
+  "requisitos": {
+   "atributos": {
+    "CAR": 5
+   }
+  },
+  "texto": "Até VOCÊ sabe por que é tão incrível! Seu modificador de Moral da Equipe é dobrado para você."
+ },
+ {
+  "id": "grito_de_guerra",
+  "nome": "Grito de Guerra",
+  "grupo": "Carisma",
+  "requisito": "Carisma 5",
+  "requisitos": {
+   "atributos": {
+    "CAR": 5
+   }
+  },
+  "texto": "Você pode gastar 3 PA no seu turno para encorajar seus aliados, soltar um grito de guerra ou, de alguma outra forma, instigar a vitória! Cada criatura à sua escolha a até 6 m de você ganha 2 pontos de ação adicionais, até um máximo de 15. Além disso, cada criatura escolhida ganha vantagem na primeira rolagem de ataque do turno dela. Depois de usar esta habilidade, você não pode usá-la de novo até rolar Iniciativa outra vez."
+ },
+ {
+  "id": "amigo_dos_animais",
+  "nome": "Amigo dos Animais",
+  "grupo": "Carisma",
+  "requisito": "Carisma 5",
+  "requisitos": {
+   "atributos": {
+    "CAR": 5
+   }
+  },
+  "texto": "Enquanto estiver em combate, você não será alvo de animais ou insetos, a menos que todos os outros alvos estejam fora de vista ou inconscientes. Além disso, você tem vantagem em qualquer teste de Carisma para interagir com animais."
+ },
+ {
+  "id": "trabalho_em_equipe",
+  "nome": "Trabalho em Equipe",
+  "grupo": "Carisma",
+  "requisito": "Carisma 6",
+  "requisitos": {
+   "atributos": {
+    "CAR": 6
+   }
+  },
+  "texto": "Sempre que outro membro do grupo falhar em uma rolagem de ataque, você pode virar uma das suas Tampas de Karma para somar um bônus igual ao seu modificador de Carisma. Se o ataque acertar, a próxima criatura a fazer uma rolagem de ataque pela primeira vez no turno dela ganha um bônus igual ao seu modificador de Carisma mais 1. Esta habilidade continua sendo ativada até que um membro do grupo erre a primeira rolagem de ataque do turno dele."
+ },
+ {
+  "id": "lealdade_feroz",
+  "nome": "Lealdade Feroz",
+  "grupo": "Carisma",
+  "requisito": "Carisma 6",
+  "requisitos": {
+   "atributos": {
+    "CAR": 6
+   }
+  },
+  "texto": "O poder da sua personalidade inspira lealdade fanática nos seus seguidores. Quando você sofrer dano nos seus pontos de vida pela primeira vez, os membros do seu grupo podem recuperar todos os seus pontos de estamina, desde que consigam perceber você. Depois que esta habilidade é ativada, ela não é ativada de novo até você descansar por pelo menos 8 horas.\n\n***Repetição.*** Depois que um personagem jogador pegar este talento, ele não pode ser pego por nenhum outro personagem."
+ },
+ {
+  "id": "eu_te_cubro",
+  "nome": "Eu Te Cubro",
+  "grupo": "Carisma",
+  "requisito": "Carisma 6",
+  "requisitos": {
+   "atributos": {
+    "CAR": 6
+   }
+  },
+  "texto": "Ombro a ombro. Quando você rola Iniciativa, escolha um aliado. Quando você e esse aliado estiverem a até 1,5 m um do outro, vocês ganham os seguintes benefícios: sua DF aumenta em 1, sua TD aumenta em 2 e, sempre que você ou o aliado escolhido sofrerem dano, qualquer um dos dois pode escolher reduzir esse dano pela metade. Então, o outro sofre a mesma quantidade de dano.\n\n***Repetição.*** Depois que um personagem jogador pegar este talento, ele não pode ser pego por nenhum outro personagem. Se você pegá-lo de novo, o bônus de DF aumenta em 1, o bônus de TD aumenta em 2 e, sempre que você ou esse aliado sofrerem dano, qualquer um dos dois pode escolher reduzir esse dano a 0. Então, o outro sofre o dano no lugar."
+ },
+ {
+  "id": "mantendo_a_calma",
+  "nome": "Mantendo a Calma",
+  "grupo": "Carisma",
+  "requisito": "Carisma 7",
+  "requisitos": {
+   "atributos": {
+    "CAR": 7
+   }
+  },
+  "texto": "Durante o combate, você tem vantagem em todos os testes de Carisma e sua DF aumenta em 1, desde que você não tenha sofrido nenhum dano nos seus pontos de vida durante o combate. Depois que você sofrer dano nos seus pontos de vida, você perde esta habilidade, mesmo que recupere esses pontos de vida.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes. Quando o pegar de novo, o bônus de DF aumenta em 1 (num total de 2) e, sempre que você sofrer dano nos seus pontos de estamina, ele é reduzido em 1."
+ },
+ {
+  "id": "presenca_aterrorizante",
+  "nome": "Presença Aterrorizante",
+  "grupo": "Carisma",
+  "requisito": "Carisma 7",
+  "requisitos": {
+   "atributos": {
+    "CAR": 7
+   }
+  },
+  "texto": "Durante a primeira rodada de combate, independentemente de você ser o primeiro, você intimida seus oponentes com ameaças. Cada inimigo que consiga ver você na ordem de Iniciativa e tenha Inteligência maior que 2 fica amedrontado até o fim do seu turno."
+ },
+ {
+  "id": "acao_inspiradora",
+  "nome": "Ação Inspiradora",
+  "grupo": "Carisma",
+  "requisito": "Carisma 7",
+  "requisitos": {
+   "atributos": {
+    "CAR": 7
+   }
+  },
+  "texto": "Você pode gastar 3 PA no seu turno para inspirar uma criatura a até 9 m. Essa criatura pode somar 2d10 a qualquer rolagem de d20 que fizer durante o próximo minuto. Depois que ela usar os 2d10, não pode usá-los de novo. Depois que você inspirar uma criatura, não pode inspirá-la de novo até o dia seguinte."
+ },
+ {
+  "id": "lenda_dos_ermos",
+  "nome": "Lenda dos Ermos",
+  "grupo": "Carisma",
+  "requisito": "Carisma 8",
+  "requisitos": {
+   "atributos": {
+    "CAR": 8
+   }
+  },
+  "texto": "Histórias sobre você são contadas por todo o ermo. Quando você rola Iniciativa, os pontos de estamina máximos de cada criatura inimiga são reduzidos em um valor igual à sua Moral da Equipe. Sim, mesmo que sejam criaturas incapazes de compreender a ideia de uma lenda."
+ },
+ {
+  "id": "personalidade_impulsionadora",
+  "nome": "Personalidade Impulsionadora",
+  "grupo": "Carisma",
+  "requisito": "Carisma 8",
+  "requisitos": {
+   "atributos": {
+    "CAR": 8
+   }
+  },
+  "texto": "Você lidera pelo exemplo: sempre que outra criatura a até 9 m de você causar dano com uma rolagem de ataque, você pode virar uma das suas Tampas de Karma para aumentar o dano em um bônus igual ao dobro do seu modificador de Carisma. Além disso, sempre que outra criatura sofrer dano nos seus pontos de vida, você pode virar uma das suas Tampas de Karma para reduzir esse dano em um valor igual ao dobro do seu modificador de Carisma."
+ },
+ {
+  "id": "comandante",
+  "nome": "Comandante",
+  "grupo": "Carisma",
+  "requisito": "Carisma 9",
+  "requisitos": {
+   "atributos": {
+    "CAR": 9
+   }
+  },
+  "texto": "Uma vez por turno, você pode gastar 3 PA para dar uma ordem a qualquer criatura aliada a até 18 m de você. Essa criatura ganha 6 PA para completar imediatamente a ação descrita. Esses pontos de ação não passam para o próximo turno e não podem ser reciclados."
+ },
+ {
+  "id": "estrategista_astuto",
+  "nome": "Estrategista Astuto",
+  "grupo": "Carisma",
+  "requisito": "Carisma 9",
+  "requisitos": {
+   "atributos": {
+    "CAR": 9
+   }
+  },
+  "texto": "Sempre que outro personagem jogador desvirar a Tampa de Karma dele ao rolar 1 em um d20 ou ao ser atingido por um acerto crítico, você também pode desvirar a sua Tampa de Karma.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes; quando o pegar de novo, sempre que outro personagem jogador desvirar a Tampa de Karma dele ao rolar 1 em um d20 ou ao ser atingido por um acerto crítico, você pode escolher que outro personagem jogador desvire a Tampa de Karma dele."
+ },
+ {
+  "id": "celebridade",
+  "nome": "Celebridade",
+  "grupo": "Carisma",
+  "requisito": "Carisma 10",
+  "requisitos": {
+   "atributos": {
+    "CAR": 10
+   }
+  },
+  "texto": "Todo mundo sabe quem você é! As pessoas pelo ermo enlouquecem só de conhecer você! Você ganha bebidas de graça em bares e tem um desconto permanente de 20% em todos os itens (desde que você não aja como um babaca). Sempre que você encontrar um PNJ que não seja hostil, esteja em posição neutra em relação a você ou ligado diretamente a uma facção, você pode rolar um teste de Sorte com CD igual a 30 − seu bônus de Persuasão ou de Barganha. Em caso de sucesso, o PNJ sabe quem você é. Você ganha vantagem em todos os testes de perícia baseados em Carisma com esse PNJ. Além disso, você pode perder uma das suas Tampas de Karma para fazer esse PNJ seguir você e seu grupo, obedecendo suas ordens (dentro do razoável), mas sem se machucar ou se matar de propósito. Se você dispensar esse PNJ, ou ele morrer, você recupera sua Tampa de Karma."
+ },
+ {
+  "id": "fique_e_lute",
+  "nome": "Fique e Lute",
+  "grupo": "Carisma",
+  "requisito": "Carisma 10",
+  "requisitos": {
+   "atributos": {
+    "CAR": 10
+   }
+  },
+  "texto": "Sempre que outra criatura a até 18 m de você falhar em um Suspiro Final e morrer, você pode transformar essa rolagem em um sucesso crítico. Depois que você usar esta habilidade em uma criatura, não pode usá-la nela de novo por 12 horas."
+ },
+ {
+  "id": "retencao",
+  "nome": "Retenção",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 4",
+  "requisitos": {
+   "atributos": {
+    "INT": 4
+   }
+  },
+  "texto": "Sempre que outro personagem jogador for bem-sucedido em um teste das perícias Barganha, Sabotagem, Criação, Intimidação, Medicina, Ciência, Furtividade, Persuasão ou Sobrevivência, você ganha +3 nesse teste de perícia na próxima vez que rolá-lo (até um máximo de +3). Além disso, sempre que você ler uma Revista de Perícia, os efeitos dela duram 8 horas em vez de 1."
+ },
+ {
+  "id": "furia_matematica",
+  "nome": "Fúria Matemática",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 4",
+  "requisitos": {
+   "atributos": {
+    "INT": 4
+   }
+  },
+  "texto": "Sempre que você fizer um ataque mirado, pode gastar metade da quantidade de PA adicionais (arredondada para cima). Além disso, você pode fazer um ataque especial com uma arma de longo alcance no seu turno chamado ataque Calculado. Esse ataque custa 6 pontos de ação, independentemente do custo em pontos de ação da arma. Quando você faz um ataque Calculado, pode mirar em uma criatura atrás de cobertura ou fora de vista, desde que haja um plano ou superfície em que seu projétil possa ricochetear (a critério do MJ). Quando você rola dano de um ataque Calculado, o dano é reduzido em 1 para cada 3 m que o projétil percorrer depois de ricochetear."
+ },
+ {
+  "id": "quimico",
+  "nome": "Químico",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 5",
+  "requisitos": {
+   "atributos": {
+    "INT": 5
+   }
+  },
+  "texto": "Você sabe exatamente o que colocam nesses químicos. A duração de qualquer químico que você tomar dura o dobro e você tem vantagem para resistir ao vício."
+ },
+ {
+  "id": "primeiros_socorros",
+  "nome": "Primeiros Socorros",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 5",
+  "requisitos": {
+   "atributos": {
+    "INT": 5
+   }
+  },
+  "texto": "Você pode curar uma criatura até o Fator de Cura dela com 5 PA. Depois que você curar assim, essa criatura só pode ser curada de novo depois de descansar por pelo menos 8 horas."
+ },
+ {
+  "id": "explorador",
+  "nome": "Explorador",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 5",
+  "requisitos": {
+   "atributos": {
+    "INT": 5
+   }
+  },
+  "texto": "Sempre que você descansar e ganhar um bônus de XP depois de ter descoberto novos locais, você ganha um bônus adicional de 50% de XP. Além disso, você pode descobrir a direção e a distância de até três locais nomeados, a critério do MJ."
+ },
+ {
+  "id": "meteorologista",
+  "nome": "Meteorologista!",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 5",
+  "requisitos": {
+   "atributos": {
+    "INT": 5
+   }
+  },
+  "texto": "Você sempre sabe onde fica o norte, como será o tempo nos próximos três dias e se a área por onde você está viajando é povoada ou vazia (o que determina os encontros)."
+ },
+ {
+  "id": "mecanico_itinerante",
+  "nome": "Mecânico Itinerante",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 5",
+  "requisitos": {
+   "atributos": {
+    "INT": 5
+   }
+  },
+  "texto": "Sempre que você fabricar um item, não precisa mais de uma bancada. Porém, você precisa manter suas ferramentas com você. Suas ferramentas equivalem a 5 de carga."
+ },
+ {
+  "id": "virologista_de_quintal",
+  "nome": "Virologista de Quintal",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 5",
+  "requisitos": {
+   "atributos": {
+    "INT": 5
+   }
+  },
+  "texto": "Você conhece truques para tratar as doenças do ermo. A duração de uma doença é reduzida pela metade (arredondada para baixo), desde que você passe 10 minutos ininterruptos com a criatura doente e use um item de comida do tipo Produto combinado com um item de Químico ou de Medicina. Depois que a doença tiver sido tratada assim por este talento, ela não pode ser tratada assim de novo por você ou por nenhuma outra criatura."
+ },
+ {
+  "id": "toque_leve",
+  "nome": "Toque Leve",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 6",
+  "requisitos": {
+   "atributos": {
+    "INT": 6
+   }
+  },
+  "texto": "Você sabe fabricar sua armadura sob medida para que ela lhe dê mais flexibilidade e proteção. Quando você sofre dano e é reduzido a 0 pontos de vida, sua armadura ganha apenas 1 Nível de Desgaste. Além disso, sempre que você sofrer dano nos seus pontos de vida, você pode fazer sua armadura absorver o golpe. O dano é reduzido a 0, mas sua armadura ganha 1 Nível de Desgaste para cada 10 de dano absorvido."
+ },
+ {
+  "id": "municao_eficiente",
+  "nome": "Munição Eficiente",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 6",
+  "requisitos": {
+   "atributos": {
+    "INT": 6
+   }
+  },
+  "texto": "Sempre que você fabricar qualquer tipo de munição, as rolagens de ataque e de dano feitas com essa munição aumentam em 2. Alternativamente, você pode abrir mão desse bônus para, em vez disso, dobrar a quantidade de munição que você fabrica sempre que fabricar qualquer tipo de munição."
+ },
+ {
+  "id": "alquimista_habilidoso",
+  "nome": "Alquimista Habilidoso",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 6",
+  "requisitos": {
+   "atributos": {
+    "INT": 6
+   }
+  },
+  "texto": "Você entende as fórmulas complexas dos químicos e agora pode alterá-las para mudar seus efeitos. Sempre que você fabricar um Químico, você usa um material a menos dos listados nos materiais de fabricação, até o mínimo de um. Você também pode fazer qualquer Químico ser potente ou diluído, desde que use um dos materiais listados nos materiais de fabricação. Os efeitos de um Químico potente são dobrados, mas a CD de vício aumenta em 2. Os efeitos de um Químico diluído são pela metade, mas você não pode ficar viciado em um Químico diluído."
+ },
+ {
+  "id": "furia_de_nerd",
+  "nome": "Fúria de Nerd!",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 7",
+  "requisitos": {
+   "atributos": {
+    "INT": 7
+   }
+  },
+  "texto": "Você foi empurrado demais por tempo demais! Sempre que você começar seu turno com menos da metade dos seus pontos de vida totais, sua TD aumenta em 3 e você causa 3 de dano adicional."
+ },
+ {
+  "id": "armadura_reluzente",
+  "nome": "Armadura Reluzente",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 7",
+  "requisitos": {
+   "atributos": {
+    "INT": 7
+   }
+  },
+  "texto": "Você melhorou sua armadura com material refletivo. Você tem resistência a dano de laser e de plasma. Além disso, cada vez que você for atingido por dano de laser ou de plasma, role um teste de Sorte. Com 19 ou mais, o feixe é refratado e atinge o atacante, causando o mesmo dano a ele."
+ },
+ {
+  "id": "mestre_da_armadura_potente",
+  "nome": "Mestre da Armadura Potente",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 7",
+  "requisitos": {
+   "atributos": {
+    "INT": 7
+   }
+  },
+  "texto": "Você conhece a armadura potente de cabo a rabo. Quando você usa armadura potente, ela não superaquece se você gastar mais de 15 PA em um turno. Além disso, você pode fabricar um aprimoramento especial para qualquer armadura potente que aumenta em 2 os pontos de defesa máximos e recuperados dela. Os materiais de fabricação necessários para esse aprimoramento são iguais aos necessários para reparar a armadura potente. Por fim, quando você repara uma armadura potente, você gasta um a menos de cada material."
+ },
+ {
+  "id": "especialista_em_robos",
+  "nome": "Especialista em Robôs",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 8",
+  "requisitos": {
+   "atributos": {
+    "INT": 8
+   }
+  },
+  "texto": "Você ignora 2 pontos de TD ao causar dano a robôs. Além disso, você pode tentar desligar robôs com um teste de Ciência bem-sucedido; a CD é igual ao valor de Inteligência do robô + 10. Você não pode desligar robôs se estiver em combate com eles."
+ },
+ {
+  "id": "genio_da_computacao",
+  "nome": "Gênio da Computação",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 8",
+  "requisitos": {
+   "atributos": {
+    "INT": 8
+   }
+  },
+  "texto": "Sempre que você falhar em um teste de Sabotagem para hackear um computador, você pode gastar 10 minutos para fazer seu resultado ser igual a 8 + seu bônus de Sabotagem, ou gastar uma hora para fazer seu resultado ser igual a 8 + o dobro do seu bônus de Sabotagem."
+ },
+ {
+  "id": "reparo_rapido",
+  "nome": "Reparo Rápido",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 9",
+  "requisitos": {
+   "atributos": {
+    "INT": 9
+   }
+  },
+  "texto": "Você pode gastar 6 pontos de ação para fazer um reparo rápido. O reparo rápido remove dois níveis de desgaste de um item. Depois de fazer um reparo rápido, você não pode fazer outro até descansar por pelo menos 8 horas.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes. Quando o pegar de novo, você pode fazer um reparo rápido adicional por descanso de 8 horas."
+ },
+ {
+  "id": "atomizador_curativo",
+  "nome": "Atomizador Curativo",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 9",
+  "requisitos": {
+   "atributos": {
+    "INT": 9
+   }
+  },
+  "texto": "Você pode gastar 6 pontos de ação e dois Stimpaks para fazer cada criatura não robótica a até 6 m de você recuperar pontos de vida iguais ao Fator de Cura dela. Alternativamente, você pode gastar 6 pontos de ação e dois RobCo ConsertaJá para fazer cada criatura robótica a até 6 m de você recuperar pontos de vida iguais ao Fator de Cura dela.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes. Se pegá-lo de novo, você pode usar quatro Stimpaks ou kits de reparo de robô para fazer cada criatura curar o dobro do Fator de Cura dela."
+ },
+ {
+  "id": "sobrecarga",
+  "nome": "Sobrecarga",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 10",
+  "requisitos": {
+   "atributos": {
+    "INT": 10
+   }
+  },
+  "texto": "Quando você gastar pontos de ação para fazer uma rolagem de ataque com uma arma de longo alcance, você pode gastar até 3 PA adicionais para somar dados de dano adicionais ao dano. O número de dados de dano adicionais é igual à quantidade de PA extras gastos. Você só pode usar esta habilidade uma vez por turno."
+ },
+ {
+  "id": "engenheiro_especialista",
+  "nome": "Engenheiro Especialista",
+  "grupo": "Inteligência",
+  "requisito": "Inteligência 10",
+  "requisitos": {
+   "atributos": {
+    "INT": 10
+   }
+  },
+  "texto": "Sempre que você fabricar um item, você usa dois materiais a menos de cada material listado, até o mínimo de um."
+ },
+ {
+  "id": "saque_rapido",
+  "nome": "Saque Rápido",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 4",
+  "requisitos": {
+   "atributos": {
+    "AGI": 4
+   }
+  },
+  "texto": "Sempre que você gastar pontos de ação para equipar ou guardar um item, custa 2 a menos, até o mínimo de 1."
+ },
+ {
+  "id": "heroi_de_acao",
+  "nome": "Herói de Ação",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 4",
+  "requisitos": {
+   "atributos": {
+    "AGI": 4
+   }
+  },
+  "texto": "Seu máximo de pontos de ação aumenta em 2, até o máximo de 15."
+ },
+ {
+  "id": "martelo_rapido",
+  "nome": "Martelo Rápido",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 5",
+  "requisitos": {
+   "atributos": {
+    "AGI": 5
+   }
+  },
+  "texto": "Sempre que você atacar com um revólver, você pode virar uma das suas Tampas de Karma e gastar 10 PA para fazer ataques adicionais sem gastar nenhum PA adicional; o alvo desses ataques deve estar a até 3 m do alvo anterior. O número de ataques que você pode fazer é igual às balas que restam no tambor do revólver."
+ },
+ {
+  "id": "recarga_rapida",
+  "nome": "Recarga Rápida",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 5",
+  "requisitos": {
+   "atributos": {
+    "AGI": 5
+   }
+  },
+  "texto": "Sempre que você gastar PA para recarregar ou se abrigar, custa 3 a menos, até o mínimo de 1. Além disso, quando você recarregar uma arma com Recarga Manual, pode gastar 1 PA para recarregar três balas."
+ },
+ {
+  "id": "reator_de_reacao",
+  "nome": "Reator de Reação",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 5",
+  "requisitos": {
+   "atributos": {
+    "AGI": 5
+   }
+  },
+  "texto": "Se você terminar seu turno com pelo menos 3 pontos de ação não usados, pode usá-los no fim do turno de outra criatura. Se não os usar, você recicla todos eles no início do seu próximo turno."
+ },
+ {
+  "id": "a_danca",
+  "nome": "A Dança",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 5",
+  "requisitos": {
+   "atributos": {
+    "AGI": 5
+   }
+  },
+  "texto": "Sempre que você rolar dano de um ataque feito com uma arma corpo a corpo cortante, pode escolher somar seu modificador de atributo de Agilidade ao dano em vez do seu modificador de Força."
+ },
+ {
+  "id": "corrida_agil",
+  "nome": "Corrida Ágil",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 5",
+  "requisitos": {
+   "atributos": {
+    "AGI": 5
+   }
+  },
+  "texto": "Sempre que você gastar pontos de ação no seu turno para disparar numa corrida, você não para o movimento quando barreiras pequenas bloquearem o caminho. Em vez disso, você pode gastar 3 m desse movimento para pular por cima ou deslizar por baixo da barreira. Além disso, se você gastou todos os seus pontos de ação de um turno para disparar numa corrida, todas as rolagens de ataque feitas contra você têm desvantagem até o início do seu próximo turno."
+ },
+ {
+  "id": "acao_evasiva",
+  "nome": "Ação Evasiva",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 5",
+  "requisitos": {
+   "atributos": {
+    "AGI": 5
+   }
+  },
+  "texto": "Sempre que você sofrer dano nos seus pontos de estamina pela primeira vez depois de rolar Iniciativa, o dano é reduzido a 0."
+ },
+ {
+  "id": "pistoleiro",
+  "nome": "Pistoleiro",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 6",
+  "requisitos": {
+   "atributos": {
+    "AGI": 6
+   }
+  },
+  "texto": "Sempre que você fizer uma rolagem de ataque com uma arma de mão, some 2 ao resultado. Além disso, sempre que você acertar uma criatura com uma rolagem de ataque mirado na cabeça com uma arma de mão, pode virar uma das suas Tampas de Karma para transformar o acerto em acerto crítico. Depois de usar esta habilidade, você não pode usá-la de novo até rolar Iniciativa outra vez."
+ },
+ {
+  "id": "e_fique_longe",
+  "nome": "E Fique Longe",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 6",
+  "requisitos": {
+   "atributos": {
+    "AGI": 6
+   }
+  },
+  "texto": "Sempre que você causar dano a uma criatura com uma escopeta, você ignora 2 pontos de TD. Além disso, se o alvo estiver a até 1,5 m de você, você pode escolher empurrá-lo 4,5 m para longe de você."
+ },
+ {
+  "id": "atirador_multialvo",
+  "nome": "Atirador Multialvo",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 6",
+  "requisitos": {
+   "atributos": {
+    "AGI": 6
+   }
+  },
+  "texto": "Sempre que você acertar uma criatura com um ataque à distância, sua próxima rolagem de ataque à distância aumenta em 2, desde que você mire em uma criatura diferente. Depois desse segundo ataque, se você mirar em uma criatura diferente das duas anteriores, a rolagem de ataque aumenta em 4. Depois desse terceiro ataque, você não pode ganhar o aumento inicial de 2 até fazer outro ataque à distância.\n\n*Esclarecimento: você pode fazer um ataque à distância normal; depois, se mirar em outra criatura, ganha +2. Se mirar em mais uma criatura diferente, ganha +4. Então o bônus reseta. Você precisa atacar uma criatura sem o bônus deste talento para começar o ciclo de +2 a +4 de novo. Mais um esclarecimento: você não precisa fazer esses ataques todos no mesmo turno.*"
+ },
+ {
+  "id": "ninja",
+  "nome": "Ninja",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 7",
+  "requisitos": {
+   "atributos": {
+    "AGI": 7
+   }
+  },
+  "texto": "Você pode gastar 5 pontos de ação no seu turno para fazer um ataque giratório; esse ataque atinge 3 criaturas a até 1,5 m de você e conta como um ataque de pugilismo. Além disso, sempre que você atacar com uma arma corpo a corpo ou com um ataque de pugilismo, sua chance de crítico diminui em 2."
+ },
+ {
+  "id": "fogo_concentrado",
+  "nome": "Fogo Concentrado",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 7",
+  "requisitos": {
+   "atributos": {
+    "AGI": 7
+   }
+  },
+  "texto": "Sempre que você acertar com uma rolagem de ataque mirado, você pode escolher a condição de membro. Além disso, suas rolagens de ataque contra criaturas aumentam em 2 para cada condição de membro que elas tenham."
+ },
+ {
+  "id": "armas_dobradas",
+  "nome": "Armas Dobradas!",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 7",
+  "requisitos": {
+   "atributos": {
+    "AGI": 7
+   }
+  },
+  "texto": "Uma arma só não basta? Você sabe empunhar duas com eficiência mortal. Se você empunhar uma arma de fogo ou de energia em uma mão e outra arma de fogo ou de energia na outra, pode gastar PA adicionais ao atacar com uma arma para fazer outro ataque com a outra. Os PA adicionais são iguais à metade do custo em PA da segunda arma (arredondada para cima)."
+ },
+ {
+  "id": "sr_sandman",
+  "nome": "Sr. Sandman",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 8",
+  "requisitos": {
+   "atributos": {
+    "AGI": 8
+   }
+  },
+  "texto": "Me traga um sonho! Se você atacar uma criatura inconsciente, ela morre."
+ },
+ {
+  "id": "mira_mortal_do_sentinela",
+  "nome": "Mira Mortal do Sentinela",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 8",
+  "requisitos": {
+   "atributos": {
+    "AGI": 8
+   }
+  },
+  "texto": "Se você for o primeiro a agir na Iniciativa, pode escolher que sua primeira rolagem de ataque seja um acerto crítico ou, então, atacar até três vezes sem gastar nenhum PA."
+ },
+ {
+  "id": "camuflagem_da_equipe",
+  "nome": "Camuflagem da Equipe",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 9",
+  "requisitos": {
+   "atributos": {
+    "AGI": 9
+   }
+  },
+  "texto": "Sua Furtividade da Equipe é igual a 20, assim como a de quaisquer aliados a até 9 m de você."
+ },
+ {
+  "id": "velocista_eficiente",
+  "nome": "Velocista Eficiente",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 9",
+  "requisitos": {
+   "atributos": {
+    "AGI": 9
+   }
+  },
+  "texto": "Você recicla todos os seus pontos de ação não usados no início do seu turno. Além disso, sempre que você disparar numa corrida, pode mudar de direção uma vez e continuar correndo."
+ },
+ {
+  "id": "reflexos_antecipados",
+  "nome": "Reflexos Antecipados",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 10",
+  "requisitos": {
+   "atributos": {
+    "AGI": 10
+   }
+  },
+  "texto": "Sempre que um ataque superar sua DF e acertar você, você pode escolher gastar 3 pontos de ação para aumentar sua DF em 1, 6 pontos de ação para aumentá-la em 2, ou 9 pontos de ação para aumentá-la em 3. Porém, no início do seu próximo turno você recupera menos pontos de ação, na quantidade que gastou."
+ },
+ {
+  "id": "nervos_de_aco",
+  "nome": "Nervos de Aço",
+  "grupo": "Agilidade",
+  "requisito": "Agilidade 10",
+  "requisitos": {
+   "atributos": {
+    "AGI": 10
+   }
+  },
+  "texto": "No início de cada um dos seus turnos, desde que seu total de pontos de vida não esteja abaixo da metade, você recupera pontos de estamina iguais à metade do seu nível (arredondada para baixo)."
+ },
+ {
+  "id": "fucador",
+  "nome": "Fuçador",
+  "grupo": "Sorte",
+  "requisito": "Sorte 4",
+  "requisitos": {
+   "atributos": {
+    "SOR": 4
+   }
+  },
+  "texto": "Sempre que você fizer um teste de atributo de Sorte para determinar o saque que encontra, você pode rolar dois testes e escolher qual resultado vale."
+ },
+ {
+  "id": "critao",
+  "nome": "Critão",
+  "grupo": "Sorte",
+  "requisito": "Sorte 4",
+  "requisitos": {
+   "atributos": {
+    "SOR": 4
+   }
+  },
+  "texto": "Os acertos críticos que você causa em combate são mais devastadores. Se você tirar 20 em uma rolagem de ataque com uma arma, você acerta criticamente e o dano do crítico é dobrado."
+ },
+ {
+  "id": "bagunca_sangrenta",
+  "nome": "Bagunça Sangrenta",
+  "grupo": "Sorte",
+  "requisito": "Sorte 5",
+  "requisitos": {
+   "atributos": {
+    "SOR": 5
+   }
+  },
+  "texto": "Sempre que você causar dano com uma arma ou explosivo, o dano aumenta em 2. Além disso, sempre que você reduzir uma criatura a 0 pontos de vida, role um teste de Sorte com CD 20. Se for bem-sucedido, o corpo da criatura explode em uma horrível papa visceral. Cada criatura à sua escolha a até 9 m da explosão fica amedrontada por 1 rodada."
+ },
+ {
+  "id": "cacador_de_fortuna",
+  "nome": "Caçador de Fortuna",
+  "grupo": "Sorte",
+  "requisito": "Sorte 5",
+  "requisitos": {
+   "atributos": {
+    "SOR": 5
+   }
+  },
+  "texto": "Quando você pega este talento, você de repente se vê dono de 800 tampinhas! Além disso, sempre que você encontrar tampinhas, encontra uma quantidade a mais igual ao seu modificador de atributo de Sorte."
+ },
+ {
+  "id": "em_dobro",
+  "nome": "Em Dobro",
+  "grupo": "Sorte",
+  "requisito": "Sorte 5",
+  "requisitos": {
+   "atributos": {
+    "SOR": 5
+   }
+  },
+  "texto": "Você ganha uma Tampa de Karma adicional."
+ },
+ {
+  "id": "simplesmente_funciona",
+  "nome": "Simplesmente Funciona",
+  "grupo": "Sorte",
+  "requisito": "Sorte 5",
+  "requisitos": {
+   "atributos": {
+    "SOR": 5
+   }
+  },
+  "texto": "Sempre que qualquer uma das suas armas ou armaduras fosse ganhar um nível de desgaste, role um teste de Sorte com CD igual a 12 + os níveis de desgaste atuais da arma ou armadura. Se falhar, a arma ou armadura ganha um nível de desgaste. Se for bem-sucedido, ela ainda ganha um nível de desgaste, mas esse nível não aplica nenhum efeito negativo enquanto você o tiver.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes. Se o pegar de novo, sempre que for bem-sucedido no teste de Sorte citado, a arma ou armadura não ganha nenhum nível de desgaste."
+ },
+ {
+  "id": "no_acaso",
+  "nome": "No Acaso!",
+  "grupo": "Sorte",
+  "requisito": "Sorte 5",
+  "requisitos": {
+   "atributos": {
+    "SOR": 5
+   }
+  },
+  "texto": "Sempre que você ou outro membro do grupo errar um ataque ou falhar em um teste de atributo ou de perícia, você pode virar uma das suas Tampas de Karma para transformar isso em um sucesso (a critério do MJ)."
+ },
+ {
+  "id": "imuno_trevo_de_quatro_folhas",
+  "nome": "Imuno-Trevo-de-Quatro-Folhas",
+  "grupo": "Sorte",
+  "requisito": "Sorte 5",
+  "requisitos": {
+   "atributos": {
+    "SOR": 5
+   }
+  },
+  "texto": "Quando você ou outro personagem jogador contrair uma doença, você pode rolar um teste de Sorte com CD igual a 10 + 2d4. Se for bem-sucedido, você não contrai a doença e, da próxima vez que rolar este teste, a CD aumenta em 1d4. A CD volta para 10 + 2d4 depois que você contrair uma doença."
+ },
+ {
+  "id": "correria_do_ceifador",
+  "nome": "Correria do Ceifador",
+  "grupo": "Sorte",
+  "requisito": "Sorte 6",
+  "requisitos": {
+   "atributos": {
+    "SOR": 6
+   }
+  },
+  "texto": "Sempre que você levar uma criatura a 0 pontos de vida com um ataque mirado, você ganha imediatamente 8 pontos de ação. Se levar outra criatura a 0 pontos de vida com um ataque mirado no mesmo turno, você ganha imediatamente 6 pontos de ação. Se levar uma terceira criatura a 0 pontos de vida com um ataque mirado no mesmo turno, você ganha imediatamente 4 pontos de ação."
+ },
+ {
+  "id": "reza_e_atira",
+  "nome": "Reza e Atira",
+  "grupo": "Sorte",
+  "requisito": "Sorte 6",
+  "requisitos": {
+   "atributos": {
+    "SOR": 6
+   }
+  },
+  "texto": "Você consegue encher uma área de chumbo com total descaso. Sempre que fizer um ataque às cegas, você tem vantagem na rolagem de ataque. Além disso, a CD do ataque às cegas é reduzida pela metade."
+ },
+ {
+  "id": "randomizador",
+  "nome": "Randomizador",
+  "grupo": "Sorte",
+  "requisito": "Sorte 6",
+  "requisitos": {
+   "atributos": {
+    "SOR": 6
+   }
+  },
+  "texto": "Sempre que você fabricar ou reparar um item, pode escolher aleatoriamente um dos materiais necessários; o material necessário é reduzido em uma quantidade igual ao seu modificador de atributo de Sorte, até o mínimo de 1. O material necessário também é substituído por um material de sucata escolhido aleatoriamente. Além disso, sempre que você consumir uma comida, bebida ou químico, pode escolher rolar um teste de atributo de Sorte com CD 15; se for bem-sucedido, uma propriedade aleatória de comida, bebida ou químico é adicionada ao item consumido."
+ },
+ {
+  "id": "banqueiro_de_criticos",
+  "nome": "Banqueiro de Críticos",
+  "grupo": "Sorte",
+  "requisito": "Sorte 7",
+  "requisitos": {
+   "atributos": {
+    "SOR": 7
+   }
+  },
+  "texto": "Sempre que você acertar um crítico, pode escolher não causar dano extra. Se fizer isso, você ganha uma Tampa de Karma temporária que se perde quando virada. Se você usar essa Tampa de Karma temporária em uma rolagem de ataque, o ataque é automaticamente um acerto crítico. Você só pode ter no máximo uma Tampa de Karma temporária."
+ },
+ {
+  "id": "ricochete",
+  "nome": "Ricochete",
+  "grupo": "Sorte",
+  "requisito": "Sorte 7",
+  "requisitos": {
+   "atributos": {
+    "SOR": 7
+   }
+  },
+  "texto": "O que vai, volta! Sempre que outra criatura fizer uma rolagem de ataque contra você e tirar 1, o ataque acerta ela em vez de você. Além disso, sempre que outra criatura fizer uma rolagem de ataque a até 9 m de você, você pode virar uma das suas Tampas de Karma para transformar o resultado da rolagem de ataque em 1."
+ },
+ {
+  "id": "oportunidade_infligivel",
+  "nome": "Oportunidade Infligível",
+  "grupo": "Sorte",
+  "requisito": "Sorte 7",
+  "requisitos": {
+   "atributos": {
+    "SOR": 7
+   }
+  },
+  "texto": "Você pode usar a ação de ajudar com 3 PA em vez de 6. Além disso, quando você ajudar outra criatura em um teste de perícia, ela pode somar seu bônus de perícia inteiro à rolagem, em vez de metade."
+ },
+ {
+  "id": "estranho_misterioso",
+  "nome": "Estranho Misterioso",
+  "grupo": "Sorte",
+  "requisito": "Sorte 8",
+  "requisitos": {
+   "atributos": {
+    "SOR": 8
+   }
+  },
+  "texto": "Você tem a proteção do anjo da guarda do ermo. Escolha um número de 2 a 19. Sempre que você fizer uma rolagem de ataque e o resultado for o número escolhido, o Estranho Misterioso aparece! Quando ele aparece, role um d20 (você pode somar seu modificador de atributo de Sorte a essa rolagem; ela não conta como teste de atributo nem de perícia) e consulte a tabela abaixo.\n\n| Resultado | Efeito |\n| --- | --- |\n| 1–9 | O alvo da rolagem de ataque sofre dano balístico igual a 2 x seu nível. |\n| 10–20 | O alvo da rolagem de ataque sofre dano balístico igual a 3 x seu nível. |\n| 21–24 | Seu ataque vira um acerto crítico. Se já era um acerto crítico, você não rola os dados de dano e causa o máximo em cada dado. |\n| 25+ | O alvo da rolagem de ataque morre. |\n\n***Repetição.*** Este talento só pode ser pego uma vez e por apenas um personagem jogador."
+ },
+ {
+  "id": "sorte_de_tolo",
+  "nome": "Sorte de Tolo",
+  "grupo": "Sorte",
+  "requisito": "Sorte 8",
+  "requisitos": {
+   "atributos": {
+    "SOR": 8
+   }
+  },
+  "texto": "Não há lógica na aptidão da sua vida. Seu modificador de atributo de Sorte inteiro é somado a todos os seus modificadores de perícia, em vez de metade. Além disso, sempre que você virar sua Tampa de Karma para ganhar vantagem em um teste de atributo ou de perícia, pode somar o dobro do seu modificador de Sorte ao total.\n\n***Repetição.*** Você pode pegar este talento no máximo duas vezes. Se o pegar de novo, todos os seus modificadores de perícia aumentam em 2. Além disso, sempre que você virar sua Tampa de Karma para rolar de novo um teste de atributo ou de perícia, pode somar o dobro do seu modificador de Sorte à segunda rolagem."
+ },
+ {
+  "id": "ja_vi_esse_filme",
+  "nome": "Já Vi Esse Filme",
+  "grupo": "Sorte",
+  "requisito": "Sorte 9",
+  "requisitos": {
+   "atributos": {
+    "SOR": 9
+   }
+  },
+  "texto": "Sempre que você ou um aliado a até 30 m de você fizer um teste de atributo de Sorte, ele aumenta em 3. Além disso, sempre que você ganhar XP, ganha um bônus igual a 5d10 + a soma dos valores de Sorte de todos os personagens jogadores, dividido pela metade."
+ },
+ {
+  "id": "a_sorte_favorece_os_audazes",
+  "nome": "A Sorte Favorece os Audazes",
+  "grupo": "Sorte",
+  "requisito": "Sorte 9",
+  "requisitos": {
+   "atributos": {
+    "SOR": 9
+   }
+  },
+  "texto": "Sempre que você ou qualquer outro personagem jogador virar a Tampa de Karma para ganhar vantagem ou uma nova rolagem em um teste de atributo, teste de perícia ou rolagem de ataque, estale o dedo e vire fisicamente a Tampa de Karma. Se ela cair com a face para cima, ela continua virada para cima.\n\n***Repetição.*** Você pode pegar este talento no máximo uma vez. Se qualquer outro personagem jogador pegá-lo, e se a sua Tampa de Karma cair com a face para baixo, você pode virá-la fisicamente um número de vezes igual à quantidade de personagens jogadores que pegaram este talento além do primeiro."
+ },
+ {
+  "id": "vantagem_absurda",
+  "nome": "Vantagem Absurda",
+  "grupo": "Sorte",
+  "requisito": "Sorte 10",
+  "requisitos": {
+   "atributos": {
+    "SOR": 10
+   }
+  },
+  "texto": "Sempre que você ou qualquer outro personagem jogador rolar um teste de atributo, teste de perícia ou rolagem de ataque com vantagem, role três d20 em vez de dois e escolha o maior resultado.\n\n***Repetição.*** Você pode pegar este talento no máximo uma vez. Se qualquer outro personagem jogador pegá-lo, a quantidade de d20 rolados com vantagem aumenta em um."
+ },
+ {
+  "id": "nunca_me_diga_as_chances",
+  "nome": "Nunca Me Diga as Chances",
+  "grupo": "Sorte",
+  "requisito": "Sorte 10",
+  "requisitos": {
+   "atributos": {
+    "SOR": 10
+   }
+  },
+  "texto": "Sempre que outra criatura acertar você com um ataque, você pode virar uma das suas Tampas de Karma para transformar o acerto em erro. Além disso, sempre que você estiver na condição morrendo, todos os ataques rolados contra você erram automaticamente."
+ },
+ {
+  "id": "canibal",
+  "nome": "Canibal",
+  "grupo": "Raça",
+  "requisito": "Humano, Necrótico ou Super Mutante",
+  "requisitos": {
+   "racas": [
+    "humano",
+    "necrotico",
+    "super_mutante"
+   ]
+  },
+  "texto": "Você se banqueteia com a mais tabu das carnes. Sempre que você consumir a carne de um humano, necrótico ou super mutante que tenha morrido nos últimos 15 minutos, você cura pontos de vida iguais ao dobro do seu Fator de Cura; depois de curar assim, você não pode curar assim de novo até descansar por pelo menos 8 horas. Se você consumir carne humana ou necrótica preparada, você cura pontos de estamina iguais ao seu nível."
+ },
+ {
+  "id": "gourmet_do_velho_mundo",
+  "nome": "Gourmet do Velho Mundo",
+  "grupo": "Raça",
+  "requisito": "Humano",
+  "requisitos": {
+   "racas": [
+    "humano"
+   ]
+  },
+  "texto": "Graças a uma vida pouco asseada, você aprendeu os segredos dos lagartos de salão! Comidas e Bebidas não dão mais níveis de radiação a você."
+ },
+ {
+  "id": "sabedoria_do_cacador",
+  "nome": "Sabedoria do Caçador",
+  "grupo": "Raça",
+  "requisito": "Humano, Necrótico ou Super Mutante",
+  "requisitos": {
+   "racas": [
+    "humano",
+    "necrotico",
+    "super_mutante"
+   ]
+  },
+  "texto": "Sempre que você sofrer dano de ataques feitos por animais ou insetos, sua TD aumenta em 2. Além disso, sempre que você consumir a carne de um animal ou inseto que tenha morrido nos últimos 15 minutos, você cura pontos de vida iguais ao seu Fator de Cura; depois de curar assim, você não pode curar assim de novo até descansar por pelo menos 8 horas. Se você consumir carne preparada de animal ou inseto, você cura pontos de estamina iguais ao seu nível."
+ },
+ {
+  "id": "catador_macabro",
+  "nome": "Catador Macabro",
+  "grupo": "Raça",
+  "requisito": "Humano, Necrótico ou Super Mutante",
+  "requisitos": {
+   "racas": [
+    "humano",
+    "necrotico",
+    "super_mutante"
+   ]
+  },
+  "texto": "Você se banqueteia com as mais raras e refinadas carnes estranhas. Sempre que você consumir a carne de uma abominação que tenha morrido nos últimos 15 minutos, você cura pontos de vida iguais ao dobro do seu Fator de Cura; depois de curar assim, você não pode curar assim de novo até descansar por pelo menos 8 horas. Se você consumir carne preparada de abominação, você cura pontos de estamina iguais ao seu nível."
+ },
+ {
+  "id": "sorvete_e_torta_de_maca",
+  "nome": "Sorvete e Torta de Maçã",
+  "grupo": "Raça",
+  "requisito": "Humano, Necrótico ou Super Mutante",
+  "requisitos": {
+   "racas": [
+    "humano",
+    "necrotico",
+    "super_mutante"
+   ]
+  },
+  "texto": "Se você consumir comida com a propriedade podre ou contaminada, você não pode ser envenenado nem ficar doente. Além disso, se você consumir uma comida com a propriedade insosso, ela passa a ser considerada saborosa."
+ },
+ {
+  "id": "primo_do_computador",
+  "nome": "Primo do Computador",
+  "grupo": "Raça",
+  "requisito": "Robô ou Sintético, nível 5",
+  "requisitos": {
+   "nivel": 5,
+   "racas": [
+    "robo",
+    "sintetico"
+   ]
+  },
+  "texto": "Robôs não atacam você, a menos que você seja o único alvo hostil a até 18 m. Além disso, você tem vantagem em testes de Sabotagem com qualquer computador."
+ },
+ {
+  "id": "reset_de_particao",
+  "nome": "Reset de Partição",
+  "grupo": "Raça",
+  "requisito": "Robô ou Sintético, nível 10",
+  "requisitos": {
+   "nivel": 10,
+   "racas": [
+    "robo",
+    "sintetico"
+   ]
+  },
+  "texto": "Reduza qualquer um dos seus valores de atributo em 1, 2 ou 3. Você pode aumentar qualquer outro valor de atributo no valor que reduziu mais 1."
+ },
+ {
+  "id": "reset_de_fabrica",
+  "nome": "Reset de Fábrica",
+  "grupo": "Raça",
+  "requisito": "Robô ou Sintético, nível 10",
+  "requisitos": {
+   "nivel": 10,
+   "racas": [
+    "robo",
+    "sintetico"
+   ]
+  },
+  "texto": "Quando você pega este talento, seu personagem volta a ser de 1º nível e mantém todo o XP que tinha. Você pode refazer seu personagem e escolher novos traços, bônus de perícia, valores de atributo e talentos. Porém, sua memória é apagada e você não se lembra de nada até o momento em que pegou este talento."
+ },
+ {
+  "id": "determinacao_nao_e_defeito",
+  "nome": "Determinação Não é Defeito",
+  "grupo": "Raça",
+  "requisito": "Robô ou Sintético, nível 10",
+  "requisitos": {
+   "nivel": 10,
+   "racas": [
+    "robo",
+    "sintetico"
+   ]
+  },
+  "texto": "Você é imune à condição amedrontado. Além disso, quando você tiver pontos de ação não usados no fim do seu turno, você recicla todos eles no seu próximo turno."
+ },
+ {
+  "id": "reator_nuclear",
+  "nome": "Reator Nuclear",
+  "grupo": "Raça",
+  "requisito": "Humano",
+  "requisitos": {
+   "racas": [
+    "humano"
+   ]
+  },
+  "texto": "Enquanto estiver em uma zona irradiada, você tem vantagem em todos os testes de atributo e de perícia. Além disso, sua DF aumenta em 1, sua TD aumenta em 2 e você ganha pontos de vida temporários iguais ao seu nível."
+ },
+ {
+  "id": "absorcao_radioativa",
+  "nome": "Absorção Radioativa",
+  "grupo": "Raça",
+  "requisito": "Humano",
+  "requisitos": {
+   "racas": [
+    "humano"
+   ]
+  },
+  "texto": "Com este talento, seu nível de radiação diminui devagar por conta própria com o tempo. Toda vez que você dormir e não estiver em uma zona irradiada, seu nível de rad diminui em um."
+ },
+ {
+  "id": "radical",
+  "nome": "RADical!",
+  "grupo": "Raça",
+  "requisito": "Humano, Resistência 5",
+  "requisitos": {
+   "atributos": {
+    "RES": 5
+   },
+   "racas": [
+    "humano"
+   ]
+  },
+  "texto": "Seu Limiar de Radiação (LR) diminui em 3. Além disso, você ignora os efeitos negativos dos 3 primeiros níveis de radiação."
+ },
+ {
+  "id": "atomico",
+  "nome": "Atômico!",
+  "grupo": "Raça",
+  "requisito": "Humano, Resistência 8",
+  "requisitos": {
+   "atributos": {
+    "RES": 8
+   },
+   "racas": [
+    "humano"
+   ]
+  },
+  "texto": "Enquanto estiver em uma zona irradiada, você ganha pontos de ação adicionais iguais ao seu modificador de atributo de Resistência, até o máximo de 15. Se seus pontos de ação já forem 15, qualquer ação que você faça que custe 4 PA ou mais passa a custar 1 a menos."
+ },
+ {
+  "id": "recuperacao_trampolim",
+  "nome": "Recuperação Trampolim",
+  "grupo": "Raça",
+  "requisito": "Humano",
+  "requisitos": {
+   "racas": [
+    "humano"
+   ]
+  },
+  "texto": "No seu turno, você pode gastar 3 PA para curar pontos de estamina iguais ao seu Fator de Cura. Depois de usar esta ação, você não pode usá-la de novo até descansar por pelo menos 8 horas."
+ },
+ {
+  "id": "furado_furadinho",
+  "nome": "Furado Furadinho",
+  "grupo": "Raça",
+  "requisito": "Necrótico",
+  "requisitos": {
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Seus braços têm uns furinhos extras para ficar aerodinâmicos! Uma vez por turno, quando você fizer um ataque de pugilismo, pode gastar 1 PA para fazer mais um. Isso inclui gastar 5 PA para fazer dois ataques de pugilismo e 6 PA para fazer três."
+ },
+ {
+  "id": "resistente_a_quimicos",
+  "nome": "Resistente a Químicos",
+  "grupo": "Raça",
+  "requisito": "Necrótico",
+  "requisitos": {
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Você não sofre mais os efeitos negativos do vício em químicos. Além disso, seringas não têm efeito em você, a menos que sejam um Stimpak ou um químico."
+ },
+ {
+  "id": "olho_por_olho",
+  "nome": "Olho por Olho",
+  "grupo": "Raça",
+  "requisito": "Necrótico",
+  "requisitos": {
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Dedo por dedo. Sempre que outra criatura causar dano aos seus pontos de vida pela primeira vez em um turno, essa criatura fica marcada. Na próxima vez que você atacar e acertar a criatura marcada, o acerto é automaticamente crítico. Se o acerto já era crítico, o dano que você causa é dobrado. Depois que uma criatura fica marcada, outra criatura não pode ficar marcada até você descansar."
+ },
+ {
+  "id": "remendado",
+  "nome": "Remendado",
+  "grupo": "Raça",
+  "requisito": "Necrótico",
+  "requisitos": {
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Seu corpo já viu o pior que o ermo tem a oferecer. Se você perder qualquer um dos seus membros, exceto a cabeça, pode gastar 5 minutos para reatachar o membro, desde que tenha um kit de primeiros socorros e ainda tenha o membro perdido. Além disso, você pode gastar 1 minuto para curar pontos de vida iguais ao seu Fator de Cura. Depois de curar assim, você não pode fazer isso de novo até descansar por pelo menos 6 horas."
+ },
+ {
+  "id": "disparada_selvagem",
+  "nome": "Disparada Selvagem",
+  "grupo": "Raça",
+  "requisito": "Necrótico",
+  "requisitos": {
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Você pode gastar 3 pontos de ação no seu turno para disparar numa corrida, em vez de 5. Além disso, sempre que você fizer um salto em distância, pode ultrapassar 3 m adicionais e, sempre que fizer um salto em altura, pode ultrapassar 90 cm adicionais."
+ },
+ {
+  "id": "como_vao_colegas_necroticos",
+  "nome": "Como Vão, Colegas Necróticos?",
+  "grupo": "Raça",
+  "requisito": "Necrótico, nível 5",
+  "requisitos": {
+   "nivel": 5,
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Necróticos Ferozes não atacam você, a menos que você seja o único alvo hostil a até 18 m. Além disso, você tem vantagem em testes de Persuasão com qualquer necrótico."
+ },
+ {
+  "id": "num_mi_dirruba",
+  "nome": "Num Mi Dirruba",
+  "grupo": "Raça",
+  "requisito": "Necrótico, nível 5",
+  "requisitos": {
+   "nivel": 5,
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Sua TD aumenta em 1 e você ganha vantagem em todos os Suspiros Finais. Se você já tiver vantagem em Suspiros Finais, role três d20 e fique com o maior resultado."
+ },
+ {
+  "id": "reanimado",
+  "nome": "Reanimado",
+  "grupo": "Raça",
+  "requisito": "Necrótico, nível 10",
+  "requisitos": {
+   "nivel": 10,
+   "racas": [
+    "necrotico"
+   ]
+  },
+  "texto": "Enquanto estiver morrendo, seu deslocamento não é reduzido pela metade e você ganha um ponto de ação adicional no início do seu turno. Além disso, quando você morrer, ganha imediatamente 20 pontos de ação. Depois que esses pontos de ação forem usados, ou que seu turno acabar, você morre."
+ },
+ {
+  "id": "trem_da_dor",
+  "nome": "Trem da Dor",
+  "grupo": "Raça",
+  "requisito": "Robô",
+  "requisitos": {
+   "racas": [
+    "robo"
+   ]
+  },
+  "texto": "Piuí! Todos a bordo! Você pode investir contra inimigos e derrubá-los. Se você disparar numa corrida pelo espaço de outra criatura com valor de Força igual ou menor que o seu, ela fica caída."
+ },
+ {
+  "id": "atualizacao_de_hardware",
+  "nome": "Atualização de Hardware",
+  "grupo": "Raça",
+  "requisito": "Robô",
+  "requisitos": {
+   "racas": [
+    "robo"
+   ]
+  },
+  "texto": "Você pode escolher duas armas quaisquer para virarem armas de Robô suas, desde que tenha as tampinhas para comprá-las, os materiais para fabricá-las ou já seja dono das armas."
+ },
+ {
+  "id": "blindagem_grossa",
+  "nome": "Blindagem Grossa",
+  "grupo": "Raça",
+  "requisito": "Robô, nível 8",
+  "requisitos": {
+   "nivel": 8,
+   "racas": [
+    "robo"
+   ]
+  },
+  "texto": "Sua DF e sua TD aumentam em 1.\n\n***Repetição.*** Você pode pegar este talento no máximo três vezes."
+ },
+ {
+  "id": "esqueleto_de_adamantium",
+  "nome": "Esqueleto de Adamantium",
+  "grupo": "Raça",
+  "requisito": "Sintético",
+  "requisitos": {
+   "racas": [
+    "sintetico"
+   ]
+  },
+  "texto": "Você é imune a todas as condições de membro e, sempre que sofrer dano nos seus pontos de vida de um ataque mirado, o dano é reduzido pela metade."
+ },
+ {
+  "id": "passo_leve",
+  "nome": "Passo Leve",
+  "grupo": "Raça",
+  "requisito": "Sintético",
+  "requisitos": {
+   "racas": [
+    "sintetico"
+   ]
+  },
+  "texto": "Você nunca ativa explosivos colocados nem armadilhas."
+ },
+ {
+  "id": "bota_pra_gelar",
+  "nome": "Bota pra Gelar",
+  "grupo": "Raça",
+  "requisito": "Sintético, nível 5",
+  "requisitos": {
+   "nivel": 5,
+   "racas": [
+    "sintetico"
+   ]
+  },
+  "texto": "Você pode gastar 6 pontos de ação no seu turno para curar pontos de estamina iguais ao dobro do seu Fator de Cura. Depois de usar esta habilidade, você não pode usá-la de novo até descansar por pelo menos 8 horas."
+ },
+ {
+  "id": "recuperacao_reforcada",
+  "nome": "Recuperação Reforçada",
+  "grupo": "Raça",
+  "requisito": "Super Mutante",
+  "requisitos": {
+   "racas": [
+    "super_mutante"
+   ]
+  },
+  "texto": "No seu turno, você pode gastar 6 PA para curar pontos de vida iguais ao seu Fator de Cura. Depois de usar esta ação, você não pode usá-la de novo até descansar por pelo menos 8 horas."
+ },
+ {
+  "id": "gigante_detalhista",
+  "nome": "Gigante Detalhista",
+  "grupo": "Raça",
+  "requisito": "Super Mutante",
+  "requisitos": {
+   "racas": [
+    "super_mutante"
+   ]
+  },
+  "texto": "Você não sofre mais os efeitos do traço racial Volumoso (veja Raças). Além disso, sempre que fizer um teste de Criação para reparar um item, a CD é reduzida em 5."
+ },
+ {
+  "id": "camelo_do_ermo",
+  "nome": "Camelo do Ermo",
+  "grupo": "Raça",
+  "requisito": "Super Mutante",
+  "requisitos": {
+   "racas": [
+    "super_mutante"
+   ]
+  },
+  "texto": "Você não precisa mais do dobro de água por dia para evitar a desidratação. Além disso, água suja tem a propriedade \"hidratante\" para você."
+ },
+ {
+  "id": "sem_deuses_sem_mestres",
+  "nome": "Sem Deuses, Sem Mestres",
+  "grupo": "Raça",
+  "requisito": "Super Mutante, nível 5",
+  "requisitos": {
+   "nivel": 5,
+   "racas": [
+    "super_mutante"
+   ]
+  },
+  "texto": "Super mutantes não atacam você, a menos que você seja o único alvo hostil a até 18 m. Além disso, você pode gastar 3 PA no seu turno e escolher um super mutante alvo a até 18 m de você. Você descobre os valores de atributo totais desse alvo."
+ },
+ {
+  "id": "sem_sentir_dor",
+  "nome": "Sem Sentir Dor",
+  "grupo": "Raça",
+  "requisito": "Super Mutante, nível 5",
+  "requisitos": {
+   "nivel": 5,
+   "racas": [
+    "super_mutante"
+   ]
+  },
+  "texto": "Sua TD aumenta em 1. Além disso, se você terminar seu turno com pelo menos 6 PA, sempre que sofrer dano nos seus pontos de vida você pode gastar 6 PA para reduzir o dano pela metade (arredondado para baixo)."
+ },
+ {
+  "id": "evolucao",
+  "nome": "Evolução",
+  "grupo": "Raça",
+  "requisito": "Super Mutante, nível 10",
+  "requisitos": {
+   "nivel": 10,
+   "racas": [
+    "super_mutante"
+   ]
+  },
+  "texto": "Sua DF aumenta em 1, sua TD aumenta em 1, seus pontos de vida aumentam em um valor igual ao seu nível e seus pontos de estamina aumentam em um valor igual ao seu nível. Além disso, escolha um tipo de dano. Sempre que você sofrer esse tipo de dano nos seus pontos de vida, o total é reduzido pela metade (arredondado para baixo)."
+ }
+]

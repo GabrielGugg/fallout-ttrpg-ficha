@@ -1,0 +1,289 @@
+[
+ {
+  "id": "humano",
+  "nome": "Humano",
+  "descricao": "\"Os Humanos são a espécie dominante da Terra. Na era pós-apocalíptica, o termo \"humano\" é usado para denotar aqueles que foram menos inalterados pela radiação, em oposição aos mutantes, como Necróticos e Supermutantes, embora esses tipos mutantes se originem de humanos. Humanos não mutados são às vezes chamados de normais, peles-lisas, humanoides ou sangradores por seus equivalentes mutantes.\n\nApesar da existência de diversas mutações, humanos ainda são as criaturas humanoides mais comuns na Terra. Humanos pós-nucleares, como resultado direto da radiação e exposição ao Vírus de Evolução Forçada (VEF) e outros agentes bioquímicos liberados no ambiente durante e após a Grande Guerra, exibem maior diversidade, principalmente na estrutura genética. Os fatores mencionados resultaram numa taxa aumentada de mutações em humanos, embora poucas resultem em mudanças fenotípicas. A maioria dessas alterações são variações não letais e inofensivas no DNA humano, que apenas aumentam a variedade do acervo genético. Além disso, humanos com mutações menores, como dedos extras, lesões cutâneas por infecção de TDC, olhos vermelhos permanentes, varizes permanentes ou calvície completa, ainda são considerados humanos.\"\n\n— [Trecho da página \"Human\" na Fallout Fandom Wiki.](https://fallout.fandom.com/wiki/Human)",
+  "tracos": [
+   {
+    "nome": "Idade",
+    "texto": "Humanos atingem a idade adulta no fim da adolescência e vivem menos de um século. Embora quem chegue a essa idade seja raro no ermo."
+   },
+   {
+    "nome": "Tamanho",
+    "texto": "Humanos variam bastante em altura e porte; seu tamanho é Médio ou Pequeno."
+   },
+   {
+    "nome": "Tenacidade",
+    "texto": "Quando você faz testes de Suspiro Final, você morre ao falhar no quarto teste, em vez do terceiro."
+   }
+  ],
+  "variantes": [
+   {
+    "nome": "Engenhoso",
+    "texto": "Você ganha uma Tampa de Karma extra que pode usar a cada jogo. (Veja Tampas de Karma.)"
+   },
+   {
+    "nome": "Imaculado",
+    "texto": "Você tem desvantagem em todos os testes de Radiação e de Vício."
+   },
+   {
+    "nome": "Variante: Sintético Gen 3",
+    "texto": "Muitas vezes, os humanos do ermo são, na verdade, máquinas sintéticas indistinguíveis de um humano comum, criadas por uma sociedade secreta de cientistas chamada \"O Instituto\". Esta variante não concede habilidades nem alterações estatísticas, mas pode trazer uma mudança psicológica ou narrativa. Converse com o seu MJ sobre como essa possibilidade poderia afetar seu personagem. Alternativamente, ao criar seu personagem humano, role um d20. Com um 20, seu personagem é secretamente um Sintético Gen 3."
+   }
+  ],
+  "subtipos": []
+ },
+ {
+  "id": "necrotico",
+  "nome": "Necrótico",
+  "descricao": "\"Necróticos são humanos mutados afetados pelo fenômeno da necrosificação. Apesar de sua aparência zumbi, a carne dos necróticos não está podre. Radiação intensa e prolongada devastou sua pele, grande parte de sua carne e, em alguns casos, muitos de seus ligamentos. Apesar de sua infertilidade e, em certos casos, deterioração mental, eles têm uma expectativa de vida geral muito estendida e são imunes (e às vezes até curados) por radiação de fundo e/ou precipitação nuclear.\n\nNecróticos geralmente conseguem viver bem em sociedades humanas, mas ainda são uma minoria. Existem comunidades e cidades de Necróticos. A Necrópole já foi uma delas, antes de ser parcialmente destruída por Supermutantes. Muitas cidades agrícolas pré-Guerra na Califórnia, incluindo Broken Hills, Dayglow e Gecko, também são exemplos.\n\nDevido à sua longevidade quase imortal, Necróticos frequentemente assumem novas personalidades a cada século. Eles aprendem novas habilidades e herdam uma identidade completamente diferente antes de seguirem para a próxima.\"\n\n— [Trecho da página \"Ghoul\" na Fallout Fandom Wiki.](https://fallout.fandom.com/wiki/Ghoul)",
+  "tracos": [
+   {
+    "nome": "Idade",
+    "texto": "Necróticos são quase imortais; sua expectativa de vida é desconhecida. Alguns sobreviveram desde antes da Grande Guerra, há mais de 200 anos."
+   },
+   {
+    "nome": "Tamanho",
+    "texto": "Necróticos variam bastante em altura e porte; seu tamanho é Médio ou Pequeno."
+   },
+   {
+    "nome": "Evolução",
+    "texto": "Você não pode ganhar níveis de radiação e é imune a dano de radiação. Além disso, você não ganha níveis de radiação por consumir comida ou água."
+   },
+   {
+    "nome": "Anatomia Resiliente",
+    "texto": "Você tem resistência a dano de veneno. Todo ponto de estamina que você ganharia ao consumir comidas, bebidas ou químicos é reduzido pela metade (arredondado para baixo). Todo ponto de vida que você ganharia com Stimpaks é reduzido pela metade (arredondado para baixo). Você não pode ganhar pontos de vida com pó curativo. Seringas que não sejam \"disparáveis\" não têm efeito em você. Além disso, sempre que você sofrer dano da condição sangramento, você sofre metade."
+   }
+  ],
+  "variantes": [
+   {
+    "nome": "Muitas Estradas Percorridas",
+    "texto": "Você ganha +2 em todas as perícias e ganha um talento extra no 1º Nível."
+   },
+   {
+    "nome": "Ossos Velhos",
+    "texto": "Você é imune a dano de veneno e ganha o talento Remendado."
+   },
+   {
+    "nome": "Meia-Vida",
+    "texto": "Sua mente escorrega um pouco a cada dia; a necrosificação cobrou um preço imenso de você, e você sente que está aos poucos se tornando feroz. Ao chegar ao Nível 15, você é completamente consumido pela necrosificação, sua mente deixa de ser sua e seu personagem passa a ser controlado pelo MJ."
+   }
+  ],
+  "subtipos": []
+ },
+ {
+  "id": "sintetico",
+  "nome": "Sintético Gen 2",
+  "descricao": "\"Sintético (também chamados de androides ou humanos artificiais) é um termo comum usado para se referir a robôs biológicos e mecânicos manufaturados nos laboratórios do Instituto.\n\nSintéticos, em casos extremamente raros, conseguem escapar das garras do Instituto e viver suas próprias vidas. Às vezes, até mesmo têm suas memórias apagadas e substituídas por novas para que possam seguir suas vidas. Sintéticos Gen 2, no entanto, são uma história diferente; eles são claramente androides com pele plástica, partes internas expostas e peças de metal.\n\nA variante mais comum de Sintético mecânico. Os Gen 2 ainda possuem I.A. limitada e se assemelham mais a um manequim do que a um ser humano.\"\n\n— Trecho da página \"Synth\" na Fallout Fandom Wiki",
+  "tracos": [
+   {
+    "nome": "Idade",
+    "texto": "Sintéticos Gen 2 podem viver centenas de anos antes que seus materiais inorgânicos comecem a corroer e sua programação se deteriorar. No entanto, um Sintético que faz reparos constantes é quase imortal."
+   },
+   {
+    "nome": "Tamanho",
+    "texto": "Sintéticos Gen 2 variam bastante em altura e porte; seu tamanho é Médio ou Pequeno."
+   },
+   {
+    "nome": "Corpo Inorgânico",
+    "texto": "Você é imune a radiação e a veneno. Você não recebe efeitos de Químicos, Bebidas ou Comida. Além disso, você não precisa respirar, dormir, comer nem beber."
+   }
+  ],
+  "variantes": [
+   {
+    "nome": "Corpo Frágil",
+    "texto": "Sempre que uma criatura fizer um ataque mirado contra você, você ganha duas condições de membro em vez de uma. Além disso, você é vulnerável a dano de eletricidade."
+   },
+   {
+    "nome": "Atualizações de Software e Hardware",
+    "texto": "Sempre que você ganhar um talento, você é considerado um Robô para os requisitos de talento."
+   },
+   {
+    "nome": "Algoritmos de Inteligência Artificial",
+    "texto": "Sempre que você ganhar pontos de perícia, você ganha 1 a mais."
+   }
+  ],
+  "subtipos": []
+ },
+ {
+  "id": "robo",
+  "nome": "Robô",
+  "descricao": "\"Um robô é uma máquina capaz de completar tarefas de forma autônoma. Dependendo do robô, estas tarefas podem ser simples ou complexas e podem exigir pouca intervenção humana ou supervisão completa. Robôs foram construídos pela sociedade pré-Guerra para preencher todos os nichos e ocupações. Desde dróides utilitários de propósito geral até máquinas de batalha militares completas, robôs podiam ser encontrados em quase qualquer ambiente e função. Alguns dos robôs atacarão imediatamente, mas alguns ajudarão na batalha ou permanecerão ambivalentes.\"\n\n— Trecho da página \"Robot\" na Fallout Fandom Wiki",
+  "tracos": [
+   {
+    "nome": "Idade",
+    "texto": "Robôs podem viver centenas de anos antes que seus materiais inorgânicos comecem a corroer e sua programação se deteriorar. No entanto, um Robô que faz reparos constantes é quase imortal."
+   },
+   {
+    "nome": "Corpo Inorgânico",
+    "texto": "Você não pode ganhar níveis de radiação e é imune a dano de radiação e de veneno. Você não pode ganhar níveis de sangramento. Você não recebe efeitos de Químicos, Bebidas ou Comida. Além disso, você não precisa respirar, dormir, comer nem beber."
+   },
+   {
+    "nome": "Tamanho",
+    "texto": "Embora existam muitos tipos de Robôs, a maioria foi construída com um porte semelhante ao dos humanos. Mãozinhas têm entre 75 cm e 1 m de altura, mas flutuam de 60 a 90 cm acima do chão. Guardatrons raramente foram construídos com mais de 1,5 m. E Miolotrons costumam ter cerca de 1,65 m. Independentemente disso, seu tamanho é Médio."
+   },
+   {
+    "nome": "Membros Decepados",
+    "texto": "Felizmente para a maioria dos robôs, reconectar membros é algo comum quando eles quebram ou caem. Se qualquer um dos seus membros for decepado, você não entra em choque, e ele pode ser reconectado com 3 itens de sucata de aço e 1 de circuitos. Quando você ou outra criatura reconecta um membro, leva um número de minutos igual a 10 menos o bônus da perícia de Criação de quem o faz. Se o tempo for reduzido a 0, reconectar o membro custa 6 PA."
+   },
+   {
+    "nome": "Armadura e Armas",
+    "texto": "Você pode usar armaduras e armas como qualquer outra raça. Se o seu subtipo de robô lhe concede uma arma, você pode aprimorá-la e modificá-la como qualquer outra arma. Porém, você não pode usar armadura potente."
+   },
+   {
+    "nome": "Tipo de Robô",
+    "texto": "Existem três tipos de robô que você pode escolher: Mãozinha, Guardatron e Miolotron."
+   }
+  ],
+  "variantes": [],
+  "subtipos": [
+   {
+    "id": "maozinha",
+    "nome": "Mãozinha",
+    "descricao": "\"O robô Mãozinha é um robô de manutenção e construção com múltiplos apêndices, que levita graças ao seu potente motor a jato. Eles eram geralmente usados como mordomos, trabalhadores de manutenção e, às vezes, também empregados como guardas antes da Grande Guerra.\"\n\n— Trecho da página \"Mister Handy\" na Fallout Fandom Wiki\n\nEmbora frequentemente seus nomes sugiram um gênero (\"Sr. Mãozinha\" ou \"Sra. Mãozinha\"), isso é simplesmente o nome do modelo. Mãozinhas têm múltiplas vozes, personalidades e podem apresentar-se em qualquer gênero.",
+    "tracos": [
+     {
+      "nome": "Membros e Ataques Mirados",
+      "texto": "Mãozinhas têm uma forma bem menos humana que a dos outros robôs: flutuam acima do chão, com três apêndices e três olhos presos a um grande núcleo redondo. Você tem três braços, três olhos e pode ter até três mãos, se escolher ter três Pinças na seção \"Incrível Aparelho Multitalentoso!\" abaixo. Você não tem cabeça, virilha nem pernas que possam ser alvo de ataques mirados ou decepadas. Em vez disso, ataques mirados aos seus olhos custam 2 PA a menos, e criaturas podem mirar no seu motor a jato. O motor a jato funciona exatamente como um ataque mirado nas pernas, exceto que o ataque custa 2 PA a mais. Se o seu motor a jato for decepado, você fica caído e não pode se mover até que ele seja reconectado."
+     },
+     {
+      "nome": "Combustível",
+      "texto": "Você precisa de combustível para continuar funcionando. A cada semana, 7 dias ou 168 horas, você pode gastar 6 PA para encher seu tanque com um galão de combustível ou seis itens de sucata de óleo, que são consumidos no uso. Se você não consumir um galão de combustível depois da semana, você deve ser bem-sucedido em um teste de Resistência com CD 12 para cada hora além das 168. A cada teste bem-sucedido, a CD aumenta em 2. Em uma falha, você fica inconsciente até que outra criatura encha seu tanque de combustível. Alternativamente, você pode instalar um núcleo de fusão no seu chassi. Se fizer isso, você pode funcionar por 30 dias sem precisar de combustível."
+     },
+     {
+      "nome": "Motor a Jato",
+      "texto": "Você flutua alguns centímetros acima do chão enquanto está ativo e em movimento. Você não aciona armadilhas de piso nem efeitos ativados por pisadas. Porém, se você for derrubado, ficar atordoado ou cair inconsciente, você cai no chão."
+     },
+     {
+      "nome": "Incrível Aparelho Multitalentoso",
+      "texto": "Mãozinhas são construídos com três ferramentas especiais, acopladas e embutidas em três dos seus braços. Essas ferramentas e armas podem ser modificadas como qualquer outra arma, exigem apenas uma mão para serem usadas e não custam PA para equipar ou guardar. Além disso, não podem ser removidas de você a menos que o braço ao qual a ferramenta ou arma está acoplada seja decepado. Escolha uma ferramenta ou arma da lista a seguir para estar acoplada ao seu braço."
+     },
+     {
+      "nome": "Serra Circular",
+      "texto": "Uma serra mecânica alojada em estrutura de metal, usada para cortar madeira, comida, corpos ou detritos. Arma Corpo a Corpo. 5 Pontos de Ação. 1d8 cortante. Acerto Crítico: 20, x2, aplica sangramento. Propriedades Especiais: Talhar, Durável. (Veja Propriedades Especiais para detalhes)."
+     },
+     {
+      "nome": "Alicates",
+      "texto": "Um conjunto grande e afiado de alicates para fiação, jardinagem ou abertura de caixas. Arma Corpo a Corpo. 3 Pontos de Ação. 1d4 perfurante. Acerto Crítico: 19, 20. 1d4 perfurante. Propriedades Especiais: Desmembrar, Durável. (Veja Propriedades Especiais para detalhes)."
+     },
+     {
+      "nome": "Broca",
+      "texto": "Esta broca tem pontas intercambiáveis usadas para parafusos, porcas, cavilhas e furos-piloto. Arma Corpo a Corpo. 6 Pontos de Ação. 1d8 cortante. Acerto Crítico: 20, 2d8 cortante. Propriedades Especiais: Durável, Mutilar. (Veja Propriedades Especiais para detalhes)."
+     },
+     {
+      "nome": "Pinça",
+      "texto": "A Pinça é um apêndice com dois dedos que pode agarrar, torcer, operar, usar armas e segurar itens. Opera com eficiência semelhante a uma mão humana. Se você não tiver pelo menos duas dessas ferramentas, você efetivamente só tem uma mão. (Isso afeta armas com as propriedades Duas Mãos, Difícil de Manusear ou Coice; veja Propriedades Especiais para detalhes.)"
+     },
+     {
+      "nome": "Maçarico",
+      "texto": "Esta ferramenta de cozinha emite uma chama com um bico ajustável para cozinhar, flambar, cuidar de ninhos de insetos incômodos ou acender velas. Arma de Longo Alcance, linha de 3 m. 5 Pontos de Ação. 1d10 de fogo. Munição: combustível, 5 cargas. Propriedades Especiais: Área de Efeito, Durável, Incendiária. (Veja Propriedades Especiais para detalhes)."
+     }
+    ]
+   },
+   {
+    "id": "guardatron",
+    "nome": "Guardatron",
+    "descricao": "\"Guardatron têm uma cúpula de vidro em cima de suas cabeças que atua como uma lente ocular que lhes permite escanear os arredores e agir de acordo. Embora Guardatrons sejam bastante lentos e pesados, sua parte superior do corpo pode girar até 90 graus para ambos os lados antes de terem que mudar de posição, o que significa que podem facilmente acompanhar seu alvo.\"\n\n— Trecho da página \"Protectron\" na Fallout Fandom Wiki",
+    "tracos": [
+     {
+      "nome": "Membros e Ataques Mirados",
+      "texto": "Guardatrons, embora ainda sejam uma esquisitice robótica, têm forma e apêndices semelhantes aos humanos. Você tem dois braços, duas pernas, duas mãos, dois pés, uma cabeça e um torso. Porém, você não tem olhos nem virilha que possam ser alvo de ataques mirados normais ou decepados."
+     },
+     {
+      "nome": "Placas Reforçadas",
+      "texto": "Sua TD aumenta em 1 mesmo que você não esteja usando armadura."
+     },
+     {
+      "nome": "Lento",
+      "texto": "Guardatrons só podem gastar no máximo 6 PA em movimento durante seus turnos."
+     },
+     {
+      "nome": "Proteger e Servir",
+      "texto": "Guardatrons são construídos com uma ferramenta especial acoplada e embutida em um dos seus braços. Essas ferramentas e armas podem ser modificadas como qualquer outra arma, exigem apenas uma mão para serem usadas e não custam PA para equipar ou guardar. Além disso, não podem ser removidas de você a menos que o braço ao qual a ferramenta ou arma está acoplada seja decepado. Escolha uma ferramenta ou arma da lista a seguir para estar acoplada ao seu braço."
+     },
+     {
+      "nome": "Taser",
+      "texto": "Arma Corpo a Corpo. 4 Pontos de Ação. 2d8 de eletricidade. Acerto Crítico: 20, x2, aplica atordoado. Propriedades Especiais: Durável. (Veja Propriedades Especiais para detalhes)."
+     },
+     {
+      "nome": "Laser",
+      "texto": "Arma de Longo Alcance, Alcance: x10/x20. 4 Pontos de Ação. 1d8 de laser. Acerto Crítico: 20, x2, aplica queimando. Munição: Célula de Fusão, 30 cargas. Propriedades Especiais: Durável, Semiautomático. (Veja Propriedades Especiais para detalhes)."
+     },
+     {
+      "nome": "Desfibrilador",
+      "texto": "Ataque Desarmado. 6 PA. 2d8 de eletricidade. Acerto Crítico: 20, 1d8. Propriedades Especiais: Durável, Revitalizante. (Veja Propriedades Especiais para detalhes)."
+     },
+     {
+      "nome": "Spray Criogênico",
+      "texto": "Arma de Longo Alcance, cone de 6 m. 5 PA. 2d4 de frio. Munição: Célula Crio, 3 cargas. Propriedades Especiais: Área de Efeito, Durável, Congelante, Lento. (Veja Propriedades Especiais para detalhes)."
+     },
+     {
+      "nome": "Pistola de Pregos",
+      "texto": "Arma de Longo Alcance, Alcance: x3/x10. 6 PA. 1 perfurante por ataque. Acerto Crítico: 20, 10 perfurante. Munição: Pregos, 90 cargas. Propriedades Especiais: Automático: 2, Durável. (Veja Propriedades Especiais para detalhes)."
+     }
+    ]
+   },
+   {
+    "id": "miolotron",
+    "nome": "Miolotron",
+    "descricao": "\"O Miolotron foi projetado do zero como uma plataforma multiuso para uso por militares e civis. Eles são mais flexíveis e poderosos do que os robôs, devido ao fato de que sua unidade central de controle e processamento é um cérebro real, em vez de uma cópia artificial. Juntamente com um Chassi de esteiras adaptável e armamentos poderosos, o Miolotron estava na vanguarda de uma nova revolução na robótica de combate.\"\n\n— Trecho da página \"Robobrain\" na Fallout Fandom Wiki",
+    "tracos": [
+     {
+      "nome": "Membros e Ataques Mirados",
+      "texto": "Miolotrons têm forma e apêndices humanoides. Você tem dois braços, duas mãos, uma cabeça e um torso. Porém, você não tem pernas, pés, olhos nem virilha que possam ser alvo de ataques mirados normais ou decepados. Em vez disso, criaturas podem mirar nos seus rolamentos para qualquer terreno. Os rolamentos funcionam exatamente como um ataque mirado nas pernas, exceto que não podem ser decepados."
+     },
+     {
+      "nome": "Rolamentos para Qualquer Terreno",
+      "texto": "Você não precisa gastar PA extra para se mover por terreno difícil."
+     },
+     {
+      "nome": "Neurotransmissores",
+      "texto": "Você é vulnerável a dano de eletricidade. Além disso, quando sofrer dano de um ataque mirado na cabeça, você ganha duas condições em vez de uma."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "super_mutante",
+  "nome": "Super Mutante",
+  "descricao": "\"Supermutantes são humanos geneticamente aprimorados, criados para serem superiores em tudo. Originalmente planejados como supersoldados, os primeiros Supermutantes foram criados por exposição ao Vírus de Evolução Forçada II (FEV-II) nos tanques da Base Militar Mariposa, na Califórnia. Outras linhagens de Supermutantes são encontradas no ermo, criadas de diversas fontes, variando em tamanho e inteligência. Independentemente da origem, todos foram criados pelo FEV, tendo mutado de humanos. Com a criação da linhagem FEV-II, cientistas puderam criar supersoldados poderosos, exibindo proezas físicas superiores, resistência a danos de combate, envelhecimento e doenças, bem como uma perda insignificante de inteligência e infertilidade inevitável.\n\nPessoas transformadas em mutantes tem a pele em tons de verde, amarelo ou oliva, e seus corpos cresceriam enormemente, com o Vírus adicionando mais massa muscular. Contudo, aqueles transformados em mutantes tem apenas memórias fugazes de suas vidas humanas. Eles não podiam se reproduzir, pois o FEV os tornou estéreis, limitando as gerações de mutantes. Uma linhagem conhecida como Noturnos teve sua pele alterada para uma cor cinza-púrpura após longa exposição a Ocultadores.\"\n\n— Trecho da página \"Super Mutant\" na Fallout Fandom Wiki",
+  "tracos": [
+   {
+    "nome": "Idade",
+    "texto": "Super mutantes são quase imortais; sua expectativa de vida é desconhecida. Alguns viveram centenas de anos."
+   },
+   {
+    "nome": "Tamanho",
+    "texto": "Super mutantes raramente variam em altura e porte, mas podem ter de 2,10 m a 2,70 m. Seu tamanho é Médio. Por conta das especificidades necessárias, você não pode usar armadura potente, a menos que ela seja especificamente modificada para o seu tipo de corpo."
+   },
+   {
+    "nome": "Evolução",
+    "texto": "Você não pode ganhar níveis de radiação e é imune a dano de radiação. Além disso, você não ganha níveis de radiação por consumir comida ou água."
+   },
+   {
+    "nome": "Força Superior",
+    "texto": "Devido à sua massa muscular aumentada, seu valor de Força aumenta em 1 e não pode ser menor que 6. Além disso, sua Capacidade de Carga aumenta em 40."
+   },
+   {
+    "nome": "Esforço de Massa",
+    "texto": "A quantidade de comida e água de que você precisa por dia, para não ganhar níveis de fome e desidratação, é dobrada."
+   },
+   {
+    "nome": "Volumoso",
+    "texto": "Super mutantes têm muitas vantagens, mas a precisão não vem fácil: sempre que suas armas ou armaduras ganharem um nível de desgaste, elas ganham um adicional."
+   }
+  ],
+  "variantes": [
+   {
+    "nome": "Cepa Defeituosa",
+    "texto": "Devido aos diversos tipos de experimentos realizados em muitos humanos, quando você se tornou um Super mutante, seu corpo foi fortalecido, mas sua mente foi enfraquecida. Seus valores de Força e Resistência aumentam em 2 e sua Capacidade de Carga aumenta em 40. Porém, seu valor de Inteligência é reduzido em 2 e não pode ser aumentado acima de 3."
+   },
+   {
+    "nome": "Noturno",
+    "texto": "Os Noturnos já serviram no exército do Mestre, mas agora vagam pelo ermo. Muito frequentemente sofrem de graves danos psicológicos, causados pelo uso prolongado de Stealth Boy. Seu valor de Força aumenta em 1 e não pode ser menor que 6. Além disso, sua Capacidade de Carga aumenta em 40. Você também ganha uma habilidade chamada Campo Furtivo. Você pode gastar 3 pontos de ação no seu turno para tornar você e tudo o que está carregando invisível. Essa habilidade dura 1 minuto. Cada vez que usar essa habilidade depois do primeiro uso no dia, seu valor de Percepção diminui temporariamente em 1 por 24 horas (até o mínimo de 1). Seu valor de Percepção ser reduzido dessa forma não limita você no uso ou na escolha de talentos que tenham requisito de valor de Percepção. (Para referência rápida, seu valor de Percepção afeta seus testes de Sabotagem, Energia, Explosivos e Medicina, bem como seu bônus de Iniciativa e o alcance das suas armas.)"
+   }
+  ],
+  "subtipos": []
+ }
+]

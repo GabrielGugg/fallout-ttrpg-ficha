@@ -1,0 +1,673 @@
+[
+ {
+  "id": "antecedente_personalizado",
+  "nome": "Antecedente Personalizado",
+  "pericias": [],
+  "traco": "",
+  "descricao": "Se preferir criar sua própria história dentro do pós-apocalipse, escolha esta opção em vez das listadas abaixo.",
+  "equipamento": [],
+  "nota_equipamento": "Você pode escolher o equipamento inicial de qualquer antecedente, ou escolher seus próprios itens a critério do seu MJ, com um orçamento de 850 tampinhas."
+ },
+ {
+  "id": "cultista",
+  "nome": "Cultista",
+  "pericias": [
+   "corpo_a_corpo",
+   "persuasao",
+   "furtividade"
+  ],
+  "traco": "Visão do Além",
+  "descricao": "Tenha você nascido nesta vida ou tenha encontrado esperança quando atingiu o fundo do poço, você está a serviço de um grupo de seguidores que recrutam zelosamente todos que encontram para sua doutrina. Este novo mundo, nascido do fogo, é uma dádiva. Só agora que o mundo foi purificado a verdade pode ser vista. Você vagueia pelo ermo em busca de sinais e aguarda ordens do grande além.",
+  "equipamento": [
+   {
+    "rotulo": "Cultista Humano",
+    "racas": [
+     "humano"
+    ],
+    "itens": "x1 armadura de tecido (com melhoria Chumbada nível 1), x1 faca, x1 pistola de sucata de ação por ferrolho, x15 balas 9mm, x1 mochila, x1 corrente, x3 cram, x1 TiraRad diluído, x1 Rad-X, x1 pó curativo, x3 água suja, x1 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Cultista Necrótico ou Supermutante",
+    "racas": [
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de couro, x1 faca, x1 pistola de sucata de ação por ferrolho, x15 balas 9mm, x1 mochila, x1 corrente, x3 cram, x4 água suja, x1 Stimpak, x1 Stimpak diluído e x50 tampinhas."
+   },
+   {
+    "rotulo": "Cultista Sintético Gen 2",
+    "racas": [
+     "sintetico"
+    ],
+    "itens": "x1 armadura de couro, x1 faca, x1 pistola de sucata de ação por ferrolho, x15 balas 9mm, x1 mochila, x1 corrente, x1 Stimpak diluído, x1 RobCo ConsertaJá 1.0, x1 overclock físico, x1 limpa cache e x50 tampinhas."
+   },
+   {
+    "rotulo": "Cultista Robô",
+    "racas": [
+     "robo"
+    ],
+    "itens": "x1 armadura de couro, x1 faca, x1 pistola de sucata de ação por ferrolho, x15 balas 9mm, x1 mochila, x1 corrente, x2 RobCo ConsertaJá 1.0, x1 overclock físico, x1 limpa cache e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "doutor",
+  "nome": "Doutor",
+  "pericias": [
+   "sabotagem",
+   "medicina",
+   "ciencia"
+  ],
+  "traco": "Não Prejudique",
+  "descricao": "Desde jovem, você sempre quis ajudar os outros. Aprendeu a ter mão firme e manter a calma sob pressão com livros do Velho Mundo e outros doutores experientes. O trabalho é árduo, as pausas são raras e as pessoas estão desesperadas. Você vagueia pelo ermo em busca de quem ajudar, ou pelas tampinhas que oferecem.",
+  "equipamento": [
+   {
+    "rotulo": "Doutor Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 faca com quatro Níveis de Desgaste, x1 seringa, x2 seringas disparáveis de Stimpak, x1 seringa de Tétano, x1 mochila, x1 kit de primeiros socorros, x2 Stimpaks diluídos, x1 TiraRad diluído, x1 Rad-X, x1 pó curativo, x1 saco de dormir, x1 barraca individual, x1 copo de macarrão, x1 InstaPurê, x2 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Doutor Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 faca com quatro Níveis de Desgaste, x1 seringa, x2 seringas disparáveis de Stimpak, x1 seringa de Tétano, x1 mochila, x1 kit de primeiros socorros, x2 RobCo ConsertaJá 1.0, x2 RobCo ConsertaJá 2.0, x1 TiraRad diluído, x1 Rad-X, x2 pó curativo e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "errante",
+  "nome": "Errante",
+  "pericias": [
+   "sabotagem",
+   "furtividade",
+   "pugilismo"
+  ],
+  "traco": "Rato de Rua",
+  "descricao": "Nascido neste mundo podre e tratado como lixo, você vagueou de cidade em cidade, de abrigo em abrigo, tentando sobreviver. Os únicos amigos que teve foram ladrões, mendigos ou coisa pior. Você nunca conheceu riquezas e sobrevive apenas às custas dos outros. Tudo o que você possui tem sua própria história de como foi reivindicado. As coisas vão mudar agora; você toma as rédeas de sua vida pela primeira vez para consertá-la.",
+  "equipamento": [
+   {
+    "rotulo": "Errante Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 estilete, x1 pistola de sucata com dois Níveis de Desgaste, x15 balas 9mm, x1 mochila, x5 ração de cachorro enlatada, x1 iguana no espeto, x2 pó curativo, x4 água suja, x2 água purificada, x1 gazua, x1 barraca individual, x1 saco de dormir, x1 uísque, x1 Corretivo, x2 Jato, x3 cigarros, x1 Testo+, x1 café e x50 tampinhas."
+   },
+   {
+    "rotulo": "Errante Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 estilete, x1 pistola de sucata com dois Níveis de Desgaste, x15 balas 9mm, x1 mochila, x1 gazua, x2 RobCo ConsertaJá 1.0, x2 overclock físico, x2 limpa cache, x1 Código de IA Militar, x1 lanterna, x1 célula de energia, x1 revista de perícia ¡La Fantoma! e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "artista",
+  "nome": "Artista",
+  "pericias": [
+   "barganha",
+   "persuasao",
+   "intimidacao"
+  ],
+  "traco": "Um Momento de Trégua",
+  "descricao": "Talentoso desde jovem, você maravilha os habitantes do ermo com sua habilidade excepcional de atuar. Contudo, esta vida não é fácil. Você já foi extorquido, enganado, visado e feito de tolo mais de uma vez. Quando você é uma estrela, todos querem brilhar tanto quanto você.\n\nVocê vagueia pelo ermo buscando o próximo show, ou talvez prefira manter seus talentos em espera por enquanto.",
+  "equipamento": [
+   {
+    "rotulo": "Artista Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 canivete, x1 pistola 10mm com três Níveis de Desgaste, x10 munição 10mm, x1 mochila, x2 dinamite, x3 sinalizadores, x3 Bife Salisbury, x1 Salada do Deserto, x1 Nuka-Cola, x1 Desertor Sujo, x1 pó curativo, x1 Stimpak, x2 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Artista Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 canivete, x1 pistola 10mm com dois Níveis de Desgaste, x20 balas 10mm, x1 mochila, x2 dinamite, x3 sinalizadores, x2 RobCo ConsertaJá 2.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "fazendeiro",
+  "nome": "Fazendeiro",
+  "pericias": [
+   "criacao",
+   "intimidacao",
+   "sobrevivencia"
+  ],
+  "traco": "Endurecido pela Terra",
+  "descricao": "Nascido em uma grande porção de terra, herdada da família, ou dada por um benfeitor rico. Sua vida se resume a trabalhar na terra para produzir um dos recursos mais valiosos do ermo: comida. Você sabe cozinhar, quais criaturas têm melhor sabor e como consertar quase tudo. Ser tão esperto no ermo atrai olhares, e você já viu sua parcela de pessoas que farão de tudo para pegar o que você construiu. Algo aconteceu com sua plantação, seus animais adoeceram ou algum desses desesperados finalmente incendiou sua casa. De qualquer forma, você vagueia pelo ermo para reconstruir ou reparar sua fazenda.",
+  "equipamento": [
+   {
+    "rotulo": "Fazendeiro Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 forcado com cinco Níveis de Desgaste, x1 escopeta de cano único com três Níveis de Desgaste, x8 munição calibre 12, x1 mochila, x1 pó curativo, x5 batatas, x5 tomates, x5 mutamaçã, x4 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Fazendeiro Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 forcado com cinco Níveis de Desgaste, x1 foice, x1 escopeta de cano único com três Níveis de Desgaste, x8 munição calibre 12, x1 mochila, x1 RobCo ConsertaJá, x2 batatas, x2 tomates, x1 mutamaçã e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "guarda",
+  "nome": "Guarda",
+  "pericias": [
+   "disparo",
+   "persuasao",
+   "corpo_a_corpo"
+  ],
+  "traco": "Vigilância Atenta",
+  "descricao": "\"É um trabalho fácil\", você se lembra de ter ouvido de alguns amigos. Então você se lembra dos incontáveis necróticos que teve que incinerar, ou da ardência nos olhos ao vigiar ao amanhecer, ou das famílias que teve que afastar da segurança. Você foi treinado para proteger aqueles que o pagavam. Trabalhando ao lado de uma equipe que te apoiava nas situações mais difíceis. Mas desde então você deixou seu trabalho, colocando suas habilidades em uso no ermo.",
+  "equipamento": [
+   {
+    "rotulo": "Guarda Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de metal com um Nível de Desgaste, x1 bastão policial com dois Níveis de Desgaste, x1 pistola 9mm, x20 munição 9mm, x10 munição de borracha 9mm, x1 mochila, x1 saco de dormir, x1 barraca individual, x1 binóculo, x1 Stimpak diluído, x3 água purificada, x2 Feijoada, x1 café, x2 rosquinhas e x50 tampinhas."
+   },
+   {
+    "rotulo": "Guarda Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de metal com um Nível de Desgaste, x1 bastão policial com dois Níveis de Desgaste, x1 pistola 9mm, x35 munição 9mm, x20 munição de borracha 9mm, x1 mochila, x1 binóculo, x2 RobCo ConsertaJá, x1 revista Arsenal de Sobras, x1 limpa cache e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "eremita",
+  "nome": "Eremita",
+  "pericias": [
+   "explosivos",
+   "medicina",
+   "sobrevivencia"
+  ],
+  "traco": "Recluso",
+  "descricao": "Seja por escolha ou exílio, você viveu a maior parte da sua vida no meio do ermo, longe de qualquer civilização. Você aprendeu a manter vivo o único que importa: você. Construindo armadilhas, memorizando a terra e sobrevivendo no limite do mundo. Você viu criaturas e fenômenos que ninguém acreditaria. Você finalmente saiu de sua reclusão para garantir que o que aprendeu não morra com você.",
+  "equipamento": [
+   {
+    "rotulo": "Eremita Humano",
+    "racas": [
+     "humano"
+    ],
+    "itens": "x1 armadura improvisada com dois Níveis de Desgaste, x1 lança caseira, x2 dinamite, x1 mochila, x1 saco de dormir, x1 barraca individual, x1 armadilha de urso, x1 Costeletas de Vira-Lata, x1 bife de lagartixa, x1 TiraRad diluído, x3 pó curativo, x1 kit de primeiros socorros, x1 água purificada, x2 água suja e x50 tampinhas."
+   },
+   {
+    "rotulo": "Eremita Necrótico ou Supermutante",
+    "racas": [
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura improvisada com dois Níveis de Desgaste, x1 lança caseira, x2 dinamite, x1 mochila, x1 saco de dormir, x1 barraca individual, x1 armadilha de urso, x1 Costeletas de Vira-Lata, x1 bife de lagartixa, x1 iguana no espeto, x4 pó curativo, x1 kit de primeiros socorros, x4 água suja e x50 tampinhas."
+   },
+   {
+    "rotulo": "Eremita Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura improvisada, x1 lança caseira com melhoria reforçada, x3 dinamite, x1 mochila, x1 armadilha de urso, x2 RobCo ConsertaJá 2.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "jornalista",
+  "nome": "Jornalista",
+  "pericias": [
+   "sabotagem",
+   "persuasao",
+   "furtividade"
+  ],
+  "traco": "Persistente",
+  "descricao": "Embora muitos vejam a carreira de repórter como algo do Velho Mundo, você discorda veementemente. A verdade é importante no ermo; este mundo ainda tem sua parcela de pessoas competindo para sobreviver. E nas grandes cidades, muitos lucram às custas dos outros ou deixam a história cair no esquecimento. É seu trabalho garantir que o povo esteja devidamente informado, mesmo que você precise quebrar algumas leis para chegar à verdade. Mas ultimamente você não tem visto muita ação. Você se aventura no ermo para encontrar a história perfeita.",
+  "equipamento": [
+   {
+    "rotulo": "Jornalista Humano",
+    "racas": [
+     "humano"
+    ],
+    "itens": "x1 armadura de tecido, x1 canivete, x1 pistola 9mm com três Níveis de Desgaste, x13 balas 9mm, x1 mochila, x1 lanterna, x1 célula de energia, x1 bandoleira, x1 gazua, x3 cram, x1 TiraRad diluído, x1 Rad-X, x1 Stimpak diluído, x3 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Jornalista Necrótico ou Supermutante",
+    "racas": [
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 canivete, x1 pistola 9mm com três Níveis de Desgaste, x13 balas 9mm, x1 mochila, x1 lanterna, x1 célula de energia, x1 bandoleira, x1 gazua, x3 cram, x1 Stimpak diluído, x1 calmex, x3 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Jornalista Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 canivete, x1 pistola 9mm com dois Níveis de Desgaste, x26 balas 9mm, x1 mochila, x1 lanterna, x1 célula de energia, x1 bandoleira, x1 gazua, x1 RobCo ConsertaJá 1.0, x1 Resfriador Neural e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "operario",
+  "nome": "Operário",
+  "pericias": [
+   "criacao",
+   "persuasao",
+   "corpo_a_corpo"
+  ],
+  "traco": "Longos Dias, Longas Noites",
+  "descricao": "Longos dias, bom pagamento. No início, seu corpo doía ao voltar para casa. Mas agora você se acostumou ao trabalho pesado que fez dia após dia. Seja movendo pertences, reconstruindo casas, plantando sementes, entregando água, etc. Você ajudou os outros e a si mesmo com trabalho honesto. Mas os empregos ficaram escassos, e agora você se virou para vagar pelo ermo em busca de melhor sorte.",
+  "equipamento": [
+   {
+    "rotulo": "Operário Humano ou Supermutante",
+    "racas": [
+     "humano",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 pé de cabra, x1 pistola de sucata com dois Níveis de Desgaste, x10 balas 9mm, x1 mochila, x1 cantil, x1 corda, x1 saco de dormir, x1 barraca individual, x1 batatinha, x2 InstaPurê, x1 ensopado mutacervo, x2 água purificada, x2 pó curativo e x50 tampinhas."
+   },
+   {
+    "rotulo": "Operário Necrótico",
+    "racas": [
+     "necrotico"
+    ],
+    "itens": "x1 armadura de tecido, x1 pé de cabra, x1 pistola de sucata com dois Níveis de Desgaste, x10 balas 9mm, x1 mochila, x1 cantil, x1 corda, x1 saco de dormir, x1 barraca individual, x1 batatinha, x2 InstaPurê, x1 ensopado mutacervo, x4 água suja, x1 Stimpak e x50 tampinhas."
+   },
+   {
+    "rotulo": "Operário Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 pé de cabra, x1 pistola de sucata com dois Níveis de Desgaste, x10 balas 9mm, x1 mochila, x1 corda, x1 lanterna, x1 célula de energia, x1 RobCo ConsertaJá 2.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "mecanico",
+  "nome": "Mecânico",
+  "pericias": [
+   "criacao",
+   "disparo",
+   "ciencia"
+  ],
+  "traco": "Manutenção Adequada",
+  "descricao": "Em um mundo em ruínas, você é um dos poucos fios que o mantêm unido. Consertar coisas é sua especialidade, e desde jovem você sempre se fascinou com o funcionamento das coisas, especialmente os mistérios da tecnologia da Velha Guerra. Você já lubrificou incontáveis armas, apertou gatilhos, sucateou peças velhas por novas e usou toneladas métricas de fita isolante. Você percebe que suas habilidades seriam mais bem utilizadas no ermo.",
+  "equipamento": [
+   {
+    "rotulo": "Mecânico Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 chave inglesa, x1 revólver de sucata, x10 balas .44, x1 mochila, x1 bandoleira, x1 cantil, x1 corda, x1 saco de dormir, x1 barraca individual, x3 cram, x3 água purificada, x1 kit de reparo de arma e x50 tampinhas."
+   },
+   {
+    "rotulo": "Mecânico Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 chave inglesa, x1 revólver de sucata, x15 balas .44, x1 mochila, x1 bandoleira, x1 corda, x1 RobCo ConsertaJá 1.0, x2 kit de reparo de arma e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "mercenario",
+  "nome": "Mercenário",
+  "pericias": [
+   "disparo",
+   "corpo_a_corpo",
+   "sobrevivencia"
+  ],
+  "traco": "Melhorar o Negócio",
+  "descricao": "Para parecer durão, você tem que agir como tal. Seu nome ganhou reputação como um protetor confiável. Você percorreu centenas de quilômetros guardando caravanas e abateu incontáveis necróticos e escorpiões mutantes. É um trabalho perigoso, e muitos tentaram te enganar. Mas poucos vivem para contar a história.",
+  "equipamento": [
+   {
+    "rotulo": "Mercenário Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de couro, x1 faca de combate com dois Níveis de Desgaste, x1 carabina de caça com dois Níveis de Desgaste, x10 balas .44, x1 mochila, x2 cram, x1 saco de dormir, x1 barraca individual, x1 Stimpak diluído, x1 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Mercenário Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de couro, x1 faca de combate com dois Níveis de Desgaste, x1 carabina de caça com dois Níveis de Desgaste, x12 balas .44, x1 mochila, x1 RobCo ConsertaJá 1.0, x1 RobCo ConsertaJá 2.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "pastor",
+  "nome": "Pastor",
+  "pericias": [
+   "barganha",
+   "intimidacao",
+   "persuasao"
+  ],
+  "traco": "Encorajar",
+  "descricao": "Nascido na igreja, você trouxe esperança e santidade a muitos que estavam perdidos na escuridão. Suas palavras de encorajamento trouxeram muitos para seu círculo, e você criou uma pequena comunidade de crentes que esperam moldar o mundo e a si mesmos em um lugar melhor, no que quer que acreditem. Mesmo assim, você já viu sua parcela de céticos, alguns até hostis. Você aprendeu a aceitar suas críticas e sempre manter sua crença à frente, mas nunca a deixá-lo vacilar. Você vagueia pelo ermo agora em busca de outros crentes, ou de provas da existência de seus poderes superiores.",
+  "equipamento": [
+   {
+    "rotulo": "Pastor Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 escopeta de um tiro com três Níveis de Desgaste, x8 munição calibre 12, x1 mochila, x1 saco de dormir, x1 barraca individual, x3 Feijoada, x1 rosquinha, x1 café, x3 água purificada, x1 kit de primeiros socorros, x3 pó curativo e x50 tampinhas."
+   },
+   {
+    "rotulo": "Pastor Robô ou Sintético Gen 2",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 escopeta de um tiro com dois Níveis de Desgaste, x8 munição calibre 12, x1 mochila, x1 lanterna, x1 célula de energia, x1 kit de primeiros socorros, x1 RobCo ConsertaJá 2.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "peregrino",
+  "nome": "Peregrino",
+  "pericias": [
+   "energia",
+   "furtividade",
+   "sobrevivencia"
+  ],
+  "traco": "Longas Estradas",
+  "descricao": "Seu lar foi comprometido, seja por uma facção poderosa, necróticos ou invasores. Você e sua família fizeram uma longa jornada pelo ermo para encontrar um novo lar.\n\nUsando tudo o que podiam para sobreviver, até mesmo as armas do velho mundo que guardaram na linhagem de sua família. Mas seu povo agora se dispersou, e cabe a você encontrá-los ou um novo lar para se estabelecer.",
+  "equipamento": [
+   {
+    "rotulo": "Peregrino Humano",
+    "racas": [
+     "humano"
+    ],
+    "itens": "x1 armadura de couro com melhoria leve, x1 lança caseira, x1 rifle laser com cinco Níveis de Desgaste, x1 célula de energia, x1 mochila, x1 saco de dormir, x1 barraca individual, x2 mutamaçã, x2 maçãs, x1 sopa de vegetais, x2 água purificada, x1 pó curativo e x50 tampinhas."
+   },
+   {
+    "rotulo": "Peregrino Necrótico ou Supermutante",
+    "racas": [
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de couro com melhoria leve, x1 lança caseira, x1 rifle laser com cinco Níveis de Desgaste, x1 célula de energia, x1 mochila, x1 saco de dormir, x1 barraca individual, x2 mutamaçã, x2 maçãs, x1 sopa de vegetais, x3 água suja, x1 Nuka-Cola, x1 Stimpak diluído e x50 tampinhas."
+   },
+   {
+    "rotulo": "Peregrino Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de couro com melhoria leve, x1 lança caseira, x1 rifle laser com cinco Níveis de Desgaste, x1 célula de energia, x1 mochila, x1 bandoleira, x1 binóculo, x1 gancho de escalada, x1 corda, RobCo ConsertaJá 1.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "lutador_de_arena",
+  "nome": "Lutador de Arena",
+  "pericias": [
+   "barganha",
+   "corpo_a_corpo",
+   "pugilismo"
+  ],
+  "traco": "Sobreviver à Batalha",
+  "descricao": "É preciso muita força para se levantar e continuar, mas é tudo o que você conhece. Os habitantes do ermo apostam suas tampinhas suadas em sua capacidade de lutar, e esse fardo alimenta cada um de seus socos. Você derrubou muitos competidores e sentiu o gosto amargo da derrota, mas isso só torna sua vitória ainda mais doce. No entanto, algo aconteceu com seu estabelecimento. E agora você deve vagar pelo ermo com suas habilidades para encontrar um novo propósito na vida.",
+  "equipamento": [
+   {
+    "rotulo": "Lutador de Arena Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 cano de chumbo com dois Níveis de Desgaste, x1 soco inglês, x1 punho cravado, x1 bandoleira, x1 rolamentos, x1 saco de dormir, x1 barraca individual, x3 cram, x1 vodca, x3 pó curativo, x3 água purificada, x1 Stimpak diluído e x50 tampinhas."
+   },
+   {
+    "rotulo": "Lutador de Arena Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de metal com um Nível de Desgaste, x1 cano de chumbo com dois Níveis de Desgaste, x1 soco inglês, x1 punho cravado, x1 bandoleira, x1 rolamentos, x1 RobCo ConsertaJá 2.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "cientista",
+  "nome": "Cientista",
+  "pericias": [
+   "energia",
+   "sabotagem",
+   "ciencia"
+  ],
+  "traco": "Pesquisa de Campo",
+  "descricao": "Estudar livros do velho mundo, criar teorias e usar o conhecimento para ajudar a reconstruir a civilização é o trabalho da sua vida. Você previu com sucesso resultados de eventos naturais e de criaturas para ajudar sua comunidade a entender melhor o mundo exterior.\n\nMas você aprendeu o que precisava e, para alimentar adequadamente sua curiosidade, é hora de pesquisa de campo!",
+  "equipamento": [
+   {
+    "rotulo": "Cientista Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 pistola laser, x2 célula de energia, x1 mochila, x1 saco de dormir, x1 barraca individual, x3 cram, x2 água purificada, x1 TiraRad diluído, x1 Rad-X, x1 Stimpak e x50 tampinhas."
+   },
+   {
+    "rotulo": "Cientista Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 pistola laser, x2 célula de energia, x1 mochila, x2 RobCo ConsertaJá 2.0, x1 revista Manual do Programador, x1 Depurador Neural e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "escriba",
+  "nome": "Escriba",
+  "pericias": [
+   "criacao",
+   "energia",
+   "medicina"
+  ],
+  "traco": "Conhecimento do Ermo",
+  "descricao": "O que não lhe contam sobre ser um organizador de livros é que quanto mais rápido você faz isso, mais tempo você tem para ler. Você passou incontáveis horas organizando um tesouro de informações que gostaria de compartilhar com o mundo inteiro. O acúmulo de conhecimento desses textos poderia melhorar o mundo se os invasores parassem para ler um capítulo. Você está se aventurando no ermo para compartilhar seu conhecimento, ou para encontrar mais para adicionar à sua coleção.",
+  "equipamento": [
+   {
+    "rotulo": "Escriba Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 pistola laser, x2 célula de energia, x1 mochila, x1 saco de dormir, x1 barraca individual, x3 cram, x2 água purificada, x1 TiraRad diluído, x1 Rad-X, x1 Stimpak e x50 tampinhas."
+   },
+   {
+    "rotulo": "Escriba Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 pistola laser, x2 célula de energia, x1 mochila, x2 RobCo ConsertaJá 2.0, x1 revista Manual do Programador, x1 Depurador Neural e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "soldado",
+  "nome": "Soldado",
+  "pericias": [
+   "explosivos",
+   "disparo",
+   "medicina"
+  ],
+  "traco": "Combatente Eficiente",
+  "descricao": "Desde jovem você admirava aqueles que protegiam seu lar. Agora você se juntou às fileiras para proteger os outros. Seguir ordens é seu dever para com seu povo e seus companheiros soldados. Você foi enviado em missões de reconhecimento, guardou postos avançados e também viu os horrores da guerra. Você obedeceu às ordens até o fim, mesmo que não concordasse com elas. Seu período de serviço terminou, e você está pensando em usar essas habilidades no ermo.",
+  "equipamento": [
+   {
+    "rotulo": "Soldado Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de couro, x1 faca de combate com dois Níveis de Desgaste, x1 carabina de caça com dois Níveis de Desgaste, x10 balas .44, x1 mochila, x2 cram, x1 saco de dormir, x1 barraca individual, x1 Stimpak diluído, x1 água purificada e x50 tampinhas."
+   },
+   {
+    "rotulo": "Soldado Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de couro, x1 faca de combate com dois Níveis de Desgaste, x1 carabina de caça com dois Níveis de Desgaste, x12 balas .44, x1 mochila, x1 RobCo ConsertaJá 1.0, x1 RobCo ConsertaJá 2.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "comerciante",
+  "nome": "Comerciante",
+  "pericias": [
+   "barganha",
+   "persuasao",
+   "intimidacao"
+  ],
+  "traco": "Moeda de Troca",
+  "descricao": "Todos precisam de algo. Você é um coletor de objetos de valor que trouxe para muitas cidades através do ermo.\n\nVocê assinou acordos, barganhou tampinhas e deixou seus clientes satisfeitos. No final do dia, o que mais importa é sua reputação e todas as tampinhas que você ganhou. Mas seu estoque está baixo, é hora de partir novamente para recuperar todo esse dinheiro.",
+  "equipamento": [
+   {
+    "rotulo": "Comerciante Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de tecido, x1 estilete, x1 pistola de sucata com dois Níveis de Desgaste, x15 balas 9mm, x1 mochila, x5 ração de cachorro enlatada, x1 iguana no espeto, x2 pó curativo, x4 água suja, x2 água purificada, x1 gazua, x1 barraca individual, x1 saco de dormir, x1 uísque, x1 Corretivo, x2 Jato, x3 cigarros, x1 Testo+, x1 café e x50 tampinhas."
+   },
+   {
+    "rotulo": "Comerciante Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de tecido, x1 estilete, x1 pistola de sucata com dois Níveis de Desgaste, x15 balas 9mm, x1 mochila, x1 gazua, x2 RobCo ConsertaJá 1.0, x2 overclock físico, x2 limpa cache, x1 Código de IA Militar, x1 lanterna, x1 célula de energia, x1 revista de perícia ¡La Fantoma! e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ },
+ {
+  "id": "morador_do_refugio",
+  "nome": "Morador do Refúgio",
+  "pericias": [
+   "medicina",
+   "persuasao",
+   "ciencia"
+  ],
+  "traco": "Talentoso",
+  "descricao": "Por toda a sua vida, você só conheceu as frias paredes de aço de um refúgio subterrâneo. Todos usam macacões azul-amarelo, pip-boy e temem o lado de fora. Muitos refúgios hospedam algum tipo de experimento ou simulação que atormenta aqueles que estão dentro. No entanto, o seu ou não tinha um, ou era tão sutil que você nunca percebeu. Mas tudo isso mudou quando você finalmente colocou os pés para fora. O mundo nunca foi o que você pensou, as pessoas são diferentes e ele é maior do que você jamais imaginou.",
+  "equipamento": [
+   {
+    "rotulo": "Morador do Refúgio Humano, Necrótico ou Supermutante",
+    "racas": [
+     "humano",
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 Roupa do Refúgio, x1 pistola 10mm, x10 munição 10mm, x1 mochila, x1 saco de dormir, x1 barraca individual, x1 cantil, x1 kit de reparo de arma, x1 pip-boy (qualquer), x1 BlamCo Mac&Queijo, x1 Bife Salisbury, Ovos Yum Yum, x1 café, x4 água purificada, x1 Stimpak."
+   },
+   {
+    "rotulo": "Morador do Refúgio Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 Roupa do Refúgio, x1 pistola laser, x2 célula de energia, x1 mochila, x1 pip-boy (qualquer), x2 RobCo ConsertaJá 2.0, x1 revista Manual do Programador, x1 Depurador Neural e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": "O equipamento inicial neste antecedente concede itens únicos poderosos, consulte seu MJ antes de pegar estes itens."
+ },
+ {
+  "id": "sobrevivente_do_ermo",
+  "nome": "Sobrevivente do Ermo",
+  "pericias": [
+   "disparo",
+   "sobrevivencia",
+   "pugilismo"
+  ],
+  "traco": "Instinto de Aventureiro",
+  "descricao": "Tudo o que você sempre precisou está nas suas costas. Você viajou por toda a extensão do ermo, negociando, conhecendo pessoas e seguindo em frente. Você matou invasores, explorou ruínas abandonadas e cruzou caminhos com soldados. Mas você é tão impactante para este mundo quanto uma bola de feno no deserto, e tudo isso está prestes a mudar.",
+  "equipamento": [
+   {
+    "rotulo": "Sobrevivente do Ermo Humano",
+    "racas": [
+     "humano"
+    ],
+    "itens": "x1 armadura de couro, x1 lança caseira, x1 pistola 10mm, x10 munição 10mm, x1 mochila, x1 saco de dormir, x1 barraca individual, x2 mutamaçã, x2 maçãs, x1 sopa de vegetais, x2 água purificada, x1 pó curativo e x50 tampinhas."
+   },
+   {
+    "rotulo": "Sobrevivente do Ermo Necrótico ou Supermutante",
+    "racas": [
+     "necrotico",
+     "super_mutante"
+    ],
+    "itens": "x1 armadura de couro, x1 lança caseira, x1 pistola 10mm, x10 munição 10mm, x1 mochila, x1 saco de dormir, x1 barraca individual, x2 mutamaçã, x2 maçãs, x1 sopa de vegetais, x3 água suja, x1 Nuka-Cola, x1 Stimpak diluído e x50 tampinhas."
+   },
+   {
+    "rotulo": "Sobrevivente do Ermo Sintético Gen 2 ou Robô",
+    "racas": [
+     "robo",
+     "sintetico"
+    ],
+    "itens": "x1 armadura de couro, x1 lança caseira, x1 pistola 10mm, x10 munição 10mm, x1 mochila, x1 bandoleira, x1 binóculo, x1 gancho de escalada, x1 corda, RobCo ConsertaJá 1.0 e x50 tampinhas."
+   }
+  ],
+  "nota_equipamento": ""
+ }
+]

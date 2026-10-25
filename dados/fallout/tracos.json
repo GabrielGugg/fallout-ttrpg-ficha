@@ -1,0 +1,413 @@
+{
+ "ermo_selvagem": "***Ermo Selvagem.*** Alguns traços podem ser modificados por esta regra opcional, que dobra todos os valores numéricos, tanto dos benefícios quanto das penalidades de cada traço, ou concede habilidades totalmente novas. Para os jogadores do \"tudo ou nada\", você pode optar por aplicar o \"Ermo Selvagem\" ao(s) traço(s) que escolher. Se fizer isso, modifique seu traço com a seção Ermo Selvagem que aparece no fim de cada traço.",
+ "personagem": [
+  {
+   "id": "metabolismo_rapido",
+   "nome": "Metabolismo Rápido",
+   "requisito": "Humano",
+   "requisitos": {
+    "racas": [
+     "humano"
+    ]
+   },
+   "texto": "Seu metabolismo é acelerado. Seu Fator de Cura aumenta em 2. Porém, seu Limiar de Radiação aumenta em 3.",
+   "ermo_selvagem": "Seu Fator de Cura aumenta em um valor igual ao seu nível. Porém, sempre que você passar em um teste de radiação, seu Limiar de Radiação aumenta em 4 em vez de 2."
+  },
+  {
+   "id": "pecas_baratas",
+   "nome": "Peças Baratas",
+   "requisito": "Robô",
+   "requisitos": {
+    "racas": [
+     "robo"
+    ]
+   },
+   "texto": "Você é feito de um metal mais acessível e maleável. Seu Fator de Cura aumenta em 2. Porém, sua DF é reduzida em 1.",
+   "ermo_selvagem": "Seu Fator de Cura aumenta em um valor igual ao seu nível. Porém, sua DF é reduzida em 1 e sua TD é reduzida em 2."
+  },
+  {
+   "id": "circuitos_densos",
+   "nome": "Circuitos Densos",
+   "requisito": "Sintético",
+   "requisitos": {
+    "racas": [
+     "sintetico"
+    ]
+   },
+   "texto": "Sua fiação frágil é mais protegida, ao custo de lag de processamento. Você ganha um bônus de 2 no máximo do seu Fator de Cura. Porém, suas rolagens de Iniciativa diminuem em 2.",
+   "ermo_selvagem": "Seu Fator de Cura aumenta em um valor igual ao seu nível. Porém, suas rolagens de Iniciativa têm desvantagem e diminuem em 4."
+  },
+  {
+   "id": "actinidios_ativados",
+   "nome": "Actinídios Ativados",
+   "requisito": "Necrótico",
+   "requisitos": {
+    "racas": [
+     "necrotico"
+    ]
+   },
+   "texto": "Por alguma mutação, você não se necrosou por completo. Você se cura o valor total dos Stimpaks e pode usar pó curativo. Porém, você deixa de ser imune à radiação e aos seus efeitos, mas tem vantagem em qualquer teste de Radiação e resistência a dano de radiação.",
+   "ermo_selvagem": "Além dos efeitos do traço, seu Fator de Cura aumenta em 2. Porém, sempre que você passar em um teste de Radiação, seu Limiar de Radiação aumenta em 4 em vez de 2."
+  },
+  {
+   "id": "regeneracao_penosa",
+   "nome": "Regeneração Penosa",
+   "requisito": "Super Mutante",
+   "requisitos": {
+    "racas": [
+     "super_mutante"
+    ]
+   },
+   "texto": "Seu metabolismo é acelerado. Seu Fator de Cura aumenta em 2. Porém, seus pontos de estamina máximos são reduzidos em um valor igual ao seu nível.",
+   "ermo_selvagem": "Seu Fator de Cura aumenta em um valor igual ao seu nível. Porém, sempre que você recuperar pontos de estamina dormindo, você recupera metade."
+  },
+  {
+   "id": "brutamontes",
+   "nome": "Brutamontes",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Um pouco mais lento, mas um pouco maior. Você pode não acertar tanto, mas eles vão sentir quando você acertar! Quando você causa dano a uma criatura com um ataque de arma corpo a corpo que cause dano de contusão, ou com um ataque desarmado, o dano aumenta em um dado de dano adicional. Porém, qualquer ataque desarmado ou de arma corpo a corpo que você fizer custa 1 PA a mais.\n\n**Ermo Selvagem, opção 1:** Quando você causa dano a uma criatura com um ataque de arma corpo a corpo que cause dano de contusão, ou com um ataque desarmado, o dano aumenta em 3. Porém, qualquer ataque desarmado ou de arma corpo a corpo que você fizer custa 2 PA a mais.\n\n**Ermo Selvagem, opção 2, fiel ao original:** Seu valor de Força aumenta em 2, porém seus pontos de ação máximos são reduzidos em 2.",
+   "ermo_selvagem": ""
+  },
+  {
+   "id": "feito_para_destruir",
+   "nome": "Feito para Destruir",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "O lança-chamas que brilha o dobro dura metade do tempo. Qualquer dano que você causar com uma arma aumenta em 1. Porém, sempre que você rolar 1 em uma rolagem de ataque com uma arma, a arma ganha dois Níveis de Desgaste em vez de um.",
+   "ermo_selvagem": "Qualquer dano que você causar com uma arma aumenta em 2. Porém, sempre que você atacar com uma arma, ela ganha a propriedade Quebrável (veja Propriedades Especiais)."
+  },
+  {
+   "id": "dependente_de_aditivos",
+   "nome": "Dependente de Aditivos",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você está acostumado à onda dos aprimoramentos químicos ou aos eletrodos dos programas. Se você estiver viciado, perde a condição sempre que descansar por pelo menos 8 horas. Porém, você tem desvantagem em qualquer teste de Resistência para evitar ficar viciado.",
+   "ermo_selvagem": "Se você estiver viciado, perde a condição após 1 hora. Porém, você sempre fica viciado depois de usar um Químico ou um Programa de Overclock de Robô."
+  },
+  {
+   "id": "claustrofobia",
+   "nome": "Claustrofobia",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você tem medo de espaços fechados. Os efeitos da sua Moral da Equipe são dobrados enquanto você está ao ar livre (ou seja: sempre que você rolar Iniciativa e ganhar pontos de estamina temporários, você ganha o dobro, e sempre que fizer um Suspiro Final, você dobra seu bônus de Moral da Equipe). Porém, você não ganha os benefícios da sua Moral da Equipe quando está em ambientes fechados, no subsolo ou, de qualquer forma, fora do ar livre.\n\n**Ermo Selvagem, fiel ao original:** Você ganha vantagem em todos os testes de atributo e de perícia enquanto está ao ar livre, mas desvantagem em todos os testes de atributo e de perícia enquanto está em ambientes fechados, no subsolo ou, de qualquer forma, fora do ar livre.",
+   "ermo_selvagem": ""
+  },
+  {
+   "id": "madrugador",
+   "nome": "Madrugador",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Cedo na cama, cedo pra acordar, faz um necrótico furtivo, rico e querendo matar essa gente! Você pode rolar um d4 e somar o número rolado a qualquer teste de atributo ou de perícia que fizer entre 6h e 12h. Porém, você ganha um nível adicional de fadiga sempre que falhar em um teste de Resistência para resistir ao sono.\n\n**Ermo Selvagem, fiel ao original:** Você tem +2 em todas as perícias pela manhã (6h às 12h), mas −1 durante a noite (18h às 6h).",
+   "ermo_selvagem": ""
+  },
+  {
+   "id": "resistente_a_aditivos",
+   "nome": "Resistente a Aditivos",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Seu corpo se esforça para ser resistente ao vício. Você tem vantagem em qualquer teste de Resistência para evitar ficar viciado. Porém, sempre que você usar um Químico ou um Programa de Overclock de Robô, os benefícios duram metade do tempo listado.",
+   "ermo_selvagem": "Você é imune à condição viciado. Porém, sempre que você usar um Químico ou um Programa de Overclock de Robô, os benefícios duram no máximo uma rodada, independentemente do tempo listado."
+  },
+  {
+   "id": "tiro_rapido",
+   "nome": "Tiro Rápido",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você não tem tempo de mirar porque já está atirando! Sempre que você gastar pontos de ação para fazer um ataque com uma arma de longo alcance ou um explosivo, você pode escolher ter desvantagem na rolagem de ataque; se escolher, o ataque custa 1 PA a menos, até o mínimo de 3.",
+   "ermo_selvagem": "Além dos efeitos do traço: você tem vantagem sempre que rolar Iniciativa, porém não pode fazer ataques mirados com armas de longo alcance."
+  },
+  {
+   "id": "feral",
+   "nome": "Feral",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você sobreviveu no coração do ermo selvagem. Sempre que você causar dano com um ataque desarmado ou de arma corpo a corpo, você causa 2 de dano extra. Porém, você não ganha os benefícios da Moral da Equipe.",
+   "ermo_selvagem": "Além dos efeitos do traço: sempre que você gastar pelo menos 6 pontos de ação para se mover, você ganha imediatamente 2 pontos de ação. Porém, você tem desvantagem em todos os testes das perícias Barganha e Persuasão. E, independentemente do seu valor de Carisma, você é considerado como tendo 4 em Carisma para qualquer requisito de talento."
+  },
+  {
+   "id": "finesse",
+   "nome": "Finesse",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Sempre que você causar um acerto crítico com uma arma, o multiplicador de dano do acerto crítico aumenta em 1 ou o dado de dano aumenta em 1. Porém, sempre que você fizer uma rolagem de ataque, o total é reduzido em 1.",
+   "ermo_selvagem": "Sempre que você causar um acerto crítico com uma arma, o multiplicador de dano do acerto crítico aumenta em 2 ou o dado de dano aumenta em 2. Porém, sempre que você fizer uma rolagem de ataque, o total é reduzido em 2."
+  },
+  {
+   "id": "dotado",
+   "nome": "Dotado",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você tem mais habilidades natas que a maioria, por isso não passou tanto tempo aprimorando suas perícias. Sua Capacidade de Carga aumenta em 10, seu bônus de Iniciativa aumenta em 1, você pode usar Desconto uma vez adicional por descanso, sua Moral da Equipe aumenta em 1 e você tem uma Tampa de Karma adicional. Porém, você reduz todos os seus bônus de perícia em 3.",
+   "ermo_selvagem": "Sua Capacidade de Carga aumenta em 20, seu bônus de Iniciativa aumenta em 2, você pode usar Desconto duas vezes adicionais por descanso, sua Moral da Equipe aumenta em 2 e você tem duas Tampas de Karma adicionais. Porém, você reduz todos os seus bônus de perícia em 6."
+  },
+  {
+   "id": "a_todo_vapor",
+   "nome": "A Todo Vapor",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Enquanto seus pontos de estamina forem iguais a 0, você pode escolher ganhar um ponto de ação adicional no início do seu turno. Porém, se fizer isso, sua DF e sua TD são reduzidas em 2 cada.",
+   "ermo_selvagem": "Enquanto seus pontos de estamina forem iguais a 0, você pode escolher ganhar 2 pontos de ação adicionais no início do seu turno. Porém, se fizer isso, você não subtrai sua TD de nenhum dano causado aos seus pontos de vida e sua DF passa a ser 8."
+  },
+  {
+   "id": "bondoso",
+   "nome": "Bondoso",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você é bom de coração, mais propenso a resolver problemas com a mente do que com violência. Independentemente do seu valor de Carisma, você é considerado como tendo dois pontos adicionais em Carisma para qualquer requisito de talento. (Por exemplo: se seu valor de Carisma é 5, com este traço ele é considerado 7 para requisitos de talento.) Porém, independentemente dos seus valores de Agilidade e Força, você é considerado como tendo dois pontos a menos para qualquer requisito de talento de Agilidade ou Força.",
+   "ermo_selvagem": "Independentemente do seu valor de Carisma, você é considerado como tendo 10 em Carisma para qualquer requisito de talento. Porém, independentemente dos seus valores de Agilidade e Força, você é considerado como tendo 4 para qualquer requisito de talento de Agilidade ou Força."
+  },
+  {
+   "id": "robusto",
+   "nome": "Robusto",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você ganha um bônus nos seus pontos de vida máximos igual ao seu nível. Porém, seus pontos de estamina máximos são reduzidos em um valor igual ao seu nível.",
+   "ermo_selvagem": "Além dos efeitos deste traço, você ganha um bônus nos seus pontos de vida máximos igual ao seu nível. Porém, seus pontos de estamina máximos são reduzidos em um valor igual ao seu nível."
+  },
+  {
+   "id": "acumulador",
+   "nome": "Acumulador",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Sua Capacidade de Carga aumenta em 25. Porém, você tem desvantagem em todos os testes de atributo, testes de perícia e rolagens de ataque enquanto não estiver carregando pelo menos 50 de carga em qualquer combinação de armas, armaduras, munição, explosivos, químicos, comidas, bebidas ou itens de sucata.",
+   "ermo_selvagem": "Você é imune à condição sobrecarregado; porém, sempre que sua Capacidade de Carga atual ficar abaixo do seu máximo, você ganha um nível de fadiga."
+  },
+  {
+   "id": "sangue_quente",
+   "nome": "Sangue Quente",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Enquanto seus pontos de estamina forem iguais a 0, você ganha os seguintes efeitos: quando você rolar 1 ou 2 em um dado de dano de um ataque que fizer com qualquer arma, você pode rolar o dado de novo e deve usar o novo resultado, mesmo que seja 1 ou 2. Sempre que você fizer uma rolagem de ataque, subtraia 2 do resultado.",
+   "ermo_selvagem": "Além dos efeitos deste traço: quando seus pontos de estamina forem iguais a 0, o dano que você causa com qualquer rolagem de ataque aumenta em 5. Porém, você tem desvantagem em todas as suas rolagens de ataque enquanto seus pontos de estamina forem iguais a 0."
+  },
+  {
+   "id": "pe_frio",
+   "nome": "Pé Frio",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "O lado bom é que todo mundo ao seu redor tem mais falhas críticas em combate; o lado ruim é que você também! Sempre que qualquer criatura no jogo fizer uma rolagem de ataque, a chance de errar automaticamente e de a arma ganhar um Nível de Desgaste aumenta em 1. (Exemplo: se apenas um personagem jogador pegou este traço, então, se qualquer criatura fizer uma rolagem de ataque e tirar 1 ou 2 no dado, ela erra automaticamente e sua arma ganha um Nível de Desgaste. Porém, se a sua Tampa de Karma estiver virada, você pode virá-la de volta.)",
+   "ermo_selvagem": "Sempre que qualquer criatura no jogo fizer uma rolagem de ataque, a chance de errar o ataque automaticamente aumenta em 2."
+  },
+  {
+   "id": "pavio_curto",
+   "nome": "Pavio Curto",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Sempre que você gastar pontos de ação para arremessar um explosivo, você gasta 1 ponto de ação a menos, até o mínimo de 3. Porém, você só pode arremessá-los até metade do alcance listado.",
+   "ermo_selvagem": "Além dos efeitos deste traço: sempre que você arremessar um explosivo e ele causar dano aos pontos de vida de outro personagem jogador, o dano é dobrado para todas as outras criaturas que não sejam personagens jogadores."
+  },
+  {
+   "id": "notivago",
+   "nome": "Notívago",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você é mais uma pessoa da noite. Você pode rolar um d4 e somar o número rolado a qualquer teste de atributo ou de perícia que fizer entre 18h e 6h. Porém, você ganha um nível adicional de fadiga sempre que falhar em um teste de Resistência para resistir ao sono.\n\n**Ermo Selvagem, fiel ao original:** Você tem −1 em todas as perícias pela manhã (6h às 12h), mas +2 durante a noite (18h às 6h).",
+   "ermo_selvagem": ""
+  },
+  {
+   "id": "maneta",
+   "nome": "Maneta",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Sempre que você fizer uma rolagem de ataque com uma arma que exija apenas uma mão, some 2 ao resultado. Porém, sempre que fizer uma rolagem de ataque com uma arma que exija as duas mãos, subtraia 2 do resultado.",
+   "ermo_selvagem": "Sempre que você causar dano com um ataque de arma que exija apenas uma mão, some 2 ao total. Porém, sempre que causar dano com um ataque de arma que exija as duas mãos, subtraia 2 do total."
+  },
+  {
+   "id": "um_em_um_milhao",
+   "nome": "Um em um Milhão",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você não é particularmente sortudo nem azarado, mas, quando o raio cai, ele cai forte! Quando você causar um acerto crítico com uma rolagem de ataque de qualquer arma, role um d20. Se tirar 20 neste d20, você acerta automaticamente e rola o dano extra listado na tabela da arma, mas esse dano é quadruplicado. Se não tirar 20, seu ataque ainda acerta, mas não causa nenhum dano de acerto crítico.",
+   "ermo_selvagem": "Quando você causar um acerto crítico com uma rolagem de ataque de qualquer arma, role um d20. Se tirar 20 neste d20, role outro d20. Se tirar 20 neste terceiro d20, você acerta automaticamente e rola o dano extra listado na tabela da arma, mas esse dano é octuplicado."
+  },
+  {
+   "id": "habilidoso",
+   "nome": "Habilidoso",
+   "requisito": "Um valor de atributo igual ou inferior a 3",
+   "requisitos": {
+    "especial": "Um valor de atributo igual ou inferior a 3"
+   },
+   "texto": "Aumente um modificador de perícia em 2.",
+   "ermo_selvagem": "*Pré-requisito: Um valor de atributo igual a 1.* Aumente um modificador de perícia em 5."
+  },
+  {
+   "id": "estrutura_pequena",
+   "nome": "Estrutura Pequena",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você ganha um bônus nos seus pontos de estamina máximos igual ao seu nível. Porém, seus pontos de vida máximos são reduzidos em um valor igual ao seu nível.",
+   "ermo_selvagem": "Além dos efeitos deste traço, você ganha um bônus nos seus pontos de estamina máximos igual ao seu nível. Porém, seus pontos de vida máximos são reduzidos em um valor igual ao seu nível."
+  },
+  {
+   "id": "disciplina_de_gatilho",
+   "nome": "Disciplina de Gatilho",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Sempre que você fizer uma rolagem de ataque mirado com uma arma de longo alcance, o custo adicional é reduzido em 1 PA. Porém, seu bônus de Iniciativa é reduzido em 2.",
+   "ermo_selvagem": "Sempre que você fizer uma rolagem de ataque mirado com uma arma de longo alcance, o custo adicional é reduzido em 2 PA. Porém, seu bônus de Iniciativa é reduzido em 5."
+  }
+ ],
+ "antecedente": [
+  {
+   "id": "um_momento_de_tregua",
+   "nome": "Um Momento de Trégua",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você é um talento natural para levantar o moral. Sempre que você e outros personagens jogadores descansarem, você toca música, canta uma canção, conta uma história ou faz um discurso inspirador. Você e cada outro personagem jogador que está descansando ganham pontos de estamina temporários iguais ao seu valor de Carisma. Porém, a Furtividade da Equipe de você e de cada personagem jogador é reduzida em 2 enquanto você estiver a até 150 m deles.",
+   "ermo_selvagem": "A quantidade de pontos de estamina temporários ganhos passa a ser o dobro do seu valor de Carisma, mas a Furtividade da Equipe do seu grupo é reduzida em 5 enquanto você estiver no grupo."
+  },
+  {
+   "id": "moeda_de_troca",
+   "nome": "Moeda de Troca",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você tem faro para oportunidades e sabe fechar negócios. Sempre que você vender um item, pode usar sua habilidade Desconto para ganhar um bônus de tampinhas igual ao dobro do seu modificador da perícia Barganha. Porém, você vende todos os seus itens por 10% a menos que o valor listado.",
+   "ermo_selvagem": "Sempre que você vender um item, pode usar sua habilidade Desconto para ganhar um bônus de tampinhas igual ao triplo do seu modificador da perícia Barganha. Porém, você vende todos os seus itens por 20% a menos que o valor listado."
+  },
+  {
+   "id": "nao_prejudique",
+   "nome": "Não Prejudique",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "\"*Primum non nocere*\", você fez o juramento de Hipócrates e pretende curar os outros. Sempre que você restaurar pontos de vida, você restaura 1 ponto de vida adicional. Sempre que você atacar outra criatura e causar dano a ela, o dano é reduzido em 1, até um mínimo de 1.",
+   "ermo_selvagem": "Além dos efeitos do traço: sempre que você gastar 6 PA para fazer um teste de Medicina em uma criatura morrendo para devolvê-la a 1 ponto de vida, o teste é bem-sucedido automaticamente. Porém, se você algum dia causar dano a outra criatura com um ataque que você fez contra ela, e esse dano a matar, você perde todas as habilidades deste traço."
+  },
+  {
+   "id": "combatente_eficiente",
+   "nome": "Combatente Eficiente",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Graças ao seu treinamento, você é mais confiável com uma arma. Sempre que você fizer uma rolagem de ataque e o resultado for 1, você soma seu modificador e não erra mais automaticamente. Porém, sua Tampa de Karma não desvira quando você rola 1 em rolagens de ataque.",
+   "ermo_selvagem": "Sempre que você fizer uma rolagem de ataque e o resultado for 1, você pode rolar o ataque de novo, mas deve ficar com o novo resultado. Porém, sempre que você fizer uma rolagem de ataque e o resultado for um acerto crítico, você acerta automaticamente, mas não causa dano extra."
+  },
+  {
+   "id": "sobreviver_a_batalha",
+   "nome": "Sobreviver à Batalha",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você já voltou do limite mais de uma vez. Se você tirar 19 ou 20 no seu Suspiro Final, você volta a 1 ponto de vida. Porém, você não soma sua Sorte nem sua Resistência aos seus Suspiros Finais.",
+   "ermo_selvagem": "Se você tirar 18, 19 ou 20 no seu Suspiro Final, você volta a 1 ponto de vida. Porém, você não soma sua Sorte, sua Resistência nem sua Moral da Equipe aos seus Suspiros Finais."
+  },
+  {
+   "id": "encorajar",
+   "nome": "Encorajar",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você sabe preparar os outros para o pior e inspirar a alma. Sempre que você rolar Iniciativa, cada outro personagem jogador ganha vantagem na primeira rolagem de ataque que fizer no seu turno. Porém, se algum personagem jogador causar um acerto crítico no primeiro ataque depois de rolar Iniciativa, ele não causa nenhum dano extra.",
+   "ermo_selvagem": "Sempre que você rolar Iniciativa, cada outro personagem jogador ganha vantagem nas duas primeiras rolagens de ataque que fizer no seu turno. Porém, se algum personagem jogador causar um acerto crítico no primeiro ou no segundo ataque depois de rolar Iniciativa, ele não causa nenhum dano extra."
+  },
+  {
+   "id": "pesquisa_de_campo",
+   "nome": "Pesquisa de Campo",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Seu estudo de outras criaturas ajuda você a combatê-las melhor. Sempre que você causar dano com um ataque a uma criatura de um tipo contra o qual já lutou, o dano aumenta em 2. Porém, sempre que você causar dano com um ataque a uma criatura de um tipo contra o qual ainda não lutou, o dano é reduzido em 2.",
+   "ermo_selvagem": "Além dos efeitos deste traço: sempre que você descansar e ganhar um bônus de XP depois de ter rolado Iniciativa contra uma criatura contra a qual nunca rolou Iniciativa antes, você ganha um bônus adicional de 20% de XP. Porém, sempre que você descansar e ganhar XP depois de ter rolado Iniciativa contra uma criatura contra a qual já rolou Iniciativa antes, você ganha 10% a menos de XP."
+  },
+  {
+   "id": "endurecido_pela_terra",
+   "nome": "Endurecido pela Terra",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você conheceu dias longos e trabalho duro: você tem vantagem sempre que fizer um teste de Resistência para resistir a um nível de Fome ou Fadiga. Porém, você cai inconsciente se chegar a 8 níveis de Fome ou Fadiga, em vez de 10.",
+   "ermo_selvagem": "Além dos efeitos do traço: sempre que seus pontos de vida ou de estamina aumentarem ao subir de nível, você ganha um ponto extra em cada. Porém, os efeitos negativos dos níveis de Fome e Fadiga são dobrados."
+  },
+  {
+   "id": "longos_dias_longas_noites",
+   "nome": "Longos Dias, Longas Noites",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você está acostumado a forçar o corpo e aguentar trabalho físico: sempre que seus pontos de estamina aumentarem ao subir de nível, você ganha um ponto extra. Porém, você ganha um nível adicional de fadiga sempre que falhar em um teste de Resistência para resistir ao sono.",
+   "ermo_selvagem": "Além dos efeitos do traço: sempre que seus pontos de estamina aumentarem ao subir de nível, você ganha mais um ponto extra (um total de 2). Porém, sempre que você recuperar pontos de estamina de qualquer descanso que não seja dormir, você recupera um quarto dos seus pontos de estamina máximos em vez de metade."
+  },
+  {
+   "id": "longas_estradas",
+   "nome": "Longas Estradas",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você viajou longe e por toda parte e sabe lidar melhor com a estrada aberta. Quando você e outros personagens jogadores viajarem em ritmo acelerado, vocês podem se mover 3 km adicionais por hora. Porém, se fizerem isso, no fim de cada hora você e cada outro personagem jogador devem ser bem-sucedidos em um teste de Resistência com CD 12 ou ganhar um nível de fadiga. A CD aumenta em 2 para cada personagem jogador que passar neste teste.",
+   "ermo_selvagem": "Quando você e outros personagens jogadores viajarem em ritmo acelerado, vocês podem se mover 8 km adicionais por hora. Porém, se fizerem isso, no fim de cada hora você e cada outro personagem jogador ganham um nível de fadiga."
+  },
+  {
+   "id": "persistente",
+   "nome": "Persistente",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Sempre que você virar uma Tampa de Karma para rolar de novo um teste de perícia, você faz a rolagem com vantagem. Porém, suas Tampas de Karma não desviram mais sempre que você rolar 1 em um d20.",
+   "ermo_selvagem": "Sempre que você virar uma Tampa de Karma para rolar de novo um teste de atributo, um teste de perícia ou uma rolagem de ataque, você faz a rolagem com vantagem. Porém, você começa cada jogo com uma das suas Tampas de Karma virada."
+  },
+  {
+   "id": "manutencao_adequada",
+   "nome": "Manutenção Adequada",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você sabe cuidar bem do seu equipamento. Sempre que qualquer uma das suas armas ou armaduras não tiver Níveis de Desgaste, o primeiro Nível de Desgaste que ganharem é ignorado. Porém, suas armas e armaduras deixam de funcionar quando têm 8 Níveis de Desgaste, em vez de 10.",
+   "ermo_selvagem": "Sempre que qualquer uma das suas armas ou armaduras tiver um ou dois Níveis de Desgaste, os efeitos negativos são ignorados. Porém, suas armas e armaduras deixam de funcionar quando têm 5 Níveis de Desgaste, em vez de 10."
+  },
+  {
+   "id": "recluso",
+   "nome": "Recluso",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você passou mais tempo aprimorando suas perícias do que aprendendo coisas novas. Em vez de ganhar um talento no 1º nível, cinco modificadores de perícia diferentes, à sua escolha, aumentam em 2.",
+   "ermo_selvagem": "Em vez de ganhar um talento no 1º e no 2º nível, todos os seus modificadores de perícia aumentam em 2."
+  },
+  {
+   "id": "rato_de_rua",
+   "nome": "Rato de Rua",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Pelo tempo que passou em assentamentos, você sabe como parecer parte do cenário e se misturar. Você tem vantagem em qualquer teste de Furtividade ou Sabotagem que fizer em um assentamento, cidade, posto avançado ou qualquer local povoado. Porém, sua reputação duvidosa fez os outros pensarem duas vezes antes de ajudar você. Você tem desvantagem em qualquer teste de Persuasão ou Barganha que fizer em um assentamento, cidade, posto avançado ou qualquer local povoado.",
+   "ermo_selvagem": "Você tem amigos em lugares baixos, e sua reputação vai ainda mais longe. Além dos efeitos do traço: você pode usar sua habilidade Desconto três vezes antes de descansar. Porém, há uma recompensa de mais de 500 tampinhas pela sua cabeça. Combine com seu MJ como você conseguiu essa recompensa, quem estaria atrás de você e como isso afetará seu personagem."
+  },
+  {
+   "id": "melhorar_o_negocio",
+   "nome": "Melhorar o Negócio",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você sabe fechar uma barganha e fazer qualquer coisa valer o seu tempo. Sempre que você usar sua habilidade Desconto, a porcentagem de tampinhas descontada do item escolhido é triplicada. Porém, todos os itens custam 10% a mais para você.",
+   "ermo_selvagem": "Sempre que você usar sua habilidade Desconto, a porcentagem de tampinhas descontada do item escolhido é sextuplicada. Porém, todos os itens custam 25% a mais para você."
+  },
+  {
+   "id": "talentoso",
+   "nome": "Talentoso",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você aprendeu muitos truques valiosos, mas não aprimorou tanto suas perícias. Você ganha um talento extra no 1º nível. Porém, cinco modificadores de perícia diferentes, à sua escolha, diminuem em 2.",
+   "ermo_selvagem": "Você ganha dois talentos extras no 1º nível. Porém, todos os seus modificadores de perícia diminuem em 2."
+  },
+  {
+   "id": "visao_do_alem",
+   "nome": "Visão do Além",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você costuma ouvir os sussurros do grande além, recebendo visões paranormais de profecias. Quando você termina um descanso de pelo menos 8 horas, pode rolar um d20 e anotar o resultado: esta é a sua rolagem de Visão. Com essa rolagem de Visão, você pode substituir qualquer rolagem de ataque, teste de perícia ou teste de atributo feito por você ou por uma criatura que você consiga ver. Depois de usar essa rolagem de Visão, você não pode usá-la de novo até descansar novamente por pelo menos 8 horas. Porém, você começa cada jogo com uma das suas Tampas de Karma virada.",
+   "ermo_selvagem": "Você pode fazer duas rolagens de Visão depois de descansar por pelo menos 8 horas, mas suas Tampas de Karma não desviram mais se você rolar 1 em um d20."
+  },
+  {
+   "id": "vigilancia_atenta",
+   "nome": "Vigilância Atenta",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você aprendeu a não hesitar em momentos de perigo. Sempre que a Iniciativa for determinada, sua posição no turno é colocada automaticamente antes da criatura que, na ordem de turnos, está logo antes de você e que não seja um personagem jogador, independentemente da rolagem dela. Porém, seu bônus de Iniciativa é reduzido em 1.",
+   "ermo_selvagem": "Sua posição no turno é colocada automaticamente antes das duas criaturas anteriores na ordem de turnos que não sejam personagens jogadores, independentemente da rolagem delas. Porém, você tem desvantagem nas rolagens de Iniciativa e seu bônus é reduzido em 2."
+  },
+  {
+   "id": "conhecimento_do_ermo",
+   "nome": "Conhecimento do Ermo",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "Você acumulou informações sobre diferentes criaturas e pessoas do ermo. Sempre que você rolar Iniciativa, pode escolher saber o total de pontos de vida, pontos de estamina, pontos de ação, DF ou TD de qualquer criatura hostil a você na ordem de Iniciativa. Porém, para cada criatura que você escolher com esta habilidade, ela pode rolar a Iniciativa de novo para tentar obter um resultado maior.",
+   "ermo_selvagem": "Sempre que você rolar Iniciativa, pode escolher saber dois dos seguintes: total de pontos de vida, pontos de estamina, pontos de ação, DF ou TD de qualquer criatura hostil a você na ordem de Iniciativa. Porém, para cada criatura que você escolher com esta habilidade, ela pode rolar a Iniciativa de novo duas vezes para tentar obter um resultado maior."
+  },
+  {
+   "id": "instinto_de_aventureiro",
+   "nome": "Instinto de Aventureiro",
+   "requisito": "",
+   "requisitos": {},
+   "texto": "*Este traço está listado no antecedente Sobrevivente do Ermo, mas não tem entrada no livro 2.1; o texto abaixo é da sua tradução da v2.0.*\n\nVocê conhece os melhores lugares para vasculhar e onde os espólios costumam se esconder. Sempre que fizer um teste de Sorte para procurar itens, você tem vantagem. Porém, quaisquer armas ou armaduras que encontrar têm um Nível de Desgaste adicional.",
+   "ermo_selvagem": "Sempre que fizer um teste de Sorte para procurar itens, você tem vantagem e pode rolar um dos dados de novo. Porém, quaisquer armas ou armaduras que encontrar têm dois Níveis de Desgaste adicionais devido ao estado dos locais."
+  }
+ ]
+}

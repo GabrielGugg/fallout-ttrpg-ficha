@@ -1,0 +1,9 @@
+{
+  "name": "fallout-ttrpg-ficha",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test testes/fallout/*.test.mjs",
+    "dados": "python3 scripts/fallout/extrair_regras.py"
+  }
+}

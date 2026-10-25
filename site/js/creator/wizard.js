@@ -1,605 +1,466 @@
 // ============================================================
-// Estado e navegacao do criador
-//
-// `personagem`, `stepAtual`, `dadosCache` e `containerRef` moram aqui
-// porque e aqui que sao reatribuidos (renderWizard e avancar). Os
-// setters do fim do arquivo existem so para renderCreator.
-//
-// ATENCAO: renderWizard monta o shell do criador. As classes
-// wizard-steps-sticky, wizard-content-area, wizard-nav-fixed e
-// wizard-nav-inner precisam bater com site/css/app.css -- foi
-// exatamente aqui que a refatoracao anterior quebrou o layout.
-// Extraido de site/js/pages/creator.js sem alteracao de comportamento.
+// Assistente de criação de personagem (8 passos)
+// Segue a ordem da nota "Criação de Personagem": raça, S.P.E.C.I.A.L.,
+// antecedente, perícias, talento, traços, equipamento e detalhes.
 // ============================================================
-import { ATRIBUTOS_KEYS, CLASSES_INFO, POINT_BUY_CUSTOS, POINT_BUY_TOTAL } from '../dados-classes.js';
-import { criarCarteiraVazia } from '../moedas.js';
-import { validarEscolhasTalento } from '../regras-cobertura.js';
-import { salvarPersonagem } from '../store.js';
-import { calcMod, calcPVNivel1, getBonusTruquesOrdem, getEspacosMagia, getMagiaPreparadas, getTruquesConhecidos, magiaMagoEstaNoGrimorio, toast } from '../utils.js';
-import { ANTECEDENTES_ESCOLHAS, CLASSES_ESCOLHAS, ESPECIES_TRACOS_ESCOLHA, FERRAMENTAS_TODAS, INSTRUMENTOS_MUSICAIS, consolidarPericiasProficientes, obterTruquesEspecie } from './comum.js';
-import { aplicarFerramentasDaCriacao, concederTruquesDeEntrada } from '../regras-artifice.js';
-import { resistenciasDaEspecie } from '../regras-resistencias-especie.js';
-import { renderStepAntecedente } from './passo-antecedente.js';
-import { renderStepAtributos } from './passo-atributos.js';
-import { renderStepClasse } from './passo-classe.js';
-import { coletarDetalhes, obterRegraIdiomasAtual, renderStepDetalhes } from './passo-detalhes.js';
-import { renderStepEquipamento } from './passo-equipamento.js';
-import { renderStepEspecie } from './passo-especie.js';
-import { _contarInstanciasIM, _nomeBaseTalento, renderStepMagias } from './passo-magias.js';
+import { carregarRegras } from '../db.js';
+import { criarPersonagemVazio, salvarPersonagem } from '../store.js';
+import { escHtml, mdParaHtml, toast, gerarId } from '../utils.js';
+import { gradeCards, ligarCards, popupDetalhe, markdownTraco, abrirSeletorTalento, tabelaPericias, escolherAtributo } from '../ui.js';
+import * as R from '../regras-fallout.js';
 
-const STEPS = [
-  { id: 'classe', label: 'Classe' },
-  { id: 'especie', label: 'Espécie' },
-  { id: 'antecedente', label: 'Antecedente' },
-  { id: 'atributos', label: 'Atributos' },
-  { id: 'equipamento', label: 'Equipamento' },
-  { id: 'magias', label: 'Magias' },
-  { id: 'detalhes', label: 'Detalhes' }
-];
+const PASSOS = ['Raça', 'S.P.E.C.I.A.L.', 'Antecedente', 'Perícias', 'Talento', 'Traços', 'Equipamento', 'Detalhes'];
 
-export let personagem = null;
-let stepAtual = 0;
-export let dadosCache = {};
-export let containerRef = null;
+let regras = null;
+let char = null;
+let passo = 0;
+let raiz = null;
 
-// Limpa os dados associados a um passo especifico do wizard
-// Chamado ao voltar para um passo anterior, limpando os passos posteriores
-function limparDadosDoPasso(stepIndex) {
-  const stepId = STEPS[stepIndex]?.id;
-  if (!stepId) return;
-
-  switch (stepId) {
-    case 'especie':
-      personagem.especie = '';
-      personagem.tracos_escolhidos = [];
-      break;
-
-    case 'antecedente':
-      personagem.antecedente = '';
-      personagem.talentos = [];
-      personagem.escolhas_antecedente = {};
-      personagem.bonus_antecedente = {};
-      delete dadosCache.pericias_antecedente;
-      delete dadosCache.atributos_antecedente;
-      delete dadosCache.bonus2;
-      delete dadosCache.bonus1;
-      delete dadosCache.bonus111;
-      break;
-
-    case 'atributos':
-      personagem.atributos = { forca: 10, destreza: 10, constituicao: 10, inteligencia: 10, sabedoria: 10, carisma: 10 };
-      personagem.atributos_base = { forca: 10, destreza: 10, constituicao: 10, inteligencia: 10, sabedoria: 10, carisma: 10 };
-      personagem.pericias_proficientes = [];
-      delete dadosCache.attrMode;
-      delete dadosCache.stdAssign;
-      delete dadosCache.pbValues;
-      delete dadosCache.rolagemValores;
-      delete dadosCache.rolagemDados;
-      delete dadosCache.rolagemAssign;
-      delete dadosCache.pericias_classe_sel;
-      break;
-
-    case 'equipamento':
-      personagem.inventario = [];
-      personagem.escolha_equip_classe = null;
-      personagem.escolha_equip_antecedente = null;
-      personagem.instrumento_classe_escolhido = null;
-      personagem.moedas = criarCarteiraVazia();
-      break;
-
-    case 'magias':
-      personagem.magias_conhecidas = [];
-      personagem.magias_preparadas = [];
-      personagem.grimorio = [];
-      personagem.espacos_magia = {};
-      delete dadosCache.magiasClasse;
-      delete dadosCache.indiceMagias;
-      break;
-
-    case 'detalhes':
-      personagem.alinhamento = '';
-      personagem.aparencia = '';
-      personagem.personalidade = '';
-      personagem.ideais = '';
-      personagem.lacos = '';
-      personagem.defeitos = '';
-      personagem.historia_personagem = '';
-      personagem.notas = '';
-      personagem.tamanho = '';
-      personagem.idiomas = ['Comum'];
-      break;
+/** Entrada da rota #criar. */
+export async function renderCreator(container) {
+  raiz = container;
+  container.innerHTML = '<div class="carregando">Carregando regras...</div>';
+  try {
+    regras = await carregarRegras();
+  } catch {
+    container.innerHTML = '<div class="empty-state"><h2>Não deu para carregar as regras.</h2><p>Confira a conexão e tente de novo.</p></div>';
+    return;
   }
+  char = criarPersonagemVazio();
+  passo = 0;
+  desenhar();
 }
 
-// Limpa todos os passos de (stepAlvo + 1) ate stepAtual (inclusive)
-// Exemplo: de step 4 voltando para step 1 -> limpa steps 2, 3, 4
-function limparPassosPosteriores(stepAlvo) {
-  for (let i = stepAlvo + 1; i <= stepAtual; i++) {
-    limparDadosDoPasso(i);
-  }
+// ---------------------------------------------------------------- consultas
+
+const racaAtual = () => regras.racas.find(r => r.id === char.raca) || null;
+const subtipoAtual = () => racaAtual()?.subtipos.find(s => s.id === char.subtipo) || null;
+const antecedenteAtual = () => regras.antecedentes.find(a => a.id === char.antecedente) || null;
+
+/** Pontos de Talento do 1º nível (1, ou 2 com Muitas Estradas Percorridas). */
+function pontosNivel1() {
+  return R.pontosDeTalento({ ...char, nivel: 1 });
 }
 
-export function renderWizard() {
-  const container = containerRef;
-  container.innerHTML = `
-    <div class="wizard-steps wizard-steps-sticky">
-      ${STEPS.map((s, i) => `
-        <div class="wizard-step ${i === stepAtual ? 'active' : ''} ${i < stepAtual ? 'done' : ''}"
-             data-step="${i}">
-          <div class="wizard-step-num">${i < stepAtual ? '&#10003;' : i + 1}</div>
-          <div class="wizard-step-label">${s.label}</div>
-        </div>
-      `).join('')}
-    </div>
-    <div id="wizard-content" class="wizard-content-area"></div>
-    <div class="wizard-nav-fixed">
-      <div class="wizard-nav-inner">
-        <button class="btn btn-secondary" id="btn-prev" ${stepAtual === 0 ? 'disabled' : ''}>
-          &#8592; Anterior
-        </button>
-        <span style="font-size:0.8rem;color:var(--text-muted)">
-          ${stepAtual + 1} de ${STEPS.length}
-        </span>
-        ${stepAtual === STEPS.length - 1
-          ? '<button class="btn btn-success" id="btn-finalizar">Criar Personagem &#10003;</button>'
-          : '<button class="btn btn-primary" id="btn-next">Pr\u00f3ximo &#8594;</button>'
-        }
-      </div>
-    </div>
-  `;
+/** Escolhas de Ponto de Talento feitas no 1º nível. */
+function escolhasNivel1() {
+  return char.progressao.filter(p => p.nivel === 1);
+}
 
-  // Eventos dos botões de navegação
-  document.getElementById('btn-prev')?.addEventListener('click', () => {
-    // Limpar dados do passo atual antes de voltar
-    limparDadosDoPasso(stepAtual);
-    stepAtual--;
-    renderWizard();
-  });
-  document.getElementById('btn-next')?.addEventListener('click', () => avancar());
-  document.getElementById('btn-finalizar')?.addEventListener('click', () => finalizar());
+// ---------------------------------------------------------------- validação
 
-  // Clique nas steps para navegar diretamente (somente para passos já visitados)
-  container.querySelectorAll('.wizard-step').forEach(el => {
-    el.addEventListener('click', () => {
-      const target = parseInt(el.dataset.step);
-      if (target < stepAtual) {
-        // Limpar dados de todos os passos posteriores ao destino
-        limparPassosPosteriores(target);
-        stepAtual = target;
-        renderWizard();
+/** Erros que impedem avançar do passo atual. */
+function errosDoPasso(i) {
+  const erros = [];
+  if (i === 0) {
+    if (!char.raca) erros.push('Escolha uma raça.');
+    if (char.raca === 'robo') {
+      if (!char.subtipo) erros.push('Escolha o tipo de robô.');
+      const def = R.FERRAMENTAS_ROBO[char.subtipo];
+      if (def && char.ferramentas_robo.length !== def.quantidade) {
+        erros.push(`Escolha ${def.quantidade === 1 ? 'a ferramenta acoplada' : `as ${def.quantidade} ferramentas acopladas`}.`);
       }
-    });
-  });
-
-  // Rolar ao topo ao trocar de passo
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Renderizar conteudo do passo atual
-  const stepContent = document.getElementById('wizard-content');
-  renderStep(stepContent);
-}
-
-function renderStep(el) {
-  switch (STEPS[stepAtual].id) {
-    case 'classe': renderStepClasse(el); break;
-    case 'especie': renderStepEspecie(el); break;
-    case 'antecedente': renderStepAntecedente(el); break;
-    case 'atributos': renderStepAtributos(el); break;
-    case 'equipamento': renderStepEquipamento(el); break;
-    case 'magias': renderStepMagias(el); break;
-    case 'detalhes': renderStepDetalhes(el); break;
+    }
   }
+  if (i === 1) erros.push(...R.validarSpecialInicial(char.special));
+  if (i === 2) {
+    if (!char.antecedente) erros.push('Escolha um antecedente.');
+    if (char.antecedente === 'antecedente_personalizado' && char.pericias_antecedente.length !== 3) {
+      erros.push('Escolha três perícias para o antecedente personalizado.');
+    }
+  }
+  if (i === 4 && escolhasNivel1().length < pontosNivel1()) erros.push('Use seu Ponto de Talento do 1º nível.');
+  if (i === 7 && !char.nome.trim()) erros.push('Dê um nome ao personagem.');
+  return erros;
 }
 
+// ---------------------------------------------------------------- moldura
+
+/** Desenha o passo atual com a barra de passos e a navegação. */
+function desenhar() {
+  raiz.innerHTML = `
+    <div class="wizard">
+      <ol class="wizard-steps">${PASSOS.map((p, i) => `
+        <li class="${i === passo ? 'ativo' : i < passo ? 'feito' : ''}"><button type="button" data-ir-passo="${i}" ${i > passo ? 'disabled' : ''}>
+          <span class="wizard-num">${i + 1}</span><span class="wizard-label">${p}</span></button></li>`).join('')}
+      </ol>
+      <section class="wizard-corpo" id="wizard-corpo"></section>
+      <nav class="wizard-nav">
+        <button class="btn btn-secondary" id="btn-wizard-voltar" ${passo === 0 ? 'disabled' : ''}>Voltar</button>
+        <button class="btn btn-primary" id="btn-wizard-proximo">${passo === PASSOS.length - 1 ? 'Criar personagem' : 'Próximo'}</button>
+      </nav>
+    </div>`;
+  raiz.querySelectorAll('[data-ir-passo]').forEach(b => {
+    b.onclick = () => { passo = Number(b.dataset.irPasso); desenhar(); };
+  });
+  raiz.querySelector('#btn-wizard-voltar').onclick = () => { passo--; desenhar(); window.scrollTo(0, 0); };
+  raiz.querySelector('#btn-wizard-proximo').onclick = avancar;
+  raiz.querySelector('.wizard-steps li.ativo')?.scrollIntoView({ block: 'nearest', inline: 'center' });
+  const corpo = raiz.querySelector('#wizard-corpo');
+  [passoRaca, passoSpecial, passoAntecedente, passoPericias, passoTalento, passoTracos, passoEquipamento, passoDetalhes][passo](corpo);
+}
+
+/** Valida e vai para o próximo passo (ou finaliza). */
 function avancar() {
-  // Validar passo atual antes de avançar
-  if (!validarStep()) return;
-  stepAtual++;
-  renderWizard();
+  const erros = errosDoPasso(passo);
+  if (erros.length) { toast(erros[0], 'erro'); return; }
+  if (passo === PASSOS.length - 1) { finalizar(); return; }
+  passo++;
+  desenhar();
+  window.scrollTo(0, 0);
 }
 
-function validarStep() {
-  switch (STEPS[stepAtual].id) {
-    case 'classe':
-      if (!personagem.classe) { toast('Selecione uma classe', 'error'); return false; }
-      // Validar escolhas obrigatórias da classe
-      const classeEscolhas = CLASSES_ESCOLHAS[personagem.classe];
-      if (classeEscolhas) {
-        for (const [chave, config] of Object.entries(classeEscolhas)) {
-          // Ignorar escolhas com nivel minimo acima do nivel atual
-          const nivelMin = parseInt(config.nivelMinimo || 1);
-          if ((personagem.nivel || 1) < nivelMin) continue;
-          const selecionados = personagem.escolhas_classe?.[chave] || [];
-          if (selecionados.length < config.maxEscolhas) {
-            toast(`Selecione ${config.maxEscolhas} opção(ões) de ${config.titulo}`, 'error');
-            return false;
-          }
-        }
-      }
-      // Compatibilidade: verificar ordem_divina também
-      if (personagem.classe === 'Clérigo' && !personagem.ordem_divina && !personagem.escolhas_classe?.ordem_divina?.length) {
-        toast('Selecione sua Ordem Divina (Protetor ou Taumaturgo)', 'error');
-        return false;
-      }
-      return true;
-    case 'especie':
-      if (!personagem.especie) { toast('Selecione uma espécie', 'error'); return false; }
-      // Validar seleção de traços obrigatórios
-      const escolhaConfig = ESPECIES_TRACOS_ESCOLHA[personagem.especie];
-      if (escolhaConfig) {
-        const selecionados = personagem.tracos_escolhidos || [];
-        if (selecionados.length < escolhaConfig.maxEscolhas) {
-          toast(`Selecione ${escolhaConfig.maxEscolhas} traço(s) de ${escolhaConfig.titulo}`, 'error');
-          return false;
-        }
-      }
-      return true;
-    case 'antecedente':
-      if (!personagem.antecedente) { toast('Selecione um antecedente', 'error'); return false; }
-      // Validar escolhas de antecedente (ferramenta/instrumento)
-      const antEscolha = ANTECEDENTES_ESCOLHAS[personagem.antecedente];
-      if (antEscolha && !personagem.escolhas_antecedente?.[antEscolha.campo]) {
-        toast(`Selecione ${antEscolha.titulo}`, 'error');
-        return false;
-      }
-      // Validar distribuicao de bonus de atributos do antecedente
-      {
-        const bonusKeys = Object.keys(personagem.bonus_antecedente || {});
-        const bonusTotal = Object.values(personagem.bonus_antecedente || {}).reduce((s, v) => s + v, 0);
-        if (bonusTotal < 3) {
-          toast('Distribua os bônus de atributos do antecedente (+2/+1 ou +1/+1/+1)', 'error');
-          return false;
-        }
-      }
-      return true;
-    case 'atributos': {
-      const modo = dadosCache.attrMode || 'standard';
-
-      // Validacao especifica por modo de distribuicao
-      if (modo === 'standard') {
-        // Conjunto Padrao: todos os 6 atributos devem estar atribuidos via stdAssign
-        const assignKeys = Object.keys(dadosCache.stdAssign || {});
-        if (assignKeys.length < 6) {
-          toast(`Distribua todos os valores do Conjunto Padrão (${assignKeys.length}/6 atribuídos)`, 'error');
-          return false;
-        }
-      } else if (modo === 'pointbuy') {
-        // Compra de Pontos: todos os pontos devem ter sido gastos (restante = 0)
-        const custoTotal = ATRIBUTOS_KEYS.reduce((sum, k) => sum + (POINT_BUY_CUSTOS[dadosCache.pbValues?.[k] ?? 8] || 0), 0);
-        const restante = POINT_BUY_TOTAL - custoTotal;
-        if (restante > 0) {
-          toast(`Gaste todos os pontos de Compra de Pontos (${restante} restantes)`, 'error');
-          return false;
-        }
-        if (restante < 0) {
-          toast('Você excedeu o limite de pontos na Compra de Pontos', 'error');
-          return false;
-        }
-      } else if (modo === 'rolagem') {
-        // Rolagem 4d6: todos os 6 atributos devem ter sido rolados
-        const rolados = Object.keys(dadosCache.rolagemValores || {});
-        if (rolados.length < 6) {
-          toast(`Role os dados para todos os atributos (${rolados.length}/6 rolados)`, 'error');
-          return false;
-        }
-      }
-
-      // Verificar pericias da classe
-      const infoAttr = CLASSES_INFO[personagem.classe];
-      const periciasSel = dadosCache.pericias_classe_sel || [];
-      if (infoAttr && periciasSel.length < infoAttr.num_pericias) {
-        toast(`Selecione ${infoAttr.num_pericias} perícias da classe (${periciasSel.length} selecionadas)`, 'error');
-        return false;
-      }
-      return true;
-    }
-    case 'equipamento': {
-      // Verificar se o equipamento inicial da classe foi selecionado (quando ha opcoes)
-      const classeDataEq = dadosCache.classeData;
-      const equipTexto = classeDataEq?.tracos_basicos?.['Equipamento Inicial'] || '';
-      const temOpcoesClasse = equipTexto.match(/Escolha\s+[A-Z]/i);
-      if (temOpcoesClasse && !personagem.escolha_equip_classe) {
-        toast('Selecione o equipamento inicial da classe', 'error');
-        return false;
-      }
-      // Verificar se requer escolha de instrumento musical
-      if (/instrumento musical à sua escolha/i.test(equipTexto) && !personagem.instrumento_classe_escolhido) {
-        toast('Escolha um Instrumento Musical para o equipamento da classe', 'error');
-        return false;
-      }
-      // Verificar equip do antecedente
-      const antEq = dadosCache.antecedentes?.find(a => a.nome === personagem.antecedente);
-      const equipAntTexto = antEq?.equipamento?.replace(/\*/g, '') || '';
-      const temOpcoesAnt = equipAntTexto.match(/Escolha\s+[A-Z]/i);
-      if (temOpcoesAnt && !personagem.escolha_equip_antecedente) {
-        toast('Selecione o equipamento do antecedente', 'error');
-        return false;
-      }
-      return true;
-    }
-    case 'magias': {
-      // Validar seleção de truques e magias para conjuradores
-      const infoMagia = CLASSES_INFO[personagem.classe];
-      const _temIM = (personagem.talentos || []).some(t => _nomeBaseTalento(t) === 'Iniciado em Magia');
-
-      if (infoMagia?.conjurador) {
-        const tabelaCaract = dadosCache.classeData?.tabela_caracteristicas;
-        if (!tabelaCaract) return true;
-
-        let truquesNecessarios = getTruquesConhecidos(tabelaCaract, personagem.nivel);
-        const preparadasNecessarias = getMagiaPreparadas(tabelaCaract, personagem.nivel);
-
-        // Bonus de truques do Clerigo Taumaturgo / Druida Xama (utils.js,
-        // mesma função que o resto do app -- ver getBonusTruquesOrdem)
-        truquesNecessarios += getBonusTruquesOrdem(personagem);
-
-        const truquesSelecionados = (personagem.magias_conhecidas || []).filter(m => m.circulo === 0).length;
-        const preparadasSelecionadas = (personagem.magias_preparadas || []).length;
-
-        if (truquesNecessarios > 0 && truquesSelecionados < truquesNecessarios) {
-          toast(`Selecione ${truquesNecessarios} truques (${truquesSelecionados} selecionados)`, 'error');
-          return false;
-        }
-        if (preparadasNecessarias > 0 && preparadasSelecionadas < preparadasNecessarias) {
-          toast(`Selecione ${preparadasNecessarias} magias (${preparadasSelecionadas} selecionadas)`, 'error');
-          return false;
-        }
-        if (personagem.classe === 'Mago' && personagem.nivel === 1) {
-          const grimorio = Array.isArray(personagem.grimorio) ? personagem.grimorio : [];
-          const preparadas = Array.isArray(personagem.magias_preparadas) ? personagem.magias_preparadas : [];
-          if (grimorio.length !== 6 || grimorio.some(m => Number(m?.circulo) !== 1)) {
-            toast(`Selecione 6 magias de 1º círculo para o grimório (${grimorio.length} selecionadas)`, 'error');
-            return false;
-          }
-          if (preparadas.length !== 4 || preparadas.some(m => !magiaMagoEstaNoGrimorio(personagem, m?.nome))) {
-            toast('Selecione 4 magias preparadas que também estejam no grimório', 'error');
-            return false;
-          }
-        }
-      }
-
-      // Validar Iniciado em Magia (todas as instâncias)
-      if (_temIM) {
-        const instancias = personagem.iniciado_em_magia_instancias || [];
-        const numEsperado = _contarInstanciasIM();
-        for (let i = 0; i < numEsperado; i++) {
-          const im = instancias[i];
-          const rotulo = numEsperado > 1 ? `Iniciado em Magia (${i + 1})` : 'Iniciado em Magia';
-          if (!im?.lista) { toast(`${rotulo}: selecione a lista de magias`, 'error'); return false; }
-          if (!im?.atributo) { toast(`${rotulo}: selecione o atributo de conjuração`, 'error'); return false; }
-          if ((im?.truques || []).length < 2) { toast(`${rotulo}: selecione 2 truques`, 'error'); return false; }
-          if (!im?.magia) { toast(`${rotulo}: selecione 1 magia de 1o círculo`, 'error'); return false; }
-          const personagemSemInstanciaAtual = {
-            ...personagem,
-            iniciado_em_magia_instancias: instancias.filter((_, indice) => indice !== i)
-          };
-          const validacaoIM = validarEscolhasTalento(personagemSemInstanciaAtual, 'Iniciado em Magia', {
-            iniciado_em_magia: im
-          });
-          if (!validacaoIM.valido) {
-            toast(`${rotulo}: ${validacaoIM.erro}`, 'error');
-            return false;
-          }
-        }
-        // Listas devem ser diferentes entre instâncias
-        const listas = instancias.slice(0, numEsperado).map(i => i.lista);
-        if (new Set(listas).size < listas.length) {
-          toast('Iniciado em Magia: cada instância deve usar uma lista de magias diferente', 'error');
-          return false;
-        }
-      }
-      return true;
-    }
-    case 'detalhes':
-      return true;
-  }
-  return true;
+/** Redesenha só o corpo do passo (mantém a rolagem). */
+function redesenharCorpo() {
+  const y = window.scrollY;
+  desenhar();
+  window.scrollTo(0, y);
 }
 
-// Validacao final antes de criar o personagem
-function validarFinal() {
-  coletarDetalhes();
-  if (!personagem.nome || personagem.nome === 'Sem Nome') {
-    toast('Informe o nome do personagem', 'error');
-    return false;
-  }
-  // Verificar idiomas (deve ter pelo menos Comum + os adicionais obrigatorios)
-  const regraVal = obterRegraIdiomasAtual();
-  const idiomasSel = (personagem.idiomas || []).filter(i => i !== 'Comum');
-  if (regraVal.maxAdicionais > 0 && idiomasSel.length < regraVal.maxAdicionais) {
-    toast(`Selecione ${regraVal.maxAdicionais} idiomas adicionais (${idiomasSel.length} selecionados)`, 'error');
-    return false;
-  }
-  return true;
+// ---------------------------------------------------------------- 1. Raça
+
+/** Markdown com os traços de uma raça ou subtipo. */
+function markdownTracos(obj) {
+  return [obj.descricao, ...obj.tracos.map(t => `***${t.nome}.*** ${t.texto}`)].filter(Boolean).join('\n\n');
 }
 
-async function finalizar() {
-  // Validar dados finais antes de criar
-  if (!validarFinal()) return;
-
-  // Garantia da lista de pericias: a escolha da classe mora no passo 1 e as
-  // demais fontes em passos diferentes, entao a montagem final e refeita aqui
-  // (idempotente) antes de gravar, sem depender de qual passo renderizou por ultimo.
-  consolidarPericiasProficientes();
-
-  // Calcular PV
-  const info = CLASSES_INFO[personagem.classe];
-  if (info) {
-    const modCon = calcMod(personagem.atributos.constituicao);
-    personagem.pv_max = calcPVNivel1(info.dado_vida, modCon);
-    // Tenacidade Anã: +1 PV por nível
-    if (personagem.especie === 'Anão') {
-      personagem.pv_max += personagem.nivel || 1;
-      personagem.bonus_pv_anao_aplicado = personagem.nivel || 1;
-    }
-    // Vigoroso: +2 PV por nível
-    const _temVigoroso = (personagem.talentos || []).some(t => (typeof t === 'string' ? t : t.nome) === 'Vigoroso');
-    if (_temVigoroso) {
-      const _bonusVig = (personagem.nivel || 1) * 2;
-      personagem.pv_max += _bonusVig;
-      personagem.bonus_pv_vigoroso_aplicado = _bonusVig;
-    }
-    personagem.pv_atual = personagem.pv_max;
-    personagem.dados_vida_total = personagem.nivel;
-    personagem.salvaguardas_proficientes = info.salvaguardas;
-  }
-
-  // Calcular espaços de magia
-  if (info?.conjurador && dadosCache.classeData?.tabela_caracteristicas) {
-    personagem.espacos_magia = getEspacosMagia(dadosCache.classeData.tabela_caracteristicas, personagem.nivel);
-  }
-
-  // Aplicar Ordem Divina do Clérigo
-  if (personagem.classe === 'Clérigo' && personagem.ordem_divina === 'Protetor') {
-    // Adicionar proficiência em armas Marciais e Armadura Pesada
-    if (!personagem.proficiencias_extra) personagem.proficiencias_extra = [];
-    personagem.proficiencias_extra.push('Armas Marciais', 'Armadura Pesada');
-  }
-
-  // Aplicar Ordem Primal do Druida
-  if (personagem.classe === 'Druida' && (personagem.ordem_primal === 'Protetor' || personagem.escolhas_classe?.ordem_primal?.[0] === 'Protetor')) {
-    if (!personagem.proficiencias_extra) personagem.proficiencias_extra = [];
-    personagem.proficiencias_extra.push('Armas Marciais', 'Armadura Média');
-  }
-
-  // Aplicar expertise de classes que escolhem na criação
-  if (!personagem.pericias_expertise) personagem.pericias_expertise = [];
-
-  // Ladino: 2 perícias para Especialização (nível 1)
-  if (personagem.classe === 'Ladino' && personagem.escolhas_classe?.especialista?.length) {
-    personagem.escolhas_classe.especialista.forEach(p => {
-      if (!personagem.pericias_expertise.includes(p)) {
-        personagem.pericias_expertise.push(p);
-      }
+function passoRaca(el) {
+  const raca = racaAtual();
+  el.innerHTML = `
+    <h2>Escolha sua raça</h2>
+    <p class="texto-suave">Toque numa raça para ler os traços.</p>
+    ${gradeCards(regras.racas.map(r => ({ id: r.id, titulo: r.nome, selecionado: r.id === char.raca })))}
+    <div id="raca-extra"></div>`;
+  ligarCards(el, id => {
+    const r = regras.racas.find(x => x.id === id);
+    popupDetalhe(r.nome, markdownTracos(r), id === char.raca ? null : `Escolher ${r.nome}`, () => {
+      char.raca = id;
+      char.subtipo = null;
+      char.variantes = [];
+      char.ferramentas_robo = [];
+      char.tracos.personagem = [];
+      redesenharCorpo();
     });
+  });
+  if (!raca) return;
+  const extra = el.querySelector('#raca-extra');
+  let html = '';
+  if (raca.subtipos.length) {
+    html += `<h3>Tipo de robô</h3>${gradeCards(raca.subtipos.map(s => ({ id: s.id, titulo: s.nome, selecionado: s.id === char.subtipo })), 'data-subtipo')}`;
   }
-
-  // Guardião: Explorador Hábil - 1 perícia para Especialização (nível 2)
-  if (personagem.classe === 'Guardião' && personagem.escolhas_classe?.especialista?.length) {
-    personagem.escolhas_classe.especialista.forEach(p => {
-      if (!personagem.pericias_expertise.includes(p)) {
-        personagem.pericias_expertise.push(p);
-      }
+  const def = R.FERRAMENTAS_ROBO[char.subtipo];
+  if (def) {
+    const sub = subtipoAtual();
+    const nomes = Object.keys(def.pericias);
+    html += `<h3>Ferramentas acopladas <span class="contador">${char.ferramentas_robo.length}/${def.quantidade}</span></h3>
+      <p class="texto-suave">${def.quantidade === 1 ? 'Escolha uma ferramenta para o braço.' : 'Escolha uma ferramenta para cada um dos três braços (pode repetir).'}</p>
+      <div class="lista-ferramentas">${nomes.map(n => {
+        const qtd = char.ferramentas_robo.filter(f => f === n).length;
+        const t = sub.tracos.find(x => x.nome === n);
+        return `<div class="linha-ferramenta"><button type="button" class="link" data-ferramenta-info="${escHtml(n)}">${escHtml(n)}</button>
+          <span class="stepper"><button type="button" data-ferramenta-menos="${escHtml(n)}" ${qtd ? '' : 'disabled'}>−</button><span>${qtd}</span>
+          <button type="button" data-ferramenta-mais="${escHtml(n)}" ${char.ferramentas_robo.length >= def.quantidade || (!def.repetir && qtd) || !t ? 'disabled' : ''}>+</button></span></div>`;
+      }).join('')}</div>`;
+  }
+  if (raca.variantes.length) {
+    const unica = raca.id === 'super_mutante';
+    html += `<h3>Variantes <span class="texto-suave">(opcional, se o MJ permitir)</span></h3>
+      ${unica ? '<p class="texto-suave">A variante do Super Mutante substitui Força Superior: escolha no máximo uma.</p>' : ''}
+      <div class="lista-check">${raca.variantes.map(v => `
+        <label class="check-card"><input type="checkbox" data-variante="${escHtml(v.nome)}" ${char.variantes.includes(v.nome) ? 'checked' : ''}>
+        <span><strong>${escHtml(v.nome)}.</strong> ${escHtml(v.texto)}</span></label>`).join('')}</div>`;
+  }
+  extra.innerHTML = html;
+  ligarCards(extra, id => {
+    const s = raca.subtipos.find(x => x.id === id);
+    popupDetalhe(s.nome, markdownTracos(s), id === char.subtipo ? null : `Escolher ${s.nome}`, () => {
+      char.subtipo = id;
+      char.ferramentas_robo = [];
+      redesenharCorpo();
     });
-  }
-
-  // Mago: Acadêmico - 2 perícias de conhecimento para Especialização (nível 2)
-  if (personagem.classe === 'Mago' && personagem.escolhas_classe?.academico?.length) {
-    personagem.escolhas_classe.academico.forEach(p => {
-      if (!personagem.pericias_expertise.includes(p)) {
-        personagem.pericias_expertise.push(p);
-      }
-    });
-  }
-
-  if (!personagem.nome) personagem.nome = 'Sem Nome';
-
-  // Aplicar resistencias da especie (regras-resistencias-especie.js)
-  const especie = personagem.especie;
-  const tracosEscolhidos = personagem.tracos_escolhidos || [];
-  const resistenciasEspecie = resistenciasDaEspecie(especie, tracosEscolhidos);
-
-  // Aplicar resistencias da especie (sem duplicar existentes)
-  if (resistenciasEspecie.length > 0) {
-    if (!personagem.resistencias) personagem.resistencias = [];
-    for (const r of resistenciasEspecie) {
-      if (!personagem.resistencias.includes(r)) {
-        personagem.resistencias.push(r);
-      }
-    }
-  }
-
-  // Aplicar pericias de especie (Kenku: Memória Kenku — 2 pericias à escolha)
-  if (personagem.pericias_especie?.length) {
-    if (!personagem.pericias_proficientes) personagem.pericias_proficientes = [];
-    personagem.pericias_especie.forEach(p => {
-      if (p && !personagem.pericias_proficientes.includes(p)) {
-        personagem.pericias_proficientes.push(p);
-      }
-    });
-  }
-
-  // Adicionar truques concedidos pela espécie/traço (sem duplicar)
-  const truquesEspecie = obterTruquesEspecie(especie, tracosEscolhidos);
-  if (truquesEspecie.length > 0) {
-    if (!personagem.magias_conhecidas) personagem.magias_conhecidas = [];
-    for (const nome of truquesEspecie) {
-      if (!personagem.magias_conhecidas.find(m => m.nome === nome)) {
-        personagem.magias_conhecidas.push({ nome, circulo: 0, origem: 'especie' });
-      }
-    }
-  }
-
-  // Adicionar magias do Iniciado em Magia (truques e magia de 1o circulo) — todas as instâncias
-  for (const im of (personagem.iniciado_em_magia_instancias || [])) {
-    if (!im?.lista) continue;
-    if (!personagem.magias_conhecidas) personagem.magias_conhecidas = [];
-    for (const nome of (im.truques || [])) {
-      if (!personagem.magias_conhecidas.find(m => m.nome === nome)) {
-        personagem.magias_conhecidas.push({ nome, circulo: 0, origem: 'iniciado_em_magia' });
-      }
-    }
-    // A magia de 1o circulo fica sempre preparada (origem especial, 1 uso grátis por descanso longo)
-    if (im.magia) {
-      if (!personagem.magias_preparadas) personagem.magias_preparadas = [];
-      const existenteIM = personagem.magias_preparadas.find(m => m.nome === im.magia);
-      if (existenteIM) {
-        existenteIM.origem = 'iniciado_em_magia';
-        existenteIM.gratis_usado = false;
+  }, 'data-subtipo');
+  extra.querySelectorAll('[data-ferramenta-info]').forEach(b => {
+    b.onclick = () => {
+      const t = subtipoAtual().tracos.find(x => x.nome === b.dataset.ferramentaInfo);
+      popupDetalhe(t.nome, t.texto);
+    };
+  });
+  extra.querySelectorAll('[data-ferramenta-mais]').forEach(b => {
+    b.onclick = () => { char.ferramentas_robo.push(b.dataset.ferramentaMais); redesenharCorpo(); };
+  });
+  extra.querySelectorAll('[data-ferramenta-menos]').forEach(b => {
+    b.onclick = () => {
+      const i = char.ferramentas_robo.lastIndexOf(b.dataset.ferramentaMenos);
+      if (i >= 0) char.ferramentas_robo.splice(i, 1);
+      redesenharCorpo();
+    };
+  });
+  extra.querySelectorAll('[data-variante]').forEach(cb => {
+    cb.onchange = () => {
+      const nome = cb.dataset.variante;
+      if (cb.checked) {
+        if (raca.id === 'super_mutante') char.variantes = [];
+        char.variantes.push(nome);
       } else {
-        personagem.magias_preparadas.push({ nome: im.magia, circulo: 1, origem: 'iniciado_em_magia', gratis_usado: false });
+        char.variantes = char.variantes.filter(v => v !== nome);
       }
-    }
-  }
-
-  // Artífice: ferramentas fixas + a de artesão escolhida, e o truque Reparar da Magia de Funileiro.
-  aplicarFerramentasDaCriacao(personagem);
-  concederTruquesDeEntrada(personagem, personagem.classe);
-
-  // Distribuir escolhas de talentos nas arrays de proficiência corretas
-  if (personagem.escolhas_talento) {
-    if (!personagem.proficiencias_ferramentas) personagem.proficiencias_ferramentas = [];
-    if (!personagem.proficiencias_instrumentos) personagem.proficiencias_instrumentos = [];
-    for (const contexto of Object.keys(personagem.escolhas_talento)) {
-      const escolhas = personagem.escolhas_talento[contexto];
-      if (!Array.isArray(escolhas)) continue;
-      for (const escolha of escolhas) {
-        if (INSTRUMENTOS_MUSICAIS.includes(escolha) && !personagem.proficiencias_instrumentos.includes(escolha)) {
-          personagem.proficiencias_instrumentos.push(escolha);
-        } else if (FERRAMENTAS_TODAS.includes(escolha) && !personagem.proficiencias_ferramentas.includes(escolha)) {
-          personagem.proficiencias_ferramentas.push(escolha);
-        }
-      }
-    }
-  }
-
-  personagem.configuracao_criacao = {
-    atributos: {
-      metodo: dadosCache.attrMode || 'manual',
-      valoresBase: { ...personagem.atributos_base },
-      rolagens: dadosCache.attrMode === 'rolagem' ? { ...(dadosCache.rolagemValores || {}) } : null
-    }
-  };
-  salvarPersonagem(personagem);
-  toast('Personagem criado com sucesso!', 'success');
-  window.navegar(`ficha/${personagem.id}`);
+      redesenharCorpo();
+    };
+  });
 }
 
-// --- Setters -------------------------------------------------------------
-// Modulos ES nao permitem atribuir a um binding importado. Estas quatro
-// funcoes sao a UNICA adicao de codigo do criador (spec 3.1); todas sao
-// chamadas exclusivamente por renderCreator, uma vez cada, ao abrir o wizard.
-// renderWizard e avancar continuam reatribuindo `stepAtual` diretamente --
-// moram neste mesmo modulo, entao nao passam por setter.
+// ---------------------------------------------------------------- 2. SPECIAL
 
-/** Define o personagem em construcao. Chamado so por renderCreator. */
-export function definirPersonagem(valor) { personagem = valor; }
+/** Prévia dos valores derivados, atualizada a cada ponto. */
+function previaDerivados() {
+  const c = { ...char, nivel: 1 };
+  const itens = [
+    ['PV', R.pvMaximo(c)], ['PE', R.peMaximo(c)], ['PA', R.pontosDeAcao(c)],
+    ['Fator de Cura', R.fatorDeCura(c)], ['Carga', R.capacidadeDeCarga(c)],
+    ['Sentidos Passivos', R.sentidosPassivos(c)],
+  ];
+  const lr = R.limiarDeRadiacao(c);
+  if (lr != null) itens.push(['Limiar de Radiação', lr]);
+  itens.push(['Tampas de Karma', R.tampasDeKarma(c)]);
+  return `<div class="stats-row">${itens.map(([n, v]) => `<div class="stat-box"><span class="stat-value">${v}</span><span class="stat-label">${n}</span></div>`).join('')}</div>`;
+}
 
-/** Define o passo atual do wizard. Chamado so por renderCreator. */
-export function definirStep(valor) { stepAtual = valor; }
+function passoSpecial(el) {
+  const resta = R.pontosSpecialRestantes(char.special);
+  const efetivo = R.atributosEfetivos({ ...char, progressao: [] });
+  el.innerHTML = `
+    <h2>Distribua o S.P.E.C.I.A.L.</h2>
+    <p class="texto-suave">Todos começam em 5. Você tem 3 pontos e pode diminuir atributos para ganhar mais. Mínimo 1, máximo 10. Modificador = valor − 5.</p>
+    <div class="pontos-restantes ${resta === 0 ? 'ok' : resta < 0 ? 'erro' : ''}">Pontos restantes: <strong>${resta}</strong></div>
+    <div class="special-lista">${R.ATRIBUTOS.map(a => {
+      const v = char.special[a.id];
+      const ef = efetivo[a.id];
+      return `<div class="special-linha">
+        <span class="special-letra">${a.letra}</span>
+        <span class="special-nome">${a.nome}</span>
+        <span class="stepper"><button type="button" data-special-menos="${a.id}" ${v <= 1 ? 'disabled' : ''}>−</button>
+        <span class="special-valor">${v}</span>
+        <button type="button" data-special-mais="${a.id}" ${v >= 10 ? 'disabled' : ''}>+</button></span>
+        <span class="special-mod">${R.fmtSinal(R.modificador(ef))}${ef !== v ? `<small> (efetivo ${ef})</small>` : ''}</span>
+      </div>`;
+    }).join('')}</div>
+    <h3>Prévia no 1º nível</h3>
+    ${previaDerivados()}`;
+  el.querySelectorAll('[data-special-mais]').forEach(b => {
+    b.onclick = () => { char.special[b.dataset.specialMais]++; redesenharCorpo(); };
+  });
+  el.querySelectorAll('[data-special-menos]').forEach(b => {
+    b.onclick = () => { char.special[b.dataset.specialMenos]--; redesenharCorpo(); };
+  });
+}
 
-/** Define o cache de dados dos passos. Chamado so por renderCreator. */
-export function definirDadosCache(valor) { dadosCache = valor; }
+// ---------------------------------------------------------------- 3. Antecedente
 
-/** Define o conteiner raiz do criador. Chamado so por renderCreator. */
-export function definirContainer(valor) { containerRef = valor; }
+const nomePericia = id => R.PERICIAS.find(p => p.id === id)?.nome || id;
+
+function passoAntecedente(el) {
+  const atual = antecedenteAtual();
+  el.innerHTML = `
+    <h2>Escolha seu antecedente</h2>
+    <p class="texto-suave">Dá +2 em três perícias, um traço opcional e o equipamento inicial.</p>
+    ${gradeCards(regras.antecedentes.map(a => ({
+      id: a.id, titulo: a.nome, selecionado: a.id === char.antecedente,
+      subtitulo: a.pericias.length ? a.pericias.map(nomePericia).join(', ') : 'Três perícias à escolha',
+    })))}
+    <div id="ant-extra"></div>`;
+  ligarCards(el, id => {
+    const a = regras.antecedentes.find(x => x.id === id);
+    const md = `**Perícias:** ${a.pericias.length ? a.pericias.map(nomePericia).join(', ') : 'três à escolha'}` +
+      (a.traco ? `\n\n**Traço:** ${a.traco}` : '') + `\n\n${a.descricao}`;
+    popupDetalhe(a.nome, md, id === char.antecedente ? null : `Escolher ${a.nome}`, () => {
+      char.antecedente = id;
+      char.pericias_antecedente = [];
+      char.tracos.antecedente = null;
+      redesenharCorpo();
+    });
+  });
+  if (atual?.id === 'antecedente_personalizado') {
+    const extra = el.querySelector('#ant-extra');
+    extra.innerHTML = `<h3>Perícias do antecedente <span class="contador">${char.pericias_antecedente.length}/3</span></h3>
+      <div class="lista-check colunas">${R.PERICIAS.map(p => `
+        <label class="form-check"><input type="checkbox" data-pericia-ant="${p.id}" ${char.pericias_antecedente.includes(p.id) ? 'checked' : ''}
+        ${!char.pericias_antecedente.includes(p.id) && char.pericias_antecedente.length >= 3 ? 'disabled' : ''}> ${p.nome}</label>`).join('')}</div>`;
+    extra.querySelectorAll('[data-pericia-ant]').forEach(cb => {
+      cb.onchange = () => {
+        const id = cb.dataset.periciaAnt;
+        char.pericias_antecedente = cb.checked ? [...char.pericias_antecedente, id] : char.pericias_antecedente.filter(x => x !== id);
+        redesenharCorpo();
+      };
+    });
+  }
+}
+
+// ---------------------------------------------------------------- 4. Perícias
+
+function passoPericias(el) {
+  el.innerHTML = `
+    <h2>Perícias</h2>
+    <p class="texto-suave">Bônus = modificador do atributo + metade do modificador de Sorte (arredondado para baixo) + 2 nas perícias do antecedente. Sabotagem, Medicina e Intimidação deixam escolher o atributo.</p>
+    ${tabelaPericias(char, antecedenteAtual(), true)}`;
+  el.querySelectorAll('[data-atributo-pericia]').forEach(s => {
+    s.onchange = () => { char.atributo_pericia[s.dataset.atributoPericia] = s.value; redesenharCorpo(); };
+  });
+}
+
+// ---------------------------------------------------------------- 5. Talento
+
+function passoTalento(el) {
+  const total = pontosNivel1();
+  const escolhas = escolhasNivel1();
+  el.innerHTML = `
+    <h2>Talento do 1º nível</h2>
+    <p class="texto-suave">Use ${total === 1 ? 'seu Ponto de Talento' : `seus ${total} Pontos de Talento`} para pegar um talento cujos requisitos você cumpra, ou para aumentar um atributo em 1.</p>
+    <div class="escolhas-talento">${escolhas.map((e, i) => `
+      <div class="escolha-feita"><span>${e.tipo === 'talento'
+        ? `Talento: <button type="button" class="link" data-ver-talento="${escHtml(e.talento)}">${escHtml(regras.talentoPorId[e.talento]?.nome || e.talento)}</button>`
+        : `+1 em ${escHtml(R.ATRIBUTOS.find(a => a.id === e.atributo)?.nome)}`}</span>
+        <button type="button" class="btn-icon perigo" data-remover-escolha="${i}" aria-label="Remover">✕</button></div>`).join('')}
+    </div>
+    ${escolhas.length < total ? `<div class="botoes-escolha">
+      <button class="btn btn-primary" id="btn-escolher-talento">Escolher talento</button>
+      <button class="btn btn-secondary" id="btn-escolher-atributo">+1 em atributo</button></div>` : ''}`;
+  el.querySelectorAll('[data-ver-talento]').forEach(b => {
+    b.onclick = () => {
+      const t = regras.talentoPorId[b.dataset.verTalento];
+      popupDetalhe(t.nome, `${t.requisito ? `*Requisito: ${t.requisito}.*\n\n` : ''}${t.texto}`);
+    };
+  });
+  el.querySelectorAll('[data-remover-escolha]').forEach(b => {
+    b.onclick = () => {
+      const alvo = escolhasNivel1()[Number(b.dataset.removerEscolha)];
+      char.progressao = char.progressao.filter(p => p !== alvo);
+      redesenharCorpo();
+    };
+  });
+  el.querySelector('#btn-escolher-talento')?.addEventListener('click', () => {
+    abrirSeletorTalento({ ...char, nivel: 1 }, regras.talentos, R.talentosEscolhidos(char), id => {
+      char.progressao.push({ nivel: 1, tipo: 'talento', talento: id });
+      redesenharCorpo();
+    });
+  });
+  el.querySelector('#btn-escolher-atributo')?.addEventListener('click', () => escolherAtributo(char, 1, redesenharCorpo));
+}
+
+// ---------------------------------------------------------------- 6. Traços
+
+function passoTracos(el) {
+  const ant = antecedenteAtual();
+  const tracoAnt = regras.tracos.antecedente.find(t => t.nome === ant?.traco);
+  const escolhido = char.tracos.personagem[0];
+  const disponiveis = regras.tracos.personagem.map(t => {
+    const req = R.cumpreRequisitos(char, t.requisitos);
+    return { t, req };
+  });
+  el.innerHTML = `
+    <h2>Traços <span class="texto-suave">(opcional)</span></h2>
+    <p class="texto-suave">Traços trazem um benefício e uma penalidade. No 1º nível você pode escolher 1 traço de personagem, além do traço do seu antecedente. <button type="button" class="link" id="btn-ermo-info">O que é Ermo Selvagem?</button></p>
+    ${tracoAnt ? `<h3>Traço do antecedente</h3>
+      <div class="check-card">
+        <label><input type="checkbox" id="chk-traco-ant" ${char.tracos.antecedente ? 'checked' : ''}> <strong>${escHtml(tracoAnt.nome)}</strong></label>
+        <button type="button" class="link" data-ver-traco-ant>Ler</button>
+        ${char.tracos.antecedente ? `<label class="form-check ermo"><input type="checkbox" id="chk-ermo-ant" ${char.tracos.antecedente.ermo ? 'checked' : ''} ${tracoAnt.ermo_selvagem ? '' : 'disabled'}> Ermo Selvagem</label>` : ''}
+      </div>` : ''}
+    <h3>Traço de personagem</h3>
+    ${escolhido ? `<div class="check-card"><strong>${escHtml(regras.tracos.personagem.find(t => t.id === escolhido.id)?.nome)}</strong>
+      <label class="form-check ermo"><input type="checkbox" id="chk-ermo-pers" ${escolhido.ermo ? 'checked' : ''}> Ermo Selvagem</label>
+      <button type="button" class="btn-icon perigo" id="btn-remover-traco" aria-label="Remover">✕</button></div>` : ''}
+    ${gradeCards(disponiveis.map(({ t, req }) => ({
+      id: t.id, titulo: t.nome, subtitulo: t.requisito || '', selecionado: escolhido?.id === t.id,
+      bloqueado: !req.ok, motivo: req.ok ? '' : `Requer ${t.requisito}`,
+    })))}`;
+  el.querySelector('#btn-ermo-info').onclick = () => popupDetalhe('Ermo Selvagem', regras.tracos.ermo_selvagem);
+  el.querySelector('[data-ver-traco-ant]')?.addEventListener('click', () => popupDetalhe(tracoAnt.nome, markdownTraco(tracoAnt)));
+  el.querySelector('#chk-traco-ant')?.addEventListener('change', e => {
+    char.tracos.antecedente = e.target.checked ? { id: tracoAnt.id, ermo: false } : null;
+    redesenharCorpo();
+  });
+  el.querySelector('#chk-ermo-ant')?.addEventListener('change', e => { char.tracos.antecedente.ermo = e.target.checked; });
+  el.querySelector('#chk-ermo-pers')?.addEventListener('change', e => { escolhido.ermo = e.target.checked; });
+  el.querySelector('#btn-remover-traco')?.addEventListener('click', () => { char.tracos.personagem = []; redesenharCorpo(); });
+  ligarCards(el, id => {
+    const o = disponiveis.find(x => x.t.id === id);
+    popupDetalhe(o.t.nome, markdownTraco(o.t), o.req.ok && escolhido?.id !== id ? 'Escolher este traço' : null, () => {
+      char.tracos.personagem = [{ id, ermo: false }];
+      redesenharCorpo();
+    });
+  });
+}
+
+// ---------------------------------------------------------------- 7. Equipamento
+
+function passoEquipamento(el) {
+  const ant = antecedenteAtual();
+  const pacote = R.pacoteDaRaca(ant, char.raca);
+  const pacotes = ant?.equipamento || [];
+  if (!char.pacote_rotulo || !pacotes.some(p => p.rotulo === char.pacote_rotulo)) char.pacote_rotulo = pacote?.rotulo || null;
+  const escolhido = pacotes.find(p => p.rotulo === char.pacote_rotulo);
+  el.innerHTML = `
+    <h2>Equipamento inicial</h2>
+    <label class="check-card"><input type="radio" name="equip" value="antecedente" ${char.equipamento_escolha === 'antecedente' ? 'checked' : ''} ${pacotes.length ? '' : 'disabled'}>
+      <span><strong>Pacote do antecedente</strong>${ant?.nota_equipamento ? `<br><small>${escHtml(ant.nota_equipamento)}</small>` : ''}</span></label>
+    ${char.equipamento_escolha === 'antecedente' && pacotes.length ? `
+      ${pacotes.length > 1 ? `<select class="form-select" id="sel-pacote">${pacotes.map(p => `<option ${p.rotulo === char.pacote_rotulo ? 'selected' : ''}>${escHtml(p.rotulo)}</option>`).join('')}</select>` : ''}
+      <div class="info-box">${mdParaHtml(escolhido?.itens || '')}</div>` : ''}
+    <label class="check-card"><input type="radio" name="equip" value="tampinhas" ${char.equipamento_escolha === 'tampinhas' ? 'checked' : ''}>
+      <span><strong>${R.TAMPINHAS_SEM_EQUIPAMENTO} tampinhas</strong><br><small>Comece sem itens e compre o que quiser no inventário da ficha.</small></span></label>`;
+  el.querySelectorAll('input[name="equip"]').forEach(r => {
+    r.onchange = () => { char.equipamento_escolha = r.value; redesenharCorpo(); };
+  });
+  el.querySelector('#sel-pacote')?.addEventListener('change', e => { char.pacote_rotulo = e.target.value; redesenharCorpo(); });
+}
+
+// ---------------------------------------------------------------- 8. Detalhes
+
+function passoDetalhes(el) {
+  const d = char.detalhes;
+  el.innerHTML = `
+    <h2>Detalhes</h2>
+    <div class="form-group"><label class="form-label" for="det-nome">Nome *</label><input class="form-input" id="det-nome" value="${escHtml(char.nome)}" maxlength="60"></div>
+    <div class="form-group"><label class="form-label" for="det-jogador">Jogador</label><input class="form-input" id="det-jogador" value="${escHtml(d.jogador)}"></div>
+    <div class="form-group"><label class="form-label" for="det-idade">Idade</label><input class="form-input" id="det-idade" value="${escHtml(d.idade)}"></div>
+    <div class="form-group"><label class="form-label" for="det-aparencia">Aparência</label><textarea class="form-textarea" id="det-aparencia" rows="2">${escHtml(d.aparencia)}</textarea></div>
+    <div class="form-group"><label class="form-label" for="det-personalidade">Personalidade</label><textarea class="form-textarea" id="det-personalidade" rows="2">${escHtml(d.personalidade)}</textarea></div>
+    <div class="form-group"><label class="form-label" for="det-historia">História</label><textarea class="form-textarea" id="det-historia" rows="4">${escHtml(d.historia)}</textarea></div>`;
+  el.querySelector('#det-nome').oninput = e => { char.nome = e.target.value; };
+  for (const campo of ['jogador', 'idade', 'aparencia', 'personalidade', 'historia']) {
+    el.querySelector(`#det-${campo}`).oninput = e => { d[campo] = e.target.value; };
+  }
+}
+
+// ---------------------------------------------------------------- finalizar
+
+/** Monta o inventário inicial, enche PV/PE e salva. */
+function finalizar() {
+  const ant = antecedenteAtual();
+  char.inventario = [];
+  char.tampinhas = 0;
+  if (char.equipamento_escolha === 'tampinhas' || !ant?.equipamento?.length) {
+    char.tampinhas = R.TAMPINHAS_SEM_EQUIPAMENTO;
+  } else {
+    const pacote = ant.equipamento.find(p => p.rotulo === char.pacote_rotulo) || R.pacoteDaRaca(ant, char.raca);
+    const { linhas, tampinhas } = R.interpretarPacote(pacote.itens, regras.itens);
+    char.tampinhas = tampinhas;
+    let vestiu = false;
+    char.inventario = linhas.map(l => {
+      const item = regras.catalogo[l.ref];
+      const armadura = item?.categoria === 'Armaduras' && !item.subcategoria;
+      const equipado = armadura && !vestiu;
+      if (equipado) vestiu = true;
+      return {
+        id: gerarId(), ref: l.ref, nome: item && item.nome.toLowerCase() === l.nome.toLowerCase() ? item.nome : l.nome,
+        qtd: l.qtd, equipado, desgaste: l.desgaste || 0,
+      };
+    });
+  }
+  char.nivel = 1;
+  char.pv_atual = R.pvMaximo(char);
+  char.pe_atual = R.peMaximo(char);
+  const salvo = salvarPersonagem(char);
+  toast('Personagem criado!', 'sucesso');
+  window.navegar(`ficha/${salvo.id}`);
+}

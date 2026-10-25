@@ -1,715 +1,493 @@
 // ============================================================
-// Render principal da ficha
-//
-// renderFichaCompleta monta a pagina inteira chamando os renderSecao*
-// dos demais modulos, e restaura o estado aberto/fechado dos <details>.
-// Extraido de site/js/pages/sheet.js sem alteracao de comportamento.
+// Ficha do personagem na mesa
 // ============================================================
-import { ATRIBUTOS_KEYS, ATRIBUTOS_NOMES, ATRIBUTO_NOME_PARA_KEY, CLASSES_INFO, PERICIAS } from '../dados-classes.js';
-import { XP_POR_NIVEL } from '../levelup.js';
-import { seloFonte, ligarSelosFonte } from '../fontes.js';
-import { _renderSyncIndicadorHtml } from '../pages/sheet.js';
-import { atributoDefinidoPorItem, atributoEfetivo, textosAtributoPorItem } from '../regras-atributos.js';
-import { magiasDeItens } from '../regras-magias-itens.js';
-import { conjuraPorAlgumaClasse } from '../regras-multiclasse-conjuracao.js';
-import { armadurasDoPersonagem, armasDoPersonagem } from '../regras-multiclasse-proficiencias.js';
-import { classesDe, reservasDadosVida } from '../regras-multiclasse.js';
-import { possuiAlgumaMagia } from '../regras-origens-magia.js';
-import { ehProficienteEmSalvaguarda } from '../regras-salvaguardas.js';
-import { bonusCancao, cancaoAtiva } from '../regras-lamina-cantante.js';
-import { resolverPassivosTalentos } from '../talentos-effects.js';
-import { bonusProficiencia, calcBonusPericia, calcCA, calcMod, calcPVMulticlasse, calcSalvaguarda, coletarCAsAlternativas, conjuracoesPorClasse, equipamentoDeCA, escHtml, escolherCAAlternativa, fmtMod, getDeslocamento, getTamanho } from '../utils.js';
-import { renderSecaoCaracteristicas, renderSecaoSubclasse, renderSecaoTracosEspecie } from './caracteristicas.js';
-import { getEstadoFuria, setupEventosSubclasseBarbaro } from './classes/barbaro.js';
-import { setupEventosArtifice } from './classes/artifice.js';
-import { renderSecaoCompanheirosArtifice, setupEventosCompanheirosArtifice } from './companheiros-artifice.js';
-import { renderSecaoFamiliar, setupEventosFamiliar } from './familiar.js';
-import { renderSecaoMortosVivos, setupEventosMortosVivos } from './necromante.js';
-import { renderSecaoLaminaCantante, setupEventosLaminaCantante } from './lamina-cantante.js';
-import { renderSecaoFormaSelvagem, setupEventosFormaSelvagem } from './forma-selvagem.js';
-import { getEstadoRecursosGuardiao } from './classes/guardiao.js';
-import { getEstadoRecursosPaladino } from './classes/paladino.js';
-import { setupEventosDetalhesColapso, setupEventosTruquesColapso } from './colapso.js';
-import { calcVantagemDesvantagemPericia, calcVantagemDesvantagemSalvaguarda, forcaPrimordialAtiva, getAtaquesPorAcao, getDeslocamentoFinal, getModIniciativa, getTruquesExtraEstiloLuta, setupEventosVantagemDesvantagem } from './combate.js';
-import { renderSecaoCondicoes, renderSecaoDefesas, renderSecaoSentidos, setupEventosCondicoes, setupEventosDefesas } from './condicoes.js';
-import { renderSecaoDetalhes } from './detalhes.js';
-import { setupEventosEdicao } from './edicao.js';
-import { ATRIBUTO_ESTILO, char, containerRef, definirPassivosTalentos, especiesCache, marcaAjusteManual, passivosTalentosCache, salvar, seloEdicao, seloPrerequisitoDispensado } from './estado.js';
-import { setupEventosHabilidades } from './habilidades.js';
-import { setupEventosDescanso, setupEventosHP, sincronizarBonusPvNiveis } from './hp-descanso.js';
-import { defesasDeItens } from '../regras-passivos-itens.js';
-import { getEstadoCarga, renderSecaoInventario, setupEventosInventarioSheet } from './inventario.js';
-import { renderSecaoMagias, setupEventosEspacosMagia } from './magias.js';
-import { renderSecaoAtaques, setupEventosAtaques } from './ataques.js';
-import { migrarMulticlasse } from './migracoes.js';
-import { montarRecursosClasse, renderCardRecursosClasse, renderFaixaRecursosMagias, setupEventosRecursosClasse } from './recursos-classe.js';
-import { abrirModalRecuperarDadivaEpica, precisaRecuperarDadivaEpica, renderSecaoTalentos } from './talentos.js';
+import { carregarRegras } from '../db.js';
+import { getPersonagem, salvarPersonagem, exportar } from '../store.js';
+import { escHtml, mdParaHtml, abrirModal, fecharModal, toast, baixarArquivo } from '../utils.js';
+import { popupDetalhe, markdownTalento, markdownTraco, tabelaPericias, gradeCards, ligarCards } from '../ui.js';
+import { definirTitulo } from '../app.js';
+import { secaoInventario, ligarInventario } from './inventario.js';
+import { abrirSubidaDeNivel, secaoPontosPericia, ligarPontosPericia } from './nivel.js';
+import * as R from '../regras-fallout.js';
 
-/** Salva o estado open/closed de todos os <details> no container */
-function salvarEstadoDetails() {
-  const estado = {};
-  containerRef?.querySelectorAll('details').forEach((det, i) => {
-    const id = det.dataset.detailsId || det.querySelector('summary')?.textContent?.trim() || `det_${i}`;
-    estado[id] = det.open;
-  });
-  return estado;
-}
+let regras = null;
+let char = null;
+let raiz = null;
 
-/** Restaura o estado open/closed dos <details> salvos */
-function restaurarEstadoDetails(estado) {
-  if (!estado || Object.keys(estado).length === 0) return;
-  containerRef?.querySelectorAll('details').forEach((det, i) => {
-    const id = det.dataset.detailsId || det.querySelector('summary')?.textContent?.trim() || `det_${i}`;
-    if (id in estado) det.open = estado[id];
-  });
-}
+const NOMES_RACA = {
+  humano: 'Humano', necrotico: 'Necrótico', sintetico: 'Sintético Gen 2', robo: 'Robô', super_mutante: 'Super Mutante',
+};
 
-/**
- * Selos dos efeitos mágicos ativos que passam em `filtro`. O clique no selo
- * remove o efeito (`data-remover-efeito`, ligado em hp-descanso.js).
- * Deduplica pelo nome base: efeitos compostos geram filhos com " (Reativo)" etc.;
- * `concentracao_generica` só aparece no indicador de condições.
- * @param {(ef: object) => boolean} filtro Quais efeitos entram neste campo.
- * @returns {string} HTML dos selos, ou '' sem efeitos.
- */
-function chipsEfeitosMagicos(filtro) {
-  const vistos = new Set();
-  const unicos = (char.efeitos_magicos || []).filter((ef) => {
-    if (ef.tipo === 'concentracao_generica' || !filtro(ef)) return false;
-    const base = ef.nome.replace(/ \(.*\)$/, '');
-    if (vistos.has(base)) return false;
-    vistos.add(base);
-    return true;
-  });
-  if (unicos.length === 0) return '';
-  return `<div style="font-size:0.6rem;margin-top:2px">${unicos.map((ef) => {
-    const base = ef.nome.replace(/ \(.*\)$/, '');
-    const tooltip = ef.rotulo || ef.nome;
-    return `<span class="no-print" style="display:inline-flex;align-items:center;gap:2px;background:var(--accent);color:#fff;padding:1px 5px;border-radius:8px;margin:1px;cursor:pointer;font-size:0.6rem" data-remover-efeito="${base}" title="${tooltip}">${base}${ef.concentracao ? ' (C)' : ''} &times;</span>`;
-  }).join('')}</div>`;
-}
-
-export function renderFichaCompleta() {
-  // Reconcilia classes[] a partir dos espelhos ANTES de qualquer leitura de
-  // classesData/contextosDeClasse.
-  //
-  // `subirDeNivel` (levelup.js:1411 e :1429) escreve SÓ nos espelhos
-  // (char.nivel, char.subclasse) -- classes[] nunca é tocado ali. Enquanto
-  // isso, a seção de Características (Tarefa 2 deste sub-projeto) passou a
-  // ler classes[] em vez do espelho. Sem reconciliar aqui, toda subida de
-  // nível deixava a ficha mostrando o estado ANTERIOR até o jogador fechar
-  // e reabrir -- um Clérigo que sobe de 4 para 5 não via Fulminar
-  // Mortos-Vivos até um F5. É a mesma família de defeito do
-  // passivosTalentosCache logo abaixo: um escritor mexe num campo, outro lê
-  // noutro momento, e o sintoma aparece longe da causa.
-  // migrarMulticlasse() é a mesma casca que renderSheet já chama na
-  // abertura (pages/sheet.js); reconciliar de novo aqui é seguro porque
-  // migrarParaMulticlasse() só grava quando há divergência real (idempotente),
-  // então um render sem subida de nível não grava nada em disco.
-  migrarMulticlasse();
-
-  // Recalcula os passivos de talentos ANTES de qualquer leitura do cache.
-  //
-  // `passivosTalentosCache` (sheet/estado.js) era escrito num unico lugar:
-  // `renderSheet` (pages/sheet.js), que so roda ao carregar/navegar para a
-  // ficha. Toda via que muta `char.talentos` (ou `char.nivel`, que entra no
-  // bonus de proficiencia de Alerta/Envenenador/Telecinetico) e depois so
-  // chama `renderFichaCompleta()` deixava o cache velho -- o talento
-  // aparecia na lista, mas nenhum efeito passivo dele entrava ate um F5.
-  // Era o caso do botao "+ Talento" da ficha (sheet/talentos.js,
-  // `persistirTalento`), do Iniciado em Magia e das invocacoes do Bruxo.
-  // Recalcular aqui cobre todas essas vias de uma vez, porque nenhuma
-  // delas altera a ficha sem passar por este render. O custo e uma
-  // varredura de Set sobre a lista de talentos por render.
-  definirPassivosTalentos(resolverPassivosTalentos(char));
-
-  const estadoDetails = salvarEstadoDetails();
-  // `info` ainda alimenta: as proficiências de armadura/arma, o destaque
-  // do atributo primário/de conjuração na grade de atributos, e o gate
-  // que decide se a seção de Magias aparece (`info.conjurador`). A caixa
-  // "Dados de Vida" parou de lê-la na Tarefa 3 (sub-projeto 3e); o
-  // recálculo de PV (fallback quando pv_max <= 0, logo abaixo) parou de
-  // lê-la na Tarefa 4, que passou a usar calcPVMulticlasse (soma o dado
-  // de vida de CADA classe) em vez do dado da classe INICIAL sozinho --
-  // Ruling 2 da Tarefa 3: não remova esta declaração só porque um
-  // consumidor saiu dela; só a Tarefa 11, que vê o arquivo inteiro já
-  // convertido, decide entre remover e declarar exceção.
-  const info = CLASSES_INFO[char.classe] || {};
-  const prof = bonusProficiencia(char.nivel);
-  const ca = calcCA(char, passivosTalentosCache);
-  // CA alternativa: as candidatas e a ativa, para o seletor da caixa de CA.
-  //
-  // O contexto de equipamento e OBRIGATORIO e sai de equipamentoDeCA(), a
-  // MESMA leitura de inventario que calcCA faz. Sem ele, o coletor
-  // ofereceria a Defesa sem Armadura do Monge a um Monge de escudo -- que o
-  // livro exclui (Classes.md:5174-5176) e que calcCA ja nao conta. Tela e
-  // numero divergiriam, e o seletor mostraria uma fonte inativa.
-  const _caEquip = equipamentoDeCA(char);
-  const caCandidatas = coletarCAsAlternativas(char, {
-    temArmadura: !!_caEquip.armadura, temEscudo: !!_caEquip.escudo,
-  });
-  const caAtiva = escolherCAAlternativa(char, caCandidatas);
-  // Empate em VALOR nao e empate em EFEITO: o Barbaro permite Escudo e o
-  // Monge nao. Quando as candidatas empatam, o seletor avisa que o numero
-  // nao muda agora -- o que muda e o que acontece ao equipar um Escudo.
-  const caEmpatadas = caCandidatas.length >= 2
-    && caCandidatas.every(c => c.valor === caCandidatas[0].valor);
-  // atributo-base: este modCon só alimenta o recálculo de PV de ficha corrompida (pv_max <= 0) com o valor-base; nesse ramo o marcador do bônus de item é zerado e sincronizarBonusPvNiveis reaplica o bônus no render seguinte
-  const modCon = calcMod(char.atributos.constituicao);
-  const iniciativa = getModIniciativa();
-  const ataquesPorAcao = getAtaquesPorAcao();
-  const estadoGuardiao = getEstadoRecursosGuardiao();
-  // O card Magias aparece por qualquer um destes caminhos; os recursos das
-  // classes conjuradoras vão para a faixa dele, ou para o card Recursos de
-  // Classe quando ele não existe.
-  const temSecaoMagias = !!(conjuraPorAlgumaClasse(char) || getTruquesExtraEstiloLuta() > 0 || char.iniciado_em_magia?.lista || (char.iniciado_em_magia_instancias?.length > 0) || possuiAlgumaMagia(char) || magiasDeItens(char).length > 0);
-  const recursosClasse = montarRecursosClasse({ temSecaoMagias });
-
-  sincronizarBonusPvNiveis();
-
-  // Recalcular PV max se necessário.
-  //
-  // calcPVMulticlasse em vez de calcPVTotal: a forma antiga recebia UM
-  // dado de vida (o da classe INICIAL) e o nivel TOTAL, entao esta rede
-  // -- que so dispara em ficha corrompida, mas quando dispara decide o PV
-  // inteiro -- dava 62 a um Mago 5/Barbaro 5 que o livro diz ter 77
-  // (livro:2039-2041).
-  if (char.pv_max <= 0) {
-    char.pv_max = calcPVMulticlasse(char, modCon);
-    char.pv_atual = char.pv_max;
-    // O PV recalculado não inclui o bônus de item; zera o marcador para a
-    // próxima sincronização aplicá-lo de novo.
-    char.bonus_pv_itens_con_aplicado = 0;
-    salvar();
+/** Entrada da rota #ficha/<id>. */
+export async function renderSheet(container, id) {
+  raiz = container;
+  container.innerHTML = '<div class="carregando">Carregando ficha...</div>';
+  char = getPersonagem(id);
+  if (!char) {
+    container.innerHTML = '<div class="empty-state"><h2>Personagem não encontrado</h2><button class="btn btn-primary" onclick="navegar(\'home\')">Voltar</button></div>';
+    return;
   }
+  try {
+    regras = await carregarRegras();
+  } catch {
+    container.innerHTML = '<div class="empty-state"><h2>Não deu para carregar as regras.</h2></div>';
+    return;
+  }
+  definirTitulo(char.nome || 'Ficha');
+  desenhar();
+}
 
-  // Calcular deslocamento e tamanho a partir dos dados da espécie
-  const _espData = especiesCache?.especies?.find(e => e.nome === char.especie);
-  const _deslocamentoBase = _espData ? getDeslocamento(_espData.texto_completo) : '9 metros';
-  const _deslocamento = getDeslocamentoFinal(_deslocamentoBase);
-  const _deslMatch = _deslocamento.match(/^([\d,\.]+)\s*metros(.*)$/);
-  const _deslNumero = _deslMatch ? _deslMatch[1] : _deslocamento;
-  const _deslExtra = _deslMatch ? (_deslMatch[2] || '').trim() : '';
-  const _tamanho = char.tamanho || (_espData ? getTamanho(_espData.texto_completo) : 'Médio');
-  const _deslSobrecarga = !!(char?.config?.sobrecarga_afeta_deslocamento && getEstadoCarga().sobrecarregado);
+/** Contexto compartilhado com os módulos de seção (inventário, nível). */
+export function contexto() {
+  return { char, regras, salvar, redesenhar: desenhar, antecedente: antecedente() };
+}
 
-  const container = containerRef;
-  container.innerHTML = `
-    <!-- Cabeçalho do personagem: nome e botões sempre visíveis; o resto fica num bloco que nasce fechado -->
-    <div class="card" id="card-identidade">
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px">
-        <div style="display:flex;align-items:center;gap:10px;flex:1 1 150px;min-width:0">
-          ${char.imagem ? `<div class="char-avatar" style="width:64px;height:64px;font-size:1.6rem;flex-shrink:0"><img src="${escHtml(char.imagem)}" alt=""></div>` : ''}
-          <h2 style="font-size:1.3rem;margin-bottom:0;overflow-wrap:anywhere" id="char-nome-display">${escHtml(char.nome) || 'Sem Nome'}</h2>
-        </div>
-        <div class="no-print" style="display:flex;gap:4px;flex-direction:column;flex:1 1 230px">
-          ${_renderSyncIndicadorHtml()}
-          ${char.nivel < 20 ? `
-            <button class="btn btn-sm btn-accent" id="btn-levelup" style="font-weight:700">
-              ⬆ Subir de Nível (Nível ${char.nivel + 1})
-            </button>
-          ` : ''}
-        </div>
-      </div>
-      <details data-details-id="ficha-identidade" style="margin-top:8px">
-        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">Detalhes do Personagem, Editar Ficha e Subir Nível</summary>
-        <div style="margin-top:6px;overflow-wrap:anywhere">
-            <div class="no-print" style="display:flex;gap:4px;margin-bottom:8px">
-              <button class="btn btn-sm btn-secondary" id="btn-editar-ficha">Editar ficha</button>
-              <button class="btn btn-sm btn-primary" id="btn-print" title="Gerar PDF da ficha" style="gap:4px">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 18h6M9 12h2"/></svg> Gerar PDF
-              </button>
-            </div>
-            <div style="font-size:0.9rem;color:var(--text-muted)">
-              ${/* classesDe: o cabecalho mostrava so a classe INICIAL, entao
-                    uma ficha que exibe recursos de Barbaro dizia "Mago 10" --
-                    o app se contradizendo na propria tela, mesma familia do
-                    tooltip que o 3c consertou. Com uma classe so o texto e
-                    identico ao de antes: classe unica nao pode mudar.
-                    `Nivel` continua sendo o TOTAL (livro:2037). */''}
-              ${escHtml(char.especie || '')}${seloFonte(_espData?.fonte)} ${(() => {
-                const cs = classesDe(char);
-                return cs.map((c) =>
-                  `${escHtml(c.classe)}${seloFonte(CLASSES_INFO[c.classe]?.fonte)}${c.subclasse ? ` (${escHtml(c.subclasse)})` : ''}${cs.length > 1 ? ` ${c.nivel}` : ''}${seloPrerequisitoDispensado(c.classe, { comBotaoRemover: true })}`
-                ).join(' / ');
-              })()} &middot; Nível ${char.nivel}
-            </div>
-            <div style="font-size:0.8rem;color:var(--text-muted)">Antecedente: ${escHtml(char.antecedente || '–')}${char.alinhamento ? ' | Alinhamento: ' + escHtml(char.alinhamento) : ''}</div>
-            <div style="font-size:0.8rem;color:var(--text-muted)">Tamanho: ${escHtml(_tamanho)}${(char.idiomas && char.idiomas.length) ? ' | Idiomas: ' + char.idiomas.map(escHtml).join(', ') : ''}</div>
-            ${(estadoGuardiao && estadoGuardiao.sentidosSelvagensAtivo) ? '<div style="font-size:0.8rem;color:var(--text-muted)">Sentidos: Visão às Cegas 9 m</div>' : ''}
-            ${(estadoGuardiao && estadoGuardiao.exaustao > 0) ? `<div style="font-size:0.8rem;color:var(--danger)">Exaustão: ${estadoGuardiao.exaustao}</div>` : ''}
-            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">
-              XP: <span style="font-weight:600;color:var(--accent);cursor:pointer" id="xp-display" title="Clique para editar XP">${char.xp || 0}</span>
-              ${char.nivel < 20 ? ` / ${XP_POR_NIVEL[char.nivel + 1]}` : ' (Nível Máximo)'}
-            </div>
-        </div>
-      </details>
-    </div>
+/** Salva o personagem atual. */
+function salvar() {
+  salvarPersonagem(char);
+}
 
-    ${renderSecaoFormaSelvagem()}
+const antecedente = () => regras.antecedentes.find(a => a.id === char.antecedente) || null;
+const raca = () => regras.racas.find(r => r.id === char.raca) || null;
+const subtipo = () => raca()?.subtipos.find(s => s.id === char.subtipo) || null;
 
-    ${precisaRecuperarDadivaEpica() ? `
-      <div class="info-box warning no-print" style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-        <div style="font-size:0.85rem">
-          <strong>Escolha de nível 19 pendente:</strong> registre a Dádiva Épica ou outro talento recebido nesse nível.
-        </div>
-        <button class="btn btn-sm btn-accent" id="btn-recuperar-dadiva-epica">Registrar talento de nível 19</button>
-      </div>
-    ` : ''}
+/** Garante PV/PE atuais dentro do máximo (o máximo muda com nível e atributos). */
+function normalizarRecursos() {
+  const pvMax = R.pvMaximo(char);
+  const peMax = R.peMaximo(char);
+  if (char.pv_atual == null || char.pv_atual > pvMax) char.pv_atual = Math.min(char.pv_atual ?? pvMax, pvMax);
+  if (char.pe_atual == null || char.pe_atual > peMax) char.pe_atual = Math.min(char.pe_atual ?? peMax, peMax);
+}
 
-    <!-- Stats combate -->
-    <div class="card">
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-label">CA</div>
-          <div class="stat-value">${ca}</div>
-          ${caCandidatas.length >= 2 && caAtiva ? `<div class="no-print" style="font-size:0.62rem;margin-top:2px"><span data-ca-acao="escolher-alternativa" style="display:inline-flex;align-items:center;gap:3px;background:var(--bg-hover, transparent);border:1px solid var(--border-light);border-radius:8px;padding:1px 6px;cursor:pointer;color:var(--text-muted)" title="${escHtml(`CA sem armadura: ${caAtiva.classe}${caEmpatadas ? '. As fontes empatam em valor -- a escolha nao muda o numero agora, mas decide o que acontece ao equipar um Escudo' : ''}. Clique para trocar a fonte.`)}">${escHtml(caAtiva.classe)} &#9662;</span></div>` : ''}
-          ${chipsEfeitosMagicos((ef) => ef.tipo !== 'deslocamento')}
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">Iniciativa</div>
-          <div class="stat-value">${fmtMod(iniciativa.valor)}</div>
-          ${iniciativa.vantagem ? `<div style="font-size:0.65rem;color:var(--success);font-weight:700"${iniciativa.fontesVantagem?.length ? ` title="${escHtml(iniciativa.fontesVantagem.join(', '))}"` : ''}>Vantagem</div>` : ''}
-          ${iniciativa.dadosExtras?.length ? `<div style="font-size:0.65rem;color:var(--accent);font-weight:700" title="${escHtml(iniciativa.dadosExtras.join(', '))}">${escHtml(iniciativa.dadosExtras.map((d) => `+${d.split(' ')[0]}`).join(' '))}</div>` : ''}
-        </div>
-        <div class="stat-box" ${_deslSobrecarga ? 'style="cursor:pointer;position:relative" onclick="window.avisarSobrecargaDeslocamento()"' : ''}>
-          <div class="stat-label">Deslocamento</div>
-          <div class="stat-value">${_deslNumero}<br><span class="stat-unit">metros</span></div>
-          ${_deslExtra ? `<div style="font-size:0.6rem;color:var(--text-muted)">${_deslExtra}</div>` : ''}
-          ${chipsEfeitosMagicos((ef) => ef.tipo === 'deslocamento')}
-          ${_deslSobrecarga ? '<div class="no-print" style="position:absolute;bottom:2px;left:0;right:0;font-size:0.55rem;color:var(--danger);font-weight:700">&#9888; Sobrecarga</div>' : ''}
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">Ataques</div>
-          <div class="stat-value">${ataquesPorAcao}</div>
-          <div style="font-size:0.65rem;color:var(--text-muted)">por Ação Atacar</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">Prof.</div>
-          <div class="stat-value">+${prof}</div>
-        </div>
-        <!--
-          Uma caixa de CD e uma de Ataque POR CLASSE que conjura. O
-          livro:2075 manda usar "o atributo de conjuração dessa classe":
-          num Clérigo 5/Mago 5 são DUAS CDs diferentes, e mostrar só a da
-          classe inicial punha a de Sabedoria nas magias de Mago.
+// ---------------------------------------------------------------- desenho
 
-          Com UMA classe conjuradora -- toda ficha de classe única -- sai
-          exatamente o HTML de antes, rótulo sem sufixo; o nome da classe
-          só entra quando há mais de uma e os números divergem de verdade.
-
-          conjuracoesPorClasse cobre tudo que "info.conjurador ||
-          ehSubclasseConjuradora()" cobria, Cavaleiro Místico e
-          Trapaceiro Arcano inclusive (que conjuram por tabela própria e
-          por isso davam "CD Magia 0" antes de utils.js enxergar o
-          atributo da subclasse), sem ler o espelho da classe inicial.
-        -->
-        ${(() => {
-          const conjuracoes = conjuracoesPorClasse(char);
-          const sufixo = conjuracoes.length > 1;
-          return conjuracoes.map((c) => `
-          <div class="stat-box">
-            <div class="stat-label">CD Magia${sufixo ? ` (${escHtml(c.classe)})` : ''}</div>
-            <div class="stat-value">${c.cd}</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">Atq. Magia${sufixo ? ` (${escHtml(c.classe)})` : ''}</div>
-            <div class="stat-value">${fmtMod(c.ataque)}</div>
-          </div>
-        `).join('');
-        })()}
-      </div>
-
-      <!-- Proficiencias de Armas e Armaduras -->
-      ${(() => {
-        // Mesclar proficiencias base da classe com extras (subclasse, talentos, etc.)
-        const extras = (char.proficiencias_extra || []).map(p => p.toLowerCase());
-        // Uniao das classes (livro:2051). Era `info.armaduras`, o espelho
-        // da classe inicial: num Mago 5/Guerreiro 1 a ficha listava
-        // "Nenhuma" em armaduras com o Guerreiro na mesma pagina.
-        const armadurasProf = armadurasDoPersonagem(char);
-        const armasProf = armasDoPersonagem(char);
-        const armadurasExtras = [];
-        const armasExtras = [];
-        // Mapear proficiencias extras para categorias
-        for (const extra of extras) {
-          if (extra === 'armadura pesada' && !armadurasProf.includes('Pesada')) { armadurasProf.push('Pesada'); armadurasExtras.push('Pesada'); }
-          else if ((extra === 'armadura média' || extra === 'armadura media') && !armadurasProf.includes('Média')) { armadurasProf.push('Média'); armadurasExtras.push('Média'); }
-          else if (extra === 'armadura leve' && !armadurasProf.includes('Leve')) { armadurasProf.push('Leve'); armadurasExtras.push('Leve'); }
-          else if (extra === 'escudo' && !armadurasProf.includes('Escudo')) { armadurasProf.push('Escudo'); armadurasExtras.push('Escudo'); }
-          else if (extra === 'armas marciais' && !armasProf.includes('Marcial')) { armasProf.push('Marcial'); armasExtras.push('Marcial'); }
-          else if (extra === 'armas simples' && !armasProf.includes('Simples')) { armasProf.push('Simples'); armasExtras.push('Simples'); }
-        }
-        return `
-      <div class="prof-equip-row">
-        <div class="prof-equip-group">
-          <span class="prof-equip-label">Armaduras:</span>
-          ${armadurasProf.length > 0
-            ? armadurasProf.map(a => `<span class="prof-equip-badge prof-equip-armadura${armadurasExtras.includes(a) ? ' prof-equip-extra' : ''}">${a}${armadurasExtras.includes(a) ? '*' : ''}</span>`).join('')
-            : '<span class="prof-equip-badge prof-equip-nenhuma">Nenhuma</span>'
-          }
-        </div>
-        <div class="prof-equip-group">
-          <span class="prof-equip-label">Armas:</span>
-          ${armasProf.map(a => `<span class="prof-equip-badge prof-equip-arma${armasExtras.includes(a) ? ' prof-equip-extra' : ''}">${a}${armasExtras.includes(a) ? '*' : ''}</span>`).join('')}
-        </div>
-        ${armadurasExtras.length > 0 || armasExtras.length > 0 ? '<div style="width:100%;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-top:2px">* Concedida por subclasse/talento</div>' : ''}
-      </div>`;
-      })()}
-
-      <!-- HP / Inspiracao Heroica -->
-      <div class="hp-section">
-        <!-- Coluna principal: PV -->
-        <div class="hp-main">
-          <div class="hp-pv-display">
-            <div class="hp-pv-label">Pontos de Vida</div>
-            <div class="hp-pv-value" style="color:${char.pv_atual <= (char.pv_max_override || char.pv_max) * 0.25 ? 'var(--danger)' : char.pv_atual <= (char.pv_max_override || char.pv_max) * 0.5 ? 'var(--warning)' : 'var(--success)'}">
-              ${char.pv_atual} / ${char.pv_max_override || char.pv_max}
-            </div>
-            ${char.pv_max_override && char.pv_max_override !== char.pv_max ? `<div style="font-size:0.7rem;color:var(--info)">(Base: ${char.pv_max} | Bonus: +${char.pv_max_override - char.pv_max})</div>` : ''}
-          </div>
-          <div class="no-print hp-buttons">
-            <button class="btn btn-sm btn-danger" id="hp-minus">Dano</button>
-            <button class="btn btn-sm btn-success" id="hp-plus">Cura</button>
-            <button class="btn btn-sm btn-secondary" id="hp-temp">PV Temp</button>
-            <button class="btn btn-sm btn-secondary" id="hp-max-override" title="Sobrescrever PV Máximo">&#9881; PV Max</button>
-          </div>
-        </div>
-        <!-- Coluna secundaria: PV Temp + Dados de Vida -->
-        <div class="hp-secondary">
-          <div class="hp-sub-box hp-temp-box">
-            <div class="hp-sub-label">PV Temporario</div>
-            <div class="hp-sub-value" style="color:var(--info)">${char.pv_temporario || 0}</div>
-          </div>
-          <div class="hp-sub-box hp-dv-box">
-            <div class="hp-sub-label">Dados de Vida</div>
-            ${/* reservasDadosVida: o livro manda somar os dados de todas as classes,
-                  combinando os do mesmo tipo e mantendo separados os de tipos
-                  diferentes (livro:2043). char.nivel e o dado da classe INICIAL
-                  mostravam "10 / 10 d6" num Mago 5/Barbaro 5, que tem 5 d6 e 5 d12.
-                  Com UMA reserva a frase e identica a de antes -- classe unica nao
-                  pode mudar. */''}
-            <div class="hp-sub-value">${reservasDadosVida(char).map((r) =>
-              `${r.disponiveis} / ${r.total} <span style="font-size:0.8em;color:var(--text-muted)">d${r.faces}</span>`
-            ).join('<br>') || `0 / 0 <span style="font-size:0.8em;color:var(--text-muted)">d?</span>`}</div>
-            <button class="btn btn-sm btn-secondary no-print" id="btn-usar-dv" style="margin-top:4px;font-size:0.72rem;padding:3px 8px">Usar DV</button>
-          </div>
-        </div>
-        <!-- Inspiracao Heroica -->
-        <div id="inspiracao-toggle" class="no-print hp-inspiracao ${char.inspiracao_heroica ? 'hp-inspiracao-ativa' : ''}" title="Inspiração Heroica">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="${char.inspiracao_heroica ? '#fff' : 'var(--text-muted)'}" stroke="none">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-          <span class="hp-inspiracao-texto">${char.inspiracao_heroica ? 'Inspirada!' : 'Inspiracao'}</span>
-        </div>
-      </div>
-
-      ${char.pv_atual <= 0 ? `
-      <!-- Salvaguarda Contra Morte -->
-      <div style="margin-top:12px;padding:12px;border:2px solid var(--danger);border-radius:var(--radius);background:rgba(192,57,43,0.05)">
-        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;color:var(--danger);text-align:center;margin-bottom:8px">☠ Salvaguarda Contra Morte</div>
-        ${char.especie === 'Renascido' ? '<div data-lembrete-morte style="font-size:0.75rem;font-weight:600;color:var(--success);text-align:center;margin-bottom:6px" title="Escapou da Morte (Renascido)">Vantagem (Renascido)</div>' : ''}
-        <div style="display:flex;justify-content:center;gap:24px">
-          <div style="text-align:center">
-            <div style="font-size:0.7rem;font-weight:600;color:var(--success);margin-bottom:4px">Sucessos</div>
-            <div style="display:flex;gap:6px;justify-content:center">
-              ${[0,1,2].map(i => `<label class="morte-check" style="cursor:pointer"><input type="checkbox" data-morte-sucesso="${i}" ${(char.morte_sucessos || 0) > i ? 'checked' : ''} style="display:none"><span class="morte-bolha ${(char.morte_sucessos || 0) > i ? 'morte-sucesso' : ''}"></span></label>`).join('')}
-            </div>
-          </div>
-          <div style="text-align:center">
-            <div style="font-size:0.7rem;font-weight:600;color:var(--danger);margin-bottom:4px">Falhas</div>
-            <div style="display:flex;gap:6px;justify-content:center">
-              ${[0,1,2].map(i => `<label class="morte-check" style="cursor:pointer"><input type="checkbox" data-morte-falha="${i}" ${(char.morte_falhas || 0) > i ? 'checked' : ''} style="display:none"><span class="morte-bolha ${(char.morte_falhas || 0) > i ? 'morte-falha' : ''}"></span></label>`).join('')}
-            </div>
-          </div>
-        </div>
-      </div>
-      ` : ''}
-    </div>
-
-    <!-- FAB Descanso (flutuante) -->
-    <div id="fab-descanso" class="fab-descanso no-print">
-      <button class="fab-btn" id="fab-toggle-descanso" title="Descanso">🏕️</button>
-      <div class="fab-menu" id="fab-menu-descanso" style="display:none">
-        <button class="btn btn-accent btn-sm" id="btn-descanso-curto">☀ Descanso Curto</button>
-        <button class="btn btn-accent btn-sm" id="btn-descanso-longo">🌙 Descanso Longo</button>
-      </div>
-    </div>
-
-    <!-- Atributos -->
-    <div class="card">
-      <div class="card-header"><h2>Atributos</h2></div>
-      <div class="atributos-grid">
-        ${ATRIBUTOS_KEYS.map(key => {
-          const nome = ATRIBUTOS_NOMES[key];
-          const val = atributoEfetivo(char, key);
-          const mod = calcMod(val);
-          // Marca o valor-base quando um item sintonizado define o atributo.
-          const porItem = atributoDefinidoPorItem(char, key);
-          const textosItem = porItem ? textosAtributoPorItem(porItem) : null;
-          const marcaItem = porItem
-            ? `<div class="atributo-por-item" data-atributo-item="${key}" title="${escHtml(textosItem.titulo)}" style="font-size:0.6rem;color:var(--text-muted)">${escHtml(textosItem.rotulo)}</div>`
-            : '';
-          const isPrimario = info.atributo_primario?.includes(nome);
-          // O selo 🔮 vale para o atributo de conjuração de QUALQUER classe
-          // do personagem (livro:2075), não só o da inicial: num Clérigo/Mago
-          // Sabedoria e Inteligência recebem o selo. Antes lia `info`, o
-          // espelho, e um Bárbaro/Mago não marcava atributo nenhum.
-          // A chamada por atributo (6 por render, cada uma varrendo no
-          // máximo 3 classes) sai mais barata que carregar a lista por fora
-          // do map e é a mudança de menor superfície.
-          const isConjuracao = conjuracoesPorClasse(char).some(c => c.atributo === nome);
-          const attrStyle = ATRIBUTO_ESTILO[key] || {};
-          return `
-            <div class="atributo-box ${isPrimario ? 'destaque' : ''}" style="border-color:${attrStyle.cor || 'var(--border)'}">
-              <div class="atributo-nome" style="color:${attrStyle.cor || 'var(--text-muted)'}">${attrStyle.emoji || ''} ${nome}${seloEdicao(`atributos.${key}`)}</div>
-              <div class="atributo-mod" style="color:${attrStyle.cor || 'var(--primary)'}">${fmtMod(mod)}</div>
-              <div class="atributo-valor">${val}</div>
-              ${marcaItem}
-              ${marcaAjusteManual(key)}
-              ${isConjuracao ? '<div style="font-size:0.6rem;font-weight:700;color:var(--accent);margin-top:2px">🔮 Conjuração</div>' : ''}
-            </div>`;
-        }).join('')}
-      </div>
-    </div>
-
-    <!-- Salvaguardas -->
-    <div class="card">
-      <div class="card-header"><h2>Salvaguardas</h2></div>
-      ${char.especie === 'Pequenino' ? '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px"><span class="badge" style="font-size:0.7rem;padding:3px 8px;background:var(--success);color:#fff" title="Ao tirar 1 natural em qualquer d20, re-jogue e use o novo resultado.">Sorte: Re-roll nat 1</span></div>' : ''}
-      ${(() => {
-        // Calcular imunidades a condições para exibir na seção
-        const _imunidades = [];
-        const _ef = getEstadoFuria();
-        if (_ef?.ativa && _ef?.furiaIrracional) {
-          _imunidades.push({ condicao: 'Amedrontado', fonte: 'Furia Irracional' });
-          _imunidades.push({ condicao: 'Enfeitiçado', fonte: 'Furia Irracional' });
-        }
-        const _ep = getEstadoRecursosPaladino();
-        if (_ep?.auraCoragemAtiva) {
-          if (!_imunidades.find(i => i.condicao === 'Amedrontado')) {
-            _imunidades.push({ condicao: 'Amedrontado', fonte: 'Aura de Coragem' });
-          }
-        }
-        if (_ep?.auraDevocaoAtiva) {
-          if (!_imunidades.find(i => i.condicao === 'Enfeitiçado')) {
-            _imunidades.push({ condicao: 'Enfeitiçado', fonte: 'Aura de Devoção' });
-          }
-        }
-        // Imunidades a condição de itens mágicos ativos (4C).
-        for (const i of defesasDeItens(char).imunidadesCondicao) {
-          if (!_imunidades.find(x => x.condicao === i.condicao)) _imunidades.push({ condicao: i.condicao, fonte: i.origem });
-        }
-        return _imunidades.length > 0 ? `
-          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px">
-            ${_imunidades.map(i => `<span class="badge" style="font-size:0.65rem;padding:2px 6px;background:var(--success);color:#fff" title="${escHtml(i.fonte)}">Imune: ${escHtml(i.condicao)} (${escHtml(i.fonte)})</span>`).join('')}
-          </div>` : '';
-      })()}
-      <div class="salvaguardas-grid">
-        ${ATRIBUTOS_KEYS.map(key => {
-          const nome = ATRIBUTOS_NOMES[key];
-          // Quem é proficiente em salvaguarda mora em regras-salvaguardas.js.
-          // Aqui se lia "char.salvaguardas_proficientes" direto, e por isso a
-          // proficiência que Sobrevivente Disciplinado concede no nível 14 --
-          // exibida como texto 250 linhas acima, em ficha.js:480 -- nunca
-          // marcava salvaguarda nenhuma (issue #21).
-          const proficiente = ehProficienteEmSalvaguarda(char, nome);
-          const bonus = calcSalvaguarda(char, key);
-
-          const vd = calcVantagemDesvantagemSalvaguarda(nome);
-          const temVant = vd.vantagens.length > 0;
-          const temDesv = vd.desvantagens.length > 0;
-          let indicadorSalv = '';
-          if (vd.falhaAutomatica) {
-            indicadorSalv = `<span class="pericia-vd-badge falha-automatica" data-vd-info="Falha automática: ${vd.fontesFalha.map(escHtml).join(', ')}">F</span>`;
-          } else if (temVant && temDesv) {
-            indicadorSalv = `<span class="pericia-vd-badge neutro" data-vd-info="Vantagem (${vd.vantagens.map(escHtml).join(', ')}) e Desvantagem (${vd.desvantagens.map(escHtml).join(', ')}) se anulam">—</span>`;
-          } else if (temVant) {
-            indicadorSalv = `<span class="pericia-vd-badge vantagem" data-vd-info="Vantagem: ${vd.vantagens.map(escHtml).join(', ')}">V</span>`;
-          } else if (temDesv) {
-            indicadorSalv = `<span class="pericia-vd-badge desvantagem" data-vd-info="Desvantagem: ${vd.desvantagens.map(escHtml).join(', ')}">D</span>`;
-          }
-          // Vantagem condicional de item (4C): selo informativo, fora do cálculo de V/D.
-          if (vd.notas?.length) {
-            indicadorSalv += `<span class="pericia-vd-badge vantagem-nota" data-vd-info="${vd.notas.map(escHtml).join('; ')}">V*</span>`;
-          }
-          // Canção da Lâmina: + Int nas salvaguardas de Constituição para manter Concentração.
-          if (key === 'constituicao' && cancaoAtiva(char)) {
-            indicadorSalv += `<span class="pericia-vd-badge vantagem-nota" data-vd-info="Canção da Lâmina: +${bonusCancao(char)} para manter a Concentração">+${bonusCancao(char)}C</span>`;
-          }
-          return `
-            <div class="salva-item ${proficiente ? 'proficiente' : ''}">
-              <div class="pericia-prof ${proficiente ? 'ativo' : ''}"></div>
-              <span class="pericia-bonus">${fmtMod(bonus)}</span>
-              <span class="pericia-nome" style="flex:1">${nome}</span>
-              ${indicadorSalv}
-            </div>`;
-        }).join('')}
-      </div>
-    </div>
-
-    <!-- Condicoes ativas do personagem -->
-    ${renderSecaoCondicoes()}
-
-    <!-- Defesas: Resistencias, Vulnerabilidades, Imunidades -->
-    ${renderSecaoDefesas()}
-
-    <!-- Sentidos Passivos -->
-    ${renderSecaoSentidos()}
-
-    <!-- Pericias em ordem customizada: quadro recolhível, nasce aberto (pedido do dono) -->
-    <div class="card">
-      <details class="card-recolhivel" data-details-id="pericias" open>
-      <summary class="card-header card-recolhivel-titulo"><h2>Perícias</h2><span class="card-recolhivel-chevron no-print">&#9660;</span></summary>
-      <div class="pericias-lista-custom">
-        ${(() => {
-          // Ordem customizada de exibicao das pericias
-          const ordemPericias = [
-            'Percepção', 'Intuição', 'Investigação', 'Religião', 'História',
-            'Prestidigitação', 'Furtividade', 'Persuasão', 'Atletismo', 'Medicina',
-            'Acrobacia', 'Enganação', 'Arcanismo', 'Sobrevivência', 'Natureza',
-            'Atuação', 'Intimidação', 'Lidar com Animais'
-          ];
-          return ordemPericias.map(nome => {
-            const p = PERICIAS.find(x => x.nome === nome);
-            if (!p) return '';
-            const key = ATRIBUTO_NOME_PARA_KEY[p.atributo];
-            const estilo = ATRIBUTO_ESTILO[key] || {};
-            const proficiente = (char.pericias_proficientes || []).includes(p.nome);
-            const expertise = (char.pericias_expertise || []).includes(p.nome);
-            const bonus = calcBonusPericia(char, p.nome, {
-              emFuria: !!getEstadoFuria()?.ativa,
-              forcaPrimordialAtiva: forcaPrimordialAtiva()
-            });
-            const vd = calcVantagemDesvantagemPericia(p.nome);
-            const temVant = vd.vantagens.length > 0;
-            const temDesv = vd.desvantagens.length > 0;
-            let indicador = '';
-            if (temVant && temDesv) {
-              indicador = `<span class="pericia-vd-badge neutro" data-vd-info="Vantagem (${vd.vantagens.map(escHtml).join(', ')}) e Desvantagem (${vd.desvantagens.map(escHtml).join(', ')}) se anulam">—</span>`;
-            } else if (temVant) {
-              indicador = `<span class="pericia-vd-badge vantagem" data-vd-info="Vantagem: ${vd.vantagens.map(escHtml).join(', ')}">V</span>`;
-            } else if (temDesv) {
-              indicador = `<span class="pericia-vd-badge desvantagem" data-vd-info="Desvantagem: ${vd.desvantagens.map(escHtml).join(', ')}">D</span>`;
-            }
-            // Vantagem condicional de item (4C): selo informativo, fora do cálculo de V/D.
-            if (vd.notas?.length) {
-              indicador += `<span class="pericia-vd-badge vantagem-nota" data-vd-info="${vd.notas.map(escHtml).join('; ')}">V*</span>`;
-            }
-            return `
-            <div class="pericia-item" style="border-left:3px solid ${estilo.cor || 'var(--border)'}">
-              <div class="pericia-prof ${proficiente ? (expertise ? 'expertise' : 'ativo') : ''}"></div>
-              <span class="pericia-bonus">${fmtMod(bonus)}</span>
-              <span class="pericia-nome">${p.nome}</span>
-              <span class="pericia-atributo-tag" style="color:${estilo.cor || 'var(--text-muted)'}">${p.atributo.substring(0,3).toUpperCase()}</span>
-              ${indicador}
-            </div>`;
-          }).join('');
-        })()}
-      </div>
-      </details>
-    </div>
-
-    <!-- Talentos -->
-    ${renderSecaoTalentos()}
-
-    <!-- Sortudo: Pontos de Sorte -->
-    ${passivosTalentosCache?.flags?.sortudo ? (() => {
-      if (!char.recursos) char.recursos = {};
-      if (!char.recursos.sortudo) char.recursos.sortudo = { pontos_gastos: 0 };
-      const total = bonusProficiencia(char.nivel);
-      const disponiveis = Math.max(0, total - (char.recursos.sortudo.pontos_gastos || 0));
-      return `
-    <div class="card" style="border-left:3px solid var(--accent)">
-      <div class="card-header" style="padding-bottom:4px"><h2 style="font-size:0.95rem">Sortudo — Pontos de Sorte</h2></div>
-      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">${disponiveis}/${total} disponível(is) · Recarrega no Descanso Longo</div>
-      <div class="no-print" style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn btn-sm btn-primary" data-sortudo-acao="vantagem" ${disponiveis <= 0 ? 'disabled style="opacity:0.5;cursor:not-allowed"' : ''}>Gastar: Vantagem</button>
-        <button class="btn btn-sm btn-secondary" data-sortudo-acao="desvantagem" ${disponiveis <= 0 ? 'disabled style="opacity:0.5;cursor:not-allowed"' : ''}>Gastar: Desvantagem (reação)</button>
+/** Desenha a ficha inteira, mantendo a rolagem e os blocos abertos. */
+function desenhar() {
+  const y = window.scrollY;
+  const abertos = new Set([...raiz.querySelectorAll('details[data-details-id][open]')].map(d => d.dataset.detailsId));
+  normalizarRecursos();
+  const ant = antecedente();
+  raiz.innerHTML = `
+    <div class="ficha">
+      ${secaoCabecalho(ant)}
+      ${secaoRecursos()}
+      ${secaoSpecial()}
+      ${secaoDerivados()}
+      ${secaoAtaques(ant)}
+      ${bloco('pericias', 'Perícias', tabelaPericias(char, ant, true) + secaoPontosPericia(contexto()))}
+      ${bloco('sobrevivencia', 'Sobrevivência e condições', secaoSobrevivencia())}
+      ${bloco('talentos', 'Talentos e traços', secaoTalentosTracos())}
+      ${bloco('raca', `Traços de ${escHtml(NOMES_RACA[char.raca] || 'raça')}`, secaoRaca())}
+      ${bloco('inventario', 'Inventário', secaoInventario(contexto()))}
+      ${bloco('detalhes', 'Detalhes e notas', secaoDetalhes())}
+      <div class="ficha-rodape">
+        <button class="btn btn-secondary" id="btn-exportar-ficha">Exportar ficha (JSON)</button>
       </div>
     </div>`;
-    })() : ''}
+  abertos.forEach(id => raiz.querySelector(`details[data-details-id="${id}"]`)?.setAttribute('open', ''));
+  ligarEventos();
+  window.scrollTo(0, y);
+}
 
-    <!-- Características de Classe -->
-    ${renderSecaoCaracteristicas(renderCardRecursosClasse(recursosClasse.recursos))}
+/** Bloco recolhível que nasce fechado. */
+function bloco(id, titulo, conteudo) {
+  return `<details class="card bloco" data-details-id="${id}"><summary class="card-header">${titulo}</summary><div class="card-corpo">${conteudo}</div></details>`;
+}
 
-    <!-- Características de Subclasse -->
-    ${renderSecaoSubclasse()}
-
-    <!-- Companheiros do Artífice -->
-    ${renderSecaoCompanheirosArtifice()}
-
-    <!-- Traços da Espécie/Raça -->
-    ${renderSecaoTracosEspecie()}
-
-    <!-- Espaços de Magia e Magias -->
-    <!--
-      O último termo, possuiAlgumaMagia (regras-origens-magia.js), é o que
-      cobre quem não conjura por classe nem subclasse mas tem magia por outro
-      caminho: talento (Tocado Por Fadas/Pelas Sombras, Conjurador Ritualista,
-      Telecinético), legado de espécie, magia personalizada. Antes da issue #20
-      isto era uma lista de casos e faltavam quase todos -- um Monge com Tocado
-      Por Fadas tinha as duas magias gravadas e a ficha pulava de Traços de
-      Espécie direto para Inventário, sem erro nenhum no console.
-      As condições de Iniciado em Magia continuam aqui de propósito: elas leem
-      a INSTÂNCIA do talento, que existe mesmo antes de as magias entrarem nas
-      listas do personagem.
-      O primeiro termo era "info.conjurador || ehSubclasseConjuradora()", e os
-      dois liam o espelho da classe INICIAL: um Bárbaro 5/Mago 1 SEM nenhuma
-      magia registrada dava falso em todos os termos e não via a seção -- que é
-      a única superfície com o botão "Preparar Magias", então ele ficava sem caminho
-      para registrar a primeira. possuiAlgumaMagia não o salvava justamente por
-      ele ainda não ter magia nenhuma. conjuraPorAlgumaClasse pergunta pelas
-      classes de verdade (regras-multiclasse-conjuracao.js), Magia de Pacto
-      inclusive.
-    -->
-    ${renderSecaoLaminaCantante()}
-    ${renderSecaoMortosVivos()}
-    ${renderSecaoFamiliar()}
-    ${temSecaoMagias ? renderSecaoMagias(renderFaixaRecursosMagias(recursosClasse.magias)) : ''}
-
-    <!-- Ataques (só com arma equipada) -->
-    ${renderSecaoAtaques()}
-
-    <!-- Inventário -->
-    ${renderSecaoInventario()}
-
-    <!-- Detalhes pessoais -->
-    ${renderSecaoDetalhes()}
-
-    <!-- Ações da ficha -->
-    <div class="card no-print mt-3">
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-danger btn-sm" id="btn-excluir-char">Excluir Personagem</button>
+function secaoCabecalho(ant) {
+  const proximo = R.xpDoNivel(char.nivel + 1);
+  const podeSubir = char.nivel < R.NIVEL_MAXIMO && (char.xp || 0) >= proximo;
+  return `
+    <div class="card cabecalho">
+      <div class="cab-linha">
+        <div>
+          <div class="cab-nome">${escHtml(char.nome)}</div>
+          <div class="cab-sub">${escHtml(NOMES_RACA[char.raca] || '')}${subtipo() ? ` (${escHtml(subtipo().nome)})` : ''} · ${escHtml(ant?.nome || '')}</div>
+        </div>
+        <div class="cab-nivel"><span>Nível</span><strong>${char.nivel}</strong></div>
       </div>
+      <div class="cab-xp">
+        <label>XP <input type="number" class="mini-input" id="input-xp" min="0" step="50" value="${char.xp || 0}"></label>
+        <span class="texto-suave">próximo nível: ${proximo}</span>
+        <button class="btn ${podeSubir ? 'btn-primary' : 'btn-secondary'} btn-sm" id="btn-subir-nivel" ${char.nivel >= R.NIVEL_MAXIMO ? 'disabled' : ''}>Subir de nível</button>
+      </div>
+    </div>`;
+}
+
+function secaoRecursos() {
+  const pvMax = R.pvMaximo(char);
+  const peMax = R.peMaximo(char);
+  const karma = R.tampasDeKarma(char);
+  const morrendo = char.pv_atual === 0;
+  return `
+    <div class="card recursos">
+      <div class="recurso-barras">
+        ${barra('PV', 'Pontos de Vida', char.pv_atual, pvMax, char.pv_temp, 'pv')}
+        ${barra('PE', 'Pontos de Estamina', char.pe_atual, peMax, char.pe_temp, 'pe')}
+      </div>
+      <div class="recurso-botoes">
+        <button class="btn btn-danger" id="btn-dano">Sofrer dano</button>
+        <button class="btn btn-success" id="btn-cura">Curar</button>
+        <button class="btn btn-secondary" id="btn-descanso">Descansar</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><span class="stat-value">${R.pontosDeAcao(char)}</span><span class="stat-label">Pontos de Ação</span></div>
+        <div class="stat-box karma"><span class="stat-label">Tampas de Karma</span>
+          <span class="tampas">${Array.from({ length: karma }, (_, i) => `<button type="button" class="tampa${i < (char.karma_viradas || 0) ? ' virada' : ''}" data-tampa="${i}" aria-label="Tampa ${i + 1}">${i < (char.karma_viradas || 0) ? '✦' : '◎'}</button>`).join('')}</span></div>
+      </div>
+      ${morrendo ? secaoSuspiros() : ''}
+    </div>`;
+}
+
+/** Barra de PV ou PE com o valor temporário ao lado. */
+function barra(sigla, nome, atual, max, temp, chave) {
+  const pct = max ? Math.max(0, Math.min(100, (atual / max) * 100)) : 0;
+  return `<div class="barra-recurso ${chave}">
+    <div class="barra-topo"><span class="barra-nome">${nome}</span>
+      <span class="barra-valor"><strong>${atual}</strong>/${max}${temp ? ` <span class="temp">+${temp} temp.</span>` : ''}</span></div>
+    <div class="barra"><div class="barra-preench" style="width:${pct}%"></div></div>
+    <div class="barra-ajuste"><button type="button" data-ajuste="${chave}" data-delta="-1" aria-label="${sigla} −1">−</button>
+      <button type="button" data-ajuste="${chave}" data-delta="1" aria-label="${sigla} +1">+</button>
+      <button type="button" class="link" data-temp="${chave}">temporários</button></div>
+  </div>`;
+}
+
+/** Suspiros Finais, mostrados quando o personagem está morrendo. */
+function secaoSuspiros() {
+  const s = char.suspiros || { sucessos: 0, falhas: 0 };
+  const limite = R.falhasParaMorrer(char);
+  const bolhas = (n, total, tipo) => Array.from({ length: total }, (_, i) =>
+    `<button type="button" class="bolha ${tipo}${i < n ? ' marcada' : ''}" data-suspiro="${tipo}" data-indice="${i}"></button>`).join('');
+  return `<div class="suspiros">
+    <strong>Morrendo · Suspiros Finais</strong> <span class="texto-suave">(2 PA, CD 10, d20 + mod. de Sorte ou Resistência + Moral da Equipe)</span>
+    <div>Sucessos ${bolhas(s.sucessos, 3, 'sucesso')}</div>
+    <div>Falhas ${bolhas(s.falhas, limite, 'falha')}</div>
+    ${s.falhas >= limite ? '<p class="aviso">Seu personagem morreu.</p>' : s.sucessos >= 3 ? '<p class="ok">Estabilizou: recupere 1 PV.</p>' : ''}
+  </div>`;
+}
+
+function secaoSpecial() {
+  const v = R.atributosEfetivos(char);
+  return `<div class="card special-card">${R.ATRIBUTOS.map(a => `
+    <button type="button" class="atributo-box" data-ver-atributo="${a.id}">
+      <span class="atributo-letra">${a.letra}</span>
+      <span class="atributo-valor">${v[a.id]}</span>
+      <span class="atributo-mod">${R.fmtSinal(R.modificador(v[a.id]))}</span>
+      <span class="atributo-nome">${a.nome}</span>
+    </button>`).join('')}</div>`;
+}
+
+function secaoDerivados() {
+  const d = R.defesas(char, regras.catalogo);
+  const lr = R.limiarDeRadiacao(char);
+  const carga = R.cargaTotal(char, regras.catalogo);
+  const cap = R.capacidadeDeCarga(char);
+  const itens = [
+    ['DF', d.df, d.armadura ? `Defesa (${d.armadura})` : 'Defesa'],
+    ['TD', d.td, 'Tolerância a Dano'],
+    ['FC', R.fatorDeCura(char), 'Fator de Cura'],
+    ['SP', R.sentidosPassivos(char), 'Sentidos Passivos'],
+    ['INI', 10 + R.modificadores(char).PER, 'Iniciativa passiva'],
+  ];
+  if (lr != null) itens.push(['LR', lr, 'Limiar de Radiação']);
+  return `<div class="card"><div class="stats-row">${itens.map(([s, v, n]) => `
+    <div class="stat-box"><span class="stat-value">${v}</span><span class="stat-label">${n}</span></div>`).join('')}
+    <div class="stat-box ${carga > cap ? 'alerta' : ''}"><span class="stat-value">${carga}<small>/${cap}</small></span><span class="stat-label">Carga</span></div>
+  </div></div>`;
+}
+
+/** Ataques: armas equipadas, ferramentas de robô e o ataque desarmado. */
+function secaoAtaques(ant) {
+  const linhas = [];
+  for (const l of char.inventario || []) {
+    const item = regras.catalogo[l.ref];
+    if (!l.equipado || !R.periciaDaArma(item)) continue;
+    linhas.push({ nome: l.nome, a: R.calcularAtaque(char, item, ant), extra: item.campos['Propriedades Especiais'] || '' });
+  }
+  const sub = subtipo();
+  for (const nome of char.ferramentas_robo || []) {
+    const t = sub?.tracos.find(x => x.nome === nome);
+    const a = t && R.ataqueDaFerramenta(char, nome, t.texto, ant);
+    if (a) linhas.push({ nome: `${nome} (acoplada)`, a, extra: '' });
+  }
+  const mods = R.modificadores(char);
+  linhas.push({
+    nome: 'Desarmado',
+    a: { acerto: R.bonusPericia(char, 'pugilismo', ant), dano: '1d4 contusão', bonusDano: Math.max(mods.FOR, mods.AGI), pa: '', critico: '20, dano dobrado' },
+    extra: 'Pode ser não letal.',
+  });
+  return `<div class="card"><div class="card-header">Ataques</div><div class="ataques">${linhas.map(({ nome, a, extra }) => `
+    <div class="ataque">
+      <div class="ataque-nome">${escHtml(nome)}${a.desvantagemForca ? ' <span class="badge badge-warning" title="Força abaixo do requisito">desvantagem</span>' : ''}</div>
+      <div class="ataque-dados">
+        <span><small>Acerto</small><strong>${R.fmtSinal(a.acerto)}</strong></span>
+        <span><small>Dano</small><strong>${escHtml(a.dano)}${a.bonusDano ? ` ${a.bonusDano > 0 ? '+' : '−'} ${Math.abs(a.bonusDano)}` : ''}</strong></span>
+        ${a.pa ? `<span><small>Custo</small><strong>${escHtml(a.pa)}</strong></span>` : ''}
+        ${a.alcance ? `<span><small>Alcance</small><strong>${a.alcance.normal}/${a.alcance.longo} pés</strong></span>` : ''}
+        ${a.critico ? `<span><small>Crítico</small><strong>${escHtml(a.critico)}</strong></span>` : ''}
+      </div>
+      ${extra ? `<div class="ataque-extra">${escHtml(extra)}</div>` : ''}
+    </div>`).join('')}</div>
+    <p class="texto-suave">Equipe armas no inventário para que apareçam aqui.</p></div>`;
+}
+
+function secaoSobrevivencia() {
+  const contadores = [['fome', 'Fome'], ['desidratacao', 'Desidratação'], ['exaustao', 'Exaustão'], ['radiacao', 'Radiação']];
+  const imuneRad = ['necrotico', 'sintetico', 'robo', 'super_mutante'].includes(char.raca);
+  return `
+    <div class="contadores">${contadores.map(([k, n]) => `
+      <div class="contador-linha"><button type="button" class="link" data-ver-condicao="${k}">${n}</button>
+        <span class="stepper"><button type="button" data-contador="${k}" data-delta="-1" ${char[k] ? '' : 'disabled'}>−</button><span>${char[k] || 0}</span>
+        <button type="button" data-contador="${k}" data-delta="1" ${k === 'radiacao' && imuneRad ? 'disabled title="Sua raça não ganha níveis de radiação"' : ''}>+</button></span></div>`).join('')}
     </div>
-  `;
+    <h4>Condições</h4>
+    <div class="chips">${(char.condicoes || []).map((c, i) => `<span class="chip"><button type="button" class="link" data-ver-condicao-id="${escHtml(c)}">${escHtml(regras.condicoes.find(x => x.id === c)?.nome || c)}</button>
+      <button type="button" class="chip-x" data-remover-condicao="${i}" aria-label="Remover">✕</button></span>`).join('') || '<span class="texto-suave">Nenhuma.</span>'}</div>
+    <button class="btn btn-secondary btn-sm" id="btn-add-condicao">+ Condição</button>`;
+}
 
-  // --- Eventos ---
-  setupEventosHP();
-  setupEventosDescanso();
-  setupEventosEdicao();
-  setupEventosInventarioSheet();
-  setupEventosAtaques();
-  setupEventosEspacosMagia();
-  setupEventosHabilidades();
-  setupEventosArtifice();
-  setupEventosCompanheirosArtifice();
-  setupEventosFamiliar();
-  setupEventosLaminaCantante();
-  setupEventosMortosVivos();
-  setupEventosFormaSelvagem();
-  ligarSelosFonte(containerRef);
-  setupEventosSubclasseBarbaro();
-  setupEventosCondicoes();
-  setupEventosDefesas();
-  setupEventosVantagemDesvantagem();
-  setupEventosDetalhesColapso();
-  setupEventosTruquesColapso();
-  setupEventosRecursosClasse();
-  document.getElementById('btn-recuperar-dadiva-epica')
-    ?.addEventListener('click', abrirModalRecuperarDadivaEpica);
+function secaoTalentosTracos() {
+  const talentos = (char.progressao || []).map((p, i) => ({ p, i })).filter(({ p }) => p.tipo === 'talento');
+  const aumentos = (char.progressao || []).filter(p => p.tipo === 'atributo');
+  const tracos = [
+    ...(char.tracos?.personagem || []).map(t => ({ ...t, lista: regras.tracos.personagem })),
+    ...(char.tracos?.antecedente ? [{ ...char.tracos.antecedente, lista: regras.tracos.antecedente }] : []),
+  ];
+  return `
+    <h4>Talentos</h4>
+    ${talentos.length ? gradeCards(talentos.map(({ p, i }) => ({
+      id: String(i), titulo: regras.talentoPorId[p.talento]?.nome || p.talento, subtitulo: `Nível ${p.nivel}`,
+    })), 'data-ver-talento-idx') : '<p class="texto-suave">Nenhum talento.</p>'}
+    ${aumentos.length ? `<p class="texto-suave">Pontos de Talento em atributos: ${aumentos.map(a => `${a.atributo} (nível ${a.nivel})`).join(', ')}</p>` : ''}
+    <h4>Traços</h4>
+    ${tracos.length ? gradeCards(tracos.map((t, i) => ({
+      id: String(i), titulo: t.lista.find(x => x.id === t.id)?.nome || t.id, subtitulo: t.ermo ? 'Ermo Selvagem' : '',
+    })), 'data-ver-traco-idx') : '<p class="texto-suave">Nenhum traço.</p>'}`;
+}
 
-  // Restaurar estado dos details
-  restaurarEstadoDetails(estadoDetails);
-}
+function secaoRaca() {
+  const r = raca();
+  if (!r) return '';
+  const lista = [...r.tracos.filter(t => !['Idade', 'Tamanho'].includes(t.nome)),
+    ...r.variantes.filter(v => (char.variantes || []).includes(v.nome)).map(v => ({ ...v, nome: `${v.nome} (variante)` })),
+    ...(subtipo()?.tracos || []).filter(t => !R.FERRAMENTAS_ROBO[char.subtipo]?.pericias.hasOwnProperty(t.nome) || (char.ferramentas_robo || []).includes(t.nome))];
+  return `<div class="md-content">${lista.map(t => mdParaHtml(`***${t.nome}.*** ${t.texto}`)).join('')}</div>`;
+}
+
+function secaoDetalhes() {
+  const d = char.detalhes || {};
+  const campo = (k, n, linhas) => `<div class="form-group"><label class="form-label" for="det-${k}">${n}</label>
+    <textarea class="form-textarea" id="det-${k}" data-detalhe="${k}" rows="${linhas}">${escHtml(d[k] || '')}</textarea></div>`;
+  return `
+    <div class="form-group"><label class="form-label" for="det-nome-ficha">Nome</label><input class="form-input" id="det-nome-ficha" value="${escHtml(char.nome)}"></div>
+    ${campo('jogador', 'Jogador', 1)}${campo('idade', 'Idade', 1)}${campo('aparencia', 'Aparência', 2)}
+    ${campo('personalidade', 'Personalidade', 2)}${campo('historia', 'História', 4)}
+    <div class="form-group"><label class="form-label" for="det-notas">Notas</label><textarea class="form-textarea" id="det-notas" rows="5">${escHtml(char.notas || '')}</textarea></div>`;
+}
+
+// ---------------------------------------------------------------- eventos
+
+/** Liga todos os eventos da ficha (chamado a cada desenho). */
+function ligarEventos() {
+  const $ = s => raiz.querySelector(s);
+  const $$ = s => raiz.querySelectorAll(s);
+
+  $('#input-xp').onchange = e => { char.xp = Math.max(0, Number(e.target.value) || 0); salvar(); desenhar(); };
+  $('#btn-subir-nivel').onclick = () => abrirSubidaDeNivel(contexto());
+  $('#btn-dano').onclick = abrirDano;
+  $('#btn-cura').onclick = abrirCura;
+  $('#btn-descanso').onclick = abrirDescanso;
+  $('#btn-exportar-ficha').onclick = () => {
+    baixarArquivo(new Blob([exportar(char.id)], { type: 'application/json' }), `${(char.nome || 'personagem').replace(/[^\w-]+/g, '_')}.json`);
+  };
+
+  $$('[data-ajuste]').forEach(b => {
+    b.onclick = () => {
+      const chave = b.dataset.ajuste === 'pv' ? 'pv_atual' : 'pe_atual';
+      const max = b.dataset.ajuste === 'pv' ? R.pvMaximo(char) : R.peMaximo(char);
+      char[chave] = Math.max(0, Math.min(max, char[chave] + Number(b.dataset.delta)));
+      if (chave === 'pv_atual' && char.pv_atual > 0) char.suspiros = { sucessos: 0, falhas: 0 };
+      salvar(); desenhar();
+    };
+  });
+  $$('[data-temp]').forEach(b => {
+    b.onclick = () => {
+      const chave = b.dataset.temp === 'pv' ? 'pv_temp' : 'pe_temp';
+      abrirModal(b.dataset.temp === 'pv' ? 'PV temporários' : 'PE temporários', `
+        <p class="texto-suave">Temporários não somam: se ganhar mais, fique com o maior. Somem num descanso de 1 hora.</p>
+        <input type="number" class="form-input" id="input-temp" min="0" value="${char[chave] || 0}">`,
+        '<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button><button class="btn btn-primary" id="btn-ok-temp">Salvar</button>');
+      document.getElementById('btn-ok-temp').onclick = () => {
+        char[chave] = Math.max(0, Number(document.getElementById('input-temp').value) || 0);
+        fecharModal(); salvar(); desenhar();
+      };
+    };
+  });
+  $$('[data-tampa]').forEach(b => {
+    b.onclick = () => {
+      const i = Number(b.dataset.tampa);
+      char.karma_viradas = i < (char.karma_viradas || 0) ? i : i + 1;
+      salvar(); desenhar();
+    };
+  });
+  $$('[data-suspiro]').forEach(b => {
+    b.onclick = () => {
+      const tipo = b.dataset.suspiro === 'sucesso' ? 'sucessos' : 'falhas';
+      const i = Number(b.dataset.indice);
+      char.suspiros = char.suspiros || { sucessos: 0, falhas: 0 };
+      char.suspiros[tipo] = i < char.suspiros[tipo] ? i : i + 1;
+      salvar(); desenhar();
+    };
+  });
+  $$('[data-ver-atributo]').forEach(b => {
+    b.onclick = () => {
+      const a = R.ATRIBUTOS.find(x => x.id === b.dataset.verAtributo);
+      const base = char.special[a.id];
+      const ef = R.atributosEfetivos(char)[a.id];
+      const pericias = R.PERICIAS.filter(p => R.atributoDaPericia(char, p.id) === a.id).map(p => p.nome);
+      popupDetalhe(a.nome, `**Valor:** ${ef} (distribuição inicial ${base})\n\n**Modificador:** ${R.fmtSinal(R.modificador(ef))}\n\n**Perícias:** ${pericias.join(', ') || 'nenhuma'}`);
+    };
+  });
+  $$('[data-atributo-pericia]').forEach(s => {
+    s.onchange = () => { char.atributo_pericia = { ...(char.atributo_pericia || {}), [s.dataset.atributoPericia]: s.value }; salvar(); desenhar(); };
+  });
+  $$('[data-contador]').forEach(b => {
+    b.onclick = () => {
+      const k = b.dataset.contador;
+      char[k] = Math.max(0, (char[k] || 0) + Number(b.dataset.delta));
+      salvar(); desenhar();
+    };
+  });
+  $$('[data-ver-condicao]').forEach(b => {
+    b.onclick = () => {
+      const nome = { fome: 'Fome', desidratacao: 'Desidratação', exaustao: 'Exaustão', radiacao: 'Radiação ou Rads' }[b.dataset.verCondicao];
+      const c = regras.condicoes.find(x => x.nome === nome);
+      if (c) popupDetalhe(c.nome, c.texto);
+    };
+  });
+  $$('[data-ver-condicao-id]').forEach(b => {
+    b.onclick = () => {
+      const c = regras.condicoes.find(x => x.id === b.dataset.verCondicaoId);
+      if (c) popupDetalhe(c.nome, c.texto);
+    };
+  });
+  $$('[data-remover-condicao]').forEach(b => {
+    b.onclick = () => { char.condicoes.splice(Number(b.dataset.removerCondicao), 1); salvar(); desenhar(); };
+  });
+  $('#btn-add-condicao').onclick = abrirCondicoes;
+  ligarCards(raiz, idx => {
+    const p = char.progressao[Number(idx)];
+    const t = regras.talentoPorId[p.talento];
+    if (t) popupDetalhe(t.nome, markdownTalento(t));
+  }, 'data-ver-talento-idx');
+  ligarCards(raiz, idx => {
+    const lista = [...(char.tracos?.personagem || []).map(t => ({ ...t, l: regras.tracos.personagem })),
+      ...(char.tracos?.antecedente ? [{ ...char.tracos.antecedente, l: regras.tracos.antecedente }] : [])];
+    const t = lista[Number(idx)];
+    const def = t?.l.find(x => x.id === t.id);
+    if (def) popupDetalhe(def.nome + (t.ermo ? ' (Ermo Selvagem)' : ''), markdownTraco(def));
+  }, 'data-ver-traco-idx');
+
+  $('#det-nome-ficha').onchange = e => { char.nome = e.target.value.trim() || char.nome; salvar(); definirTitulo(char.nome); };
+  $$('[data-detalhe]').forEach(t => {
+    t.onchange = () => { char.detalhes = { ...(char.detalhes || {}), [t.dataset.detalhe]: t.value }; salvar(); };
+  });
+  $('#det-notas').onchange = e => { char.notas = e.target.value; salvar(); };
+
+  ligarInventario(raiz, contexto());
+  ligarPontosPericia(raiz, contexto());
+}
+
+// ---------------------------------------------------------------- modais
+
+/** Modal de dano: aplica a Ordem do Dano com a TD atual. */
+function abrirDano() {
+  const { td } = R.defesas(char, regras.catalogo);
+  abrirModal('Sofrer dano', `
+    <div class="form-group"><label class="form-label" for="input-dano">Dano</label><input type="number" class="form-input" id="input-dano" min="0" inputmode="numeric"></div>
+    <label class="form-check"><input type="checkbox" id="chk-direto"> Direto nos PV (inconsciente ou sem perceber o ataque)</label>
+    <label class="form-check"><input type="checkbox" id="chk-resist"> Tenho resistência a este dano</label>
+    <label class="form-check"><input type="checkbox" id="chk-vuln"> Sou vulnerável a este dano</label>
+    <p class="texto-suave">Ordem: PE temporários, PE, resistência ou vulnerabilidade, TD (${td}), PV temporários, PV.</p>`,
+    '<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button><button class="btn btn-danger" id="btn-ok-dano">Aplicar</button>');
+  document.getElementById('input-dano').focus();
+  document.getElementById('btn-ok-dano').onclick = () => {
+    const dano = Number(document.getElementById('input-dano').value) || 0;
+    const r = R.aplicarDano({ pe_temp: char.pe_temp || 0, pe: char.pe_atual, pv_temp: char.pv_temp || 0, pv: char.pv_atual }, dano, {
+      td, direto: document.getElementById('chk-direto').checked,
+      resistente: document.getElementById('chk-resist').checked, vulneravel: document.getElementById('chk-vuln').checked,
+    });
+    const jaMorrendo = char.pv_atual === 0;
+    Object.assign(char, { pe_temp: r.pe_temp, pe_atual: r.pe, pv_temp: r.pv_temp, pv_atual: r.pv });
+    fecharModal();
+    const pvMax = R.pvMaximo(char);
+    if (jaMorrendo && dano > 0) {
+      char.suspiros = { ...(char.suspiros || { sucessos: 0 }), falhas: (char.suspiros?.falhas || 0) + 1 };
+      toast(dano >= pvMax ? 'Dano igual ou maior que o máximo de PV a 0 PV: morte instantânea.' : 'Dano com 0 PV: uma falha em Suspiro Final.', 'erro');
+    } else if (r.chegouAZero) {
+      char.suspiros = { sucessos: 0, falhas: 0 };
+      const msg = dano >= 3 * pvMax ? 'Dano massivo: morte instantânea.'
+        : r.sobra >= pvMax ? 'Chegou a 0 PV com ferimento grave (sobra ≥ máximo de PV).' : 'Chegou a 0 PV: condição morrendo.';
+      toast(msg, 'erro');
+    }
+    salvar(); desenhar();
+  };
+}
+
+/** Modal de cura: PV (ou PE) até o máximo. */
+function abrirCura() {
+  abrirModal('Curar', `
+    <div class="form-group"><label class="form-label" for="input-cura">Quantidade</label><input type="number" class="form-input" id="input-cura" min="0" inputmode="numeric"></div>
+    <div class="botoes-rapidos"><button type="button" class="btn btn-secondary btn-sm" id="btn-cura-fc">Fator de Cura (${R.fatorDeCura(char)})</button></div>
+    <label class="form-check"><input type="radio" name="alvo-cura" value="pv" checked> Pontos de Vida</label>
+    <label class="form-check"><input type="radio" name="alvo-cura" value="pe"> Pontos de Estamina</label>`,
+    '<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button><button class="btn btn-success" id="btn-ok-cura">Curar</button>');
+  document.getElementById('btn-cura-fc').onclick = () => { document.getElementById('input-cura').value = R.fatorDeCura(char); };
+  document.getElementById('btn-ok-cura').onclick = () => {
+    const n = Math.max(0, Number(document.getElementById('input-cura').value) || 0);
+    if (document.querySelector('input[name="alvo-cura"]:checked').value === 'pv') {
+      char.pv_atual = Math.min(R.pvMaximo(char), char.pv_atual + n);
+      if (char.pv_atual > 0) char.suspiros = { sucessos: 0, falhas: 0 };
+    } else {
+      char.pe_atual = Math.min(R.peMaximo(char), char.pe_atual + n);
+    }
+    fecharModal(); salvar(); desenhar();
+  };
+}
+
+/** Modal de descanso (regras de O Ambiente, ainda não traduzidas). */
+function abrirDescanso() {
+  const maquina = R.descansaComoMaquina(char);
+  abrirModal('Descansar', `
+    <label class="check-card"><input type="radio" name="tipo-desc" value="curto" checked>
+      <span><strong>1 hora</strong><br><small>${maquina ? 'PE cheios.' : 'PE voltam até a metade do máximo.'} Temporários somem.</small></span></label>
+    <label class="check-card"><input type="radio" name="tipo-desc" value="longo">
+      <span><strong>${maquina ? '2 horas' : '6 horas'}</strong><br><small>Recupera PV pelo Fator de Cura${maquina ? ' (com INT ou PER no lugar de RES)' : ''}, −1 Exaustão${maquina ? ' e PE cheios' : ', PE cheios se dormir confortável'}.</small></span></label>
+    ${maquina ? '' : '<label class="form-check"><input type="checkbox" id="chk-confortavel" checked> Dormiu confortável (abrigo e superfície macia)</label>'}
+    <p class="texto-suave">Regras do capítulo O Ambiente, ainda na versão em inglês do livro.</p>`,
+    '<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button><button class="btn btn-primary" id="btn-ok-desc">Descansar</button>');
+  document.getElementById('btn-ok-desc').onclick = () => {
+    const tipo = document.querySelector('input[name="tipo-desc"]:checked').value;
+    const confortavel = maquina || document.getElementById('chk-confortavel').checked;
+    Object.assign(char, R.efeitoDescanso(char, tipo, confortavel));
+    if (char.pv_atual > 0) char.suspiros = { sucessos: 0, falhas: 0 };
+    fecharModal(); salvar(); desenhar();
+    toast('Descanso aplicado.', 'sucesso');
+  };
+}
+
+/** Seletor de condições. */
+function abrirCondicoes() {
+  const ocultas = ['Fome', 'Desidratação', 'Exaustão', 'Radiação ou Rads'];
+  const lista = regras.condicoes.filter(c => !ocultas.includes(c.nome));
+  abrirModal('Adicionar condição', gradeCards(lista.map(c => ({ id: c.id, titulo: c.nome, selecionado: (char.condicoes || []).includes(c.id) }))),
+    '<button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>');
+  ligarCards(document.getElementById('modal-corpo'), id => {
+    const c = lista.find(x => x.id === id);
+    const tem = (char.condicoes || []).includes(id);
+    popupDetalhe(c.nome, c.texto, tem ? null : 'Adicionar', () => {
+      char.condicoes = [...(char.condicoes || []), id];
+      fecharModal(); salvar(); desenhar();
+    });
+  });
+}

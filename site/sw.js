@@ -1,8 +1,8 @@
-// Service Worker para PWA D&D 5.5 Ficha de Personagem
+// Service Worker do PWA Ficha Fallout TTRPG 2.1
 // CACHE_VERSION é substituído automaticamente pelo número do run do GitHub Actions a cada deploy
 const CACHE_VERSION = 0; // AUTO
-const CACHE_STATIC = `dnd-ficha-static-v${CACHE_VERSION}`;
-const CACHE_DATA = `dnd-ficha-data-v${CACHE_VERSION}`;
+const CACHE_STATIC = `fallout-ficha-static-v${CACHE_VERSION}`;
+const CACHE_DATA = `fallout-ficha-data-v${CACHE_VERSION}`;
 
 // Arquivos estáticos do site (versionados pelo cache)
 const STATIC_ASSETS = [
@@ -13,17 +13,15 @@ const STATIC_ASSETS = [
   './js/app.js',
   './js/db.js',
   './js/store.js',
-  './js/sync.js',
   './js/utils.js',
-  './js/dados-classes.js',
-  './js/levelup.js',
-  './js/pages/home.js',
-  './js/pages/creator.js',
-  './js/pages/sheet.js',
-  './js/auth.js',
-  './js/notas-versao.js',
+  './js/ui.js',
   './js/versao.js',
-  './js/vendor/pdf-lib.min.js'
+  './js/regras-fallout.js',
+  './js/pages/home.js',
+  './js/creator/wizard.js',
+  './js/sheet/ficha.js',
+  './js/sheet/inventario.js',
+  './js/sheet/nivel.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -43,7 +41,7 @@ self.addEventListener('install', (event) => {
       })
     );
 
-    // Precache dos dados de jogo (classes, magias, especies...) para ficha offline.
+    // Precache dos dados de jogo (raças, talentos, itens...) para ficha offline.
     // A lista e gerada no deploy (dados-precache.json). Local/dev pode nao existir:
     // nesse caso os dados sao cacheados on-demand pelo fetch handler.
     try {
@@ -71,9 +69,7 @@ self.addEventListener('install', (event) => {
     // o comportamento que sempre houve.
     //
     // STATIC_ASSETS no topo permanece como rede de seguranca, para o caso de
-    // o manifesto faltar em producao. Ele lista 12 arquivos: cobria 12 de 22
-    // modulos antes da quebra dos monolitos e passou a cobrir 12 de 61 depois
-    // -- e esta lista gerada que fecha essa lacuna.
+    // o manifesto faltar em producao.
     try {
       const respModulos = await fetch('./js-precache.json', { cache: 'no-store' });
       if (respModulos.ok) {
@@ -121,21 +117,6 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Dominios que nunca entram no cache: Firebase e APIs do Google.
-const HOSTS_SEMPRE_REDE = ['googleapis.com', 'gstatic.com', 'firebaseapp.com', 'firebaseio.com'];
-
-/**
- * Confere se o host pertence a um dos dominios acima.
- *
- * Casa o dominio exato ou um subdominio dele -- e NAO por substring, que
- * era como estava antes: `hostname.includes('googleapis.com')` casa
- * tambem `googleapis.com.exemplo.net`, um dominio de terceiro que so
- * precisa conter o texto no meio do nome.
- */
-function ehHostDeRede(hostname) {
-  return HOSTS_SEMPRE_REDE.some((dominio) => hostname === dominio || hostname.endsWith('.' + dominio));
-}
-
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
@@ -143,10 +124,8 @@ self.addEventListener('fetch', (event) => {
   // Ignorar esquemas que o Cache API não suporta (ex: chrome-extension://)
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
 
-  // Firebase e APIs Google: sempre rede, nunca cachear
-  if (ehHostDeRede(url.hostname)) {
-    return;
-  }
+  // Outros domínios: o navegador cuida sozinho
+  if (url.origin !== self.location.origin) return;
 
   // Navegacao: rede primeiro; offline serve o shell cacheado (nunca null)
   if (request.mode === 'navigate') {

@@ -1,0 +1,5348 @@
+[
+ {
+  "id": "armaduras_tecido",
+  "nome": "Tecido",
+  "categoria": "Armaduras",
+  "subcategoria": "",
+  "campos": {
+   "Custo Base": "50 tp",
+   "DF": "10",
+   "TD": "0",
+   "Espaços": "8",
+   "Carga e Req. de FOR": "Carga 5, FOR 1"
+  }
+ },
+ {
+  "id": "armaduras_couro",
+  "nome": "Couro",
+  "categoria": "Armaduras",
+  "subcategoria": "",
+  "campos": {
+   "Custo Base": "175 tp",
+   "DF": "11",
+   "TD": "1",
+   "Espaços": "6",
+   "Carga e Req. de FOR": "Carga 15, FOR 1"
+  }
+ },
+ {
+  "id": "armaduras_metal",
+  "nome": "Metal",
+  "categoria": "Armaduras",
+  "subcategoria": "",
+  "campos": {
+   "Custo Base": "250 tp",
+   "DF": "12",
+   "TD": "0",
+   "Espaços": "4",
+   "Carga e Req. de FOR": "Carga 20, FOR 5"
+  }
+ },
+ {
+  "id": "armaduras_multicamadas",
+  "nome": "Multicamadas",
+  "categoria": "Armaduras",
+  "subcategoria": "",
+  "campos": {
+   "Custo Base": "275 tp",
+   "DF": "10",
+   "TD": "2",
+   "Espaços": "5",
+   "Carga e Req. de FOR": "Carga 40, FOR 3"
+  }
+ },
+ {
+  "id": "armaduras_fibra_balistica",
+  "nome": "Fibra Balística",
+  "categoria": "Armaduras",
+  "subcategoria": "",
+  "campos": {
+   "Custo Base": "800 tp",
+   "DF": "12",
+   "TD": "3",
+   "Espaços": "2",
+   "Carga e Req. de FOR": "Carga 10, FOR 3"
+  }
+ },
+ {
+  "id": "armaduras_aco",
+  "nome": "Aço",
+  "categoria": "Armaduras",
+  "subcategoria": "",
+  "campos": {
+   "Custo Base": "650 tp",
+   "DF": "13",
+   "TD": "2",
+   "Espaços": "2",
+   "Carga e Req. de FOR": "Carga 50, FOR 6"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_isolamento",
+  "nome": "Isolamento",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Isolamento",
+   "Custo Base": "100 tp",
+   "Nível 1": "Você fica isolado contra hipotermia. Porém, seu máximo de PA diminui em 1, até o mínimo de 6.",
+   "Nível 2": "Seu PA deixa de diminuir e você continua isolado. Porém, esta melhoria passa a custar 800 tp em vez de 100.",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_camuflagem",
+  "nome": "Camuflagem",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Camuflagem",
+   "Custo Base": "125 tp",
+   "Nível 1": "Você tem vantagem em testes de Furtividade que dependem da visão. Sua Furtividade passiva aumenta em 3.",
+   "Nível 2": "Você tem vantagem em testes de Furtividade que dependem do som. Sua Furtividade passiva aumenta em 3.",
+   "Nível 3": "Na penumbra, você fica oculto. Sua Furtividade passiva aumenta em 3."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_leve",
+  "nome": "Leve",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Leve",
+   "Custo Base": "75 tp",
+   "Nível 1": "Carga reduzida em 5. Requisito de Força reduzido em 1. TD reduzida em 1.",
+   "Nível 2": "Carga reduzida em 10 (mínimo de 3).",
+   "Nível 3": "Se você gastar pelo menos 4 PA no seu turno para se mover, pode se mover 3 m adicionais."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_justa",
+  "nome": "Justa",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Justa",
+   "Custo Base": "175 tp",
+   "Nível 1": "Quando você sofre dano de uma área de efeito, sua TD é dobrada.",
+   "Nível 2": "Seus pontos de estamina máximos aumentam em um valor igual ao seu nível.",
+   "Nível 3": "Você tem vantagem nas rolagens de Iniciativa. Se já tem vantagem, ganha +5."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_chumbada",
+  "nome": "Chumbada",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Chumbada",
+   "Custo Base": "125 tp",
+   "Nível 1": "O LR diminui em 2.",
+   "Nível 2": "O LR diminui em 2.",
+   "Nível 3": "O LR diminui em 2."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_fortalecida",
+  "nome": "Fortalecida",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Fortalecida",
+   "Custo Base": "410 tp",
+   "Nível 1": "Quando você sofre dano de um acerto crítico, sua TD aumenta em 3.",
+   "Nível 2": "Quando você sofre dano de um acerto crítico, sua TD aumenta em 5.",
+   "Nível 3": "Se você fosse sofrer um ferimento grave, sofre em vez disso uma condição de membro aleatória."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_robusta",
+  "nome": "Robusta",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Robusta",
+   "Custo Base": "475 tp",
+   "Nível 1": "Você ignora os efeitos negativos dos 2 primeiros níveis de desgaste da armadura.",
+   "Nível 2": "Você ignora os efeitos negativos dos 4 primeiros níveis de desgaste da armadura.",
+   "Nível 3": "Sua armadura não se desgasta mais ao sofrer dano de um acerto crítico."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_cheia_de_bolsos",
+  "nome": "Cheia de Bolsos",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Cheia de Bolsos",
+   "Custo Base": "210 tp",
+   "Nível 1": "Sua Capacidade de Carga aumenta em 10.",
+   "Nível 2": "Sua Capacidade de Carga aumenta em 15.",
+   "Nível 3": "Sua Capacidade de Carga aumenta em 25."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_reforcada",
+  "nome": "Reforçada",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Reforçada",
+   "Custo Base": "450 tp",
+   "Nível 1": "+1 de bônus na TD",
+   "Nível 2": "+1 de bônus na TD",
+   "Nível 3": "+2 de bônus na TD"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_endurecida",
+  "nome": "Endurecida",
+  "categoria": "Armaduras",
+  "subcategoria": "Melhorias de Armadura",
+  "campos": {
+   "Melhoria": "Endurecida",
+   "Custo Base": "800 tp",
+   "Nível 1": "+1 de bônus na DF",
+   "Nível 2": "+1 de bônus na DF",
+   "Nível 3": "+1 de bônus na DF"
+  }
+ },
+ {
+  "id": "tipos_de_armadura_potente_t_45",
+  "nome": "T-45",
+  "categoria": "Armadura Potente",
+  "subcategoria": "Tipos de Armadura Potente",
+  "campos": {
+   "Custo Base": "4.050 tp",
+   "DF": "14",
+   "PD": "15",
+   "Espaços": "6",
+   "Reparo": "CD 16",
+   "Autonomia": "4 horas"
+  }
+ },
+ {
+  "id": "tipos_de_armadura_potente_t_51",
+  "nome": "T-51",
+  "categoria": "Armadura Potente",
+  "subcategoria": "Tipos de Armadura Potente",
+  "campos": {
+   "Custo Base": "80.250 tp",
+   "DF": "17",
+   "PD": "20",
+   "Espaços": "5",
+   "Reparo": "CD 23",
+   "Autonomia": "6 horas"
+  }
+ },
+ {
+  "id": "tipos_de_armadura_potente_t_60",
+  "nome": "T-60",
+  "categoria": "Armadura Potente",
+  "subcategoria": "Tipos de Armadura Potente",
+  "campos": {
+   "Custo Base": "85.750 tp",
+   "DF": "16",
+   "PD": "30",
+   "Espaços": "6",
+   "Reparo": "CD 20",
+   "Autonomia": "4 horas"
+  }
+ },
+ {
+  "id": "tipos_de_armadura_potente_x_01",
+  "nome": "X-01",
+  "categoria": "Armadura Potente",
+  "subcategoria": "Tipos de Armadura Potente",
+  "campos": {
+   "Custo Base": "133.500 tp",
+   "DF": "16",
+   "PD": "45",
+   "Espaços": "4",
+   "Reparo": "CD 25",
+   "Autonomia": "3 horas"
+  }
+ },
+ {
+  "id": "tipos_de_armadura_potente_x_02",
+  "nome": "X-02",
+  "categoria": "Armadura Potente",
+  "subcategoria": "Tipos de Armadura Potente",
+  "campos": {
+   "Custo Base": "155.000 tp",
+   "DF": "18",
+   "PD": "40",
+   "Espaços": "4",
+   "Reparo": "CD 25",
+   "Autonomia": "3 horas"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_blindagem_antiexplosao",
+  "nome": "Blindagem Antiexplosão",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Blindagem Antiexplosão",
+   "Custo Base": "1.350 tp",
+   "Nível 1": "Reduz em 5 o dano explosivo sofrido",
+   "Nível 2": "Reduz em 10 o dano explosivo sofrido",
+   "Nível 3": "Reduz em 15 o dano explosivo sofrido"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_blindagem_de_prisma",
+  "nome": "Blindagem de Prisma",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Blindagem de Prisma",
+   "Custo Base": "1.800 tp",
+   "Nível 1": "Reduz em 5 o dano de laser e de plasma sofrido",
+   "Nível 2": "Reduz em 5 o dano de laser e de plasma sofrido",
+   "Nível 3": "Reduz em 10 o dano de laser e de plasma sofrido"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_protocolos_de_emergencia",
+  "nome": "Protocolos de Emergência",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Protocolos de Emergência",
+   "Custo Base": "1.800 tp",
+   "Nível 1": "Se você começa o turno com menos da metade dos seus pontos de vida, pode gastar 1 PA para se mover 3 m.",
+   "Nível 2": "Se você começa o turno com menos da metade dos seus pontos de vida, sua TD aumenta em 5 (só contra dano nos PV).",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_dinamo_cinetico",
+  "nome": "Dínamo Cinético",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Dínamo Cinético",
+   "Custo Base": "2.400 tp",
+   "Nível 1": "Você ganha 1 PA adicional no início do seu turno para cada nível de desgaste que a armadura potente ganhou desde o seu último turno.",
+   "Nível 2": "—",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_bobinas_de_tesla",
+  "nome": "Bobinas de Tesla",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Bobinas de Tesla",
+   "Custo Base": "2.400 tp",
+   "Nível 1": "Gaste 3 PA para ativar ou desativar; cada criatura a até 3 m de você sofre 1d6 de dano de eletricidade quando você ativa e no início dos turnos delas. Para cada rodada ativa, remova 10 minutos da autonomia.",
+   "Nível 2": "O dano de eletricidade aumenta em 1d6. Para cada rodada ativa, remova 5 minutos adicionais da autonomia.",
+   "Nível 3": "O dano de eletricidade aumenta em 2d6. Para cada rodada ativa, remova 10 minutos adicionais da autonomia."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_placas_reativas",
+  "nome": "Placas Reativas",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Placas Reativas",
+   "Custo Base": "2.700 tp",
+   "Nível 1": "Quando você sofre dano de um ataque corpo a corpo, o atacante sofre um quarto (arredondado para baixo) do dano que causou.",
+   "Nível 2": "O atacante sofre mais um quarto (arredondado para baixo) do dano que causou (na prática, metade do total).",
+   "Nível 3": "Quando você sofre dano de um ataque corpo a corpo, o atacante é empurrado 4,5 m."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_nucleo_montado",
+  "nome": "Núcleo Montado",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Núcleo Montado",
+   "Custo Base": "2.250 tp",
+   "Nível 1": "Gastar mais de 18 PA no seu turno causa superaquecimento, em vez de 15.",
+   "Nível 2": "Gastar mais de 20 PA no seu turno causa superaquecimento, em vez de 15.",
+   "Nível 3": "O superaquecimento custa 15 minutos de autonomia, em vez de 30."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_mochila_a_jato",
+  "nome": "Mochila a Jato",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Mochila a Jato",
+   "Custo Base": "6.000 tp",
+   "Nível 1": "Você pode gastar 1 PA no seu turno para voar 1,5 m. A cada 3 m que você voar, ou a cada segundo que voar, você gasta 1 minuto da autonomia do núcleo de fusão.",
+   "Nível 2": "—",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_matriz_de_sensores",
+  "nome": "Matriz de Sensores",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Matriz de Sensores",
+   "Custo Base": "4.500 tp",
+   "Nível 1": "Seus Sentidos Passivos aumentam em 5.",
+   "Nível 2": "Seus Sentidos Passivos aumentam em mais 5.",
+   "Nível 3": "Seus Sentidos Passivos aumentam em mais 10."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_sobreposicao_vats",
+  "nome": "Sobreposição VATS",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Sobreposição VATS",
+   "Custo Base": "2.700 tp",
+   "Nível 1": "Sempre que você fizer uma rolagem de ataque mirado, reduza em 1 o custo adicional de PA.",
+   "Nível 2": "Sempre que você fizer uma rolagem de ataque mirado, reduza em mais 1 o custo adicional de PA.",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_banco_de_dados_interno",
+  "nome": "Banco de Dados Interno",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Banco de Dados Interno",
+   "Custo Base": "2.400 tp",
+   "Nível 1": "Se você consegue ver uma criatura, pode gastar 6 PA no seu turno para descobrir o total de PV, de PE, a DF ou a TD dela.",
+   "Nível 2": "—",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_hud_de_mira",
+  "nome": "HUD de Mira",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "HUD de Mira",
+   "Custo Base": "1.800 tp",
+   "Nível 1": "Se você consegue ver uma criatura, pode gastar 3 PA para marcá-la. Você só pode ter uma criatura marcada por vez. Sempre que você causar dano a uma criatura marcada, causa um dado de dano adicional.",
+   "Nível 2": "Você pode marcar até duas criaturas a mais. Sempre que causar dano a uma criatura marcada, causa um dado de dano adicional.",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_farolete",
+  "nome": "Farolete",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Farolete",
+   "Custo Base": "250 tp",
+   "Nível 1": "Você pode gastar 1 PA no seu turno para ligar seu farolete. Ele ilumina com luz forte um cone de 12 m e com penumbra por mais 12 m.",
+   "Nível 2": "A luz forte e a penumbra iluminam 3 m a mais.",
+   "Nível 3": "A luz forte e a penumbra iluminam 3 m a mais. Se você ligar essa luz no escuro, cada criatura a até 1,5 m de você fica cega por uma rodada."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_soqueira_enferrujada",
+  "nome": "Soqueira Enferrujada",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Soqueira Enferrujada",
+   "Custo Base": "100 tp",
+   "Nível 1": "Se você acertar uma criatura com um ataque de pugilismo, ela sangra.",
+   "Nível 2": "—",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_bracadeiras_otimizadas",
+  "nome": "Braçadeiras Otimizadas",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Braçadeiras Otimizadas",
+   "Custo Base": "1.700 tp",
+   "Nível 1": "Você pode gastar 6 PA no seu turno para fazer um ataque de pugilismo poderoso que causa 2d6 de dano de contusão.",
+   "Nível 2": "O dano aumenta em 1d6.",
+   "Nível 3": "O dano aumenta em 1d6 e empurra os alvos 4,5 m para trás."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_amortecedores_calibrados",
+  "nome": "Amortecedores Calibrados",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Amortecedores Calibrados",
+   "Custo Base": "1.000 tp",
+   "Nível 1": "Sua Capacidade de Carga aumenta em 15.",
+   "Nível 2": "Sua Capacidade de Carga aumenta em mais 15.",
+   "Nível 3": "Sua Capacidade de Carga aumenta em mais 20."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_hidraulica_em_overclock",
+  "nome": "Hidráulica em Overclock",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Hidráulica em Overclock",
+   "Custo Base": "1.950 tp",
+   "Nível 1": "Enquanto estiver superaquecido, seu máximo de PA aumenta em 2, você tem vantagem em todas as rolagens de ataque, pode se mover 4,5 m com 1 PA e seus ataques de pugilismo causam 3d6 adicionais de dano de fogo.",
+   "Nível 2": "Você pode gastar 3 PA para superaquecer o núcleo de fusão.",
+   "Nível 3": "Seu máximo de PA aumenta em 2."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_duto_explosivo",
+  "nome": "Duto Explosivo",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Duto Explosivo",
+   "Custo Base": "1.250 tp",
+   "Nível 1": "Se você cair pelo menos 4,5 m, ao atingir o chão pode escolher ativar esta melhoria. Cada criatura a até 6 m de você sofre 3d6 de dano de fogo e 3d6 de dano explosivo. Remova 20 minutos da autonomia da armadura cada vez que ativar esta melhoria.",
+   "Nível 2": "O dano de fogo e o dano explosivo aumentam, cada um, em 1d6.",
+   "Nível 3": "O raio aumenta em 3 m."
+  }
+ },
+ {
+  "id": "melhorias_de_armadura_potente_ajuste_para_super_mutante",
+  "nome": "Ajuste para Super Mutante",
+  "categoria": "Melhorias de Armadura Potente",
+  "subcategoria": "",
+  "campos": {
+   "Melhoria": "Ajuste para Super Mutante",
+   "Custo Base": "50% do custo base",
+   "Nível 1": "A armadura é modificada e ajustada para permitir que um super mutante a use. Porém, humanos e necróticos não podem mais usá-la. Depois que esta melhoria é instalada, é preciso pagar o mesmo preço ou usar os mesmos materiais de fabricação para removê-la.",
+   "Nível 2": "—",
+   "Nível 3": "—"
+  }
+ },
+ {
+  "id": "armas_cortantes_estilete",
+  "nome": "Estilete",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "65 tp",
+   "PA": "3 PA",
+   "Dano": "1d4 perfurante",
+   "Crítico": "20, x2",
+   "Propriedades Especiais": "Frágil.",
+   "Carga e Req. de FOR": "Carga 1, FOR 1"
+  }
+ },
+ {
+  "id": "armas_cortantes_faca",
+  "nome": "Faca",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "200 tp",
+   "PA": "3 PA",
+   "Dano": "1d6 perfurante ou cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Arremessável, x3/x6.",
+   "Carga e Req. de FOR": "Carga 2, FOR 2"
+  }
+ },
+ {
+  "id": "armas_cortantes_canivete",
+  "nome": "Canivete",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "120 tp",
+   "PA": "3 PA",
+   "Dano": "1d6 perfurante ou cortante",
+   "Crítico": "20, x2",
+   "Propriedades Especiais": "Frágil, Pesado.",
+   "Carga e Req. de FOR": "Carga 1, FOR 1"
+  }
+ },
+ {
+  "id": "armas_cortantes_lanca_caseira",
+  "nome": "Lança Caseira",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "85 tp",
+   "PA": "5 PA",
+   "Dano": "1d4 perfurante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Frágil, Alcance Estendido, Arremessável: x6/x10.",
+   "Carga e Req. de FOR": "Carga 7, FOR 2"
+  }
+ },
+ {
+  "id": "armas_cortantes_faca_de_combate",
+  "nome": "Faca de Combate",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "220 tp",
+   "PA": "3 PA",
+   "Dano": "2d4 perfurante ou cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Preciso. Arremessável, x3/x8.",
+   "Carga e Req. de FOR": "Carga 2, FOR 2"
+  }
+ },
+ {
+  "id": "armas_cortantes_faca_de_arremesso",
+  "nome": "Faca de Arremesso",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "80 tp",
+   "PA": "4 PA",
+   "Dano": "1d4 perfurante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Preciso. Frágil. Arremessável, x4/x8. Se arremessada, o dado de dano aumenta para 1d6.",
+   "Carga e Req. de FOR": "Carga 1, FOR 2"
+  }
+ },
+ {
+  "id": "armas_cortantes_lanca",
+  "nome": "Lança",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "140 tp",
+   "PA": "4 PA",
+   "Dano": "1d10 perfurante ou cortante",
+   "Crítico": "20, x2",
+   "Propriedades Especiais": "Alcance Estendido, Arremessável: x6/x10.",
+   "Carga e Req. de FOR": "Carga 8, FOR 2"
+  }
+ },
+ {
+  "id": "armas_cortantes_espada",
+  "nome": "Espada",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "195 tp",
+   "PA": "4 PA",
+   "Dano": "2d6 perfurante ou cortante",
+   "Crítico": "20, x2",
+   "Propriedades Especiais": "Defensivo.",
+   "Carga e Req. de FOR": "Carga 4, FOR 3"
+  }
+ },
+ {
+  "id": "armas_cortantes_espara_choque_de_plastico",
+  "nome": "Espara-choque de Plástico",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "265 tp",
+   "PA": "6 PA",
+   "Dano": "3d6 cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Duas Mãos. Talhar. Alcance Estendido.",
+   "Carga e Req. de FOR": "Carga 10, FOR 8"
+  }
+ },
+ {
+  "id": "armas_cortantes_espara_choque_de_aco",
+  "nome": "Espara-choque de Aço",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "415 tp",
+   "PA": "6 PA",
+   "Dano": "10d6 cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Duas Mãos. Lento. Sempre Talha. Pesado. Alcance Estendido.",
+   "Carga e Req. de FOR": "Carga 30, FOR 10"
+  }
+ },
+ {
+  "id": "armas_cortantes_cutelo",
+  "nome": "Cutelo",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "175 tp",
+   "PA": "5 PA",
+   "Dano": "1d6 cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Debilitante. Pesado.",
+   "Carga e Req. de FOR": "Carga 2, FOR 4"
+  }
+ },
+ {
+  "id": "armas_cortantes_machado_de_bombeiro",
+  "nome": "Machado de Bombeiro",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "270 tp",
+   "PA": "6 PA",
+   "Dano": "2d10 cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Duas Mãos, Pesado, Robusto.",
+   "Carga e Req. de FOR": "Carga 10, FOR 6"
+  }
+ },
+ {
+  "id": "armas_cortantes_machadinha",
+  "nome": "Machadinha",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "200 tp",
+   "PA": "4 PA",
+   "Dano": "2d6 perfurante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Arremessável: x4/x8.",
+   "Carga e Req. de FOR": "Carga 2, FOR 4"
+  }
+ },
+ {
+  "id": "armas_cortantes_facao",
+  "nome": "Facão",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "165 tp",
+   "PA": "4 PA",
+   "Dano": "2d4 cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Preciso. Robusto.",
+   "Carga e Req. de FOR": "Carga 3, FOR 4"
+  }
+ },
+ {
+  "id": "armas_cortantes_lamina_de_assaultron",
+  "nome": "Lâmina de Assaultron",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "225 tp",
+   "PA": "5 PA",
+   "Dano": "3d4 perfurante ou cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Defensivo. Preciso. Robusto.",
+   "Carga e Req. de FOR": "Carga 4, FOR 5"
+  }
+ },
+ {
+  "id": "armas_cortantes_espada_guitarra",
+  "nome": "Espada-Guitarra",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "160 tp",
+   "PA": "5 PA",
+   "Dano": "1d8 cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Defensivo. Nas primeiras seis vezes em que a arma ganhar um nível de desgaste, você sofre 1 de dano.",
+   "Carga e Req. de FOR": "Carga 5, FOR 5"
+  }
+ },
+ {
+  "id": "armas_cortantes_foice",
+  "nome": "Foice",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "130 tp",
+   "PA": "4 PA",
+   "Dano": "1d8 perfurante",
+   "Crítico": "19, 20",
+   "Propriedades Especiais": "Defensivo. Debilitante. Preciso.",
+   "Carga e Req. de FOR": "Carga 2, FOR 2"
+  }
+ },
+ {
+  "id": "armas_cortantes_espada_esqui",
+  "nome": "Espada-Esqui",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "210 tp",
+   "PA": "4 PA",
+   "Dano": "2d4 cortante",
+   "Crítico": "20, x4",
+   "Propriedades Especiais": "Defensivo. Robusto. Se você tiver duas, pode esquiar.",
+   "Carga e Req. de FOR": "Carga 4, FOR 5"
+  }
+ },
+ {
+  "id": "armas_cortantes_picareta",
+  "nome": "Picareta",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "265 tp",
+   "PA": "6 PA",
+   "Dano": "3d6 perfurante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Duas Mãos. Pesado. Robusto.",
+   "Carga e Req. de FOR": "Carga 6, FOR 6"
+  }
+ },
+ {
+  "id": "armas_cortantes_forcado",
+  "nome": "Forcado",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Cortantes",
+  "campos": {
+   "Custo Base": "290 tp",
+   "PA": "5 PA",
+   "Dano": "4d4 perfurante ou cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Alcance Estendido. Debilitante. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 8, FOR 3"
+  }
+ },
+ {
+  "id": "armas_contundentes_cassetete",
+  "nome": "Cassetete",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "105 tp",
+   "PA": "4 PA",
+   "Dano": "1d6 contusão",
+   "Crítico": "20, 1d6",
+   "Propriedades Especiais": "Robusto.",
+   "Carga e Req. de FOR": "Carga 3, FOR 1"
+  }
+ },
+ {
+  "id": "armas_contundentes_chave_inglesa",
+  "nome": "Chave Inglesa",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "140 tp",
+   "PA": "4 PA",
+   "Dano": "2d4 contusão",
+   "Crítico": "20, 4d4",
+   "Propriedades Especiais": "Robusto.",
+   "Carga e Req. de FOR": "Carga 5, FOR 2"
+  }
+ },
+ {
+  "id": "armas_contundentes_pe_de_cabra",
+  "nome": "Pé de Cabra",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "335 tp",
+   "PA": "6 PA",
+   "Dano": "2d10 contusão",
+   "Crítico": "20, 4d10",
+   "Propriedades Especiais": "Pesado. Durável. Defensivo. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 20, FOR 6"
+  }
+ },
+ {
+  "id": "armas_contundentes_marreta",
+  "nome": "Marreta",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "215 tp",
+   "PA": "6 PA",
+   "Dano": "1d12 contusão",
+   "Crítico": "20, 3d12, Atordoado",
+   "Propriedades Especiais": "Robusto. Pesado. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 26, FOR 7"
+  }
+ },
+ {
+  "id": "armas_contundentes_taco_de_beisebol",
+  "nome": "Taco de Beisebol",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "200 tp",
+   "PA": "5 PA",
+   "Dano": "3d4 contusão",
+   "Crítico": "20, 2d4, empurra 1,5 m",
+   "Propriedades Especiais": "Pesado. Robusto. Defensivo. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 8, FOR 4"
+  }
+ },
+ {
+  "id": "armas_contundentes_super_marreta",
+  "nome": "Super Marreta",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "310 tp",
+   "PA": "6 PA",
+   "Dano": "3d12 contusão",
+   "Crítico": "20, 3d12, Atordoado",
+   "Propriedades Especiais": "Pesado. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 30, FOR 8"
+  }
+ },
+ {
+  "id": "armas_contundentes_taco_de_golfe_ferro_9",
+  "nome": "Taco de Golfe (Ferro 9)",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "130 tp",
+   "PA": "5 PA",
+   "Dano": "1d8 contusão",
+   "Crítico": "20, 1d6, Caído",
+   "Propriedades Especiais": "Pesado. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 5, FOR 3"
+  }
+ },
+ {
+  "id": "armas_contundentes_bengala",
+  "nome": "Bengala",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "115 tp",
+   "PA": "4 PA",
+   "Dano": "1d4 contusão",
+   "Crítico": "20, 3d4, Caído",
+   "Propriedades Especiais": "Defensivo.",
+   "Carga e Req. de FOR": "Carga 3, FOR 2"
+  }
+ },
+ {
+  "id": "armas_contundentes_cano_de_chumbo",
+  "nome": "Cano de Chumbo",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "130 tp",
+   "PA": "5 PA",
+   "Dano": "1d8 contusão",
+   "Crítico": "20, 1d6",
+   "Propriedades Especiais": "Robusto. Defensivo.",
+   "Carga e Req. de FOR": "Carga 6, FOR 5"
+  }
+ },
+ {
+  "id": "armas_contundentes_rolo_de_massa",
+  "nome": "Rolo de Massa",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "125 tp",
+   "PA": "4 PA",
+   "Dano": "1d6 contusão",
+   "Crítico": "20, 2d6",
+   "Propriedades Especiais": "Pesado. Quebrável. Defensivo.",
+   "Carga e Req. de FOR": "Carga 3, FOR 4"
+  }
+ },
+ {
+  "id": "armas_contundentes_pa",
+  "nome": "Pá",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "255 tp",
+   "PA": "4 PA",
+   "Dano": "3d4 contusão ou cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Pesado. Duas Mãos. Defensivo.",
+   "Carga e Req. de FOR": "Carga 10, FOR 4"
+  }
+ },
+ {
+  "id": "armas_contundentes_chave_de_roda",
+  "nome": "Chave de Roda",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "100 tp",
+   "PA": "4 PA",
+   "Dano": "1d6 contusão",
+   "Crítico": "20, 1d4, Caído",
+   "Propriedades Especiais": "Pesado.",
+   "Carga e Req. de FOR": "Carga 4, FOR 2"
+  }
+ },
+ {
+  "id": "armas_contundentes_taco_de_sinuca",
+  "nome": "Taco de Sinuca",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "125 tp",
+   "PA": "5 PA",
+   "Dano": "1d6 contusão",
+   "Crítico": "20, 3d6",
+   "Propriedades Especiais": "Pesado. Quebrável. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 4, FOR 3"
+  }
+ },
+ {
+  "id": "armas_contundentes_clava_de_osso",
+  "nome": "Clava de Osso",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "145 tp",
+   "PA": "4 PA",
+   "Dano": "1d8 contusão",
+   "Crítico": "20, 1d6",
+   "Propriedades Especiais": "Debilitante. Robusto.",
+   "Carga e Req. de FOR": "Carga 5, FOR 4"
+  }
+ },
+ {
+  "id": "armas_contundentes_espanca_comunista",
+  "nome": "Espanca-Comunista",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "15 tp",
+   "PA": "4 PA",
+   "Dano": "1 contusão",
+   "Crítico": "20, +2",
+   "Propriedades Especiais": "Se o alvo admitir que é comunista, a arma sempre acerta criticamente. Frágil. Fraco.",
+   "Carga e Req. de FOR": "Carga 2, FOR 1"
+  }
+ },
+ {
+  "id": "armas_contundentes_raquetinha_com_bolinha",
+  "nome": "Raquetinha com Bolinha",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "11 tp",
+   "PA": "2 PA",
+   "Dano": "1 contusão",
+   "Crítico": "20, +1",
+   "Propriedades Especiais": "Frágil. Fraco.",
+   "Carga e Req. de FOR": "Carga 1, FOR 2"
+  }
+ },
+ {
+  "id": "armas_contundentes_tabua",
+  "nome": "Tábua",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "115 tp",
+   "PA": "4 PA",
+   "Dano": "1d8 contusão",
+   "Crítico": "20, 1d8",
+   "Propriedades Especiais": "Pesado. Quebrável. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 8, FOR 5"
+  }
+ },
+ {
+  "id": "armas_contundentes_tabua_com_prego",
+  "nome": "Tábua com Prego",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "125 tp",
+   "PA": "4 PA",
+   "Dano": "1d8 + 1 contusão",
+   "Crítico": "20, 1d8",
+   "Propriedades Especiais": "Pesado. Quebrável. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 8, FOR 5"
+  }
+ },
+ {
+  "id": "armas_contundentes_placa_de_protesto",
+  "nome": "Placa de Protesto",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "50 tp",
+   "PA": "5 PA",
+   "Dano": "1d4 contusão",
+   "Crítico": "20, empurra 1,5 m",
+   "Propriedades Especiais": "Duas Mãos. Quebrável.",
+   "Carga e Req. de FOR": "Carga 8, FOR 3"
+  }
+ },
+ {
+  "id": "armas_contundentes_placa_de_pare",
+  "nome": "Placa de Pare",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "75 tp",
+   "PA": "6 PA",
+   "Dano": "3d8 contusão ou cortante. Aplica Atordoado.",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Duas Mãos. Alcance Estendido.",
+   "Carga e Req. de FOR": "Carga 45, FOR 9"
+  }
+ },
+ {
+  "id": "armas_contundentes_tambor_de_guerra",
+  "nome": "Tambor de Guerra",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Contundentes",
+  "campos": {
+   "Custo Base": "100 tp",
+   "PA": "4 PA",
+   "Dano": "1d10 contusão",
+   "Crítico": "20, 1d10. Ensurdece por 1 rodada.",
+   "Propriedades Especiais": "Duas Mãos. Quebrável.",
+   "Carga e Req. de FOR": "Carga 10, FOR 6"
+  }
+ },
+ {
+  "id": "armas_mecanicas_bastao_de_gado",
+  "nome": "Bastão de Gado",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Mecânicas",
+  "campos": {
+   "Custo Base": "210 tp",
+   "PA": "4 PA",
+   "Dano": "1d4 contusão, 2d8 eletricidade",
+   "Crítico": "20. Atordoado.",
+   "Propriedades Especiais": "Munição: Células de Energia, 10 cargas. Esgotado: 1d4 contusão.",
+   "Carga e Req. de FOR": "Carga 5, FOR 3"
+  }
+ },
+ {
+  "id": "armas_mecanicas_estripador",
+  "nome": "Estripador",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Mecânicas",
+  "campos": {
+   "Custo Base": "475 tp",
+   "PA": "3 PA",
+   "Dano": "3d8 cortante",
+   "Crítico": "20, 3d8",
+   "Propriedades Especiais": "Debilitante. Mutilar. Munição: Células de Energia, 10 cargas. Esgotado: 1d4 contusão.",
+   "Carga e Req. de FOR": "Carga 5, FOR 6"
+  }
+ },
+ {
+  "id": "armas_mecanicas_lamina_giratoria_de_maozinha",
+  "nome": "Lâmina Giratória de Mãozinha",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Mecânicas",
+  "campos": {
+   "Custo Base": "220 tp",
+   "PA": "5 PA",
+   "Dano": "1d10 cortante",
+   "Crítico": "20, x3",
+   "Propriedades Especiais": "Pesado. Mutilar. Munição: Células de Energia, 10 cargas. Esgotado: 1d6 cortante.",
+   "Carga e Req. de FOR": "Carga 10, FOR 5"
+  }
+ },
+ {
+  "id": "armas_mecanicas_motosserra",
+  "nome": "Motosserra",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Mecânicas",
+  "campos": {
+   "Custo Base": "670 tp",
+   "PA": "6 PA",
+   "Dano": "6d8 cortante",
+   "Crítico": "20, 6d8",
+   "Propriedades Especiais": "Debilitante. Duas Mãos. Mutilar. Munição: Células de Energia, 5 cargas. Esgotado: 1d8 contusão.",
+   "Carga e Req. de FOR": "Carga 20, FOR 8"
+  }
+ },
+ {
+  "id": "armas_mecanicas_furadeira",
+  "nome": "Furadeira",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Mecânicas",
+  "campos": {
+   "Custo Base": "190 tp",
+   "PA": "4 PA",
+   "Dano": "1d8 cortante",
+   "Crítico": "19, 20",
+   "Propriedades Especiais": "Debilitante. Mutilar. Preciso. Munição: Células de Energia, 20 cargas. Esgotado: 1d4 perfurante.",
+   "Carga e Req. de FOR": "Carga 8, FOR 5"
+  }
+ },
+ {
+  "id": "armas_mecanicas_cortador_de_plasma",
+  "nome": "Cortador de Plasma",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Mecânicas",
+  "campos": {
+   "Custo Base": "750 tp",
+   "PA": "5 PA",
+   "Dano": "4d8 plasma",
+   "Crítico": "20. Aplica condições graves de membro à sua escolha.",
+   "Propriedades Especiais": "Desmembrar. Munição: Células de Microfusão, 5 cargas. Esgotado: 1d6 contusão.",
+   "Carga e Req. de FOR": "Carga 12, FOR 5"
+  }
+ },
+ {
+  "id": "armas_mecanicas_shishkebab",
+  "nome": "Shishkebab",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Mecânicas",
+  "campos": {
+   "Custo Base": "690 tp",
+   "PA": "4 PA",
+   "Dano": "2d6 cortante, 2d6 fogo",
+   "Crítico": "20, x2. Aplica Queimando.",
+   "Propriedades Especiais": "Debilitante. Desmembrar. Defensivo. Munição: combustível de lança-chamas, 10 cargas. Esgotado: 2d6 cortante.",
+   "Carga e Req. de FOR": "Carga 18, FOR 5"
+  }
+ },
+ {
+  "id": "armas_desarmadas_soco_ingles",
+  "nome": "Soco Inglês",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "150 tp",
+   "PA": "4 PA",
+   "Dano": "1d4 + 1 contusão",
+   "Crítico": "20, 4d4",
+   "Propriedades Especiais": "Pugilista. Durável. Pesado.",
+   "Carga e Req. de FOR": "Carga 2, FOR 5"
+  }
+ },
+ {
+  "id": "armas_desarmadas_punho_cravado",
+  "nome": "Punho Cravado",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "120 tp",
+   "PA": "4 PA",
+   "Dano": "1d4 + 1 perfurante",
+   "Crítico": "19, 20",
+   "Propriedades Especiais": "Pugilista. Preciso.",
+   "Carga e Req. de FOR": "Carga 2, FOR 4"
+  }
+ },
+ {
+  "id": "armas_desarmadas_luvas_de_boxe",
+  "nome": "Luvas de Boxe",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "115 tp",
+   "PA": "4 PA",
+   "Dano": "1d4 contusão",
+   "Crítico": "20, 1d4. Aplica Atordoado.",
+   "Propriedades Especiais": "Defensivo. Robusto. Pugilista.",
+   "Carga e Req. de FOR": "Carga 6, FOR 3"
+  }
+ },
+ {
+  "id": "armas_desarmadas_cranio_de_urso",
+  "nome": "Crânio de Urso",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "190 tp",
+   "PA": "6 PA",
+   "Dano": "3d6 perfurante ou cortante",
+   "Crítico": "20, x2",
+   "Propriedades Especiais": "Pugilista. Debilitante. Defensivo.",
+   "Carga e Req. de FOR": "Carga 15, FOR 5"
+  }
+ },
+ {
+  "id": "armas_desarmadas_manopla_de_destrocador",
+  "nome": "Manopla de Destroçador",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "280 tp",
+   "PA": "6 PA",
+   "Dano": "3d12 cortante",
+   "Crítico": "20, 1d12",
+   "Propriedades Especiais": "Pugilista. Debilitante. Mutilar. Defensivo.",
+   "Carga e Req. de FOR": "Carga 10, FOR 5"
+  }
+ },
+ {
+  "id": "armas_desarmadas_punho_de_armadilha_de_caca",
+  "nome": "Punho de Armadilha de Caça",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "265 tp",
+   "PA": "5 PA",
+   "Dano": "4d4 perfurante",
+   "Crítico": "20, x2",
+   "Propriedades Especiais": "Enganchar. Debilitante. Defensivo. Mutilar. Pugilista.",
+   "Carga e Req. de FOR": "Carga 20, FOR 8"
+  }
+ },
+ {
+  "id": "armas_desarmadas_punho_de_armadilha_de_urso",
+  "nome": "Punho de Armadilha de Urso",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "320 tp",
+   "PA": "6 PA",
+   "Dano": "3d12 perfurante",
+   "Crítico": "20, x2",
+   "Propriedades Especiais": "Enganchar. Debilitante. Defensivo. Mutilar. Pugilista.",
+   "Carga e Req. de FOR": "Carga 40, FOR 10"
+  }
+ },
+ {
+  "id": "armas_desarmadas_punho_potente",
+  "nome": "Punho Potente",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Armas Desarmadas",
+  "campos": {
+   "Custo Base": "350 tp",
+   "PA": "4 PA",
+   "Dano": "4d6 contusão",
+   "Crítico": "20, x2. Caído ou empurrão de 4,5 m.",
+   "Propriedades Especiais": "Pugilista. Debilitante. Pesado. Munição: Células de Energia, 20 cargas. Esgotado: 1d6 contusão.",
+   "Carga e Req. de FOR": "Carga 12, FOR 6"
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_corpo_a_corpo_fortificada",
+  "nome": "Fortificada",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Modificações de Armas Corpo a Corpo",
+  "campos": {
+   "Modificação": "Fortificada",
+   "Custo Base": "55% do custo base da arma",
+   "Descrição": "A arma ganha Durável. Esta modificação é permanente e não pode ser trocada."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_corpo_a_corpo_lamina_dupla",
+  "nome": "Lâmina Dupla",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Modificações de Armas Corpo a Corpo",
+  "campos": {
+   "Modificação": "Lâmina Dupla",
+   "Custo Base": "10% do custo base da arma",
+   "Descrição": "A arma ganha Defensivo e Duas Mãos. Sua carga é dobrada e seu requisito de Força aumenta em 1."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_corpo_a_corpo_pesada",
+  "nome": "Pesada",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Modificações de Armas Corpo a Corpo",
+  "campos": {
+   "Modificação": "Pesada",
+   "Custo Base": "30% do custo base da arma",
+   "Descrição": "Os PA da arma aumentam em 1, até o máximo de 6, sua carga aumenta em metade e seu requisito de Força aumenta em 1. A arma ganha Pesado. O modificador de acerto crítico ou os dados de dano da arma aumentam em 1. Esta modificação é permanente e não pode ser trocada."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_corpo_a_corpo_aprimorada",
+  "nome": "Aprimorada",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Modificações de Armas Corpo a Corpo",
+  "campos": {
+   "Modificação": "Aprimorada",
+   "Custo Base": "75% do custo base da arma",
+   "Descrição": "Sempre que você causar dano com a arma e tirar 1 ou 2 no dado de dano, o dano aumenta em 2. Esta modificação é permanente e não pode ser trocada."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_corpo_a_corpo_construcao_leve",
+  "nome": "Construção Leve",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Modificações de Armas Corpo a Corpo",
+  "campos": {
+   "Modificação": "Construção Leve",
+   "Custo Base": "25% do custo base da arma",
+   "Descrição": "Os PA da arma diminuem em 1, até o mínimo de 3, sua carga diminui pela metade e seu requisito de Força diminui em 1. A arma ganha Quebrável. Esta modificação é permanente e não pode ser trocada."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_corpo_a_corpo_afiada_serrilhada_ou_farpada",
+  "nome": "Afiada, Serrilhada ou Farpada",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Modificações de Armas Corpo a Corpo",
+  "campos": {
+   "Modificação": "Afiada, Serrilhada ou Farpada",
+   "Custo Base": "25% do custo base da arma",
+   "Descrição": "A arma ganha Mutilar."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_corpo_a_corpo_ergonomica",
+  "nome": "Ergonômica",
+  "categoria": "Armas Corpo a Corpo",
+  "subcategoria": "Modificações de Armas Corpo a Corpo",
+  "campos": {
+   "Modificação": "Ergonômica",
+   "Custo Base": "50% do custo base da arma",
+   "Descrição": "A chance de acerto crítico da arma diminui em 1."
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_308",
+  "nome": ".308",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "10 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_12_7mm",
+  "nome": "12,7mm",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "12 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_50",
+  "nome": ".50",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "20 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_calibre_20",
+  "nome": "Calibre 20",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "2 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_357_magnum",
+  "nome": ".357 Magnum",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "5 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_5_56mm",
+  "nome": "5,56mm",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "2 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_44_magnum",
+  "nome": ".44 Magnum",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "8 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_5mm",
+  "nome": "5mm",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "5 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_45",
+  "nome": ".45",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "2 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_9mm",
+  "nome": "9mm",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "2 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_45_70_gov_t",
+  "nome": ".45-70 Gov't.",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "12 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_sinalizadores",
+  "nome": "Sinalizadores",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "5 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_10mm",
+  "nome": "10mm",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "4 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_pregos_pacote_de_5",
+  "nome": "Pregos (pacote de 5)",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "2 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_calibre_12",
+  "nome": "Calibre 12",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "5 tp"
+  }
+ },
+ {
+  "id": "municao_de_armas_de_fogo_cravo_de_trilho",
+  "nome": "Cravo de Trilho",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Armas de Fogo",
+  "campos": {
+   "Custo": "5 tp"
+  }
+ },
+ {
+  "id": "municao_de_energia_celula_criogenica",
+  "nome": "Célula Criogênica",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Energia",
+  "campos": {
+   "Custo": "50 tp"
+  }
+ },
+ {
+  "id": "municao_de_energia_nucleo_de_fusao",
+  "nome": "Núcleo de Fusão",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Energia",
+  "campos": {
+   "Custo": "200 tp"
+  }
+ },
+ {
+  "id": "municao_de_energia_celula_de_energia",
+  "nome": "Célula de Energia",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Energia",
+  "campos": {
+   "Custo": "30 tp"
+  }
+ },
+ {
+  "id": "municao_de_energia_ec_de_2mm",
+  "nome": "EC de 2mm",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Energia",
+  "campos": {
+   "Custo": "40 tp"
+  }
+ },
+ {
+  "id": "municao_de_energia_celula_de_microfusao",
+  "nome": "Célula de Microfusão",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Energia",
+  "campos": {
+   "Custo": "35 tp"
+  }
+ },
+ {
+  "id": "municao_de_energia_celula_gama",
+  "nome": "Célula Gama",
+  "categoria": "Munição",
+  "subcategoria": "Munição de Energia",
+  "campos": {
+   "Custo": "60 tp"
+  }
+ },
+ {
+  "id": "municao_pesada_combustivel",
+  "nome": "Combustível",
+  "categoria": "Munição",
+  "subcategoria": "Munição Pesada",
+  "campos": {
+   "Custo": "50 tp",
+   "Carga Individual": "20"
+  }
+ },
+ {
+  "id": "municao_pesada_mininuke",
+  "nome": "Mininuke",
+  "categoria": "Munição",
+  "subcategoria": "Munição Pesada",
+  "campos": {
+   "Custo": "250 tp",
+   "Carga Individual": "12"
+  }
+ },
+ {
+  "id": "municao_pesada_missil",
+  "nome": "Míssil",
+  "categoria": "Munição",
+  "subcategoria": "Munição Pesada",
+  "campos": {
+   "Custo": "50 tp",
+   "Carga Individual": "10"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_perfura_blindagem_x3",
+  "nome": "Perfura-Blindagem (x3)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Perfura-Blindagem (x3)",
+   "Efeito": "Se o dano da arma for causado nos pontos de vida de uma criatura, ele ignora até 8 pontos de TD e a armadura da criatura ganha um nível de desgaste.",
+   "Calibres": ".308, .50, 5,56mm, 5mm"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_saquinho_de_feijao_50",
+  "nome": "Saquinho de Feijão (-50%)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Saquinho de Feijão (-50%)",
+   "Efeito": "O dano da arma passa a ser 1d4+1 e você não soma seu modificador de Agilidade; se esse dano for causado nos pontos de vida de uma criatura alvo, ela sofre um nível de fadiga. Além disso, se um tiro de saquinho de feijão levar uma criatura a 0 pontos de vida, ela cura 1 ponto automaticamente, a menos que o ataque tenha sido um ataque mirado na cabeça ou nos olhos.",
+   "Calibres": "Calibre 12"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_chumbo_grosso_25",
+  "nome": "Chumbo Grosso (-25%)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Chumbo Grosso (-25%)",
+   "Efeito": "Os dois modificadores de alcance da arma aumentam em 4 e ela perde a propriedade Dispersão.",
+   "Calibres": "Calibre 12, Calibre 20"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_chumbo_grosso_magnum_x3",
+  "nome": "Chumbo Grosso Magnum (x3)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Chumbo Grosso Magnum (x3)",
+   "Efeito": "O dano da arma aumenta em 3, ignora 3 pontos de TD e seus modificadores de alcance aumentam, cada um, em 4. Porém, a arma perde a propriedade Dispersão e, a cada segundo ataque, ganha um nível de desgaste.",
+   "Calibres": "Calibre 12, Calibre 20"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_tiro_de_espoleta_x4",
+  "nome": "Tiro de Espoleta (x4)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Tiro de Espoleta (x4)",
+   "Efeito": "A arma ganha as propriedades Destrutivo e Mutilar. O dano da arma ignora 2 pontos de TD.",
+   "Calibres": "Calibre 12"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_sopro_do_dragao_x2",
+  "nome": "Sopro do Dragão (x2)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Sopro do Dragão (x2)",
+   "Efeito": "A arma causa metade do dano, mas ganha Incendiário.",
+   "Calibres": "Calibre 12"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_explosiva_x6",
+  "nome": "Explosiva (x6)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Explosiva (x6)",
+   "Efeito": "Cada criatura e objeto a até 1,5 m do alvo sofre 3d6 de dano explosivo. O alvo cai caído, a menos que seu valor de atributo de Força seja maior que 10.",
+   "Calibres": ".308, .50"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_dardo_x2",
+  "nome": "Dardo (x2)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Dardo (x2)",
+   "Efeito": "O total do dano da arma é reduzido em 1, mas ignora até 6 pontos de TD.",
+   "Calibres": "Calibre 12"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_encamisada_perfurante_x3",
+  "nome": "Encamisada Perfurante (x3)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Encamisada Perfurante (x3)",
+   "Efeito": "O dano da arma aumenta em 2. Se esse dano levar uma criatura a 0 PV, o ataque também atinge a próxima criatura atrás dela, em linha.",
+   "Calibres": ".308, .357, 5mm, 9mm, 10mm, 12,7mm"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_ponta_oca_x4",
+  "nome": "Ponta Oca (x4)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Ponta Oca (x4)",
+   "Efeito": "Se a arma causar dano nos pontos de vida de uma criatura alvo, ela causa dano extra igual ao seu dano de acerto crítico. Se o dano for reduzido pela TD do alvo, o dano não ganha nenhum bônus de acerto crítico e é reduzido pela metade.",
+   "Calibres": ".308, .357, .44, .45, .45-70, 5mm, 5,56mm, 9mm, 10mm, 12,7mm"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_jfp_x3",
+  "nome": "JFP (x3)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "JFP (x3)",
+   "Efeito": "A arma ganha Destrutivo.",
+   "Calibres": ".357"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_jsp_x2",
+  "nome": "JSP (x2)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "JSP (x2)",
+   "Efeito": "A arma ganha Quebrável e seu dano aumenta em 3.",
+   "Calibres": ".308, 5mm"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_incendiaria_x4",
+  "nome": "Incendiária (x4)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Incendiária (x4)",
+   "Efeito": "A arma ganha Incendiário.",
+   "Calibres": ".50"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_match_x2",
+  "nome": "Match (x2)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Match (x2)",
+   "Efeito": "O dano da arma aumenta em 5 e o modificador de alcance curto diminui em 2.",
+   "Calibres": ".50, 5,56mm"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_magnum_x3",
+  "nome": "Magnum (x3)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Magnum (x3)",
+   "Efeito": "O dano da arma aumenta em 3, ignora 3 pontos de TD e seus modificadores de alcance aumentam, cada um, em 2. Porém, a cada segundo ataque, a arma ganha um nível de desgaste.",
+   "Calibres": "Calibre 12, Calibre 20"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_borracha_50",
+  "nome": "Borracha (-50%)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Borracha (-50%)",
+   "Efeito": "O dano da arma passa a ser 1d4+2 e você não soma seu modificador de Agilidade; se esse dano for causado nos pontos de vida de uma criatura alvo, ela sofre um nível de fadiga. Além disso, se uma bala de borracha levar uma criatura a 0 pontos de vida, ela cura 1 ponto automaticamente, a menos que o ataque tenha sido um ataque mirado na cabeça ou nos olhos.",
+   "Calibres": "9mm, 10mm, 5mm"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_balote_x4",
+  "nome": "Balote (x4)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Balote (x4)",
+   "Efeito": "Os modificadores de alcance da arma são triplicados e ela ganha as propriedades Certeiro e Destrutivo. Porém, perde as propriedades Dispersão e Poderoso.",
+   "Calibres": "Calibre 12, Calibre 20"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_fogo_balote_pulsante_x6",
+  "nome": "Balote Pulsante (x6)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Fogo)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Balote Pulsante (x6)",
+   "Efeito": "A arma ganha os mesmos efeitos da munição Balote. Além disso, ao causar dano a um Robô ou a uma criatura em Armadura Potente, o dano é dobrado.",
+   "Calibres": "Calibre 12, Calibre 20"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_energia_a_granel_50",
+  "nome": "A Granel (-50%)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Energia)",
+  "campos": {
+   "Tipo de Munição (Custo)": "A Granel (-50%)",
+   "Efeito": "O dano da arma é reduzido em 3. A arma ganha Durável.",
+   "Células": "Célula de Energia, Célula de Microfusão"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_energia_otimizada_x2",
+  "nome": "Otimizada (x2)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Energia)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Otimizada (x2)",
+   "Efeito": "O dano da arma aumenta em 1 e ignora 1 ponto de TD.",
+   "Células": "Célula de Energia, Célula de Microfusão"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_energia_supercarregada_x3",
+  "nome": "Supercarregada (x3)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Energia)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Supercarregada (x3)",
+   "Efeito": "O dano da arma aumenta em 2 e ignora 2 pontos de TD. A arma ganha Quebrável.",
+   "Células": "Célula de Energia, Célula de Microfusão"
+  }
+ },
+ {
+  "id": "municao_especial_armas_de_energia_carga_maxima_x5",
+  "nome": "Carga Máxima (x5)",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Armas de Energia)",
+  "campos": {
+   "Tipo de Munição (Custo)": "Carga Máxima (x5)",
+   "Efeito": "O dano da arma aumenta em 4 e ignora 4 pontos de TD. A arma ganha Quebrável e, a cada terceiro ataque, ganha um nível de desgaste.",
+   "Células": "Célula de Energia, Célula de Microfusão"
+  }
+ },
+ {
+  "id": "municao_especial_seringador_carregador_de_stimpak",
+  "nome": "Carregador de Stimpak",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Carregador de Stimpak",
+   "Custo": "25 tp",
+   "Efeito": "Esta seringa permite carregá-la com um Stimpak; o alvo ganha os efeitos do Stimpak."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_carregador_de_quimico",
+  "nome": "Carregador de Químico",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Carregador de Químico",
+   "Custo": "25 tp",
+   "Efeito": "Esta seringa permite carregá-la com um químico; o alvo ganha os efeitos do químico. Obs.: você não pode carregar um químico que tenha inalador."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_veneno_de_escorpiao_radioativo",
+  "nome": "Veneno de Escorpião Radioativo",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Veneno de Escorpião Radioativo",
+   "Custo": "35 tp",
+   "Efeito": "O alvo fica envenenado por 3 turnos e sofre 1d6 de dano de veneno no início de cada turno dele."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_endangerol",
+  "nome": "Endangerol",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Endangerol",
+   "Custo": "40 tp",
+   "Efeito": "A TD do alvo é reduzida em 3 por 1 minuto."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_barriga_amarela",
+  "nome": "Barriga Amarela",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Barriga Amarela",
+   "Custo": "50 tp",
+   "Efeito": "O alvo fica amedrontado por 3 rodadas."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_berserk",
+  "nome": "Berserk",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Berserk",
+   "Custo": "55 tp",
+   "Efeito": "O alvo gasta todos os PA do próximo turno dele para atacar a criatura mais próxima."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_hemorragia",
+  "nome": "Hemorragia",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Hemorragia",
+   "Custo": "75 tp",
+   "Efeito": "O alvo ganha um nível de sangramento."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_articulacao_travada",
+  "nome": "Articulação Travada",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Articulação Travada",
+   "Custo": "85 tp",
+   "Efeito": "O alvo fica lento por 2 turnos."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_esclerose",
+  "nome": "Esclerose",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Esclerose",
+   "Custo": "110 tp",
+   "Efeito": "O alvo fica surdo por 3 rodadas."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_soro_miopico",
+  "nome": "Soro Miópico",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Soro Miópico",
+   "Custo": "160 tp",
+   "Efeito": "O alvo fica cego por 3 rodadas."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_nuvem_mental",
+  "nome": "Nuvem Mental",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Nuvem Mental",
+   "Custo": "175 tp",
+   "Efeito": "Todas as criaturas a mais de 9 m da criatura alvo ficam invisíveis para ela por 1 minuto."
+  }
+ },
+ {
+  "id": "municao_especial_seringador_tranquilizante",
+  "nome": "Tranquilizante",
+  "categoria": "Munição",
+  "subcategoria": "Munição Especial (Seringador)",
+  "campos": {
+   "Tipo de Seringa": "Tranquilizante",
+   "Custo": "500 tp",
+   "Efeito": "Se a Resistência do alvo for 4 ou menos, ele cai inconsciente por 1 hora. Caso contrário, fica atordoado nos próximos dois turnos dele e cai inconsciente por 1 hora no fim do terceiro turno. Criaturas atordoadas assim podem remover essa condição e evitar cair inconscientes usando qualquer químico com a propriedade estimulante."
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_sinalizadora",
+  "nome": "Pistola Sinalizadora",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "90 tp",
+   "PA": "4 PA",
+   "Dano": "1d4 fogo",
+   "Alcance": "x4/x10",
+   "Crítico": "20, 1d4",
+   "Munição e Recarga": "Sinalizador, 1 bala",
+   "Propriedades Especiais": "Incendiário. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 3, FOR 1"
+  }
+ },
+ {
+  "id": "armas_de_mao_esguicho_de_acido",
+  "nome": "Esguicho de Ácido",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "45 tp",
+   "PA": "4 PA",
+   "Dano": "1 ácido",
+   "Alcance": "9 m",
+   "Crítico": "20, 1d4",
+   "Munição e Recarga": "Ácido, 20 balas",
+   "Propriedades Especiais": "Corrosivo.",
+   "Carga e Req. de FOR": "Carga 5, FOR 1"
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_de_sucata",
+  "nome": "Pistola de Sucata",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "165 tp",
+   "PA": "5 PA",
+   "Dano": "1d4 balístico",
+   "Alcance": "x6/x10",
+   "Crítico": "20, 1d4",
+   "Munição e Recarga": "9mm, 12 balas",
+   "Propriedades Especiais": "Quebrável. Coice. Semiautomática.",
+   "Carga e Req. de FOR": "Carga 6, FOR 3"
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_de_sucata_de_acao_por_ferrolho",
+  "nome": "Pistola de Sucata de Ação por Ferrolho",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "200 tp",
+   "PA": "6 PA",
+   "Dano": "1d8 balístico",
+   "Alcance": "x7/x12",
+   "Crítico": "20, 1d8",
+   "Munição e Recarga": ".308, 6 balas",
+   "Propriedades Especiais": "Quebrável. Coice. Recarga Manual.",
+   "Carga e Req. de FOR": "Carga 6, FOR 3"
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_10mm",
+  "nome": "Pistola 10mm",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "315 tp",
+   "PA": "5 PA",
+   "Dano": "2d4 balístico",
+   "Alcance": "x8/x16",
+   "Crítico": "19, 1d4",
+   "Munição e Recarga": "10mm, 12 balas",
+   "Propriedades Especiais": "Robusto. Coice.",
+   "Carga e Req. de FOR": "Carga 6, FOR 4"
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_9mm",
+  "nome": "Pistola 9mm",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "200 tp",
+   "PA": "5 PA",
+   "Dano": "1d6 balístico",
+   "Alcance": "x8/x12",
+   "Crítico": "20, 1d6",
+   "Munição e Recarga": "9mm, 13 balas",
+   "Propriedades Especiais": "Coice.",
+   "Carga e Req. de FOR": "Carga 5, FOR 3"
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_5_56mm",
+  "nome": "Pistola 5,56mm",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "335 tp",
+   "PA": "4 PA",
+   "Dano": "1d8 balístico",
+   "Alcance": "x5/x16",
+   "Crítico": "20, x2",
+   "Munição e Recarga": "5,56mm, 5 balas",
+   "Propriedades Especiais": "Recarga Manual. Coice.",
+   "Carga e Req. de FOR": "Carga 7, FOR 5"
+  }
+ },
+ {
+  "id": "armas_de_mao_revolver_de_sucata",
+  "nome": "Revólver de Sucata",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "215 tp",
+   "PA": "5 PA",
+   "Dano": "1d6 balístico",
+   "Alcance": "x6/x10",
+   "Crítico": "20, x2",
+   "Munição e Recarga": ".44, 6 balas",
+   "Propriedades Especiais": "Quebrável. Recarga Manual.",
+   "Carga e Req. de FOR": "Carga 5, FOR 4"
+  }
+ },
+ {
+  "id": "armas_de_mao_revolver_357_magnum",
+  "nome": "Revólver .357 Magnum",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "375 tp",
+   "PA": "5 PA",
+   "Dano": "1d8 balístico",
+   "Alcance": "x6/x18",
+   "Crítico": "20, x3",
+   "Munição e Recarga": ".357, 6 balas",
+   "Propriedades Especiais": "Certeiro. Recarga Manual.",
+   "Carga e Req. de FOR": "Carga 4, FOR 4"
+  }
+ },
+ {
+  "id": "armas_de_mao_revolver_44_magnum",
+  "nome": "Revólver .44 Magnum",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "515 tp",
+   "PA": "5 PA",
+   "Dano": "2d8 balístico",
+   "Alcance": "x6/x14",
+   "Crítico": "20, x3",
+   "Munição e Recarga": ".44, 6 balas",
+   "Propriedades Especiais": "Certeiro. Recarga Manual.",
+   "Carga e Req. de FOR": "Carga 5, FOR 4"
+  }
+ },
+ {
+  "id": "armas_de_mao_walther_ppk",
+  "nome": "Walther PPK",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "400 tp",
+   "PA": "4 PA",
+   "Dano": "1d10 balístico",
+   "Alcance": "x10/x14",
+   "Crítico": "20, 3d10",
+   "Munição e Recarga": "10mm, 12 balas",
+   "Propriedades Especiais": "Semiautomática. Coice.",
+   "Carga e Req. de FOR": "Carga 3, FOR 3"
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_12_7mm",
+  "nome": "Pistola 12,7mm",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "310 tp",
+   "PA": "5 PA",
+   "Dano": "2d6 balístico",
+   "Alcance": "x5/x10",
+   "Crítico": "20, 1d6",
+   "Munição e Recarga": "12,7mm, 7 balas",
+   "Propriedades Especiais": "Semiautomática. Coice.",
+   "Carga e Req. de FOR": "Carga 8, FOR 5"
+  }
+ },
+ {
+  "id": "armas_de_mao_pistola_automatica_45",
+  "nome": "Pistola Automática .45",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "450 tp",
+   "PA": "4 PA",
+   "Dano": "1d10 balístico",
+   "Alcance": "x10/x16",
+   "Crítico": "20, x3",
+   "Munição e Recarga": ".45, 7 balas",
+   "Propriedades Especiais": "Semiautomática. Coice. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 6, FOR 3"
+  }
+ },
+ {
+  "id": "armas_de_mao_revolver_ranger_sequoia",
+  "nome": "Revólver Ranger Sequoia",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Mão",
+  "campos": {
+   "Custo Base": "825 tp",
+   "PA": "6 PA",
+   "Dano": "3d10 balístico",
+   "Alcance": "x6/x18",
+   "Crítico": "20, x3",
+   "Munição e Recarga": ".45-70 Gov't, 5 balas",
+   "Propriedades Especiais": "Certeiro. Destrutivo. Recarga Manual.",
+   "Carga e Req. de FOR": "Carga 8, FOR 5"
+  }
+ },
+ {
+  "id": "submetralhadoras_pistola_de_pregos_h_h_tools",
+  "nome": "Pistola de Pregos H&H Tools",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Submetralhadoras",
+  "campos": {
+   "Custo Base": "100 tp",
+   "PA": "6 PA",
+   "Dano": "1 perfurante",
+   "Alcance": "x3/x15",
+   "Crítico": "19, x3",
+   "Munição e Recarga": "Pregos, 90 balas",
+   "Propriedades Especiais": "Automática: 2. Duas Mãos. Instável.",
+   "Carga e Req. de FOR": "Carga 8, FOR 4"
+  }
+ },
+ {
+  "id": "submetralhadoras_submetralhadora_9mm",
+  "nome": "Submetralhadora 9mm",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Submetralhadoras",
+  "campos": {
+   "Custo Base": "190 tp",
+   "PA": "6 PA",
+   "Dano": "1d4 balístico",
+   "Alcance": "x4/x8",
+   "Crítico": "20, 1d4",
+   "Munição e Recarga": "9mm, 30 balas",
+   "Propriedades Especiais": "Automática: 2. Duas Mãos. Instável.",
+   "Carga e Req. de FOR": "Carga 6, FOR 5"
+  }
+ },
+ {
+  "id": "submetralhadoras_submetralhadora_10mm",
+  "nome": "Submetralhadora 10mm",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Submetralhadoras",
+  "campos": {
+   "Custo Base": "250 tp",
+   "PA": "6 PA",
+   "Dano": "1d6 balístico",
+   "Alcance": "x4/x8",
+   "Crítico": "20, 1d6",
+   "Munição e Recarga": "10mm, 30 balas",
+   "Propriedades Especiais": "Automática: 2. Duas Mãos. Instável.",
+   "Carga e Req. de FOR": "Carga 8, FOR 5"
+  }
+ },
+ {
+  "id": "submetralhadoras_tommy_gun",
+  "nome": "Tommy Gun",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Submetralhadoras",
+  "campos": {
+   "Custo Base": "300 tp",
+   "PA": "6 PA",
+   "Dano": "1d6 balístico",
+   "Alcance": "x4/x7",
+   "Crítico": "20, 1d6",
+   "Munição e Recarga": ".45, 50 balas",
+   "Propriedades Especiais": "Automática: 4. Duas Mãos. Instável. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 12, FOR 6"
+  }
+ },
+ {
+  "id": "submetralhadoras_submetralhadora_12_7mm",
+  "nome": "Submetralhadora 12,7mm",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Submetralhadoras",
+  "campos": {
+   "Custo Base": "380 tp",
+   "PA": "6 PA",
+   "Dano": "1d10 balístico",
+   "Alcance": "x5/x8",
+   "Crítico": "20, 1d10",
+   "Munição e Recarga": "12,7mm, 21 balas",
+   "Propriedades Especiais": "Automática: 5. Duas Mãos. Instável.",
+   "Carga e Req. de FOR": "Carga 10, FOR 6"
+  }
+ },
+ {
+  "id": "rifles_seringador",
+  "nome": "Seringador",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "130 tp",
+   "PA": "5 PA",
+   "Dano": "1 perfurante",
+   "Alcance": "x3/x6",
+   "Crítico": "20, causa dano nos pontos de vida",
+   "Munição e Recarga": "Seringa, 1 bala",
+   "Propriedades Especiais": "Certeiro. Poderoso. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 8, FOR 2"
+  }
+ },
+ {
+  "id": "rifles_rifle_de_alavanca",
+  "nome": "Rifle de Alavanca",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "455 tp",
+   "PA": "5 PA",
+   "Dano": "2d6 balístico",
+   "Alcance": "x6/x18",
+   "Crítico": "20, x3",
+   "Munição e Recarga": "10mm, 10 balas",
+   "Propriedades Especiais": "Certeiro. Recarga Manual. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 12, FOR 5"
+  }
+ },
+ {
+  "id": "rifles_repetidora_cowboy",
+  "nome": "Repetidora Cowboy",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "400 tp",
+   "PA": "5 PA",
+   "Dano": "2d6 balístico",
+   "Alcance": "x8/x18",
+   "Crítico": "20, x2",
+   "Munição e Recarga": ".357, 7 balas",
+   "Propriedades Especiais": "Certeiro. Recarga Manual. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 13, FOR 4"
+  }
+ },
+ {
+  "id": "rifles_rifle_anti_praga",
+  "nome": "Rifle Anti-Praga",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "275 tp",
+   "PA": "6 PA",
+   "Dano": "2d4 balístico",
+   "Alcance": "x8/x18",
+   "Crítico": "20, 2d4",
+   "Munição e Recarga": "5,56mm, 5 balas",
+   "Propriedades Especiais": "Certeiro. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 13, FOR 4"
+  }
+ },
+ {
+  "id": "rifles_carabina_de_trilha",
+  "nome": "Carabina de Trilha",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "310 tp",
+   "PA": "6 PA",
+   "Dano": "2d8 balístico",
+   "Alcance": "x8/x18",
+   "Crítico": "20, x2",
+   "Munição e Recarga": ".44, 8 balas",
+   "Propriedades Especiais": "Certeiro. Recarga Manual. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 13, FOR 4"
+  }
+ },
+ {
+  "id": "rifles_rifle_de_trilho",
+  "nome": "Rifle de Trilho",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "730 tp",
+   "PA": "6 PA",
+   "Dano": "2d10 perfurante",
+   "Alcance": "x4/x8",
+   "Crítico": "19, x4",
+   "Munição e Recarga": "Cravo de Trilho, 10 balas",
+   "Propriedades Especiais": "Debilitante. Destrutivo. Duas Mãos. Defensivo.",
+   "Carga e Req. de FOR": "Carga 21, FOR 6"
+  }
+ },
+ {
+  "id": "rifles_lanca_sucata",
+  "nome": "Lança-Sucata",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "300 tp",
+   "PA": "6 PA",
+   "Dano": "3d6 contusão ou perfurante",
+   "Alcance": "x4/x10",
+   "Crítico": "19, 3d6",
+   "Munição e Recarga": "Qualquer item menor que 1 pé cúbico (cerca de 30 cm de lado), 5 balas",
+   "Propriedades Especiais": "Quebrável. Poderoso. Instável. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 18, FOR 6"
+  }
+ },
+ {
+  "id": "rifles_rifle_de_precisao",
+  "nome": "Rifle de Precisão",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "710 tp",
+   "PA": "6 PA",
+   "Dano": "2d12 balístico",
+   "Alcance": "x10/x30",
+   "Crítico": "20, x5",
+   "Munição e Recarga": ".308, 6 balas",
+   "Propriedades Especiais": "Certeiro. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 16, FOR 5"
+  }
+ },
+ {
+  "id": "rifles_fuzil_de_assalto",
+  "nome": "Fuzil de Assalto",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "375 tp",
+   "PA": "6 PA",
+   "Dano": "1d10 balístico",
+   "Alcance": "x8/x18",
+   "Crítico": "20, 1d10",
+   "Munição e Recarga": "5mm, 24 balas",
+   "Propriedades Especiais": "Automática: 3 (Alternável). Duas Mãos. Tiro Único: Certeiro, Semiautomática. Automático: Instável. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 14, FOR 5"
+  }
+ },
+ {
+  "id": "rifles_rifle_antimaterial",
+  "nome": "Rifle Antimaterial",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Rifles",
+  "campos": {
+   "Custo Base": "1.200 tp",
+   "PA": "6 PA",
+   "Dano": "5d8 balístico",
+   "Alcance": "x16/x40",
+   "Crítico": "20, x5",
+   "Munição e Recarga": ".50, 6 balas",
+   "Propriedades Especiais": "Certeiro. Destrutivo. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 20, FOR 7"
+  }
+ },
+ {
+  "id": "escopetas_escopeta_de_alavanca",
+  "nome": "Escopeta de Alavanca",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Escopetas",
+  "campos": {
+   "Custo Base": "600 tp",
+   "PA": "4 PA",
+   "Dano": "3d4 balístico",
+   "Alcance": "x3/x6",
+   "Crítico": "20, 5d4",
+   "Munição e Recarga": "Calibre 20, 5 balas",
+   "Propriedades Especiais": "Poderoso. Recarga Manual. Dispersão. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 12, FOR 5"
+  }
+ },
+ {
+  "id": "escopetas_escopeta_de_tiro_unico",
+  "nome": "Escopeta de Tiro Único",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Escopetas",
+  "campos": {
+   "Custo Base": "500 tp",
+   "PA": "4 PA",
+   "Dano": "3d6 balístico",
+   "Alcance": "x3/x6",
+   "Crítico": "20, 3d6",
+   "Munição e Recarga": "Calibre 20, 1 bala",
+   "Propriedades Especiais": "Poderoso. Recarga Manual. Dispersão. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 11, FOR 4"
+  }
+ },
+ {
+  "id": "escopetas_escopeta_de_cano_serrado",
+  "nome": "Escopeta de Cano Serrado",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Escopetas",
+  "campos": {
+   "Custo Base": "700 tp",
+   "PA": "4 PA",
+   "Dano": "2d10 balístico",
+   "Alcance": "x2/x4",
+   "Crítico": "20, 4d10",
+   "Munição e Recarga": "Calibre 12, 2 balas",
+   "Propriedades Especiais": "Destrutivo. Poderoso. Recarga Manual. Dispersão. Duas Mãos. Instável.",
+   "Carga e Req. de FOR": "Carga 8, FOR 4"
+  }
+ },
+ {
+  "id": "escopetas_escopeta_de_cano_duplo",
+  "nome": "Escopeta de Cano Duplo",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Escopetas",
+  "campos": {
+   "Custo Base": "700 tp",
+   "PA": "4 PA",
+   "Dano": "2d10 balístico",
+   "Alcance": "x3/x6",
+   "Crítico": "20, 3d10",
+   "Munição e Recarga": "Calibre 12, 2 balas",
+   "Propriedades Especiais": "Poderoso. Recarga Manual. Dispersão. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 12, FOR 5"
+  }
+ },
+ {
+  "id": "escopetas_escopeta_de_combate",
+  "nome": "Escopeta de Combate",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Escopetas",
+  "campos": {
+   "Custo Base": "800 tp",
+   "PA": "4 PA",
+   "Dano": "2d12 balístico",
+   "Alcance": "x4/x7",
+   "Crítico": "20, 2d12",
+   "Munição e Recarga": "Calibre 12, 8 balas",
+   "Propriedades Especiais": "Poderoso. Dispersão. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 12, FOR 5"
+  }
+ },
+ {
+  "id": "escopetas_escopeta_antimotim",
+  "nome": "Escopeta Antimotim",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Escopetas",
+  "campos": {
+   "Custo Base": "900 tp",
+   "PA": "5 PA",
+   "Dano": "3d6 balístico",
+   "Alcance": "x3/x6",
+   "Crítico": "20, 6d6",
+   "Munição e Recarga": "Calibre 12, 12 balas",
+   "Propriedades Especiais": "Poderoso. Semiautomática. Dispersão. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 12, FOR 5"
+  }
+ },
+ {
+  "id": "armas_pesadas_lanca_chamas",
+  "nome": "Lança-Chamas",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas Pesadas",
+  "campos": {
+   "Custo Base": "240 tp",
+   "PA": "6 PA",
+   "Dano": "2d10 fogo",
+   "Alcance": "Linha de 18 m por 3 m de largura, ou cone de 6 m",
+   "Crítico": "—",
+   "Munição e Recarga": "Combustível, 5 balas",
+   "Propriedades Especiais": "Área de Efeito. Incendiário. Recarga Lenta. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 60, FOR 7"
+  }
+ },
+ {
+  "id": "armas_pesadas_lanca_misseis",
+  "nome": "Lança-Mísseis",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas Pesadas",
+  "campos": {
+   "Custo Base": "670 tp",
+   "PA": "6 PA",
+   "Dano": "10d6 explosivo em um raio de 3 m",
+   "Alcance": "x40",
+   "Crítico": "—",
+   "Munição e Recarga": "Míssil, 1 bala",
+   "Propriedades Especiais": "Área de Efeito. Destrutivo. Durável. Lento. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 50, FOR 7"
+  }
+ },
+ {
+  "id": "armas_pesadas_minigun",
+  "nome": "Minigun",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas Pesadas",
+  "campos": {
+   "Custo Base": "1.650 tp",
+   "PA": "6 PA",
+   "Dano": "5d6 balístico",
+   "Alcance": "x15/x40",
+   "Crítico": "20, 2d6",
+   "Munição e Recarga": "5mm, 120 balas (usa 10 por ataque)",
+   "Propriedades Especiais": "Automática: 2. Destrutivo. Durável. Recarga Lenta. Dispersão. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 90, FOR 9"
+  }
+ },
+ {
+  "id": "armas_pesadas_fat_man",
+  "nome": "Fat Man",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas Pesadas",
+  "campos": {
+   "Custo Base": "665 tp",
+   "PA": "6 PA",
+   "Dano": "12d10 explosivo em um raio de 9 m e dois níveis de radiação em um raio de 18 m",
+   "Alcance": "x25",
+   "Crítico": "—",
+   "Munição e Recarga": "Mininuke, 1 bala",
+   "Propriedades Especiais": "Área de Efeito. Destrutivo. Durável. Lento. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 30, FOR 5"
+  }
+ },
+ {
+  "id": "armas_de_energia_queimador_solar",
+  "nome": "Queimador Solar",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "340 tp",
+   "PA": "3 PA",
+   "Dano": "1d4 fogo",
+   "Alcance": "x5/x10",
+   "Crítico": "20, aplica Queimando",
+   "Munição e Recarga": "A arma pode disparar enquanto estiver sob a luz do sol.",
+   "Propriedades Especiais": "Arma de Energia. Semiautomática.",
+   "Carga e Req. de FOR": "Carga 3, FOR 1"
+  }
+ },
+ {
+  "id": "armas_de_energia_pistola_laser",
+  "nome": "Pistola Laser",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "415 tp",
+   "PA": "4 PA",
+   "Dano": "1d8 laser",
+   "Alcance": "x10/x20",
+   "Crítico": "20, x2, aplica Queimando",
+   "Munição e Recarga": "1 Célula de Energia = 30 disparos",
+   "Propriedades Especiais": "Arma de Energia. Semiautomática. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 5, FOR 1"
+  }
+ },
+ {
+  "id": "armas_de_energia_rifle_laser",
+  "nome": "Rifle Laser",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "500 tp",
+   "PA": "5 PA",
+   "Dano": "2d6 laser",
+   "Alcance": "x12/x24",
+   "Crítico": "20, x2, aplica Queimando",
+   "Munição e Recarga": "1 Célula de Energia = 24 disparos",
+   "Propriedades Especiais": "Certeiro. Arma de Energia. Desajeitada. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 8, FOR 2"
+  }
+ },
+ {
+  "id": "armas_de_energia_rifle_laser_automatico",
+  "nome": "Rifle Laser Automático",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "360 tp",
+   "PA": "5 PA",
+   "Dano": "1d6 laser",
+   "Alcance": "x8/x12",
+   "Crítico": "20, 1d6 laser e aplica Queimando",
+   "Munição e Recarga": "1 Célula de Energia = 24 disparos",
+   "Propriedades Especiais": "Automática: 2. Arma de Energia. Instável. Desajeitada. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 10, FOR 2"
+  }
+ },
+ {
+  "id": "armas_de_energia_rifle_laser_tri_feixe",
+  "nome": "Rifle Laser Tri-Feixe",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "730 tp",
+   "PA": "5 PA",
+   "Dano": "3d6 laser",
+   "Alcance": "x4/x8",
+   "Crítico": "20, 5d6 laser e aplica Queimando",
+   "Munição e Recarga": "1 Célula de Energia = 8 disparos",
+   "Propriedades Especiais": "Arma de Energia. Dispersão. Poderoso. Desajeitada. Recarga Ágil.",
+   "Carga e Req. de FOR": "Carga 10, FOR 2"
+  }
+ },
+ {
+  "id": "armas_de_energia_pistola_de_plasma",
+  "nome": "Pistola de Plasma",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "430 tp",
+   "PA": "5 PA",
+   "Dano": "1d12 plasma",
+   "Alcance": "x6/x10",
+   "Crítico": "20, x3",
+   "Munição e Recarga": "1 Célula de Microfusão = 16 disparos",
+   "Propriedades Especiais": "Destrutivo. Arma de Energia. Coice.",
+   "Carga e Req. de FOR": "Carga 4, FOR 2"
+  }
+ },
+ {
+  "id": "armas_de_energia_rifle_de_plasma",
+  "nome": "Rifle de Plasma",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "610 tp",
+   "PA": "6 PA",
+   "Dano": "2d8 plasma",
+   "Alcance": "x8/x12",
+   "Crítico": "20, x3",
+   "Munição e Recarga": "1 Célula de Microfusão = 12 disparos",
+   "Propriedades Especiais": "Destrutivo. Debilitante. Arma de Energia. Desajeitada.",
+   "Carga e Req. de FOR": "Carga 8, FOR 3"
+  }
+ },
+ {
+  "id": "armas_de_energia_rifle_multiplas",
+  "nome": "Rifle Multiplas",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "690 tp",
+   "PA": "6 PA",
+   "Dano": "3d8 plasma",
+   "Alcance": "x4/x8",
+   "Crítico": "20, 5d8",
+   "Munição e Recarga": "1 Célula de Microfusão = 4 disparos",
+   "Propriedades Especiais": "Arma de Energia. Dispersão. Poderoso. Desajeitada.",
+   "Carga e Req. de FOR": "Carga 10, FOR 3"
+  }
+ },
+ {
+  "id": "armas_de_energia_canhao_tesla",
+  "nome": "Canhão Tesla",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "425 tp",
+   "PA": "3 PA",
+   "Dano": "1d8 eletricidade",
+   "Alcance": "9 m",
+   "Crítico": "20, 1d8. Aplica Atordoado.",
+   "Munição e Recarga": "1 Célula de Microfusão = 5 disparos",
+   "Propriedades Especiais": "Arco. Carregável. Arma de Energia. Eletromagnético. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 12, FOR 4"
+  }
+ },
+ {
+  "id": "armas_de_energia_pistola_gama",
+  "nome": "Pistola Gama",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "355 tp",
+   "PA": "4 PA",
+   "Dano": "1d12 radiação",
+   "Alcance": "x6/x10",
+   "Crítico": "20, 1d12",
+   "Munição e Recarga": "1 Célula Gama = 8 disparos",
+   "Propriedades Especiais": "Coice. Radioativo.",
+   "Carga e Req. de FOR": "Carga 5, FOR 2"
+  }
+ },
+ {
+  "id": "armas_de_energia_criolador",
+  "nome": "Criolador",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "360 tp",
+   "PA": "5 PA",
+   "Dano": "3d10 frio",
+   "Alcance": "Cone de 6 m",
+   "Crítico": "—",
+   "Munição e Recarga": "1 Célula Criogênica = 3 disparos",
+   "Propriedades Especiais": "Área de Efeito. Congelante. Lento. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 20, FOR 6"
+  }
+ },
+ {
+  "id": "armas_de_energia_criolador_cristalizante",
+  "nome": "Criolador Cristalizante",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "410 tp",
+   "PA": "5 PA",
+   "Dano": "2d10 frio",
+   "Alcance": "x8/x16",
+   "Crítico": "20, x2, aplica Lento",
+   "Munição e Recarga": "1 Célula Criogênica = 9 disparos",
+   "Propriedades Especiais": "Debilitante. Destrutivo. Duas Mãos.",
+   "Carga e Req. de FOR": "Carga 20, FOR 6"
+  }
+ },
+ {
+  "id": "armas_de_energia_pistola_gauss",
+  "nome": "Pistola Gauss",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "710 tp",
+   "PA": "3 PA",
+   "Dano": "1d10 balístico",
+   "Alcance": "x8/x16",
+   "Crítico": "20, 2d10",
+   "Munição e Recarga": "(1) EC de 2mm = 12 disparos",
+   "Propriedades Especiais": "Carregável. Arma de Energia. Coice. Poderoso. Instável.",
+   "Carga e Req. de FOR": "Carga 14, FOR 5"
+  }
+ },
+ {
+  "id": "armas_de_energia_rifle_gauss",
+  "nome": "Rifle Gauss",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "865 tp",
+   "PA": "3 PA",
+   "Dano": "1d12 balístico",
+   "Alcance": "x10/x20",
+   "Crítico": "20, 4d12",
+   "Munição e Recarga": "(1) EC de 2mm = 6 disparos",
+   "Propriedades Especiais": "Carregável. Arma de Energia. Poderoso. Duas Mãos. Instável.",
+   "Carga e Req. de FOR": "Carga 20, FOR 5"
+  }
+ },
+ {
+  "id": "armas_de_energia_laser_gatling",
+  "nome": "Laser Gatling",
+  "categoria": "Tabelas de Armas à Distância",
+  "subcategoria": "Armas de Energia",
+  "campos": {
+   "Custo Base": "1.100 tp",
+   "PA": "6 PA",
+   "Dano": "2d10 laser",
+   "Alcance": "x30/x30",
+   "Crítico": "20, 1d10. Aplica Queimando.",
+   "Munição e Recarga": "1 Núcleo de Fusão = 100 disparos",
+   "Propriedades Especiais": "Automática: 4. Destrutivo. Arma de Energia. Desajeitada.",
+   "Carga e Req. de FOR": "Carga 50, FOR 5"
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_torreta_de_disparo_automatico",
+  "nome": "Torreta de Disparo Automático",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Torreta de Disparo Automático",
+   "Custo Base": "90% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 3.** A arma é montada em um suporte imóvel que gira e mira sozinho usando inteligência artificial que trava nos alvos. A torreta precisa continuar ligada ao terminal por fios. Antes de ativar a torreta, você pode designar qualquer número de criaturas que ela não terá como alvo. Você pode gastar 6 PA para ativar ou desativar a torreta pelo terminal. Quando você rola Iniciativa, role também a Iniciativa da torreta. O bônus de Iniciativa da torreta é igual ao seu modificador de atributo de Inteligência. A cada turno da torreta, ela ganha 10 PA, que usa para atacar a criatura mais próxima no alcance curto da arma. Ela não gasta seus PA em mais nada. A torreta é considerada um robô com 25 pontos de vida e DF 10. Se a torreta chega a 0 pontos de vida, ela para de funcionar e a arma ganha 1 nível de desgaste.",
+   "Armas Compatíveis": "Qualquer arma."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_baioneta",
+  "nome": "Baioneta",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Baioneta",
+   "Custo Base": "20% do custo base da arma",
+   "Tempo para Instalar/Remover": "6 PA",
+   "Descrição": "**Espaços: 1.** Prenda uma faca ou faca de combate na frente da arma; você pode atacar com a faca sem gastar PA para trocar de arma.",
+   "Armas Compatíveis": "Qualquer arma à distância com a propriedade Duas Mãos."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_capacitor_turbinado",
+  "nome": "Capacitor Turbinado",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Capacitor Turbinado",
+   "Custo Base": "50% do custo base da arma",
+   "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
+   "Descrição": "**Espaços: 3.** Consumo de energia aprimorado do chassi de energia principal. Quando você ataca com uma arma que tem esta modificação, pode gastar 2 disparos de munição em vez de 1 para aumentar o dano em 2.",
+   "Armas Compatíveis": "Qualquer arma de energia. Uma arma não pode ter capacitor turbinado se tiver capacitor em overclock."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_acao_dupla",
+  "nome": "Ação Dupla",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Ação Dupla",
+   "Custo Base": "75% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 2.** Um aprimoramento no mecanismo do gatilho do revólver dispara a bala e arma o cão ao mesmo tempo. Quando você gasta PA para atacar com a arma, custa 1 a menos, até o mínimo de 1.",
+   "Armas Compatíveis": "Qualquer revólver."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_empunhadura_ergonomica",
+  "nome": "Empunhadura Ergonômica",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Empunhadura Ergonômica",
+   "Custo Base": "60% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 2.** Uma melhoria geral na empunhadura, no manuseio e no design da arma para um uso mais fácil e confortável. O modificador de dano de acerto crítico ou os dados de dano da arma aumentam em 1.",
+   "Armas Compatíveis": "Qualquer arma."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_receptor_endurecido",
+  "nome": "Receptor Endurecido",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Receptor Endurecido",
+   "Custo Base": "120% do custo base da arma",
+   "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
+   "Descrição": "**Espaços: 3.** Uma melhoria no mecanismo de disparo para aumentar a força do projétil. A arma ganha Destrutivo e Poderoso. Se a arma já tem Destrutivo, o degrau do dado de dano dela sobe uma vez, até o máximo de d12. A carga da arma aumenta em 2.",
+   "Armas Compatíveis": "Qualquer arma de mão, submetralhadora, rifle ou escopeta. Uma arma não pode ter receptor endurecido se tiver Construção Leve."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_mira_holografica",
+  "nome": "Mira Holográfica",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Mira Holográfica",
+   "Custo Base": "60% do custo base da arma",
+   "Tempo para Instalar/Remover": "5 − seu valor de Inteligência, em minutos (mínimo de 1 minuto)",
+   "Descrição": "**Espaços: 2.** Uma retícula holográfica projetada em uma mira sem ampliação. O total da rolagem de ataque da arma aumenta em 1. A carga da arma aumenta em 1.",
+   "Armas Compatíveis": "Qualquer arma à distância. Uma arma não pode ter mira holográfica se já tiver Luneta ou Luneta Infravermelha."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_raiamento_aprimorado",
+  "nome": "Raiamento Aprimorado",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Raiamento Aprimorado",
+   "Custo Base": "45% do custo base da arma",
+   "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
+   "Descrição": "**Espaços: 2.** Um aprimoramento nas ranhuras do cano de uma arma de fogo. Os modificadores de alcance da arma aumentam pela metade.",
+   "Armas Compatíveis": "Qualquer arma de mão, submetralhadora ou rifle, exceto a Pistola Sinalizadora, a Pistola de Pregos H&H Tools e o Rifle de Trilho."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_carregador_ampliado",
+  "nome": "Carregador Ampliado",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Carregador Ampliado",
+   "Custo Base": "20% do custo base da arma",
+   "Tempo para Instalar/Remover": "6 PA",
+   "Descrição": "**Espaços: 1.** Um carregador mais longo e maior que alimenta o pente para permitir mais disparos. O número de balas da arma aumenta em 3.",
+   "Armas Compatíveis": "Qualquer arma de mão, submetralhadora, rifle ou escopeta que não tenha Recarga Manual nem Recarga Ágil."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_luneta_infravermelha",
+  "nome": "Luneta Infravermelha",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Luneta Infravermelha",
+   "Custo Base": "90% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 2.** Uma maravilha tecnológica pré-guerra que usa imagem térmica para localizar alvos. O modificador de alcance longo da arma é triplicado. Porém, quaisquer ataques contra alvos a até 9 m são feitos com desvantagem. Você pode mirar em criaturas ocultas, encobertas, na escuridão total ou invisíveis, desde que não estejam atrás de cobertura total. Além disso, as rolagens de ataque da arma aumentam em 2. A carga da arma aumenta em 2.",
+   "Armas Compatíveis": "Qualquer revólver ou rifle, incluindo o Rifle Laser, o Rifle de Plasma e o Rifle Gauss. Uma arma não pode ter luneta infravermelha se já tiver Luneta ou Mira Holográfica."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_mira_laser",
+  "nome": "Mira Laser",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Mira Laser",
+   "Custo Base": "35% do custo base da arma",
+   "Tempo para Instalar/Remover": "5 − seu valor de Inteligência, em minutos (mínimo de 1 minuto)",
+   "Descrição": "**Espaços: 2.** Um dispositivo que projeta um feixe nos alvos, dando um ponto de referência visual. A arma ganha Certeiro. Se já tem Certeiro, sempre que a arma acertar um crítico, o dano é dobrado. A carga da arma aumenta em 1.",
+   "Armas Compatíveis": "Qualquer arma de mão, rifle ou arma de energia, exceto o Rifle Laser Tri-Feixe, o Rifle Multiplas e o Laser Gatling."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_construcao_leve",
+  "nome": "Construção Leve",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Construção Leve",
+   "Custo Base": "25% do custo base da arma",
+   "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
+   "Descrição": "**Espaços: 2.** Troca de peças da arma por materiais mais leves, para reequilibrá-la e facilitar a operação. A carga da arma diminui pela metade. O requisito de Força da arma diminui em 1. A arma ganha Quebrável.",
+   "Armas Compatíveis": "Qualquer arma. Uma arma não pode ter Construção Leve se estiver com Reforço Estrutural."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_cano_longo",
+  "nome": "Cano Longo",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Cano Longo",
+   "Custo Base": "35% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 2.** Um cano mais comprido que dá mais alcance ao custo de um alcance curto pior. O modificador de alcance longo da arma aumenta em 10. O modificador de alcance curto da arma diminui em 2. A carga da arma aumenta em 4.",
+   "Armas Compatíveis": "Qualquer arma de mão, rifle ou arma de energia."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_amuleto_da_sorte",
+  "nome": "Amuleto da Sorte",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Amuleto da Sorte",
+   "Custo Base": "50 tp",
+   "Tempo para Instalar/Remover": "6 PA",
+   "Descrição": "**Espaços: 1.** Um pequeno acessório que personaliza sua arma. A chance de acerto crítico da arma diminui em 1. Cada personagem jogador só pode se beneficiar de um amuleto da sorte. (O amuleto pode ser movido para outras armas, mas você não pode ter dois amuletos em duas armas diferentes.)",
+   "Armas Compatíveis": "Qualquer arma."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_freio_de_boca",
+  "nome": "Freio de Boca",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Freio de Boca",
+   "Custo Base": "55% do custo base da arma",
+   "Tempo para Instalar/Remover": "6 PA",
+   "Descrição": "**Espaços: 2.** Um dispositivo encaixado na boca do cano de uma arma de fogo para redirecionar os gases do propelente para fora, reduzindo o coice e o desvio do cano. O total da rolagem de ataque da arma aumenta em 1. O requisito de Força da arma diminui em 1. A carga da arma aumenta em 2.",
+   "Armas Compatíveis": "Qualquer arma de mão, submetralhadora, rifle ou escopeta, exceto a Pistola Sinalizadora, a Pistola de Pregos H&H Tools e o Rifle de Trilho."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_rastreamento_de_alvo_embarcado",
+  "nome": "Rastreamento de Alvo Embarcado",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Rastreamento de Alvo Embarcado",
+   "Custo Base": "120% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 2.** Um cano giroscópico sincronizado com as miras da arma que usa inteligência artificial para travar nos alvos e melhorar bastante a pontaria. Antes de fazer um ataque com uma arma que tem esta modificação, você pode gastar 6 PA para marcar uma criatura alvo dentro do alcance curto da arma. Rolagens de ataque contra a criatura marcada têm vantagem.",
+   "Armas Compatíveis": "Qualquer arma de energia, exceto o Rifle Gauss, a Pistola Gauss e o Laser Gatling."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_capacitor_em_overclock",
+  "nome": "Capacitor em Overclock",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Capacitor em Overclock",
+   "Custo Base": "110% do custo base da arma",
+   "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
+   "Descrição": "**Espaços: 3.** Aprimoramentos ainda maiores no consumo de energia da arma. Quando você ataca com uma arma que tem esta modificação, pode gastar 3 disparos de munição em vez de 1 para aumentar o dano em 4.",
+   "Armas Compatíveis": "Qualquer arma de energia que não tenha Automática nem Carregável. Uma arma não pode ter capacitor em overclock se tiver capacitor turbinado."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_torreta_controlada_a_distancia",
+  "nome": "Torreta Controlada à Distância",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Torreta Controlada à Distância",
+   "Custo Base": "175% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 3.** A arma é montada em um suporte imóvel que gira e mira conforme os seus comandos de um terminal próximo. A torreta precisa continuar ligada ao terminal por fios. Você pode gastar 6 PA para ativar ou desativar a torreta pelo terminal. Você pode gastar PA para atacar com uma arma que colocar no suporte. A quantidade de PA necessária para atacar diminui em 2, até o mínimo de 3. Se o seu valor de atributo de Inteligência for menor que o requisito de Força da arma, você tem desvantagem nas rolagens de ataque ao operar a arma assim. A torreta é considerada um robô com 25 pontos de vida e DF 10. Se a torreta chega a 0 pontos de vida, ela para de funcionar e a arma ganha 1 nível de desgaste.",
+   "Armas Compatíveis": "Qualquer arma."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_luneta",
+  "nome": "Luneta",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Luneta",
+   "Custo Base": "30% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 2.** Uma luneta simples de vidro que permite ampliar a distância; em armas que já têm luneta, esta modificação aumenta a ampliação. O modificador de alcance curto da arma é dobrado e o de alcance longo é quadruplicado. Porém, quaisquer ataques contra alvos a até 15 m são feitos com desvantagem. A carga da arma aumenta em 2.",
+   "Armas Compatíveis": "Qualquer revólver ou rifle, incluindo o Rifle Laser, o Rifle de Plasma e o Rifle Gauss. Uma arma não pode ter luneta se já tiver Luneta Infravermelha ou Mira Holográfica."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_semiautomatica",
+  "nome": "Semiautomática",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Semiautomática",
+   "Custo Base": "85% do custo base da arma",
+   "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
+   "Descrição": "**Espaços: 3.** Uma revisão do mecanismo de disparo da arma para permitir que as balas sejam carregadas na câmara com muito mais rapidez. A arma ganha Semiautomática.",
+   "Armas Compatíveis": "Qualquer arma que não tenha Recarga Manual, Recarga Ágil, Automática, Área de Efeito nem Arma de Energia."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_silenciador",
+  "nome": "Silenciador",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Silenciador",
+   "Custo Base": "65% do custo base da arma",
+   "Tempo para Instalar/Remover": "6 PA",
+   "Descrição": "**Espaços: 2.** Um dispositivo na boca do cano que reduz a intensidade acústica do disparo. Enquanto você está oculto, quaisquer rolagens de ataque que você faça com uma arma com silenciador não revelam sua presença às criaturas próximas, permitindo que você continue oculto, exceto da criatura que você atacou. A carga da arma aumenta em 2. O degrau do dado de dano da arma diminui uma vez, até o mínimo de d4.",
+   "Armas Compatíveis": "Qualquer arma de mão, submetralhadora, rifle ou escopeta, exceto a Pistola Sinalizadora, a Pistola de Pregos H&H Tools e o Rifle de Trilho."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_carregador_rapido_speedloader",
+  "nome": "Carregador Rápido (Speedloader)",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Carregador Rápido (Speedloader)",
+   "Custo Base": "450 tp",
+   "Tempo para Instalar/Remover": "N/A",
+   "Descrição": "**Espaços: 0.** Um dispositivo usado para carregar várias câmaras de um revólver ao mesmo tempo. Você pode escolher recarregar a arma com 4 PA.",
+   "Armas Compatíveis": "Qualquer revólver."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_coronha",
+  "nome": "Coronha",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Coronha",
+   "Custo Base": "45% do custo base da arma",
+   "Tempo para Instalar/Remover": "15 − seu valor de Inteligência, em minutos",
+   "Descrição": "**Espaços: 2.** Uma parte traseira acrescentada que dá apoio estrutural; em armas que já têm coronha, esta modificação a melhora. O total da rolagem de ataque da arma aumenta em 1. A carga da arma aumenta em 4.",
+   "Armas Compatíveis": "Qualquer submetralhadora, rifle, escopeta, arma de energia ou revólver com a modificação Cano Longo."
+  }
+ },
+ {
+  "id": "modificacoes_de_armas_a_distancia_reforco_estrutural",
+  "nome": "Reforço Estrutural",
+  "categoria": "Modificações de Armas à Distância",
+  "subcategoria": "",
+  "campos": {
+   "Modificação": "Reforço Estrutural",
+   "Custo Base": "30% do custo base da arma",
+   "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
+   "Descrição": "**Espaços: 3.** Reforça a estrutura da arma e melhora seus mecanismos mais fracos e falhos. A arma ganha Robusto e Defensivo. A carga da arma aumenta em 2.",
+   "Armas Compatíveis": "Qualquer arma. Uma arma não pode ter Reforço Estrutural se tiver Construção Leve."
+  }
+ },
+ {
+  "id": "explosivos_arremessados_dinamite",
+  "nome": "Dinamite",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "50 tp",
+   "PA": "6 PA",
+   "Dano": "3d6 explosivo",
+   "Alcance": "FOR x 6",
+   "Área de Efeito": "1,5 m / 6 m de raio",
+   "Propriedades Especiais": "Ensurdecedor: 3 m. Destrutivo.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "explosivos_arremessados_coquetel_molotov",
+  "nome": "Coquetel Molotov",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "20 tp",
+   "PA": "6 PA",
+   "Dano": "3d10 fogo",
+   "Alcance": "FOR x 6",
+   "Área de Efeito": "1,5 m de raio",
+   "Propriedades Especiais": "Incendiário. Estilhaçante.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "explosivos_arremessados_granada_de_fragmentacao",
+  "nome": "Granada de Fragmentação",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "150 tp",
+   "PA": "5 PA",
+   "Dano": "4d6 explosivo",
+   "Alcance": "FOR x 10",
+   "Área de Efeito": "1,5 m / 6 m de raio",
+   "Propriedades Especiais": "Ensurdecedor: 3 m. Destrutivo. Desmembrar.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "explosivos_arremessados_granada_de_plasma",
+  "nome": "Granada de Plasma",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "250 tp",
+   "PA": "4 PA",
+   "Dano": "4d8 plasma",
+   "Alcance": "FOR x 10",
+   "Área de Efeito": "3 m de raio",
+   "Propriedades Especiais": "—",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "explosivos_arremessados_granada_de_pulso",
+  "nome": "Granada de Pulso",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "150 tp",
+   "PA": "4 PA",
+   "Dano": "2d8 eletricidade",
+   "Alcance": "FOR x 10",
+   "Área de Efeito": "4,5 m de raio",
+   "Propriedades Especiais": "Eletromagnético.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "explosivos_arremessados_granada_incendiaria",
+  "nome": "Granada Incendiária",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "125 tp",
+   "PA": "5 PA",
+   "Dano": "2d6 explosivo e 3d6 fogo",
+   "Alcance": "FOR x 10",
+   "Área de Efeito": "1,5 m / 4,5 m de raio",
+   "Propriedades Especiais": "Ensurdecedor: 1,5 m. Incendiário.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "explosivos_arremessados_granada_criogenica",
+  "nome": "Granada Criogênica",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "125 tp",
+   "PA": "4 PA",
+   "Dano": "2d6 explosivo e 3d6 frio",
+   "Alcance": "FOR x 10",
+   "Área de Efeito": "1,5 m / 3 m de raio",
+   "Propriedades Especiais": "Ensurdecedor: 1,5 m. Congelante.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "explosivos_arremessados_flashbang",
+  "nome": "Flashbang",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Arremessados",
+  "campos": {
+   "Custo": "25 tp",
+   "PA": "5 PA",
+   "Dano": "1 explosivo",
+   "Alcance": "FOR x 10",
+   "Área de Efeito": "6 m de raio",
+   "Propriedades Especiais": "Cegante: 6 m. Ensurdecedor: 6 m.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "explosivos_colocados_dinamite_de_pavio_longo",
+  "nome": "Dinamite de Pavio Longo",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "100 tp",
+   "PA": "6 PA",
+   "Dano": "3d6 explosivo",
+   "CD de Armar": "+1",
+   "Área de Efeito": "1,5 m / 4,5 m de raio",
+   "Propriedades Especiais": "Ensurdecedor: 3 m. Destrutivo. Lento: 3 rodadas (18 segundos).",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "explosivos_colocados_mina_de_fragmentacao",
+  "nome": "Mina de Fragmentação",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "140 tp",
+   "PA": "6 PA",
+   "Dano": "6d6 explosivo",
+   "CD de Armar": "+4",
+   "Área de Efeito": "75 cm / 3 m de raio",
+   "Propriedades Especiais": "Proximidade. Ensurdecedor: 3 m. Destrutivo. Desmembrar.",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "explosivos_colocados_mina_de_plasma",
+  "nome": "Mina de Plasma",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "180 tp",
+   "PA": "6 PA",
+   "Dano": "4d8 plasma",
+   "CD de Armar": "+6",
+   "Área de Efeito": "3 m de raio",
+   "Propriedades Especiais": "Proximidade.",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "explosivos_colocados_mina_de_pulso",
+  "nome": "Mina de Pulso",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "80 tp",
+   "PA": "6 PA",
+   "Dano": "3d8 eletricidade",
+   "CD de Armar": "+6",
+   "Área de Efeito": "6 m de raio",
+   "Propriedades Especiais": "Eletromagnético. Proximidade.",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "explosivos_colocados_mina_de_tampinhas",
+  "nome": "Mina de Tampinhas",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "250 tp",
+   "PA": "6 PA",
+   "Dano": "4d6 explosivo e 6d6 cortante",
+   "CD de Armar": "+2",
+   "Área de Efeito": "1,5 m / 6 m de raio",
+   "Propriedades Especiais": "Proximidade. Ensurdecedor: 3 m. Destrutivo. Mutilar.",
+   "Carga": "10"
+  }
+ },
+ {
+  "id": "explosivos_colocados_mina_criogenica",
+  "nome": "Mina Criogênica",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "140 tp",
+   "PA": "6 PA",
+   "Dano": "4d6 frio",
+   "CD de Armar": "+8",
+   "Área de Efeito": "3 m de raio",
+   "Propriedades Especiais": "Congelante. Proximidade.",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "explosivos_colocados_explosivo_plastico_c_4",
+  "nome": "Explosivo Plástico C-4",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "350 tp",
+   "PA": "6 PA",
+   "Dano": "15d6 explosivo",
+   "CD de Armar": "+10",
+   "Área de Efeito": "1,5 m / 7,5 m de raio",
+   "Propriedades Especiais": "Ensurdecedor: 3 m. Destrutivo. Detonador. Desmembrar.",
+   "Carga": "12"
+  }
+ },
+ {
+  "id": "explosivos_colocados_mina_nuclear",
+  "nome": "Mina Nuclear",
+  "categoria": "Explosivos",
+  "subcategoria": "Explosivos Colocados",
+  "campos": {
+   "Custo": "600 tp",
+   "PA": "6 PA",
+   "Dano": "12d10 explosivo e dois níveis de rads",
+   "CD de Armar": "+10",
+   "Área de Efeito": "13,5 m de raio",
+   "Propriedades Especiais": "Destrutivo. Proximidade.",
+   "Carga": "22"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_mochila",
+  "nome": "Mochila",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "20 tp",
+   "Carga": "10 quando não vestida"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_mochila_de_acampamento",
+  "nome": "Mochila de Acampamento",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "100 tp",
+   "Carga": "20 quando não vestida"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_bolsa_de_armas",
+  "nome": "Bolsa de Armas",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "50 tp",
+   "Carga": "12 quando não vestida"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_bandoleira",
+  "nome": "Bandoleira",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "30 tp",
+   "Carga": "8 quando não vestida"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_esferas_de_aco",
+  "nome": "Esferas de Aço",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "10 tp",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_armadilha_de_urso",
+  "nome": "Armadilha de Urso",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "60 tp",
+   "Carga": "30"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_binoculos",
+  "nome": "Binóculos",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "25 tp",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_abrolhos",
+  "nome": "Abrolhos",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "50 tp",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_cantil",
+  "nome": "Cantil",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "10 tp",
+   "Carga": "1, 2 quando cheio"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_corrente",
+  "nome": "Corrente",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "15 tp",
+   "Carga": "12"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_sinalizador",
+  "nome": "Sinalizador",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "10 tp",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_lanterna",
+  "nome": "Lanterna",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "100 tp",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_mascara_de_gas",
+  "nome": "Máscara de Gás",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "80 tp",
+   "Carga": "12"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_contador_geiger",
+  "nome": "Contador Geiger",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "200 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_gancho_de_escalada",
+  "nome": "Gancho de Escalada",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "35 tp",
+   "Carga": "10"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_traje_hazmat",
+  "nome": "Traje Hazmat",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "10 tp",
+   "Carga": "50 (igual a 10 quando vestido)"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_traje_hazmat_motorizado",
+  "nome": "Traje Hazmat Motorizado",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "450 tp",
+   "Carga": "80 (igual a 5 quando vestido)"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_roupa_termica",
+  "nome": "Roupa Térmica",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "50 tp",
+   "Carga": "20 (igual a 5 quando vestida)"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_roupa_termica_leve",
+  "nome": "Roupa Térmica Leve",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "750 tp",
+   "Carga": "10 (igual a 2 quando vestida)"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_gazuas",
+  "nome": "Gazuas",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "100 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_corda",
+  "nome": "Corda",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "10 tp",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_saco_de_dormir",
+  "nome": "Saco de Dormir",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "25 tp",
+   "Carga": "10"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_barraca_uma_pessoa",
+  "nome": "Barraca (uma pessoa)",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "20 tp",
+   "Carga": "12"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_barraca_duas_pessoas",
+  "nome": "Barraca (duas pessoas)",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "25 tp",
+   "Carga": "18"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_odre",
+  "nome": "Odre",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "30 tp",
+   "Carga": "2, 4 quando cheio"
+  }
+ },
+ {
+  "id": "itens_e_equipamentos_kit_de_reparo_de_armas",
+  "nome": "Kit de Reparo de Armas",
+  "categoria": "Itens e Equipamentos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "90 tp",
+   "Carga": "10"
+  }
+ },
+ {
+  "id": "comida_pronta_macarrao_com_queijo_blamco",
+  "nome": "Macarrão com Queijo BlamCo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Saciante. Saboroso. Irradiado.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_pronta_racao_de_cachorro_em_lata",
+  "nome": "Ração de Cachorro em Lata",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "4 tp",
+   "Propriedades": "Saciante. Saboroso. Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "comida_pronta_cram",
+  "nome": "Cram",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Saciante. Insosso. Irradiado.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "comida_pronta_macas_dandy_boy",
+  "nome": "Maçãs Dandy Boy",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "2 tp",
+   "Propriedades": "Insosso. Petisco. Irradiado.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "comida_pronta_bolinhos_fancy_lads",
+  "nome": "Bolinhos Fancy Lads",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "4 tp",
+   "Propriedades": "Saboroso. Petisco. Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "comida_pronta_instapure",
+  "nome": "InstaPurê",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Saciante. Insosso. Irradiado.",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "comida_pronta_copo_de_macarrao",
+  "nome": "Copo de Macarrão",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Saciante. Saboroso.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "comida_pronta_feijoada",
+  "nome": "Feijoada",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Saciante. Saboroso. Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "comida_pronta_batatinhas_crocantes",
+  "nome": "Batatinhas Crocantes",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "4 tp",
+   "Propriedades": "Saboroso. Petisco. Irradiado.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "comida_pronta_bife_a_salisbury",
+  "nome": "Bife à Salisbury",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Saciante. Saboroso. Irradiado.",
+   "Carga": "5"
+  }
+ },
+ {
+  "id": "comida_pronta_bombas_de_acucar",
+  "nome": "Bombas de Açúcar",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Saboroso. Irradiado.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_pronta_ovos_recheados_yum_yum",
+  "nome": "Ovos Recheados Yum Yum",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Pronta",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Saciante. Saboroso. Irradiado.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "produtos_fruta_de_agave",
+  "nome": "Fruta de Agave",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_maca",
+  "nome": "Maçã",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_fruta_de_iuca",
+  "nome": "Fruta de Iúca",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "6 tp",
+   "Propriedades": "Insosso. Refrescante.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "produtos_fruta_de_cacto",
+  "nome": "Fruta de Cacto",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Saboroso. Refrescante. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_amoras",
+  "nome": "Amoras",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "8 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_folha_de_sangue",
+  "nome": "Folha-de-Sangue",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Insosso. Petisco. Regenerador.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_fungo_cerebro",
+  "nome": "Fungo-Cérebro",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "6 tp",
+   "Propriedades": "Insosso.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "produtos_cenoura",
+  "nome": "Cenoura",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "produtos_fungo_de_caverna",
+  "nome": "Fungo de Caverna",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "6 tp",
+   "Propriedades": "Insosso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_milho",
+  "nome": "Milho",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "produtos_cranberries",
+  "nome": "Cranberries",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_cabaca",
+  "nome": "Cabaça",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Saciante.",
+   "Carga": "5"
+  }
+ },
+ {
+  "id": "produtos_pimenta_jalapeno",
+  "nome": "Pimenta Jalapeño",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "6 tp",
+   "Propriedades": "Saboroso. Picante. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_melao",
+  "nome": "Melão",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Saciante.",
+   "Carga": "5"
+  }
+ },
+ {
+  "id": "produtos_mutfruta",
+  "nome": "Mutfruta",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_pera",
+  "nome": "Pera",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_batata",
+  "nome": "Batata",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Insosso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "produtos_figo_da_india",
+  "nome": "Figo-da-Índia",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_grao_navalha",
+  "nome": "Grão-Navalha",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Insosso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_feijao_de_lodo",
+  "nome": "Feijão-de-Lodo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Insosso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_amora_de_piche",
+  "nome": "Amora-de-Piche",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_tato",
+  "nome": "Tato",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "3 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "produtos_raiz_de_xander",
+  "nome": "Raiz de Xander",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Produtos",
+  "campos": {
+   "Custo": "2 tp",
+   "Propriedades": "Insosso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "comida_cozida_mosca_inchada_assada",
+  "nome": "Mosca-Inchada Assada",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Saboroso. Fortificante. Contaminado.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_cozida_assado_de_urso",
+  "nome": "Assado de Urso",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "45 tp",
+   "Propriedades": "Saciante. Apetitoso. Fortalecedor.",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "comida_cozida_bife_de_bighorner",
+  "nome": "Bife de Bighorner",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Saciante. Apetitoso.",
+   "Carga": "5"
+  }
+ },
+ {
+  "id": "comida_cozida_bife_de_bichosangue",
+  "nome": "Bife de Bichosangue",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "25 tp",
+   "Propriedades": "Insosso. Regenerador. Contaminado.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "comida_cozida_omelete_de_ovo_de_destrocador",
+  "nome": "Omelete de Ovo de Destroçador",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "80 tp",
+   "Propriedades": "Iguaria. Empoderador. Regenerador.",
+   "Carga": "5"
+  }
+ },
+ {
+  "id": "comida_cozida_bife_de_destrocador",
+  "nome": "Bife de Destroçador",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Iguaria. Empoderador. Saciante.",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "comida_cozida_salada_do_deserto",
+  "nome": "Salada do Deserto",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Apetitoso.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_cozida_rosquinha",
+  "nome": "Rosquinha",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "8 tp",
+   "Propriedades": "Saboroso. Petisco.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "comida_cozida_rosquinha_recheada_de_fruta",
+  "nome": "Rosquinha Recheada de Fruta",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "8 tp",
+   "Propriedades": "Saboroso. Petisco. Fortificante. Irradiado.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "comida_cozida_rosquinha_quantum_crocante",
+  "nome": "Rosquinha Quantum Crocante",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "33 tp",
+   "Propriedades": "Cafeinado. Carregado. Irradiado. Petisco. Saboroso.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "comida_cozida_fricasse_de_formiga_de_fogo",
+  "nome": "Fricassê de Formiga-de-Fogo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "35 tp",
+   "Propriedades": "Iguaria. Picante. Podre.",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "comida_cozida_bife_de_lagarto",
+  "nome": "Bife de Lagarto",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Saciante. Saboroso.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_cozida_barata_radioativa_grelhada",
+  "nome": "Barata Radioativa Grelhada",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Fortificante. Contaminado.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "comida_cozida_radcervo_grelhado",
+  "nome": "Radcervo Grelhado",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "30 tp",
+   "Propriedades": "Saciante. Saboroso. Substancioso.",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "comida_cozida_iguana_no_espeto",
+  "nome": "Iguana no Espeto",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Saboroso.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "comida_cozida_pedacos_de_rato_toupeira",
+  "nome": "Pedaços de Rato-Toupeira",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Energizante. Saboroso.",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "comida_cozida_ensopado_de_rato_toupeira",
+  "nome": "Ensopado de Rato-Toupeira",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Apetitoso.",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "comida_cozida_costeletas_de_vira_lata",
+  "nome": "Costeletas de Vira-Lata",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Saciante. Saboroso.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_cozida_omelete_de_ovo_de_escorpiao_radioativo",
+  "nome": "Omelete de Ovo de Escorpião Radioativo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "65 tp",
+   "Propriedades": "Purificante. Apetitoso.",
+   "Carga": "5"
+  }
+ },
+ {
+  "id": "comida_cozida_bife_de_escorpiao_radioativo",
+  "nome": "Bife de Escorpião Radioativo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "30 tp",
+   "Propriedades": "Saciante. Apetitoso. Acre.",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "comida_cozida_ensopado_de_radcervo",
+  "nome": "Ensopado de Radcervo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "25 tp",
+   "Propriedades": "Saciante. Saboroso. Acre.",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "comida_cozida_bife_ancho",
+  "nome": "Bife Ancho",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "35 tp",
+   "Propriedades": "Saciante. Iguaria.",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "comida_cozida_formiga_assada",
+  "nome": "Formiga Assada",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Saciante. Insosso. Contaminado.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_cozida_carne_de_mirelurk_assada",
+  "nome": "Carne de Mirelurk Assada",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "25 tp",
+   "Propriedades": "Saciante. Saboroso. Energizante.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "comida_cozida_sopa_de_legumes",
+  "nome": "Sopa de Legumes",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Saboroso. Fortificante.",
+   "Carga": "8"
+  }
+ },
+ {
+  "id": "comida_cozida_omelete_do_ermo",
+  "nome": "Omelete do Ermo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Comida Cozida",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Saciante. Apetitoso. Substancioso. Regenerador.",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "bebidas_absinto",
+  "nome": "Absinto",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Alto Teor. Viciante. Alucinógeno (veja Químicos).",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_coquetel_atomico",
+  "nome": "Coquetel Atômico",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Cafeinado. Energizante. Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_cerveja",
+  "nome": "Cerveja",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Alcoólico. Viciante.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_cafe",
+  "nome": "Café",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Cafeinado. Saboroso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_cafe_de_cowboy",
+  "nome": "Café de Cowboy",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Cafeinado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_ermo_sujo",
+  "nome": "Ermo Sujo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Alto Teor. Viciante.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_agua_suja",
+  "nome": "Água suja",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_agua_toxica",
+  "nome": "Água tóxica",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "0 tp",
+   "Propriedades": "Irradiado. Contaminado.",
+   "Carga": "—"
+  }
+ },
+ {
+  "id": "bebidas_pinga_caseira",
+  "nome": "Pinga Caseira",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "40 tp",
+   "Propriedades": "Alto Teor. Viciante. Fortalecedor.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_nuka_cola",
+  "nome": "Nuka-Cola",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Cafeinado. Irradiado. Saboroso. Sortudo.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_nuka_cola_cereja",
+  "nome": "Nuka-Cola Cereja",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Cafeinado. Irradiado. Apetitoso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_nuka_cola_quantum",
+  "nome": "Nuka-Cola Quantum",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "35 tp",
+   "Propriedades": "Cafeinado. Carregado. Irradiado. Saboroso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_agua_purificada",
+  "nome": "Água purificada",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Hidratante.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_rum",
+  "nome": "Rum",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "25 tp",
+   "Propriedades": "Alto Teor. Viciante. Saboroso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_uisque_escoces",
+  "nome": "Uísque Escocês",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "25 tp",
+   "Propriedades": "Alto Teor. Viciante. Saboroso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_salsaparrilha_sunset",
+  "nome": "Salsaparrilha Sunset",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "10 tp",
+   "Propriedades": "Apetitoso. Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_vodca",
+  "nome": "Vodca",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "40 tp",
+   "Propriedades": "Alto Teor. Viciante. Fortalecedor.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_tequila_do_ermo",
+  "nome": "Tequila do Ermo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Alto Teor. Viciante. Sortudo.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_uisque",
+  "nome": "Uísque",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Alto Teor. Viciante. Sortudo.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_vinho_do_defunto",
+  "nome": "Vinho do Defunto",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "1 tp",
+   "Propriedades": "Alcoólico. Viciante. Podre. Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_vinho_do_ermo",
+  "nome": "Vinho do Ermo",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Alcoólico. Viciante. Saboroso. Irradiado.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "bebidas_vinho",
+  "nome": "Vinho",
+  "categoria": "Comidas e Bebidas",
+  "subcategoria": "Bebidas",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Alcoólico. Viciante. Saboroso.",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "medicina_addictol",
+  "nome": "Addictol",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "125 tp",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "medicina_antibioticos",
+  "nome": "Antibióticos",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "75 tp",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "medicina_antiveneno",
+  "nome": "Antiveneno",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "25 tp",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "medicina_olho_de_gato",
+  "nome": "Olho de Gato",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "20 tp",
+   "Carga": "x10 = 1"
+  }
+ },
+ {
+  "id": "medicina_maleta_medica",
+  "nome": "Maleta Médica",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "300 tp",
+   "Carga": "15"
+  }
+ },
+ {
+  "id": "medicina_corretivo",
+  "nome": "Corretivo",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "50 tp",
+   "Carga": "x10 = 1"
+  }
+ },
+ {
+  "id": "medicina_kit_de_primeiros_socorros",
+  "nome": "Kit de Primeiros Socorros",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "80 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_po_curativo",
+  "nome": "Pó Curativo",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "30 tp",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "medicina_tirarad",
+  "nome": "TiraRad",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "80 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_tirarad_diluido",
+  "nome": "TiraRad (Diluído)",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "30 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_rad_x",
+  "nome": "Rad-X",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "40 tp",
+   "Carga": "x10 = 1"
+  }
+ },
+ {
+  "id": "medicina_robco_consertaja_1_0",
+  "nome": "RobCo ConsertaJá 1.0",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "40 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_robco_consertaja_2_0",
+  "nome": "RobCo ConsertaJá 2.0",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "75 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_robco_consertaja_2_0_para_danos_extremos",
+  "nome": "RobCo ConsertaJá 2.0 para Danos Extremos",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "150 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_stimpak",
+  "nome": "Stimpak",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "75 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_stimpak_diluido",
+  "nome": "Stimpak (Diluído)",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "40 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_super_stimpak",
+  "nome": "Super Stimpak",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "150 tp",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "medicina_stimpak_de_autoinjecao",
+  "nome": "Stimpak de Autoinjeção",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "150 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "medicina_super_stimpak_de_autoinjecao",
+  "nome": "Super Stimpak de Autoinjeção",
+  "categoria": "Medicina",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "300 tp",
+   "Carga": "6"
+  }
+ },
+ {
+  "id": "revistas_de_pericia_excedentes_militares",
+  "nome": "Excedentes Militares",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Disparo aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_armas_do_futuro_hoje",
+  "nome": "Armas do Futuro Hoje",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Energia aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_livro_de_receitas_do_patriota",
+  "nome": "Livro de Receitas do Patriota",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Explosivos aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_contos_de_cavalaria",
+  "nome": "Contos de Cavalaria",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Corpo a Corpo aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_revista_do_boxe",
+  "nome": "Revista do Boxe",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Pugilismo aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_o_medico_de_hoje",
+  "nome": "O Médico de Hoje",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Medicina aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_leitor_do_chaveiro",
+  "nome": "Leitor do Chaveiro",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Sabotagem aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_consertando_coisas",
+  "nome": "Consertando Coisas",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Criação aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_la_fantoma",
+  "nome": "¡La Fantoma!",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Furtividade aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_vida_de_rapaz",
+  "nome": "Vida de Rapaz",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Sobrevivência aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_vendedor_semanal",
+  "nome": "Vendedor Semanal",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Barganha aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_quadrinhos_de_terror",
+  "nome": "Quadrinhos de Terror",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Intimidação aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_conhecendo_gente",
+  "nome": "Conhecendo Gente",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Persuasão aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "revistas_de_pericia_digest_do_programador",
+  "nome": "Digest do Programador",
+  "categoria": "Revistas de Perícia",
+  "subcategoria": "",
+  "campos": {
+   "Efeito": "Seu bônus da perícia Ciência aumenta em 1 até você descansar."
+  }
+ },
+ {
+  "id": "quimicos_buffout",
+  "nome": "Buffout",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Anabolizante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_buffjet",
+  "nome": "Buffjet",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Anabolizante. Estimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_bufftats",
+  "nome": "Bufftats",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Anabolizante. Estimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_calmex",
+  "nome": "Calmex",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "100 tp",
+   "Propriedades": "Sedativo.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_cigarro",
+  "nome": "Cigarro",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Ansiolítico.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_fumo_de_mascar_coiote",
+  "nome": "Fumo de Mascar Coiote",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "15 tp",
+   "Propriedades": "Ansiolítico. Superestimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_daddy_o",
+  "nome": "Daddy-O",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Extrapolante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_day_tripper",
+  "nome": "Day Tripper",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "40 tp",
+   "Propriedades": "Alucinógeno.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_furia",
+  "nome": "Fúria",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Analgésico. Psicose. Superestimulante.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_hydra",
+  "nome": "Hydra",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "55 tp",
+   "Propriedades": "Analgésico.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_jato",
+  "nome": "Jato",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Superestimulante.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_combustivel_de_jato",
+  "nome": "Combustível de Jato",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "30 tp",
+   "Propriedades": "Superestimulante. Revigorante.",
+   "Carga": "—"
+  }
+ },
+ {
+  "id": "quimicos_foguete",
+  "nome": "Foguete",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Hiperestimulante.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_ultrajato",
+  "nome": "Ultrajato",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "80 tp",
+   "Propriedades": "Hiperestimulante. Revigorante.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_med_x",
+  "nome": "Med-X",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Anestésico.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_mentats",
+  "nome": "Mentats",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "40 tp",
+   "Propriedades": "Neuroestimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_mentats_de_amora",
+  "nome": "Mentats de Amora",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Extrapolante. Neuroestimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_mentats_de_uva",
+  "nome": "Mentats de Uva",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Ansiolítico. Neuroestimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_mentats_de_laranja",
+  "nome": "Mentats de Laranja",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Sedativo. Neuroestimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "quimicos_overdrive",
+  "nome": "Overdrive",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "55 tp",
+   "Propriedades": "Revigorante. Psicose.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_testo",
+  "nome": "Testo+",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Psicose. Analgésico.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_testo_buff",
+  "nome": "Testo+ Buff",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "80 tp",
+   "Propriedades": "Anabolizante. Psicose.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "quimicos_testo_jato",
+  "nome": "Testo+ Jato",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Químicos",
+  "campos": {
+   "Custo": "80 tp",
+   "Propriedades": "Psicose. Superestimulante.",
+   "Carga": "1"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_limpa_cache",
+  "nome": "Limpa Cache",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "5 tp",
+   "Propriedades": "Ansiolítico. Estimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_desviador_de_arrefecimento",
+  "nome": "Desviador de Arrefecimento",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "100 tp",
+   "Propriedades": "Sedativo.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_depurador_neural",
+  "nome": "Depurador Neural",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Extrapolante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_protocolo_eisenhower",
+  "nome": "PROTOCOLO EISENHOWER",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "60 tp",
+   "Propriedades": "Analgésico. Psicose. Superestimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_preditor_de_projeteis",
+  "nome": "Preditor de Projéteis",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Anestésico.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_ia_de_tanque_militar",
+  "nome": "IA de Tanque Militar",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "50 tp",
+   "Propriedades": "Psicose. Analgésico.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_sistema_operacional_de_torreta_militar",
+  "nome": "Sistema Operacional de Torreta Militar",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "55 tp",
+   "Propriedades": "Revigorante. Psicose.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_overclock_fisico",
+  "nome": "Overclock Físico",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "30 tp",
+   "Propriedades": "Superestimulante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_overclock_fisico_v2_0",
+  "nome": "Overclock Físico v2.0",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "40 tp",
+   "Propriedades": "Estimulante. Revigorante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "programas_de_overclock_de_robo_controle_de_servos",
+  "nome": "Controle de Servos",
+  "categoria": "Químicos e Aprimoramentos de Robô",
+  "subcategoria": "Programas de Overclock de Robô",
+  "campos": {
+   "Custo": "20 tp",
+   "Propriedades": "Anabolizante.",
+   "Carga": "1 (10)"
+  }
+ },
+ {
+  "id": "itens_unicos_traje_de_refugio",
+  "nome": "Traje de Refúgio",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "1.300 tp",
+   "Carga": "5"
+  }
+ },
+ {
+  "id": "itens_unicos_pip_boy_2000",
+  "nome": "Pip-Boy 2000",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "300 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "itens_unicos_pip_boy_2000_mark_vi",
+  "nome": "Pip-Boy 2000 Mark VI",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "600 tp",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "itens_unicos_pip_boy_3000",
+  "nome": "Pip-Boy 3000",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "550 tp",
+   "Carga": "4"
+  }
+ },
+ {
+  "id": "itens_unicos_pip_boy_3000_mark_iv",
+  "nome": "Pip-Boy 3000 Mark IV",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "850 tp",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "itens_unicos_stealth_boy",
+  "nome": "Stealth Boy",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "500 tp",
+   "Carga": "3"
+  }
+ },
+ {
+  "id": "itens_unicos_radio_comunicador",
+  "nome": "Rádio Comunicador",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "120 tp",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "itens_unicos_gazua_eletronica",
+  "nome": "Gazua Eletrônica",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "500 tp",
+   "Carga": "2"
+  }
+ },
+ {
+  "id": "itens_unicos_gazua_eletronica_mk_ii",
+  "nome": "Gazua Eletrônica Mk II",
+  "categoria": "Itens Únicos",
+  "subcategoria": "",
+  "campos": {
+   "Custo": "750 tp",
+   "Carga": "3"
+  }
+ }
+]

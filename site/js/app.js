@@ -1,25 +1,13 @@
 // ============================================================
-// App principal - Router SPA e inicialização
+// App principal: router por hash e Service Worker
 // ============================================================
-import { renderHome, sincronizarHomeAoVoltar } from './pages/home.js';
-import { renderCreator } from './pages/creator.js';
-import { renderSheet } from './pages/sheet.js';
-import { inicializarSync } from './sync.js';
-import { carregarTaxasMoeda } from './store.js';
-import { toast, abrirModal } from './utils.js';
+import { renderHome } from './pages/home.js';
+import { renderCreator } from './creator/wizard.js';
+import { renderSheet } from './sheet/ficha.js';
+import { fecharModal } from './utils.js';
 import { VERSAO_ATUAL } from './versao.js';
-import { abrirNotasVersao } from './notas-versao.js';
-import { carregarFontes } from './fontes.js';
 
-// --- Router baseado em hash ---
-/**
- * Resolve a página do hash para a função que a desenha, ou null.
- * Lista fixa (`switch`), sem busca dinâmica: o hash da URL é texto livre do
- * usuário e uma busca por nome chamaria o que vier (ex.: `#toString` sobe a
- * cadeia de protótipos até Object.prototype).
- * @param {string} pagina Primeira parte do hash.
- * @returns {Function|null}
- */
+/** Página do hash -> função que a desenha (lista fixa, sem busca por nome). */
 function resolverRota(pagina) {
   switch (pagina) {
     case 'home': return renderHome;
@@ -29,331 +17,54 @@ function resolverRota(pagina) {
   }
 }
 
-/** Navegar para uma rota */
+/** Navega para uma rota do hash. */
 export function navegar(rota) {
   window.location.hash = rota;
 }
 window.navegar = navegar;
 
-// Versão exibida no header. Vem de js/versao.js (controle manual), NÃO
-// mais do número de build injetado no deploy -- esse continua existindo
-// no span oculto #build-numero, só para diagnóstico.
-const APP_VERSION = VERSAO_ATUAL ? 'v' + VERSAO_ATUAL : '';
-
-// Chave onde fica a última versão que este navegador já viu, para abrir as
-// notas de versão automaticamente uma única vez a cada atualização.
-const VERSAO_VISTA_KEY = 'dnd_versao_vista';
-
-/** Define o texto do header preservando o selo de versao ao lado. */
-export function definirTituloHeader(texto) {
+/** Define o título do cabeçalho, com o selo da versão. */
+export function definirTitulo(texto) {
   const el = document.getElementById('header-titulo');
-  if (!el) return;
   el.textContent = texto;
-  if (APP_VERSION) {
-    const span = document.createElement('span');
-    span.className = 'header-versao';
-    span.textContent = ' ' + APP_VERSION;
-    el.appendChild(span);
-  }
-}
-window.definirTituloHeader = definirTituloHeader;
-
-/**
- * Atualiza o selo de versão (`.header-versao`, dentro do `<h1>`) pra
- * refletir se ele deve se comportar como clicável: só na home. O selo é
- * recriado a cada navegação por `definirTituloHeader`, então essa função
- * roda depois dela, em `processarRota`, e não mexe na assinatura nem no
- * propósito de `definirTituloHeader` (que só define o texto do header).
- * Fora da home o selo fica só texto: sem classe de estilo (sem cursor de
- * mão) e sem `title` de ação -- o clique é ignorado pelo handler de
- * delegação registrado em `init()`.
- */
-function atualizarSeloVersaoClicavel(pagina) {
-  const selo = document.querySelector('.header-versao');
-  if (!selo) return;
-  const clicavel = pagina === 'home';
-  selo.classList.toggle('header-versao--clicavel', clicavel);
-  if (clicavel) {
-    selo.title = 'Ver notas de versão';
-  } else {
-    selo.removeAttribute('title');
-  }
+  const v = document.createElement('span');
+  v.className = 'header-versao';
+  v.textContent = ` v${VERSAO_ATUAL}`;
+  el.appendChild(v);
 }
 
-/** Processa a rota atual do hash */
-/*
- * Rota e título vêm de lista fixa (`resolverRota` e o Map de títulos): rota
- * desconhecida cai em "Página não encontrada", inclusive nomes herdados de
- * Object.prototype como `#toString`. Coberto por
- * `testes/e2e/regras/rota-desconhecida.spec.mjs` (alerta CodeQL
- * js/unvalidated-dynamic-method-call).
- */
+/** Desenha a rota atual. */
 function processarRota() {
-  const hash = window.location.hash.slice(1) || 'home';
-  const partes = hash.split('/');
-  const pagina = partes[0];
-  const param = partes.slice(1).join('/');
-
-  const render = resolverRota(pagina);
+  const [pagina, ...resto] = (window.location.hash.slice(1) || 'home').split('/');
   const content = document.getElementById('app-content');
-  const btnVoltar = document.getElementById('btn-voltar');
-  const acoes = document.getElementById('header-acoes');
-
-  // Limpar estado anterior
-  acoes.innerHTML = '';
-  btnVoltar.style.display = pagina === 'home' ? 'none' : 'block';
-
-  // Botão de notas de versão: só na tela inicial. #header-acoes é
-  // limpo acima a cada navegação, então não é preciso removê-lo ao sair
-  // da home -- ele simplesmente não é recriado.
-  // Ícone + rótulo em texto (📋 Notas de versão) em spans separados: o
-  // rótulo some no mobile via CSS (.header-rotulo), mas o aria-label do
-  // próprio botão preserva o nome acessível mesmo com o texto escondido.
-  if (pagina === 'home') {
-    const btnNotas = document.createElement('button');
-    btnNotas.id = 'btn-notas-versao';
-    btnNotas.className = 'header-btn-rotulado no-print';
-    btnNotas.title = 'Notas de versão';
-    btnNotas.setAttribute('aria-label', 'Notas de versão');
-    btnNotas.innerHTML =
-      '<span class="header-icone" aria-hidden="true">📋</span>' +
-      '<span class="header-rotulo">Notas de versão</span>';
-    btnNotas.addEventListener('click', abrirNotasVersao);
-    acoes.appendChild(btnNotas);
-  }
-
-  // Na ficha: botao voltar vira casinha para home; nas demais: seta para history.back()
-  const iconeVoltar = document.getElementById('icone-voltar');
-  if (pagina === 'ficha') {
-    iconeVoltar.innerHTML = '<path d="M3 12l9-9 9 9"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>';
-    btnVoltar.onclick = () => navegar('home');
-  } else {
-    iconeVoltar.innerHTML = '<path d="M15 18l-6-6 6-6"/>';
-    btnVoltar.onclick = () => window.history.back();
-  }
-
-  // Definir título padrão
-  const titulos = new Map([
-    ['home', 'Ficha 5.5'],
-    ['criar', 'Novo Personagem'],
-    ['ficha', 'Ficha'],
-  ]);
-  definirTituloHeader(titulos.get(pagina) || 'Ficha 5.5');
-  atualizarSeloVersaoClicavel(pagina);
-
-  if (render) {
-    render(content, param);
-  } else {
-    content.innerHTML = '<div class="empty-state"><h2>Página não encontrada</h2><button class="btn btn-primary" onclick="navegar(\'home\')">Voltar ao inicio</button></div>';
-  }
+  const voltar = document.getElementById('btn-voltar');
+  document.getElementById('header-acoes').innerHTML = '';
+  voltar.style.display = pagina === 'home' ? 'none' : 'block';
+  voltar.onclick = () => navegar('home');
+  definirTitulo({ home: 'Ficha Fallout 2.1', criar: 'Novo Personagem', ficha: 'Ficha' }[pagina] || 'Ficha Fallout 2.1');
+  window.scrollTo(0, 0);
+  const render = resolverRota(pagina);
+  if (render) render(content, resto.join('/'));
+  else content.innerHTML = '<div class="empty-state"><h2>Página não encontrada</h2><button class="btn btn-primary" onclick="navegar(\'home\')">Voltar ao início</button></div>';
 }
 
-// --- PWA Update ---
-/**
- * Verifica se existe uma nova versão do Service Worker. Quando encontra,
- * limpa os caches do SW e envia SKIP_WAITING automaticamente (sem exigir
- * clique do usuário). Limpar caches do SW nunca afeta personagens, que
- * vivem só em localStorage (store.js), separado do Cache Storage do SW.
- * @param {ServiceWorkerRegistration} registration - Registro do SW ativo
- */
-function verificarAtualizacaoSW(registration) {
-  const novoSW = registration.waiting || registration.installing;
-
-  function aplicarAtualizacao(sw) {
-    // Evitar disparar mais de uma vez pro mesmo SW
-    if (sw._dndAtualizacaoAplicada) return;
-    sw._dndAtualizacaoAplicada = true;
-
-    // NAO apagar caches aqui. O proprio SW (evento 'activate') remove apenas os
-    // caches de versoes antigas. Apagar tudo do cliente destroi o cache que o novo
-    // SW acabou de popular no 'install', deixando o app sem conteudo offline
-    // (erro "Returned response is null" ao abrir sem rede).
-    sw.postMessage({ type: 'SKIP_WAITING' });
-  }
-
-  if (novoSW) {
-    if (novoSW.state === 'installed') {
-      if (navigator.serviceWorker.controller) aplicarAtualizacao(novoSW);
-    } else {
-      novoSW.addEventListener('statechange', () => {
-        if (novoSW.state === 'installed' && navigator.serviceWorker.controller) {
-          aplicarAtualizacao(novoSW);
-        }
-      });
-    }
-  }
-
-  registration.addEventListener('updatefound', () => {
-    const instalando = registration.installing;
-    if (instalando) {
-      instalando.addEventListener('statechange', () => {
-        if (instalando.state === 'installed' && navigator.serviceWorker.controller) {
-          aplicarAtualizacao(instalando);
-        }
-      });
-    }
-  });
-}
-
-/**
- * Recarrega a página assim que for seguro (sem modal aberto), pra não
- * interromper o usuário no meio de uma edição (ex: wizard de level-up).
- * Se já estiver seguro, recarrega na hora.
- */
-function recarregarQuandoSeguro() {
-  const overlay = document.getElementById('modal-overlay');
-  const modalAberto = overlay && overlay.style.display === 'flex';
-
-  if (!modalAberto) {
-    window.location.reload();
-    return;
-  }
-
-  toast('Nova versão disponível — será aplicada ao fechar esta janela.', '');
-  // Polling em vez do callback onClose de abrirModal() (utils.js): esse callback é
-  // um slot único por modal, já pode estar ocupado pela lógica do próprio wizard/modal
-  // em andamento — registrar aqui substituiria esse callback e quebraria a limpeza dele.
-  const interval = setInterval(() => {
-    const aindaAberto = overlay && overlay.style.display === 'flex';
-    if (!aindaAberto) {
-      clearInterval(interval);
-      window.location.reload();
-    }
-  }, 500);
-}
-
-/**
- * Abre as notas de versão sozinho, uma única vez, quando o site atualiza
- * para uma versão diferente da última que este navegador viu. Na primeira
- * visita (nada salvo ainda) não é uma atualização -- só grava a versão
- * atual em silêncio, sem abrir o modal.
- */
-function abrirNotasVersaoSeAtualizou() {
-  if (!VERSAO_ATUAL) return;
-  const vista = localStorage.getItem(VERSAO_VISTA_KEY);
-  if (vista === VERSAO_ATUAL) return;
-  if (vista) abrirNotasVersao();
-  localStorage.setItem(VERSAO_VISTA_KEY, VERSAO_ATUAL);
-}
-
-// --- Reportar problema ---
-
-/** Repositório público do projeto, onde ficam as issues. */
-const REPO_URL = 'https://github.com/ZaitBr-bit/D-D_2024';
-
-/**
- * Monta o corpo do modal de "Reportar Problema".
- *
- * O canal principal é a aba de issues do GitHub: lá o relato fica público,
- * numerado e pesquisável, e o formulário já pede o que costuma faltar
- * (versão, aparelho, o que era esperado). O link vai com a versão atual
- * pré-preenchida -- o campo `versao` do formulário
- * (`.github/ISSUE_TEMPLATE/bug.yml`) casa com o parâmetro de mesmo nome,
- * então quem clica daqui não precisa procurar o número no header.
- *
- * O Reddit continua como alternativa para quem não tem conta no GitHub.
- */
-function corpoReportarProblema() {
-  const versao = encodeURIComponent(VERSAO_ATUAL || '');
-  return `
-    <p style="margin-bottom:12px">Encontrou um erro ou tem uma ideia? O melhor lugar é a página do projeto no GitHub:</p>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <a class="btn btn-accent" id="link-issue-bug" href="${REPO_URL}/issues/new?template=bug.yml&amp;versao=${versao}" target="_blank" rel="noopener noreferrer" style="text-align:center;text-decoration:none">🐛 Relatar um problema</a>
-      <a class="btn btn-secondary" id="link-issue-sugestao" href="${REPO_URL}/issues/new?template=sugestao.yml" target="_blank" rel="noopener noreferrer" style="text-align:center;text-decoration:none">💡 Sugerir uma melhoria</a>
-      <a class="btn btn-secondary" id="link-issues-lista" href="${REPO_URL}/issues" target="_blank" rel="noopener noreferrer" style="text-align:center;text-decoration:none">📋 Ver o que já foi relatado</a>
-    </div>
-    <p style="margin:16px 0 8px;font-size:0.85rem;color:var(--text-muted)">Precisa de uma conta no GitHub (gratuita). Sem conta, dá para falar pelo Reddit:</p>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <a class="btn btn-secondary" href="https://www.reddit.com/r/rpgbrasil/comments/1sgrj1j/criador_de_ficha_dd_55_2024_web_e_mobile_gratuito/" target="_blank" rel="noopener noreferrer" style="text-align:center;text-decoration:none">💬 Comentário no post</a>
-      <a class="btn btn-secondary" href="https://www.reddit.com/user/ZaitBrz/" target="_blank" rel="noopener noreferrer" style="text-align:center;text-decoration:none">✉ Mensagem direta</a>
-    </div>
-  `;
-}
-
-// --- Inicialização ---
+/** Inicializa o app. */
 function init() {
-  // Carregar taxas de conversao de moeda customizadas (se houver), antes de qualquer ficha renderizar
-  carregarTaxasMoeda();
-
-  // Inicializar módulo de sync (registra listeners online/offline e processa fila pendente)
-  inicializarSync();
-
-  // Registrar Service Worker e verificar atualizações
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').then(registration => {
-      verificarAtualizacaoSW(registration);
-
-      // Verificar atualizações periodicamente (a cada 5 min)
-      setInterval(() => {
-        registration.update();
-      }, 5 * 60 * 1000);
-
-      // Verificar ao voltar para a aba (útil em mobile)
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-          registration.update();
-        }
-      });
-    }).catch(err => {
-      console.warn('SW registro falhou:', err);
-    });
-
-    // Recarregar página quando o novo SW assumir controle (pós-atualização)
-    // hadController evita reload desnecessário na primeira instalação
-    const hadController = !!navigator.serviceWorker.controller;
-    let refreshing = false;
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW:', err));
+    let recarregando = false;
+    const tinhaControle = !!navigator.serviceWorker.controller;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!hadController || refreshing) return;
-      refreshing = true;
-      recarregarQuandoSeguro();
+      if (!tinhaControle || recarregando) return;
+      recarregando = true;
+      window.location.reload();
     });
   }
-
-  // Fechar modal ao clicar fora (usa fecharModal para suporte a pilha)
-  document.getElementById('modal-overlay').addEventListener('click', (e) => {
-    if (e.target.id === 'modal-overlay') {
-      window.fecharModal();
-    }
+  document.getElementById('modal-overlay').addEventListener('click', e => {
+    if (e.target.id === 'modal-overlay') fecharModal();
   });
-
-  // FAB Reportar Bug (global, disponível em todas as telas)
-  document.getElementById('btn-reportar-bug')?.addEventListener('click', () => {
-    abrirModal('Reportar Problema', corpoReportarProblema(), '<button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>');
-  });
-
-  // Selo de versão clicável (delegação): o span `.header-versao` é
-  // recriado a cada navegação por `definirTituloHeader`, então um listener
-  // preso nele morreria na troca de rota seguinte. Um único listener aqui,
-  // no ancestral estável `#header-titulo`, sobrevive à recriação --
-  // registrado uma vez só, nunca dentro de `processarRota` (senão
-  // acumularia um listener por navegação). A checagem de rota acontece no
-  // clique, não no cadastro, pra sempre valer a rota atual.
-  document.getElementById('header-titulo')?.addEventListener('click', (e) => {
-    const selo = e.target.closest('.header-versao');
-    if (!selo) return;
-    const hash = window.location.hash.slice(1) || 'home';
-    const pagina = hash.split('/')[0];
-    if (pagina !== 'home') return;
-    abrirNotasVersao();
-  });
-
-  // Listener de rota
   window.addEventListener('hashchange', processarRota);
-
-  // Voltou ao primeiro plano: reconcilia a lista com a nuvem se estiver na home.
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') sincronizarHomeAoVoltar();
-  });
-
-  // Registro de livros de origem: carregado cedo para o chip já nascer com a sigla.
-  carregarFontes().catch(() => {});
-
-  // Rota inicial
   processarRota();
-
-  // Notas de versão automáticas: depois da rota inicial, pra não competir
-  // com o primeiro render.
-  abrirNotasVersaoSeAtualizou();
 }
 
 document.addEventListener('DOMContentLoaded', init);

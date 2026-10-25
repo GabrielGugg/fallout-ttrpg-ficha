@@ -1,24 +1,16 @@
 {
-  "name": "Ficha de Personagem 5.5",
-  "short_name": "Ficha 5.5",
-  "description": "Criador de fichas de personagem para a 5.5 (revisão de 2024 da 5ª edição)",
+  "name": "Ficha Fallout TTRPG 2.1",
+  "short_name": "Ficha Fallout",
+  "description": "Criador de fichas de personagem para o Fallout TTRPG 2.1 da Arcane Arcade",
   "id": "./",
   "scope": "./",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#faf8f4",
-  "theme_color": "#7b2d26",
+  "background_color": "#0b140d",
+  "theme_color": "#0b140d",
   "orientation": "portrait-primary",
   "icons": [
-    {
-      "src": "img/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "img/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

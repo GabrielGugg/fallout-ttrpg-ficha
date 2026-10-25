@@ -1,41 +1,30 @@
 /* ============================================================
-   D&D 5.5 - Ficha de Personagem - Estilos Principais
-   Tema claro, otimizado para impressão PDF
+   Ficha Fallout TTRPG 2.1 — tema Pip-Boy (verde fósforo sobre preto)
    ============================================================ */
-
-/* --- Reset e base --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #faf8f4;
-  --bg-card: #ffffff;
-  --bg-input: #f5f2ed;
-  --primary: #7b2d26;
-  --primary-light: #a0453d;
-  --primary-dark: #5a1f1a;
-  --secondary: #c4a35a;
-  --secondary-light: #e0cc8a;
-  --accent: #1a5276;
-  --text: #2c2c2c;
-  --text-muted: #6b6b6b;
-  --text-light: #999;
-  --border: #d5cfc5;
-  --border-light: #e8e0d4;
-  --success: #27ae60;
-  --danger: #c0392b;
-  --warning: #f39c12;
-  --info: #2980b9;
-  --radius: 8px;
-  --radius-sm: 4px;
-  --shadow: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
-  --header-h: 56px;
+  --bg: #0b140d;
+  --bg-card: #101d12;
+  --bg-input: #0d1810;
+  --bg-hover: #16291a;
+  --primary: #3ef07a;
+  --primary-dim: #22a34f;
+  --primary-faint: rgba(62, 240, 122, 0.12);
+  --text: #b8f5c8;
+  --text-muted: #6fae80;
+  --border: #1f5a30;
+  --danger: #ff6b5a;
+  --warning: #ffc94a;
+  --success: #3ef07a;
+  --radius: 6px;
+  --header-h: 54px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --mono: 'Share Tech Mono', 'Courier New', ui-monospace, monospace;
 }
 
 html { font-size: 16px; -webkit-text-size-adjust: 100%; }
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
@@ -43,2313 +32,246 @@ body {
   line-height: 1.5;
   min-height: 100dvh;
   padding-top: calc(var(--header-h) + var(--safe-top));
-  padding-bottom: var(--safe-bottom);
-  -webkit-font-smoothing: antialiased;
+  padding-bottom: calc(16px + var(--safe-bottom));
 }
+h1, h2, h3, h4, .cab-nome, .stat-value, .atributo-valor, .special-valor { font-family: var(--mono); letter-spacing: 0.02em; }
+h2 { font-size: 1.25rem; color: var(--primary); margin-bottom: 6px; text-transform: uppercase; }
+h3 { font-size: 1rem; color: var(--primary); margin: 18px 0 8px; text-transform: uppercase; }
+h4 { font-size: 0.9rem; color: var(--primary); margin: 14px 0 6px; text-transform: uppercase; }
+p { margin-bottom: 8px; }
+small { color: var(--text-muted); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
-/* --- Header --- */
+/* --- Cabeçalho --- */
 #app-header {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: calc(var(--header-h) + var(--safe-top));
-  padding-top: var(--safe-top);
-  background: var(--primary);
-  color: #fff;
-  display: flex; align-items: center;
-  padding-left: 12px; padding-right: 12px;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  position: fixed; inset: 0 0 auto 0; z-index: 100;
+  height: calc(var(--header-h) + var(--safe-top)); padding: var(--safe-top) 12px 0;
+  display: flex; align-items: center; gap: 8px;
+  background: #07100a; border-bottom: 1px solid var(--border);
 }
-#app-header h1 {
-  flex: 1; font-size: 1.1rem; font-weight: 600;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.header-versao {
-  font-size: 0.6em; font-weight: 400; text-transform: lowercase;
-  opacity: 0.65; vertical-align: middle;
-}
-/* Selo de versão clicável: a classe só é aplicada quando a rota atual é a
-   home (ver atualizarSeloVersaoClicavel em app.js). Nas demais rotas o
-   selo continua sem cursor de mão nem sublinhado -- é texto inerte. */
-.header-versao--clicavel {
-  cursor: pointer;
-  text-decoration: underline dotted;
-  text-underline-offset: 2px;
-}
-.header-versao--clicavel:hover,
-.header-versao--clicavel:active {
-  opacity: 1;
-}
-.header-btn {
-  background: none; border: none; color: #fff;
-  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; border-radius: 50%; flex-shrink: 0;
-}
-.header-btn:active { background: rgba(255,255,255,0.15); }
-/* Botão com ícone + rótulo em texto (ex.: "📋 Notas de versão"), diferente
-   do .header-btn circular só-ícone (voltar, reportar bug). */
-.header-btn-rotulado {
-  background: none; border: none; color: #fff;
-  height: 40px; padding: 0 10px; display: flex; align-items: center; gap: 6px;
-  cursor: pointer; border-radius: 20px; flex-shrink: 0;
-  font-size: 0.85rem; white-space: nowrap;
-}
-.header-btn-rotulado:active { background: rgba(255,255,255,0.15); }
-.header-icone { font-size: 1.1rem; line-height: 1; }
-.header-rotulo {
-  font-size: 0.8rem; color: #fff; opacity: 0.9;
-  white-space: nowrap; flex-shrink: 0;
-}
-#btn-reportar-bug {
-  font-size: 1.2rem;
-}
-#header-acoes { display: flex; align-items: center; gap: 4px; }
-/* Separador visual entre o bloco de notas de versão e o de reportar bug.
-   Some sozinho quando #header-acoes está vazio (fora da home, sem botão
-   de notas -- não há bloco pra separar). */
-.header-separador {
-  width: 1px; height: 24px; background: rgba(255,255,255,0.25);
-  margin: 0 8px; flex-shrink: 0;
-}
-#header-acoes:empty + .header-separador { display: none; }
+#app-header h1 { flex: 1; font-size: 1.05rem; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; }
+.header-versao { font-size: 0.65em; opacity: 0.6; text-transform: lowercase; }
+.header-btn { background: none; border: none; color: var(--primary); padding: 6px; cursor: pointer; display: flex; }
+#app-content { max-width: 860px; margin: 0 auto; padding: 16px; }
+#rodape { max-width: 860px; margin: 24px auto 0; padding: 0 16px; font-size: 0.75rem; color: var(--text-muted); text-align: center; }
 
-@media (max-width: 480px) {
-  /* No mobile os rótulos em texto somem e sobra só o ícone, com espaço
-     suficiente entre os botões pra não ficar tudo grudado. */
-  .header-rotulo { display: none; }
-  .header-btn-rotulado { padding: 0; width: 40px; justify-content: center; border-radius: 50%; }
-  #header-acoes { gap: 8px; }
-  .header-separador { margin: 0 6px; }
-}
-
-/* --- Main content --- */
-#app-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 16px;
-  min-height: calc(100dvh - var(--header-h));
-}
-
-/* --- Rodapé de atribuição (SRD 5.2.1) --- */
-#rodape-atribuicao {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 8px 16px 24px;
-  font-size: 0.7rem;
-  line-height: 1.4;
-  color: var(--text-muted);
-  overflow-wrap: anywhere;
-}
-#rodape-atribuicao p { margin: 0 0 4px; }
-#rodape-atribuicao a { color: inherit; }
-
-/* --- Cards --- */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px;
-  margin-bottom: 12px;
-}
-.card-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px; padding-bottom: 8px;
-  border-bottom: 2px solid var(--primary);
-}
-.card-header h2 { font-size: 1rem; color: var(--primary); font-weight: 700; }
-.card-header h3 { font-size: 0.9rem; color: var(--primary); font-weight: 600; }
-
-/* --- Botões --- */
+/* --- Botões e formulários --- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 10px 20px; border: none; border-radius: var(--radius);
-  font-size: 0.9rem; font-weight: 600; cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  text-decoration: none; line-height: 1.2;
-  flex-shrink: 0; white-space: nowrap;
+  padding: 10px 16px; min-height: 44px; border-radius: var(--radius);
+  border: 1px solid var(--primary-dim); background: transparent; color: var(--primary);
+  font-family: var(--mono); font-size: 0.95rem; text-transform: uppercase; cursor: pointer;
 }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-light); }
-.btn-secondary { background: var(--border-light); color: var(--text); }
-.btn-secondary:hover { background: var(--border); }
-.btn-accent { background: var(--accent); color: #fff; }
-.btn-accent:hover { background: #236b99; }
-.btn-success { background: var(--success); color: #fff; }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-outline {
-  background: transparent; color: var(--primary);
-  border: 2px solid var(--primary);
+.btn:hover:not(:disabled) { background: var(--primary-faint); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: var(--primary); color: #04140a; border-color: var(--primary); font-weight: 700; }
+.btn-primary:hover:not(:disabled) { background: #6af59a; }
+.btn-danger { border-color: var(--danger); color: var(--danger); }
+.btn-success { border-color: var(--success); }
+.btn-sm { padding: 6px 12px; min-height: 36px; font-size: 0.82rem; }
+.btn-lg { padding: 14px 20px; font-size: 1.05rem; }
+.btn-icon { background: none; border: 1px solid transparent; color: var(--text-muted); width: 36px; height: 36px; border-radius: var(--radius); cursor: pointer; font-size: 1rem; }
+.btn-icon:hover { border-color: var(--border); color: var(--primary); }
+.btn-icon.perigo:hover { color: var(--danger); border-color: var(--danger); }
+.link { background: none; border: none; color: var(--primary); text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; padding: 0; text-align: left; }
+.form-group { margin-bottom: 12px; }
+.form-label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
+.form-input, .form-select, .form-textarea, .mini-input, .mini-select {
+  width: 100%; padding: 10px 12px; border-radius: var(--radius);
+  background: var(--bg-input); border: 1px solid var(--border); color: var(--text); font: inherit;
 }
-.btn-outline:hover { background: var(--primary); color: #fff; }
-.btn-sm { padding: 6px 12px; font-size: 0.8rem; }
-.btn-cantrip { background: transparent; color: var(--accent); border: 2px solid var(--accent); font-weight: 700; }
-.btn-cantrip:hover { background: var(--accent); color: #fff; }
-.btn-lg { padding: 14px 28px; font-size: 1rem; }
-.btn-block { width: 100%; }
-.btn-icon {
-  width: 36px; height: 36px; padding: 0;
-  border-radius: 50%; font-size: 1.1rem;
-}
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.form-textarea { resize: vertical; }
+.mini-input { width: 96px; padding: 4px 8px; }
+.mini-select { width: auto; padding: 2px 6px; font-size: 0.8rem; }
+.form-check { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 0; }
+.form-check input, .check-card input { accent-color: var(--primary); width: 18px; height: 18px; flex: none; }
+.texto-suave { color: var(--text-muted); font-size: 0.9rem; }
+.aviso { color: var(--warning); }
+.ok { color: var(--success); }
+.contador { font-size: 0.85em; color: var(--text-muted); }
+.contador.erro, .erro { color: var(--danger); }
 
-/* --- Formulários --- */
-.form-group { margin-bottom: 14px; }
-.form-label {
-  display: block; font-size: 0.8rem; font-weight: 600;
-  color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.form-input, .form-select, .form-textarea {
-  width: 100%; padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem; background: var(--bg-input);
-  color: var(--text); transition: border-color 0.2s;
-  font-family: inherit;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  outline: none; border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(123,45,38,0.15);
-}
-.form-textarea { resize: vertical; min-height: 80px; }
-.form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b6b6b' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
-
-.form-check {
-  display: flex; align-items: center; gap: 8px;
-  padding: 6px 0; cursor: pointer;
-}
-.form-check input[type="checkbox"], .form-check input[type="radio"] {
-  width: 18px; height: 18px; accent-color: var(--primary);
-}
-
-/* --- Grid e layout --- */
-.row { display: flex; flex-wrap: wrap; gap: 12px; }
-.col { flex: 1; min-width: 0; }
-.col-2 { flex: 0 0 calc(50% - 6px); }
-.col-3 { flex: 0 0 calc(33.33% - 8px); }
-.col-4 { flex: 0 0 calc(25% - 9px); }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.mt-1 { margin-top: 8px; }
-.mt-2 { margin-top: 16px; }
-.mt-3 { margin-top: 24px; }
-.mb-1 { margin-bottom: 8px; }
-.mb-2 { margin-bottom: 16px; }
-.gap-1 { gap: 8px; }
-.flex { display: flex; }
-.flex-wrap { flex-wrap: wrap; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.hidden { display: none !important; }
-
-/* --- Tags / Badges --- */
-.badge {
-  display: inline-block; padding: 2px 8px;
-  border-radius: 12px; font-size: 0.75rem; font-weight: 600;
-  line-height: 1.4;
-}
-.badge-primary { background: var(--primary); color: #fff; }
-.badge-secondary { background: var(--border-light); color: var(--text-muted); }
-.badge-accent { background: var(--accent); color: #fff; }
-.badge-success { background: #d4edda; color: #155724; }
-.badge-warning { background: #fff3cd; color: #856404; }
-
-/* --- Tabelas --- */
-.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-table {
-  width: 100%; border-collapse: collapse;
-  font-size: 0.85rem;
-}
-th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border-light); }
-th { font-weight: 700; color: var(--primary); background: #f9f6f2; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
-tr:hover td { background: #faf8f4; }
-
-/* --- Wizard de criação --- */
-.wizard-steps {
-  display: flex; gap: 0; margin-bottom: 20px;
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  padding-bottom: 4px;
-}
-.wizard-step {
-  flex: 1; min-width: 40px; text-align: center;
-  padding: 8px 4px; font-size: 0.7rem; font-weight: 600;
-  color: var(--text-muted); position: relative;
-  border-bottom: 3px solid var(--border-light);
-  transition: all 0.3s;
-  cursor: pointer;
-  overflow: hidden;
-}
-.wizard-step-label {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.wizard-step.active {
-  color: var(--primary); border-bottom-color: var(--primary);
-}
-.wizard-step.done {
-  color: var(--success); border-bottom-color: var(--success);
-}
-.wizard-step-num {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 22px; height: 22px; border-radius: 50%;
-  background: var(--border-light); color: var(--text-muted);
-  font-size: 0.7rem; font-weight: 700; margin-bottom: 2px;
-}
-.wizard-step.active .wizard-step-num { background: var(--primary); color: #fff; }
-.wizard-step.done .wizard-step-num { background: var(--success); color: #fff; }
-
-/* (wizard-nav antigo removido - agora usa wizard-nav-fixed) */
-
-/* --- Card de opção unificado (ui-opcoes.js) ---
-   Substitui .selection-card, .magia-card e .levelup-subclasse-card.
-   Duas densidades: `ampla` para 1-entre-poucos, `densa` para N-entre-muitos. */
-.opcao-grid { display: grid; gap: 8px; }
-.opcao-grid.ampla { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-/* Densa reproduz a .magias-grid antiga (app.css ~803): coluna via
-   auto-fill(180px) DESDE SEMPRE, sem breakpoint nenhum -- 2 colunas ja
-   cabiam a partir de ~368px de largura (2*180+8 de gap = 368). A versao
-   anterior desta regra travava em 1 coluna ate 480px e so ai trocava pra
-   auto-fill(200px): achado da Rodada 2 de correcao da Task 9 (I2), a GRADE
-   nunca tinha sido comparada, so o CARD. `margin-top: 8px` tambem vem da
-   .magias-grid -- sem ele, cabecalhos como "Magias Especiais" (grimorio.js,
-   margin:8px 0 4px) colapsavam pra 8px acima da grade e agora ficavam 4px. */
-.opcao-grid.densa { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin-top: 8px; }
-
-/* Padding/text-align/overflow INCONDICIONAIS na base, igual ao
-   .selection-card antigo (que sempre teve `padding: 12px`, `text-align:
-   center` e `overflow: hidden`, dentro ou fora de grade -- confirmado lendo
-   o .selection-card original, HEAD:site/css/app.css antes desta migração).
-   Task 8 corrigiu o padding pela raiz: antes ele só existia dentro de
-   .opcao-grid.ampla/.densa, e todo .opcao-card fora de grade -- os popups de
-   escolha de classe/traço/ferramenta/equipamento, e o card de condição na
-   ficha -- ficava sem respiro nenhum entre a borda e o texto.
-   Achado I1 da revisão final: `text-align: center` e `overflow: hidden`
-   tiveram a MESMA falha estrutural que o padding já teve -- `text-align`
-   morava só em `.opcao-grid.ampla .opcao-card` (escopado por grade) e
-   `overflow` nunca tinha sido levado para `.opcao-card` nenhum. Seis cards
-   migrados vivem fora de qualquer `.opcao-grid` (creator/passo-classe.js:
-   110,126,140; passo-especie.js:128; passo-antecedente.js:147;
-   passo-equipamento.js:334) e perderam a centralização; sem overflow:hidden,
-   conteúdo longo vaza da borda em vez de ser cortado. Densa (que nunca foi
-   centralizada -- o .magia-card original não tinha text-align nenhum, texto
-   à esquerda por fluxo normal) ganha o override de volta logo abaixo, no
-   mesmo bloco que já escopa os outros valores específicos dela. */
+/* --- Cards e grades --- */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-bottom: 12px; }
+.card-header { font-family: var(--mono); color: var(--primary); text-transform: uppercase; font-size: 0.95rem; margin-bottom: 8px; }
+details.bloco { padding: 0; }
+details.bloco > summary { list-style: none; cursor: pointer; padding: 12px; margin: 0; display: flex; justify-content: space-between; }
+details.bloco > summary::-webkit-details-marker { display: none; }
+details.bloco > summary::after { content: '▸'; transition: transform 0.15s; }
+details.bloco[open] > summary::after { transform: rotate(90deg); }
+.card-corpo { padding: 0 12px 12px; }
+.opcao-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin: 8px 0; }
 .opcao-card {
-  padding: 12px;
-  border: 2px solid var(--border-light);
-  border-radius: var(--radius);
-  background: var(--bg-card);
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  user-select: none;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left;
+  padding: 10px 12px; min-height: 56px; border-radius: var(--radius);
+  background: var(--bg-input); border: 1px solid var(--border); cursor: pointer;
 }
-.opcao-card:hover { border-color: var(--primary-light); background: #fef9f8; }
-.opcao-card.selecionada {
-  border-color: var(--primary); background: #fef2f0;
-  box-shadow: 0 0 0 1px var(--primary);
-}
-/* Densa sobrepõe com os valores que o .magia-card (regra antiga, ainda em
-   app.css, linha ~772) sempre teve. Achado da Rodada 1 de correcao da
-   Task 9: ao escrever o bloco unificado (Task 1) so os valores do
-   .selection-card (ampla) foram levados pra base -- o .magia-card (densa)
-   tinha um conjunto proprio de valores para varias destas propriedades, e
-   nenhuma delas tinha sido escopada por densidade. Resultado medido: os 76
-   cards de magia, ao herdar .opcao-card na Task 9, mudaram de fonte, cor de
-   selecao, arredondamento de canto e cor de hover -- exatamente o que este
-   bloco corrige, um valor por vez, comparado com o .magia-card original.
-   `text-align: left` (achado I1 da revisão final): densa nunca foi
-   centralizada -- ver comentário do bloco base, acima. */
-.opcao-grid.densa .opcao-card { padding: 8px 10px; border-radius: var(--radius-sm); text-align: left; }
-.opcao-grid.densa .opcao-card:hover { background: #faf8f4; }
-/* copia literal da expressao do .magia-card.selecionada (linha ~787) --
-   NAO converter pra hexadecimal, o color-mix e o valor real la. */
-.opcao-grid.densa .opcao-card.selecionada { background: color-mix(in srgb, var(--primary) 8%, white); }
+.opcao-card:hover:not(:disabled) { background: var(--bg-hover); border-color: var(--primary-dim); }
+.opcao-card.selecionado { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); background: var(--primary-faint); }
+.opcao-card.bloqueado, .opcao-card:disabled { opacity: 0.5; }
+.opcao-titulo { font-weight: 600; color: var(--primary); }
+.opcao-sub, .opcao-motivo { font-size: 0.78rem; color: var(--text-muted); }
+.opcao-motivo { color: var(--warning); }
+.check-card { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 10px; padding: 10px 12px; margin: 8px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); cursor: pointer; }
+.check-card .ermo { margin-left: auto; font-size: 0.85rem; }
+.lista-check { display: flex; flex-direction: column; }
+.lista-check.colunas { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0 12px; }
+.info-box { padding: 10px 12px; margin: 8px 0; border-left: 3px solid var(--primary-dim); background: var(--bg-input); font-size: 0.9rem; }
+.botoes-escolha { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border: 1px solid var(--border); border-radius: 999px; font-size: 0.85rem; }
+.chip-x { background: none; border: none; color: var(--text-muted); cursor: pointer; }
+.badge { font-size: 0.7rem; padding: 1px 6px; border-radius: 4px; border: 1px solid; vertical-align: middle; }
+.badge-warning { color: var(--warning); }
+.md-content p { margin-bottom: 8px; }
+.md-content ul, .md-content ol { margin: 0 0 8px 20px; }
+.carregando, .empty-state { text-align: center; padding: 48px 16px; color: var(--text-muted); }
+.empty-state h2 { margin-bottom: 8px; }
+.empty-icone { font-size: 3rem; color: var(--primary); }
 
-/* `justify-content: center` INCONDICIONAL (achado I1 da revisão final):
-   igual ao padding/text-align acima, centralizar o título só valia dentro de
-   `.opcao-grid.ampla .opcao-card .opcao-nome` -- fora de grade nenhuma
-   densidade sobrepunha o `space-between` da base, e um `<div class=
-   "opcao-nome">` com um único filho de texto vira flex-start com
-   `justify-content: space-between` (a regra CSS de distribuição com 1 item
-   só), então o título ficava colado à esquerda mesmo com `text-align:
-   center` inline no HTML (que não tem efeito nenhum no eixo principal de um
-   filho flex -- quem manda ali é justify-content). Nenhum adaptador de
-   opcoes-dominio.js popula `tags` hoje (todos devolvem `[]`), então não há
-   caso real de dois filhos brigando por espaço para `center` atrapalhar; se
-   isso mudar, cabe reavaliar. Densa cancela `display:flex` inteiro (ver
-   `display: block` duas regras abaixo), então esta mudança não afeta densa.
-   `cursor: pointer` e `-webkit-tap-highlight-color: transparent` (achado I4
-   da revisão final): o `.magia-card-nome` antigo sempre teve essas duas
-   declarações (era o alvo real do toque/clique que abre a descrição da
-   magia -- grimorio.js e bruxo.js compensavam com `style="cursor:pointer"`
-   inline; creator/passo-magias.js:172,460 e levelup-ui.js:1186 tinham o
-   mesmo listener vivo no nome mas ficaram sem a declaração, e sem o
-   `-webkit-tap-highlight-color` nenhum dos cinco tinha). */
-.opcao-card .opcao-nome {
-  font-weight: 700; font-size: 0.9rem; color: var(--text); line-height: 1.2;
-  display: flex; justify-content: center; align-items: baseline; gap: 8px;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-}
-/* Densa: fonte do nome do .magia-card-nome era 0.85rem (base do bloco unificado
-   veio do .selection-card .card-nome, que sempre foi 0.9rem -- valores
-   diferentes, nunca escopados por densidade ate aqui).
-   `display: block` TAMBEM precisou entrar aqui -- achado por MEDICAO, nao
-   so por leitura do CSS, e corrigido em DUAS rodadas: a Rodada 1 corrigiu
-   so o `justify-content` (um card com badge de dominio mostrava a estrela
-   colada na esquerda e o nome empurrado/cortado na direita), mas deixou
-   `display: flex`, `gap: 8px` e `align-items: baseline` intocados no mesmo
-   bloco -- a revisao da Rodada 2 (C1) apontou que os TRES seguiam
-   divergentes pelo MESMO motivo: `.badge-dominio` tem `margin-right: 4px`
-   (app.css ~900); no fluxo normal antigo do `.magia-card-nome` (nunca teve
-   flex nenhum) a separacao badge-nome era esse 4px mais o espaco de texto
-   entre o `</span>` e o nome (~7,4px medidos); como filho flex, esse espaco
-   em branco e descartado e quem manda e o `gap: 8px` -- uns 12px, 62% a
-   mais. `display: block` neutraliza justify-content/gap/align-items de uma
-   vez so (nenhum dos tres faz efeito fora de flex/grid), entao a linha de
-   `justify-content: flex-start` da Rodada 1 virou redundante e saiu daqui. */
-.opcao-grid.densa .opcao-card .opcao-nome { font-size: 0.85rem; display: block; }
-/* Nome filho direto do card: reserva a área do .opcao-check (absoluto, 28 px
-   no canto superior direito) e quebra a palavra comprida, em vez de passar
-   por baixo do círculo e ser cortado pelo overflow do card (issue #130). */
-.opcao-grid.densa .opcao-card > .opcao-nome { padding-right: 24px; overflow-wrap: anywhere; }
-.opcao-card .opcao-tags {
-  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em;
-  color: var(--text-muted); font-weight: 700; white-space: nowrap;
-}
-.opcao-card .opcao-resumo {
-  font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;
-}
-/* Densa: .magia-card-meta era 0.7rem, tinha `display:flex; gap:6px;
-   flex-wrap:wrap` (varias tags de escola/conc./M$ lado a lado com respiro
-   fixo) -- isso vale em qualquer profundidade, por isso descendente (sem
-   `>`) abaixo.
-   O `margin-top`, porem, PRECISA saber a profundidade -- diagnostico
-   corrigido na Rodada 2 (I3), o da Rodada 1 estava errado (atribuia a
-   diferenca a "estrutura interna" e "resumo as vezes vazio" do bruxo.js,
-   sem justificar o numero). O `gap: 2px` antigo vivia no PROPRIO
-   `.magia-card` (pai flex-column), e so afeta filhos DIRETOS em fluxo
-   normal -- em 4 dos 5 arquivos `.opcao-nome`/`.opcao-resumo` sao filhos
-   diretos do card (o `.opcao-check` e absolute, sai do fluxo, entao sobra
-   so nome+resumo pro gap:2px separar). Em bruxo.js (linhas ~347-368) o
-   card monta `.opcao-card > div[flex;gap:6px] > div[flex:1] >
-   (.opcao-nome, .opcao-resumo)` -- nome e resumo sao NETOS do card, o
-   `gap: 2px` do avo nunca os alcancava: separacao ANTIGA de 0px ali,
-   sempre, resumo vazio ou nao. Por isso o margin-top e feito em duas
-   regras: 0 por padrao (qualquer profundidade, bate com bruxo.js) e 2px
-   só quando `.opcao-resumo` é filho DIRETO do card (`>`, bate com os
-   outros 4 arquivos) -- a mais especifica por ordem de declaracao (mesma
-   especificidade do seletor descendente, o `>` nao soma pontos) vence
-   quando as duas batem. */
-.opcao-grid.densa .opcao-card .opcao-resumo {
-  font-size: 0.7rem; margin-top: 0;
-  display: flex; gap: 6px; flex-wrap: wrap;
-}
-.opcao-grid.densa .opcao-card > .opcao-resumo { margin-top: 2px; }
+/* --- Contadores (stepper) --- */
+.stepper { display: inline-flex; align-items: center; gap: 6px; }
+.stepper button { width: 34px; height: 34px; border-radius: var(--radius); border: 1px solid var(--primary-dim); background: transparent; color: var(--primary); font-size: 1.1rem; cursor: pointer; }
+.stepper button:disabled { opacity: 0.3; cursor: not-allowed; }
+.stepper > span { min-width: 22px; text-align: center; font-family: var(--mono); }
+.contador-linha, .linha-ferramenta { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); }
 
-/* Marcador de seleção: um círculo no canto, que é a forma já usada pelas
-   telas de magia (76 cards). É a ÚNICA forma de marcar seleção -- tanto os
-   cards migrados quanto os que montarSeletor desenha usam este marcador. */
-.opcao-card .opcao-check {
-  position: absolute; top: 2px; right: 2px;
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 2px solid var(--border); background: white;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem; color: white; transition: all 0.2s;
-  cursor: pointer; -webkit-tap-highlight-color: transparent; z-index: 2;
-}
-.opcao-card.selecionada .opcao-check { background: var(--primary); border-color: var(--primary); }
-.opcao-card.selecionada .opcao-check::after { content: '\2713'; }
-.opcao-card.bloqueada .opcao-check { pointer-events: none; }
-/* Densidade ampla (1-entre-poucos: classe/especie/antecedente/alinhamento do
-   criador, migrados na Task 7) reproduz o comportamento antigo do
-   .selection-card .card-check: o marcador fica OCULTO ate o card ser
-   selecionado, e so entao aparece. NAO mexe na densa -- e o vocabulario que
-   as telas de magia (76 cards, ainda .magia-card hoje) vao herdar na Task 9,
-   e la o anel SEMPRE visivel e o comportamento pretendido (e o que
-   .magia-card-check ja faz). Escopar por densidade evita que a correcao
-   visual desta tarefa mude o marcador que a Task 9 ainda vai migrar.
-   Sem padding-right reservado: o .selection-card antigo tambem nao
-   reservava espaco para o circulo (nem quando 20px, sempre oculto por
-   padrao) -- reservar aqui deixaria o nome permanentemente descentralizado
-   no estado NAO selecionado, que e o estado mais comum e por isso o que
-   mais importa bater com o original (medido em 02-vs-original.png). */
-.opcao-grid.ampla .opcao-card .opcao-check { display: none; }
-.opcao-grid.ampla .opcao-card.selecionada .opcao-check,
-/* Card de seletor (data-opcao): o círculo fica sempre visível, porque é ele que seleciona. */
-.opcao-grid.ampla .opcao-card[data-opcao] .opcao-check { display: flex; }
-/* DEFEITO da Task 2, achado e corrigido na Task 13: sem `display` proprio,
-   este <div> herdava o padrao de bloco e ocupava a LARGURA INTEIRA do
-   card -- so o TEXTO ficava embaixo (bloco seguinte de `.opcao-resumo`
-   quebra linha antes dele), mas a AREA CLICAVEL ia de borda a borda. Com
-   um resumo que quebra em exatamente duas linhas -- o que os 75 talentos
-   fazem, de sobra, por variarem muito de tamanho -- essa faixa cai bem no
-   centro geometrico do card, e tanto um clique automatizado no centro
-   quanto o dedo de quem mira o meio do card pra selecionar acaba abrindo
-   "ver detalhes" em vez de marcar o talento (talentos-levelup.spec.mjs,
-   caso Artifista, reproduzia isso 100% das vezes). `display: inline-block`
-   faz a caixa encolher pro tamanho do proprio texto -- continua na sua
-   propria linha (o bloco anterior, `.opcao-resumo`, sempre quebra linha
-   antes dele, com ou sem isto) e continua respeitando o `text-align` do
-   card (centralizado em `.opcao-grid.ampla`, a esquerda em `.densa`,
-   IGUAL a antes) -- so a caixa invisivel de clique fica do tamanho do
-   texto, nao do card. Nada muda visualmente (medido no navegador: mesma
-   posicao/tamanho de texto nas duas densidades, antes e depois). */
-.opcao-card[data-com-detalhe] { cursor: pointer; }
-.opcao-card .opcao-ver {
-  display: inline-block;
-  font-size: 0.72rem; color: var(--primary); margin-top: 4px;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-}
-/* O detalhe da opção não é mais embutido no card: "ver detalhes" abre um
-   popup empilhado (ver abrirDetalheOpcao em ui-opcoes.js). Expandir dentro
-   do card empurrava a lista inteira para baixo, justamente quando o jogador
-   está comparando opções -- por isso as regras `.opcao-detalhe`/`.aberta`
-   saíram daqui. */
+/* --- Tela inicial --- */
+.home-acoes { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.home-acoes-sec { display: flex; gap: 8px; justify-content: center; }
+.char-list { display: flex; flex-direction: column; gap: 8px; }
+.char-card { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); cursor: pointer; }
+.char-card:hover { border-color: var(--primary-dim); }
+.char-avatar { width: 44px; height: 44px; flex: none; border-radius: 50%; border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 1.3rem; color: var(--primary); }
+.char-info { flex: 1; min-width: 0; }
+.char-nome { font-weight: 600; color: var(--primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.char-detalhe, .char-data { font-size: 0.82rem; color: var(--text-muted); }
+.char-botoes { display: flex; }
 
-/* Bloqueada: continua legível, mas fora da seleção. */
-.opcao-card.bloqueada {
-  opacity: 0.45; background: var(--bg-input); cursor: not-allowed;
-  pointer-events: none;
-}
-.opcao-card .opcao-motivo {
-  font-size: 0.72rem; color: var(--text-muted); font-style: italic; margin-top: 3px;
-}
+/* --- Assistente --- */
+.wizard-steps { list-style: none; display: flex; gap: 4px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: thin; }
+.wizard-steps li button { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--text-muted); white-space: nowrap; cursor: pointer; font-size: 0.82rem; }
+.wizard-steps li button:disabled { cursor: default; opacity: 0.5; }
+.wizard-steps li.ativo button { border-color: var(--primary); color: var(--primary); background: var(--primary-faint); }
+.wizard-steps li.feito button { color: var(--text); }
+.wizard-num { font-family: var(--mono); }
+.wizard-corpo { padding-bottom: 88px; }
+.wizard-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px calc(10px + var(--safe-bottom)); background: #07100a; border-top: 1px solid var(--border); }
+.wizard-nav .btn { flex: 1; max-width: 240px; }
+.pontos-restantes { font-family: var(--mono); padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); margin: 10px 0; }
+.pontos-restantes.ok { border-color: var(--primary); color: var(--primary); }
+.pontos-restantes.erro { border-color: var(--danger); color: var(--danger); }
+.special-lista { display: flex; flex-direction: column; gap: 6px; }
+.special-linha { display: grid; grid-template-columns: 32px 1fr auto 92px; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); }
+.special-letra { font-family: var(--mono); font-size: 1.4rem; color: var(--primary); text-align: center; }
+.special-valor { font-size: 1.2rem; }
+.special-mod { font-family: var(--mono); text-align: right; }
+.escolha-feita { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border: 1px solid var(--primary-dim); border-radius: var(--radius); margin: 6px 0; }
 
-/* Cabeçalho de grupo e linha que revela as bloqueadas do grupo. */
-.opcao-grupo {
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.05em; color: var(--text-muted);
-  margin: 12px 0 4px; padding-bottom: 2px;
-  border-bottom: 1px solid var(--border-light);
-  display: flex; justify-content: space-between; gap: 8px;
-}
-.opcao-revelar {
-  font-size: 0.72rem; color: var(--primary);
-  border: 1px dashed var(--border); border-radius: var(--radius-sm);
-  padding: 5px 9px; margin-top: 6px; cursor: pointer; background: var(--bg-card);
-}
-
-/* Filtros rápidos: reaproveita a aparência de .chip, sem o comportamento. */
-.opcao-filtros { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
-.opcao-filtro {
-  font-size: 0.75rem; border: 1px solid var(--border); border-radius: 999px;
-  padding: 3px 10px; cursor: pointer; background: var(--bg-card); color: var(--text);
-}
-.opcao-filtro.ativo { background: var(--primary); color: #fff; border-color: var(--primary); }
-.opcao-contagem { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px; }
-
-/* Troca em dois passos (montarTroca). */
-.opcao-passo { margin-bottom: 10px; }
-.opcao-passo-num {
-  display: inline-block; width: 18px; height: 18px; border-radius: 50%;
-  background: var(--primary); color: #fff; font-size: 0.7rem;
-  text-align: center; line-height: 18px; font-weight: 700; margin-right: 5px;
-}
-.opcao-passo.resolvido { opacity: 0.6; }
-.opcao-passo-alterar {
-  font-size: 0.72rem; color: var(--text-muted);
-  text-decoration: underline; cursor: pointer; margin-left: 8px;
-}
-
-/* --- Atributos (display) --- */
-.atributos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.atributo-box {
-  text-align: center; padding: 12px 8px;
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg-card);
-}
-.atributo-nome {
-  font-size: 0.65rem; font-weight: 700;
-  text-transform: uppercase; color: var(--text-muted);
-  letter-spacing: 0.5px;
-}
-.atributo-mod {
-  font-size: 1.6rem; font-weight: 800;
-  color: var(--primary); line-height: 1.2;
-}
-.atributo-valor {
-  font-size: 0.8rem; color: var(--text-muted);
-  background: var(--bg-input); border-radius: 10px;
-  display: inline-block; padding: 1px 10px; margin-top: 4px;
-}
-.atributo-box.destaque { border-color: var(--primary); }
-
-/* --- Ficha stats --- */
-.stats-row {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  justify-content: center; margin-bottom: 12px;
-}
-.stat-box {
-  text-align: center; padding: 8px 14px;
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  min-width: 80px;
-}
-.stat-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-.stat-value { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
-.stat-unit { font-size: 0.55em; font-weight: 600; color: var(--text-muted); }
-
-/* --- Proficiencias de Equipamento --- */
-.prof-equip-row {
-  display: flex; flex-wrap: wrap; gap: 6px 16px;
-  justify-content: center; align-items: center;
-  margin-bottom: 12px; padding: 6px 12px;
-  background: var(--bg-card); border-radius: var(--radius);
-  border: 1px solid var(--border-light);
-}
-.prof-equip-group {
-  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
-}
-.prof-equip-label {
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-  color: var(--text-muted); margin-right: 2px;
-}
-.prof-equip-badge {
-  font-size: 0.7rem; font-weight: 600; padding: 2px 8px;
-  border-radius: 10px; white-space: nowrap;
-}
-.prof-equip-armadura { background: rgba(52,152,219,0.12); color: #2980b9; border: 1px solid rgba(52,152,219,0.25); }
-.prof-equip-arma { background: rgba(192,57,43,0.1); color: #c0392b; border: 1px solid rgba(192,57,43,0.2); }
-.prof-equip-nenhuma { background: var(--border-light); color: var(--text-muted); border: 1px solid var(--border); font-style: italic; }
-.prof-equip-extra { font-style: italic; border-style: dashed !important; }
-
-/* --- Secao de HP reorganizada --- */
-.hp-section {
-  display: flex; align-items: center; justify-content: center;
-  gap: 16px; flex-wrap: wrap; margin-bottom: 4px;
-}
-.hp-main {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  flex: 1; min-width: 180px;
-}
-.hp-pv-display { text-align: center; }
-.hp-pv-label {
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);
-}
-.hp-pv-value { font-size: 1.4rem; font-weight: 800; }
-.hp-buttons { display: flex; gap: 6px; justify-content: center; }
-.hp-secondary {
-  display: flex; gap: 12px; align-items: stretch;
-}
-.hp-sub-box {
-  text-align: center; padding: 8px 14px;
-  border: 1px solid var(--border-light); border-radius: var(--radius);
-  background: var(--bg-card); min-width: 90px;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-}
-.hp-sub-label {
-  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-  color: var(--text-muted); margin-bottom: 2px;
-}
-.hp-sub-value { font-size: 1.05rem; font-weight: 700; }
-
-/* Inspiracao Heroica - botao integrado */
-.hp-inspiracao {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 3px; cursor: pointer; user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  padding: 8px 14px; border-radius: var(--radius);
-  border: 2px solid var(--border); background: var(--bg-card);
-  transition: all 0.25s ease; min-width: 80px;
-}
-.hp-inspiracao:hover { border-color: var(--primary); background: rgba(52,73,94,0.06); }
-.hp-inspiracao-ativa {
-  border-color: #f1c40f !important; background: linear-gradient(135deg, #f39c12, #f1c40f) !important;
-  box-shadow: 0 2px 8px rgba(241,196,15,0.35);
-}
-.hp-inspiracao-ativa:hover { background: linear-gradient(135deg, #e67e22, #f39c12) !important; }
-.hp-inspiracao-ativa svg { fill: #fff; }
-.hp-inspiracao-texto {
-  font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
-  color: var(--text-muted); line-height: 1;
-}
-.hp-inspiracao-ativa .hp-inspiracao-texto { color: #fff; }
+/* --- Estatísticas --- */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.stat-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); text-align: center; }
+.stat-box.alerta { border-color: var(--danger); }
+.stat-value { font-size: 1.4rem; color: var(--primary); line-height: 1.2; }
+.stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; }
 
 /* --- Perícias --- */
-.pericias-lista { columns: 2; column-gap: 12px; }
-.pericia-item {
-  display: flex; align-items: center; gap: 6px;
-  padding: 4px 0; font-size: 0.95rem;
-  break-inside: avoid;
-}
-.pericia-prof {
-  width: 14px; height: 14px; border-radius: 50%;
-  border: 2px solid var(--border);
-  flex-shrink: 0;
-}
-.pericia-prof.ativo { background: var(--primary); border-color: var(--primary); }
-.pericia-prof.expertise { background: var(--secondary); border-color: var(--secondary); }
-.pericia-bonus { font-weight: 700; min-width: 24px; text-align: right; color: var(--primary); }
-.pericia-nome { color: var(--text); flex: 1; }
+.pericias-lista { display: flex; flex-direction: column; }
+.pericia-item { display: grid; grid-template-columns: 1fr auto 52px; align-items: center; gap: 8px; padding: 7px 4px; border-bottom: 1px dashed var(--border); }
+.pericia-item.destaque .pericia-nome { color: var(--primary); }
+.pericia-item.destaque .pericia-nome::after { content: ' ★'; font-size: 0.75em; }
+.pericia-atributo { font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); }
+.pericia-bonus { font-family: var(--mono); font-size: 1.1rem; text-align: right; color: var(--primary); }
+.pericia-origem { grid-column: 1 / -1; font-size: 0.72rem; color: var(--text-muted); margin-top: -4px; }
 
-/* Badges de Vantagem/Desvantagem nas pericias */
-.pericia-vd-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  font-size: 0.6rem;
-  font-weight: 800;
-  flex-shrink: 0;
-  line-height: 1;
-  cursor: help;
-}
-.pericia-vd-badge.vantagem {
-  background: var(--success);
-  color: #fff;
-}
-.pericia-vd-badge.desvantagem {
-  background: var(--danger);
-  color: #fff;
-}
-.pericia-vd-badge.neutro {
-  background: var(--text-muted);
-  color: #fff;
-  font-size: 0.7rem;
-}
-/* Vantagem condicional de item mágico: selo discreto, não entra no cálculo de V/D. */
-.pericia-vd-badge.vantagem-nota {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--text-muted);
-  margin-left: 2px;
-}
-.pericia-vd-badge.falha-automatica {
-  background: #000;
-  color: #fff;
-  font-size: 0.65rem;
-}
+/* --- Ficha --- */
+.cab-linha { display: flex; justify-content: space-between; gap: 12px; }
+.cab-nome { font-size: 1.4rem; color: var(--primary); text-transform: uppercase; }
+.cab-sub { color: var(--text-muted); font-size: 0.9rem; }
+.cab-nivel { display: flex; flex-direction: column; align-items: center; border: 2px solid var(--primary); border-radius: var(--radius); padding: 4px 12px; }
+.cab-nivel span { font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); }
+.cab-nivel strong { font-family: var(--mono); font-size: 1.6rem; color: var(--primary); line-height: 1; }
+.cab-xp { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; }
+.recurso-barras { display: grid; gap: 12px; margin-bottom: 10px; }
+.barra-topo { display: flex; justify-content: space-between; font-size: 0.9rem; }
+.barra-nome { text-transform: uppercase; color: var(--text-muted); font-size: 0.8rem; }
+.barra-valor strong { font-family: var(--mono); font-size: 1.3rem; color: var(--primary); }
+.barra-valor .temp { color: var(--warning); font-size: 0.85rem; }
+.barra { height: 10px; border: 1px solid var(--primary-dim); border-radius: 2px; overflow: hidden; margin: 4px 0; }
+.barra-preench { height: 100%; background: var(--primary); transition: width 0.2s; }
+.pe .barra-preench { background: #7fd8ff; }
+.barra-ajuste { display: flex; gap: 6px; align-items: center; }
+.barra-ajuste button:not(.link) { width: 32px; height: 28px; border-radius: 4px; border: 1px solid var(--border); background: none; color: var(--primary); cursor: pointer; }
+.barra-ajuste .link { margin-left: auto; font-size: 0.8rem; }
+.recurso-botoes { display: flex; gap: 8px; margin-bottom: 10px; }
+.recurso-botoes .btn { flex: 1; padding: 8px; font-size: 0.82rem; }
+.tampas { display: flex; gap: 6px; margin-top: 4px; }
+.tampa { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--primary); background: none; color: var(--primary); cursor: pointer; font-size: 1rem; }
+.tampa.virada { background: var(--primary); color: #04140a; }
+.suspiros { margin-top: 10px; padding: 10px; border: 1px solid var(--danger); border-radius: var(--radius); }
+.suspiros > div { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.bolha { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--text-muted); background: none; cursor: pointer; }
+.bolha.sucesso.marcada { background: var(--success); border-color: var(--success); }
+.bolha.falha.marcada { background: var(--danger); border-color: var(--danger); }
+.special-card { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.atributo-box { display: flex; flex-direction: column; align-items: center; padding: 6px 2px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); cursor: pointer; }
+.atributo-letra { font-family: var(--mono); font-size: 1.1rem; color: var(--primary); }
+.atributo-valor { font-size: 1.4rem; line-height: 1.1; }
+.atributo-mod { font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); }
+.atributo-nome { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); }
+.ataques { display: flex; flex-direction: column; gap: 8px; }
+.ataque { padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); }
+.ataque-nome { font-weight: 600; color: var(--primary); }
+.ataque-dados { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 4px; }
+.ataque-dados span { display: flex; flex-direction: column; }
+.ataque-dados small { font-size: 0.68rem; text-transform: uppercase; }
+.ataque-dados strong { font-family: var(--mono); font-weight: 400; }
+.ataque-extra { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+.tampinhas-linha { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-family: var(--mono); }
+.inv-lista { display: flex; flex-direction: column; }
+.inv-item { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+.inv-item.equipado .inv-nome { color: var(--primary); font-weight: 600; }
+.inv-nome { grid-column: 1; }
+.inv-meta { grid-column: 1; font-size: 0.75rem; color: var(--text-muted); }
+.inv-controles { grid-column: 2; grid-row: 1 / span 2; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; }
+.filtros { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.cat-lista { display: flex; flex-direction: column; }
+.cat-item { display: flex; justify-content: space-between; gap: 8px; text-align: left; padding: 10px 6px; background: none; border: none; border-bottom: 1px dashed var(--border); cursor: pointer; }
+.cat-item:hover { background: var(--bg-hover); }
+.tabela-campos { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.88rem; }
+.tabela-campos th { text-align: left; color: var(--text-muted); font-weight: 400; padding: 4px 8px 4px 0; vertical-align: top; width: 40%; }
+.tabela-campos td { padding: 4px 0; }
+.lista-ganhos { margin-left: 20px; }
+.lista-ganhos li { margin-bottom: 4px; }
+.ficha-rodape { display: flex; justify-content: center; margin-top: 16px; }
 
-/* --- Salvaguardas --- */
-.salvaguardas-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-}
-.salva-item {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 8px; font-size: 0.85rem;
-  border-radius: var(--radius-sm);
-}
-.salva-item.proficiente { background: #f0faf4; }
-
-/* --- Inventário --- */
-.inv-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px; border-bottom: 1px solid var(--border-light);
-  transition: background 0.2s, opacity 0.2s;
-}
-.inv-item:last-child { border-bottom: none; }
-.inv-item-nome { font-weight: 600; font-size: 0.9rem; }
-.inv-item-detalhe { font-size: 0.8rem; color: var(--text-muted); }
-.inv-item-acoes { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
-
-/* Inventário: item equipado */
-.inv-item-equipado {
-  background: linear-gradient(90deg, rgba(45,106,79,0.06) 0%, transparent 100%);
-  border-left: 3px solid var(--success, #2d6a4f);
-}
-
-/* Inventário: item com quantidade zero */
-.inv-item-zerado {
-  opacity: 0.4;
-}
-
-/* Inventário: seção título */
-.inv-secao-titulo {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  padding: 8px 10px 4px;
-  border-bottom: 1px solid var(--border-light);
-  background: rgba(0,0,0,0.02);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.2s;
-}
-.inv-secao-titulo:hover {
-  background: rgba(0,0,0,0.05);
-}
-/* Card recolhível: o cabeçalho do card é o <summary> de um <details>. */
-.card-recolhivel-titulo { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
-.card-recolhivel-titulo::-webkit-details-marker { display: none; }
-.card-recolhivel-chevron { font-size: 0.75rem; color: var(--text-muted); transition: transform 0.2s; }
-.card-recolhivel:not([open]) .card-recolhivel-chevron { transform: rotate(-90deg); }
-.card-recolhivel:not([open]) > .card-recolhivel-titulo { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-
-.inv-secao-chevron {
-  font-size: 0.8rem;
-  transition: transform 0.2s ease;
-  display: inline-block;
-}
-.inv-secao-titulo.inv-secao-colapsada .inv-secao-chevron {
-  transform: rotate(-90deg);
-}
-.inv-secao-body.inv-secao-body-oculto {
-  display: none;
-}
-
-/* Detalhes: header colapsável */
-.detalhes-header-colapsavel {
-  cursor: pointer;
-  user-select: none;
-}
-.detalhes-header-colapsavel:hover {
-  background: rgba(0,0,0,0.03);
-}
-.detalhes-chevron {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  transition: transform 0.2s ease;
-  display: inline-block;
-}
-.detalhes-header-colapsado .detalhes-chevron {
-  transform: rotate(-90deg);
-}
-.detalhes-body-oculto {
-  display: none;
-}
-
-/* Inventário: handle de drag */
-.inv-drag-handle {
-  cursor: grab; color: var(--text-muted); font-size: 1rem;
-  user-select: none; padding: 6px 4px; opacity: 0.7;
-  transition: opacity 0.2s; touch-action: none;
-}
-.inv-item:hover .inv-drag-handle { opacity: 1; }
-.inv-drag-handle:active { cursor: grabbing; }
-
-/* Inventário: drag & drop estados */
-.inv-item-dragging { opacity: 0.4; background: var(--bg-muted, #f0ece4); }
-.inv-item-dragover { border-top: 2px solid var(--primary); }
-
-/* Inventário: label equipar compacta */
-.inv-equip-label { font-size: 0.75rem; white-space: nowrap; }
-
-/* Inventário: botões mover */
-.inv-btn-mover {
-  background: none; border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm); cursor: pointer;
-  font-size: 0.7rem; padding: 2px 5px; color: var(--text-muted);
-}
-.inv-btn-mover:hover { background: var(--bg-muted, #f0ece4); color: var(--text); }
-
-/* --- Badges de proficiência --- */
-.badge-prof {
-  background: var(--success, #2d6a4f); color: #fff;
-  font-size: 0.65rem; padding: 1px 6px; border-radius: 10px;
-  font-weight: 600;
-}
-.badge-no-prof {
-  background: var(--text-muted); color: #fff;
-  font-size: 0.65rem; padding: 1px 6px; border-radius: 10px;
-  font-weight: 600; opacity: 0.7;
-}
-.badge-prof-sm {
-  background: var(--success, #2d6a4f); color: #fff;
-  font-size: 0.6rem; padding: 0 4px; border-radius: 8px;
-  font-weight: 600; vertical-align: middle;
-}
-.badge-no-prof-sm {
-  background: #c4a882; color: #fff;
-  font-size: 0.6rem; padding: 0 4px; border-radius: 8px;
-  font-weight: 600; vertical-align: middle; opacity: 0.7;
-}
-.badge-warn {
-  background: #e67700; color: #fff;
-  font-size: 0.6rem; padding: 1px 6px; border-radius: 10px;
-  font-weight: 600;
-}
-
-/* Item com/sem proficiência nos seletores */
-.item-proficiente { opacity: 1; }
-.item-sem-prof { opacity: 0.75; }
-.item-sem-prof:hover { opacity: 1; }
-
-/* Filtros de arma/armadura */
-.filtro-arma.active, .filtro-armadura.active, .filtro-inv-cat.active, .filtro-raridade.active {
-  background: var(--primary); color: #fff; border-color: var(--primary);
-}
-
-/* --- Seletor de itens (modal "Adicionar Item") ---
-   O modal tem altura fixa e só a lista de resultados rola; busca e chips
-   ficam no topo. Os chips ficam numa linha rolável na horizontal, em vez de
-   quebrar em várias linhas e empurrar a lista para baixo. */
-.modal-container.seletor-itens {
-  display: flex; flex-direction: column;
-  height: min(85dvh, 720px); overflow: hidden;
-}
-.seletor-itens .modal-corpo {
-  display: flex; flex-direction: column;
-  flex: 1 1 auto; min-height: 0; padding: 10px 16px 0;
-}
-.seletor-itens .search-box { flex: none; margin-bottom: 8px; }
-.seletor-itens #lista-inv-cat { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
-.faixa-chips {
-  display: flex; flex-wrap: wrap; gap: 6px; flex: none;
-  margin-bottom: 8px;
-}
-.faixa-chips .btn { white-space: nowrap; }
-/* flex: none + altura mínima: o select é filho do corpo flex em coluna e,
-   com a faixa de filtros da categoria embaixo, encolhia e cortava o nome. */
-.seletor-itens .filtro-tipo-compacto { flex: none; min-height: 38px; line-height: 1.3; padding: 6px 10px; font-size: 0.8rem; margin-bottom: 8px; }
-/* Teclado virtual aberto: o overlay passa a ocupar só a área visível
-   (medida por visualViewport em modal-teclado.js), o modal ocupa o overlay
-   inteiro e as faixas de chips recolhem para sobrar espaço aos resultados. */
-.modal-overlay.teclado-aberto {
-  inset: auto; left: 0; right: 0;
-  top: var(--vv-topo, 0px); height: var(--vv-altura, 100%);
-}
-.modal-overlay.teclado-aberto .modal-container.seletor-itens {
-  height: 100%; max-height: 100%; border-radius: 0; padding-bottom: 0;
-}
-.modal-overlay.teclado-aberto .faixa-recolhivel { display: none; }
-
-/* --- Magias --- */
-/* Tags de identificação rápida de magia na ficha */
-.magia-tags {
-  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px;
-}
-.magia-tag {
-  display: inline-flex; align-items: center;
-  font-size: 0.65rem; font-weight: 600;
-  padding: 1px 6px; border-radius: 9px;
-  line-height: 1.4; white-space: nowrap;
-  border: 1px solid transparent;
-}
-.tag-escola { background: #f0ece4; color: #7a6840; border-color: #e0d8c8; }
-.tag-tempo { background: #e8f0e8; color: #3a6a3a; border-color: #c8dcc8; }
-.tag-acao { background: #e8f0e8; color: #3a6a3a; border-color: #c8dcc8; }
-.tag-acao-bonus { background: #e3f2fd; color: #1565c0; border-color: #90caf9; font-weight: 700; }
-.tag-reacao { background: #fff8e1; color: #b45309; border-color: #fde68a; }
-.tag-conc { background: #fff3e0; color: #c17a00; border-color: #ffe0b0; }
-.tag-inst { background: #f3e5f5; color: #6a1b9a; border-color: #e1bee7; }
-.tag-dur { background: #fce4ec; color: #ad1457; border-color: #f8bbd0; }
-.tag-alcance { background: #ede7f6; color: #5e35b1; border-color: #d1c4e9; }
-
-/* Layout legado mantido para ficha / impressão */
-.magia-item {
-  padding: 10px; border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm); margin-bottom: 6px;
-  cursor: pointer; transition: background 0.2s;
-}
-.magia-item:hover { background: #faf8f4; }
-.magia-item.preparada { border-left: 3px solid var(--primary); }
-.magia-nome { font-weight: 700; font-size: 0.9rem; }
-.magia-meta { font-size: 0.75rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
-.magia-desc { font-size: 0.85rem; margin-top: 6px; line-height: 1.5; display: none; }
-.magia-item.expandida .magia-desc { display: block; }
-
-/* Contadores de magias preparadas/conhecidas */
-.magia-contadores {
-  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
-}
-.magia-contador {
-  font-size: 0.78rem; font-weight: 600; padding: 3px 8px;
-  border-radius: 12px; background: var(--surface-variant);
-  border: 1px solid var(--border-light);
-}
-.magia-contador.contador-cheio { background: #e8f5e9; border-color: var(--success); color: var(--success); }
-.magia-contador.contador-excedido { background: #ffebee; border-color: var(--danger); color: var(--danger); }
-.magia-contador.contador-dominio { background: #fff8e1; border-color: var(--secondary); color: #8d6e00; }
-
-/* Issue #105: bloco "Classe não definida" do modal Preparar Magias. */
-.gm-bloco-sem-classe { margin-bottom: 8px; }
-.gm-linha-sem-classe { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0; }
-
-/* Magias de domínio (sempre preparadas) */
-.magia-dominio { border-left: 3px solid var(--secondary); }
-.badge-dominio { color: var(--secondary); font-size: 0.8rem; margin-right: 4px; }
-
-/* Botão de remover/despreparar magia */
-.btn-magia-remover {
-  font-size: 0.7rem; padding: 2px 6px; border-radius: 4px;
-  background: transparent; color: var(--danger); border: 1px solid var(--danger);
-  cursor: pointer; transition: background 0.2s, color 0.2s;
-}
-.btn-magia-remover:hover { background: var(--danger); color: #fff; }
-
-/* Magia já adicionada (opacidade reduzida na busca) */
-.magia-ja-adicionada { opacity: 0.5; cursor: default !important; }
-
-/* Espaços de magia */
-.slots-grupo {
-  display: flex; align-items: center; gap: 8px;
-  padding: 6px 0;
-}
-.slots-grupo label { font-size: 0.85rem; font-weight: 600; min-width: 80px; }
-.slot-bolha {
-  width: 24px; height: 24px; border-radius: 50%;
-  border: 2px solid var(--primary); cursor: pointer;
-  transition: background 0.2s;
-}
-.slot-bolha.usado { background: var(--primary); }
-.slot-bolha.slot-extra {
-  border-style: dashed;
-  opacity: 0.8;
-}
-
-/* --- Home: lista de personagens --- */
-.char-list { display: flex; flex-direction: column; gap: 10px; }
-.char-card {
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px; cursor: pointer;
-  transition: box-shadow 0.2s;
-}
-.char-card:hover { box-shadow: var(--shadow-lg); }
-.char-avatar {
-  width: 48px; height: 48px; border-radius: 50%;
-  background: var(--primary); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; font-weight: 800; flex-shrink: 0;
-  overflow: hidden;
-}
-.char-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-.char-info { flex: 1; }
-.char-nome { font-weight: 700; font-size: 1rem; }
-.char-detalhe { font-size: 0.8rem; color: var(--text-muted); }
-.char-nivel { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
-
-/* --- Vazia state --- */
-.empty-state {
-  text-align: center; padding: 40px 20px;
-  color: var(--text-muted);
-}
-.empty-state svg { margin-bottom: 16px; opacity: 0.4; }
-.empty-state h2 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
-.empty-state p { margin-bottom: 20px; }
-
-/* --- Modal --- */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 200; display: flex;
-  align-items: flex-end; justify-content: center;
-  animation: fadeIn 0.2s;
-}
-.modal-container {
-  background: var(--bg-card);
-  border-radius: var(--radius) var(--radius) 0 0;
-  width: 100%; max-width: 600px;
-  max-height: 85dvh; overflow-y: auto;
-  animation: slideUp 0.3s;
-  padding-bottom: var(--safe-bottom);
-}
-.modal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px; border-bottom: 1px solid var(--border-light);
-  position: sticky; top: 0; background: var(--bg-card); z-index: 3;
-}
-.modal-header h2 { font-size: 1rem; font-weight: 700; }
-.modal-fechar {
-  width: 32px; height: 32px; border: none; background: none;
-  font-size: 1.5rem; cursor: pointer; color: var(--text-muted);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-}
-.modal-fechar:hover { background: var(--bg-input); }
-.modal-corpo { padding: 16px; }
-/* Rodapé de ações FIXO no fim do modal. Quem rola é o `.modal-container`
-   (max-height 85dvh, overflow-y auto), e o cabeçalho já era sticky no topo --
-   só o rodapé rolava junto com o conteúdo. Em listas longas, como os 75
-   talentos do "Adicionar Talento", isso obrigava a rolar até o fim para achar
-   Cancelar/Adicionar. Precisa de fundo opaco, senão os cards passam por baixo.
-   Em modal curto, que não chega a rolar, `sticky` não tira o rodapé do lugar:
-   ele fica no fluxo normal, como antes.
-
-   z-index 3, e não 1 (bug relatado em 2026-08-13, print do "Adicionar
-   Talento" no celular): o fundo opaco resolve o CORPO do card, mas não um
-   descendente dele com z-index próprio. `.opcao-check` tem `z-index: 2`
-   (regra do marcador de seleção, acima) e `.opcao-card` é
-   `position: relative` SEM `z-index` -- e position relative com z-index
-   auto NÃO abre contexto de empilhamento. Resultado: o círculo disputava a
-   pilha direto com este rodapé e vencia, aparecendo solto sobre o botão
-   "Adicionar" (o card em volta passava por baixo, porque o corpo é
-   z-index auto). Qualquer valor > 2 resolve; 3 mantém a distância mínima
-   e não invade as faixas já usadas no arquivo (overlay 200, toast 300).
-   O cabeçalho subiu junto, pelo mesmo motivo e na mesma ponta. */
-.modal-acoes {
-  padding: 12px 16px; display: flex; gap: 8px; justify-content: flex-end;
-  /* Quebra de linha: os `.btn` têm `flex-shrink: 0` e `nowrap`; com três
-     botões em tela estreita (Descanso Longo de Mago, 360 px) o excedente
-     vazava pela esquerda, área sem rolagem, e cortava o primeiro botão. */
-  flex-wrap: wrap;
-  border-top: 1px solid var(--border-light);
-  position: sticky; bottom: 0; background: var(--bg-card); z-index: 3;
-}
-/* Modal sem botões (o popup de detalhe, por exemplo) não pode exibir uma
-   barra vazia com padding e borda presa no rodapé. */
+/* --- Modal e toast --- */
+.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0, 0, 0, 0.75); display: flex; align-items: flex-end; justify-content: center; }
+.modal-container { width: 100%; max-width: 640px; max-height: 90dvh; display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--primary-dim); border-radius: 10px 10px 0 0; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.modal-header h2 { font-size: 1.05rem; margin: 0; }
+.modal-fechar { background: none; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; }
+.modal-corpo { padding: 16px; overflow-y: auto; flex: 1; }
+.modal-acoes { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 12px 16px calc(12px + var(--safe-bottom)); border-top: 1px solid var(--border); }
 .modal-acoes:empty { display: none; }
+.toast-container { position: fixed; left: 50%; bottom: calc(80px + var(--safe-bottom)); transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 6px; width: min(92vw, 420px); }
+.toast { padding: 10px 14px; border-radius: var(--radius); background: #07100a; border: 1px solid var(--primary-dim); color: var(--text); font-size: 0.9rem; }
+.toast.erro { border-color: var(--danger); color: var(--danger); }
+.toast.sucesso { border-color: var(--primary); color: var(--primary); }
 
-/* A largura do modal não comporta seis cards de atributo sem corte. */
-.modal-corpo .atributos-grid-edicao {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (min-width: 641px) {
+  .modal-overlay { align-items: center; }
+  .modal-container { border-radius: 10px; }
+  .recurso-barras { grid-template-columns: 1fr 1fr; }
 }
-.modal-corpo .atributos-grid-edicao .atributo-box { min-width: 0; }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-/* --- Toast --- */
-.toast-container {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  z-index: 300; display: flex; flex-direction: column; gap: 8px;
+@media (max-width: 420px) {
+  .special-card { grid-template-columns: repeat(4, 1fr); }
+  .inv-item { grid-template-columns: 1fr; }
+  .inv-controles { grid-column: 1; grid-row: auto; justify-content: space-between; }
 }
-.toast {
-  padding: 10px 20px; border-radius: var(--radius);
-  background: #333; color: #fff; font-size: 0.85rem;
-  box-shadow: var(--shadow-lg); animation: fadeIn 0.3s;
-  max-width: 90vw; text-align: center;
-}
-.toast.success { background: var(--success); }
-.toast.error { background: var(--danger); }
-
-/* --- Info box --- */
-.info-box {
-  padding: 12px; border-radius: var(--radius-sm);
-  font-size: 0.85rem; margin-bottom: 12px;
-  border-left: 4px solid;
-}
-.info-box.info { background: #e8f4fd; border-color: var(--accent); color: #1a5276; }
-.info-box.warning { background: #fff8e1; border-color: var(--warning); color: #7c6200; }
-.info-box.success { background: #e8f5e9; border-color: var(--success); color: #1b5e20; }
-
-/* --- Seção colapsável --- */
-.collapsible-header {
-  display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer; padding: 8px 0; user-select: none;
-}
-.collapsible-header::after {
-  content: '\25BC'; font-size: 0.7rem; color: var(--text-muted);
-  transition: transform 0.2s;
-}
-.collapsible-header.collapsed::after { transform: rotate(-90deg); }
-.collapsible-body { overflow: hidden; transition: max-height 0.3s; }
-.collapsible-body.collapsed { max-height: 0 !important; }
-
-/* --- Separador de seção --- */
-.section-divider {
-  display: flex; align-items: center; gap: 8px;
-  margin: 16px 0 12px;
-}
-.section-divider span {
-  font-size: 0.8rem; font-weight: 700; color: var(--primary);
-  text-transform: uppercase; white-space: nowrap;
-}
-.section-divider::after {
-  content: ''; flex: 1; height: 2px; background: var(--border-light);
-}
-
-.ic-secao { border: 1px solid var(--border-light); border-radius: var(--radius); margin: 8px 0; padding: 0 10px; }
-.ic-secao[open] { padding-bottom: 10px; }
-.ic-secao > summary { cursor: pointer; font-weight: 700; font-size: 0.85rem; padding: 8px 0; color: var(--primary); }
-
-/* --- Markdown renderizado --- */
-.md-content { font-size: 0.9rem; line-height: 1.6; }
-.md-content p { margin-bottom: 8px; }
-.md-content strong { color: var(--text); }
-.md-content em { font-style: italic; }
-.md-content ul, .md-content ol { margin: 8px 0; padding-left: 20px; }
-.md-content li { margin-bottom: 4px; }
-.md-content table { margin: 8px 0; }
-.md-content h4 { margin-top: 12px; margin-bottom: 4px; color: var(--primary); font-size: 0.95rem; }
-
-/* --- Número editável (HP, etc.) --- */
-.editable-num {
-  display: inline-flex; align-items: center; gap: 4px;
-}
-.editable-num button {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1px solid var(--border); background: var(--bg-input);
-  font-size: 1rem; cursor: pointer; display: flex;
-  align-items: center; justify-content: center;
-}
-.editable-num button:active { background: var(--border); }
-.editable-num span {
-  min-width: 40px; text-align: center;
-  font-weight: 700; font-size: 1.1rem;
-}
-
-/* --- Busca --- */
-.search-box {
-  position: relative; margin-bottom: 12px;
-}
-.search-box input {
-  width: 100%; padding: 10px 12px 10px 36px;
-  border: 1px solid var(--border); border-radius: var(--radius);
-  font-size: 0.9rem; background: var(--bg-card);
-}
-.search-box input:focus { outline: none; border-color: var(--primary); }
-.search-box::before {
-  content: '\1F50D'; position: absolute;
-  left: 10px; top: 50%; transform: translateY(-50%);
-  font-size: 0.9rem; opacity: 0.4;
-}
-
-/* --- Tabs --- */
-.tabs {
-  display: flex; gap: 0; border-bottom: 2px solid var(--border-light);
-  margin-bottom: 16px; overflow-x: auto;
-}
-.tab {
-  padding: 10px 16px; font-size: 0.85rem; font-weight: 600;
-  color: var(--text-muted); cursor: pointer; white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px; transition: all 0.2s;
-}
-.tab:hover { color: var(--text); }
-.tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-
-/* --- Chip/tag selecionável --- */
-.chip {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 4px 12px; border-radius: 16px;
-  border: 1px solid var(--border); font-size: 0.8rem;
-  cursor: pointer; transition: all 0.2s;
-  user-select: none;
-}
-.chip:hover { border-color: var(--primary-light); }
-.chip.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
-.chip .chip-remove { font-size: 0.9rem; cursor: pointer; margin-left: 2px; }
-
-/* --- Contador (HP, spell slots) --- */
-.counter {
-  display: flex; align-items: center; gap: 6px;
-}
-.counter-btn {
-  width: 32px; height: 32px; border-radius: 50%;
-  border: 2px solid var(--border); background: var(--bg-card);
-  font-size: 1.1rem; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.counter-btn:active { background: var(--border-light); }
-.counter-value {
-  font-size: 1.2rem; font-weight: 800;
-  min-width: 40px; text-align: center;
-}
-
-/* --- Salvaguarda Contra Morte --- */
-.morte-bolha {
-  display: inline-block;
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 2px solid var(--border);
-  transition: background 0.2s, border-color 0.2s;
-}
-.morte-bolha.morte-sucesso {
-  background: var(--success); border-color: var(--success);
-}
-.morte-bolha.morte-falha {
-  background: var(--danger); border-color: var(--danger);
-}
-
-/* --- FAB Descanso (Floating Action Button) --- */
-.fab-descanso {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-end;
-  gap: 8px;
-  padding-bottom: var(--safe-bottom);
-}
-.fab-btn {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  border: none;
-  background: var(--primary);
-  color: #fff;
-  font-size: 1.4rem;
-  box-shadow: var(--shadow-lg);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.2s, background 0.2s;
-}
-.fab-btn:active { transform: scale(0.92); }
-.fab-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: var(--bg-card);
-  padding: 8px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  animation: fadeIn 0.2s;
-}
-
-/* ============================================================
-   ESTILOS DE IMPRESSÃO / PDF
-   ============================================================ */
-
-/* Container de impressao (oculto na tela) */
-#print-overlay {
-  display: none;
-}
-
 @media print {
-  @page {
-    size: A4;
-    margin: 8mm 6mm;
-  }
-
-  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-
-  body {
-    padding: 0 !important; margin: 0 !important; background: #fff;
-    font-size: 9.5pt; line-height: 1.35;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* Ocultar tudo exceto o overlay de impressao */
-  #app-header, .wizard-steps, .wizard-nav-fixed,
-  .toast-container, .modal-overlay,
-  .no-print { display: none !important; }
-
-  #app-content { display: none !important; }
-
-  #print-overlay {
-    display: block !important;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* --- Pagina de impressao --- */
-  .print-page {
-    page-break-after: always;
-    padding: 0;
-    position: relative;
-  }
-  .print-page:last-child { page-break-after: auto; }
-
-  /* --- Cabecalho do personagem na impressao --- */
-  .print-char-header {
-    border-bottom: 2px solid #333;
-    padding-bottom: 3mm;
-    margin-bottom: 3mm;
-  }
-  /* Com foto, o cabecalho vira duas colunas: retrato + identidade. Sem
-     foto, o bloco de identidade ocupa a largura como sempre ocupou. */
-  .print-char-header-com-foto {
-    display: flex;
-    align-items: center;
-    gap: 4mm;
-  }
-  .print-char-identidade { flex: 1; min-width: 0; }
-  .print-char-foto {
-    width: 22mm;
-    height: 22mm;
-    object-fit: cover;
-    border: 1px solid #333;
-    border-radius: 1.5mm;
-    flex-shrink: 0;
-    /* Sem isto o Chrome descarta o fundo/contraste da imagem ao imprimir. */
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .print-char-name {
-    font-size: 16pt;
-    font-weight: 800;
-    margin: 0;
-    line-height: 1.2;
-  }
-  .print-char-sub {
-    font-size: 9pt;
-    color: #444;
-    margin-top: 1mm;
-  }
-
-  /* --- Stats de combate na impressao --- */
-  .print-stats-row {
-    display: flex;
-    gap: 3mm;
-    flex-wrap: wrap;
-    margin-bottom: 3mm;
-    padding: 2mm 0;
-    border-bottom: 1px solid #ccc;
-  }
-  .print-stat-box {
-    text-align: center;
-    border: 1.5px solid #333;
-    border-radius: 4px;
-    padding: 1.5mm 3mm;
-    min-width: 14mm;
-  }
-  .print-stat-label {
-    font-size: 5.5pt;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #666;
-    letter-spacing: 0.3px;
-  }
-  .print-stat-value {
-    font-size: 12pt;
-    font-weight: 800;
-    line-height: 1.2;
-  }
-
-  /* --- HP na impressao --- */
-  .print-hp-row {
-    display: flex;
-    gap: 4mm;
-    align-items: center;
-    margin-bottom: 3mm;
-    padding: 2mm;
-    border: 1.5px solid #333;
-    border-radius: 4px;
-  }
-  .print-hp-item {
-    text-align: center;
-    flex: 1;
-  }
-  .print-hp-label {
-    font-size: 6pt;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #666;
-  }
-  .print-hp-value {
-    font-size: 14pt;
-    font-weight: 800;
-  }
-
-  /* --- Proficiencias de armaduras/armas na impressao --- */
-  .print-prof-row {
-    display: flex;
-    gap: 4mm;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 3mm;
-    padding: 1.5mm 2mm;
-    border: 1px solid #bbb;
-    border-radius: 3px;
-    background: #fafafa;
-  }
-  .print-prof-group {
-    display: flex;
-    align-items: center;
-    gap: 1.5mm;
-    flex-wrap: wrap;
-  }
-  .print-prof-label {
-    font-size: 7pt;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #555;
-    letter-spacing: 0.3px;
-  }
-  .print-prof-badge {
-    font-size: 7.5pt;
-    font-weight: 600;
-    padding: 0.5mm 2mm;
-    border-radius: 2px;
-    border: 1px solid #999;
-  }
-  .print-prof-armadura {
-    border-color: #2980b9;
-    color: #2980b9;
-  }
-  .print-prof-arma {
-    border-color: #c0392b;
-    color: #c0392b;
-  }
-  .print-prof-nenhuma {
-    color: #999;
-    font-style: italic;
-    border-color: #ccc;
-  }
-  .print-prof-extra {
-    border-style: dashed;
-    font-style: italic;
-  }
-  .print-prof-nota {
-    width: 100%;
-    font-size: 6pt;
-    color: #888;
-    text-align: center;
-    margin-top: 0.5mm;
-  }
-
-  /* --- Secao generica de impressao --- */
-  .print-section {
-    margin-bottom: 3mm;
-  }
-  .print-section-title {
-    font-size: 10pt;
-    font-weight: 800;
-    text-transform: uppercase;
-    border-bottom: 2px solid #333;
-    padding-bottom: 1mm;
-    margin-bottom: 2mm;
-    color: #222;
-    letter-spacing: 0.5px;
-  }
-
-  /* --- Grid de atributos na impressao --- */
-  .print-attr-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 2mm;
-    margin-bottom: 3mm;
-  }
-  .print-attr-box {
-    text-align: center;
-    border: 1.5px solid #333;
-    border-radius: 4px;
-    padding: 1.5mm 1mm;
-  }
-  .print-attr-name {
-    font-size: 6pt;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #555;
-  }
-  .print-attr-mod {
-    font-size: 14pt;
-    font-weight: 800;
-    line-height: 1.2;
-  }
-  .print-attr-val {
-    font-size: 7pt;
-    color: #666;
-  }
-
-  /* --- Salvaguardas e sentidos na impressao --- */
-  .print-saves-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1mm 3mm;
-    margin-bottom: 2mm;
-    font-size: 8.5pt;
-  }
-  .print-save-item {
-    display: flex;
-    align-items: center;
-    gap: 1.5mm;
-    padding: 0.5mm 0;
-  }
-  .print-save-prof {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    border: 1px solid #333;
-    flex-shrink: 0;
-  }
-  .print-save-prof.ativo {
-    background: #333;
-  }
-  .print-save-bonus {
-    font-weight: 700;
-    min-width: 16px;
-    text-align: right;
-  }
-  .print-senses-grid {
-    display: flex;
-    gap: 4mm;
-    flex-wrap: wrap;
-  }
-  .print-sense-item {
-    text-align: center;
-    font-size: 8.5pt;
-  }
-  .print-sense-value {
-    font-weight: 700;
-    font-size: 11pt;
-  }
-  .print-sense-label {
-    font-size: 6.5pt;
-    color: #555;
-  }
-
-  /* --- Defesas na impressao --- */
-  .print-defenses {
-    font-size: 8.5pt;
-    margin-bottom: 2mm;
-  }
-  .print-defenses strong {
-    font-size: 7pt;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-
-  /* --- Pericias na impressao --- */
-  .print-skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5mm 4mm;
-    font-size: 8pt;
-    margin-bottom: 2mm;
-  }
-  .print-skill-item {
-    display: flex;
-    align-items: center;
-    gap: 1.5mm;
-    padding: 0.5mm 0;
-    border-bottom: 0.5px dotted #ccc;
-  }
-  .print-skill-prof {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    border: 1px solid #444;
-    flex-shrink: 0;
-  }
-  .print-skill-prof.ativo { background: #444; }
-  .print-skill-prof.expertise { background: #444; box-shadow: 0 0 0 1.5px #fff, 0 0 0 2.5px #444; }
-  .print-skill-bonus {
-    font-weight: 700;
-    min-width: 14px;
-    text-align: right;
-    font-size: 8.5pt;
-  }
-  .print-skill-name {
-    flex: 1;
-    font-size: 7.5pt;
-  }
-
-  /* --- Itens equipados na impressao --- */
-  /* Mesma estrutura em blocos da Mochila (Nome, Efeitos, Detalhes): o
-     equipado usava uma unica linha flex com um "detalhe" so, que nunca
-     chegava dividido ao PDF (issue #57). As regras de nome/efeito/detalhe
-     ficam agrupadas com as da Mochila logo abaixo para nao duplicar valor. */
-  .print-equip-list {
-    font-size: 8pt;
-  }
-  .print-equip-item {
-    display: block;
-    padding: 1mm 0;
-    border-bottom: 0.5px dotted #ccc;
-    page-break-inside: avoid;
-  }
-
-  /* --- Layout multi-colunas para magias, tracos e features curtas --- */
-  .print-multi-col {
-    columns: 2;
-    column-gap: 4mm;
-    column-fill: balance;
-  }
-  .print-multi-col > * {
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-  }
-
-  /* --- Talentos / Caracteristicas expandidas --- */
-  .print-feature {
-    margin-bottom: 2mm;
-    padding-bottom: 2mm;
-    border-bottom: 0.5px solid #ddd;
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-  }
-  .print-feature:last-child { border-bottom: none; }
-  .print-feature-name {
-    font-weight: 700;
-    font-size: 9.5pt;
-    margin-bottom: 0.5mm;
-  }
-  .print-feature-badges {
-    display: inline;
-    margin-left: 2mm;
-  }
-  .print-feature-badge {
-    font-size: 6pt;
-    padding: 0.5mm 2mm;
-    border: 0.5px solid #999;
-    border-radius: 2px;
-    margin-right: 1mm;
-  }
-  .print-feature-desc {
-    font-size: 8.5pt;
-    line-height: 1.4;
-    color: #333;
-  }
-  .print-feature-desc p { margin: 1mm 0; }
-  .print-feature-desc ul, .print-feature-desc ol { margin: 1mm 0; padding-left: 5mm; }
-  .print-feature-desc li { margin-bottom: 0.5mm; }
-  .print-feature-desc strong { font-weight: 700; }
-
-  /* --- Magias na impressao --- */
-  .print-spell {
-    margin-bottom: 2mm;
-    padding: 1.5mm 2mm;
-    border: 0.5px solid #ccc;
-    border-radius: 2px;
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-  }
-  .print-spell-name {
-    font-weight: 700;
-    font-size: 9pt;
-  }
-  .print-spell-meta {
-    font-size: 7pt;
-    color: #555;
-    display: flex;
-    gap: 2mm;
-    flex-wrap: wrap;
-    margin-top: 0.5mm;
-    margin-bottom: 1mm;
-    padding-bottom: 1mm;
-    border-bottom: 0.5px dotted #ddd;
-  }
-  .print-spell-desc {
-    font-size: 8pt;
-    line-height: 1.35;
-    color: #333;
-  }
-  .print-spell-desc p { margin: 0.5mm 0; }
-  .print-spell-upcast {
-    font-size: 7.5pt;
-    color: #555;
-    margin-top: 1mm;
-    padding-top: 1mm;
-    border-top: 0.5px dotted #ddd;
-  }
-
-  /* --- Inventario na impressao --- */
-  /* Nome, efeito e detalhe, um por linha: em linha unica o item ficava
-     ilegivel no papel e no PDF (issue #57). */
-  .print-inv-item {
-    display: block;
-    padding: 1mm 0;
-    border-bottom: 0.5px dotted #ccc;
-    font-size: 8pt;
-    page-break-inside: avoid;
-  }
-  /* Regras compartilhadas com .print-equip-* (Equipamento usa a mesma
-     separacao Nome/Efeitos/Detalhes -- ver comentario acima). */
-  .print-inv-name, .print-equip-name { display: block; font-weight: 700; }
-  .print-inv-effect, .print-equip-effect { display: block; color: #333; font-size: 7.5pt; }
-  .print-inv-detail, .print-equip-detail { display: block; color: #555; font-size: 7.5pt; }
-
-  /* --- Detalhes pessoais na impressao --- */
-  .print-detail-field {
-    margin-bottom: 2mm;
-  }
-  .print-detail-label {
-    font-size: 7pt;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #666;
-  }
-  .print-detail-value {
-    font-size: 8.5pt;
-    line-height: 1.4;
-  }
-
-  /* --- Rodape de pagina --- */
-  .print-page-footer {
-    position: fixed;
-    bottom: 3mm;
-    left: 8mm;
-    right: 8mm;
-    text-align: center;
-    font-size: 6pt;
-    color: #999;
-    border-top: 0.5px solid #ddd;
-    padding-top: 1mm;
-  }
-
-  /* Utilitarios de impressao */
-  .print-col-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3mm;
-  }
-  .print-col-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2mm;
-  }
-  .print-break-before { page-break-before: always; }
-  .print-break-after { page-break-after: always; }
-  .print-avoid-break { page-break-inside: avoid; }
-  h2, h3 { page-break-after: avoid; }
-
-  /* Markdown dentro de impressao */
-  .print-feature-desc .md-content p { margin: 1mm 0; }
-  .print-spell-desc .md-content p { margin: 0.5mm 0; }
-}
-
-/* --- Responsivo --- */
-@media (max-width: 480px) {
-  /* Prevenir zoom automatico do iOS ao focar em campos de texto */
-  .form-input, .form-select, .form-textarea, input, select, textarea { font-size: 16px !important; }
-
-  .atributos-grid { grid-template-columns: repeat(3, 1fr); }
-  .opcao-grid.ampla { grid-template-columns: repeat(2, 1fr); }
-  .pericias-lista { columns: 1; }
-  .col-2, .col-3, .col-4 { flex: 0 0 100%; }
-
-  /* Stats: flex centrado para alinhar ultima linha */
-  .stats-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-  }
-  .stat-box {
-    min-width: unset;
-    padding: 6px 4px;
-    flex: 1 1 calc(33.33% - 6px);
-    max-width: calc(33.33% - 4px);
-  }
-  .stat-label { font-size: 0.6rem; }
-  .stat-value { font-size: 1.15rem; }
-
-  /* Inventario: compactar em mobile */
-  .inv-item {
-    padding: 8px 6px;
-    gap: 6px;
-  }
-  .inv-item-nome { font-size: 0.82rem; }
-  .inv-item-detalhe { font-size: 0.72rem; }
-  .inv-item-acoes {
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-end !important;
-  }
-  .inv-qty-control {
-    order: 1;
-  }
-  .inv-equip-label {
-    font-size: 0.65rem;
-    gap: 3px !important;
-    padding: 2px 0 !important;
-    order: 2;
-  }
-  .inv-item-acoes .btn-icon {
-    width: 28px; height: 28px;
-    font-size: 0.9rem;
-  }
-  .inv-item-acoes [data-sheet-rem-inv] {
-    order: 3;
-  }
-  .inv-drag-handle {
-    font-size: 0.8rem;
-    padding: 0;
-  }
-
-  /* Descricao curta: limitar altura em mobile */
-  .inv-item .inv-item-detalhe {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Cards: padding menor em mobile */
-  .card { padding: 12px; }
-  .card-header { margin-bottom: 8px; padding-bottom: 6px; }
-  .card-header h2 { font-size: 0.92rem; }
-
-  /* Pericias: mais compactas */
-  .pericia-item { 
-    font-size: 0.88rem; 
-    padding: 3px 0;
-  }
-  .pericias-grupo-header {
-    font-size: 0.68rem;
-    padding: 2px 6px;
-  }
-
-  /* Botoes menores em mobile */
-  .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
-
-  /* Content padding menor */
-  #app-content { padding: 10px; }
-
-  /* Atributos: mais compactos */
-  .atributo-box { padding: 8px 4px; }
-  .atributo-mod { font-size: 1.4rem; }
-  .atributo-nome { font-size: 0.6rem; }
-
-  /* Salvaguardas */
-  .salva-item { font-size: 0.8rem; padding: 4px 6px; }
-
-  /* Slots de magia: compactar */
-  .slots-grupo label { font-size: 0.78rem; min-width: 65px; }
-  .slot-bolha { width: 20px; height: 20px; }
-
-  /* Proficiencias equipamento mobile */
-  .prof-equip-row { gap: 4px 10px; padding: 4px 8px; }
-  .prof-equip-label { font-size: 0.62rem; }
-  .prof-equip-badge { font-size: 0.62rem; padding: 1px 6px; }
-
-  /* HP section mobile */
-  .hp-section { gap: 10px; }
-  .hp-main { min-width: 140px; }
-  .hp-buttons { flex-wrap: wrap; }
-  .hp-pv-value { font-size: 1.2rem; }
-  .hp-secondary { gap: 8px; }
-  .hp-sub-box { padding: 6px 8px; min-width: 75px; }
-  .hp-sub-label { font-size: 0.58rem; }
-  .hp-sub-value { font-size: 0.9rem; }
-  .hp-inspiracao { padding: 6px 10px; min-width: 60px; }
-  .hp-inspiracao svg { width: 18px; height: 18px; }
-  .hp-inspiracao-texto { font-size: 0.52rem; }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .opcao-grid.ampla { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (min-width: 769px) {
-  .opcao-grid.ampla { grid-template-columns: repeat(4, 1fr); }
-  .atributos-grid { grid-template-columns: repeat(6, 1fr); }
-}
-
-/* ============================================================
-   Wizard melhorado - Navegacao fixa + Popups
-   ============================================================ */
-
-/* Barra de etapas fixa no topo (abaixo do header) */
-.wizard-steps-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: var(--bg);
-  margin: -16px -16px 16px;
-  padding: 12px 16px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-
-/* Barra de navegacao fixa no rodape */
-.wizard-nav-fixed {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 90;
-  background: var(--bg-card);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
-}
-.wizard-nav-fixed .wizard-nav-inner {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 12px 16px;
-  padding-bottom: calc(12px + var(--safe-bottom));
-  display: flex;
-  gap: 12px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Espaco inferior no conteudo para nao ficar atras da nav fixa */
-.wizard-content-area {
-  padding-bottom: 80px;
-  min-height: 50vh;
-}
-
-/* Resumo compacto da selecao atual */
-.selecao-resumo {
-  background: var(--bg-card);
-  border: 2px solid var(--success);
-  border-radius: var(--radius);
-  padding: 12px 16px;
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  animation: fadeIn 0.3s;
-}
-.selecao-resumo .resumo-info { flex: 1; }
-.selecao-resumo .resumo-titulo {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--primary);
-}
-.selecao-resumo .resumo-detalhe {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-/* Modal melhorado p/ desktop (centralizado) */
-@media (min-width: 769px) {
-  .modal-overlay {
-    align-items: center;
-  }
-  .modal-container {
-    border-radius: var(--radius);
-    max-width: 680px;
-    max-height: 85dvh;
-  }
-}
-
-/* Animacao suave no conteudo do wizard */
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-.wizard-content-area > * {
-  animation: slideInRight 0.2s ease-out;
-}
-
-/* --- PWA Update Banner --- */
-.update-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--primary);
-  color: #fff;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 10000;
-  font-size: 14px;
-  box-shadow: 0 -2px 8px rgba(0,0,0,.3);
-}
-.update-banner-btn {
-  background: #fff;
-  color: var(--primary);
-  border: none;
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* --- Pericias agrupadas por atributo (legado) --- */
-.pericias-por-atributo {
-  columns: 2;
-  column-gap: 16px;
-}
-
-/* --- Pericias em lista customizada (ordem de relevancia) --- */
-.pericias-lista-custom {
-  columns: 2;
-  column-gap: 16px;
-}
-.pericias-lista-custom .pericia-item {
-  padding-left: 6px;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.pericia-atributo-tag {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-.pericias-grupo {
-  break-inside: avoid;
-  margin-bottom: 10px;
-}
-.pericias-grupo:last-child { margin-bottom: 0; }
-.pericias-grupo-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3px 8px;
-  margin-bottom: 2px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  background: rgba(0,0,0,0.025);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.pericias-grupo-mod {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-/* --- Scroll Picker (estilo alarme iPhone) --- */
-.scroll-picker-wrapper {
-  position: relative;
-  height: 200px;
-  width: 100px;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-}
-.scroll-picker-highlight {
-  position: absolute;
-  top: 50%;
-  left: 4px;
-  right: 4px;
-  height: 40px;
-  transform: translateY(-50%);
-  border-top: 2px solid var(--primary);
-  border-bottom: 2px solid var(--primary);
-  background: rgba(123, 45, 38, 0.06);
-  border-radius: var(--radius-sm);
-  pointer-events: none;
-  z-index: 2;
-}
-.scroll-picker-fade-top,
-.scroll-picker-fade-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 70px;
-  pointer-events: none;
-  z-index: 1;
-}
-.scroll-picker-fade-top {
-  top: 0;
-  background: linear-gradient(to bottom, var(--bg-input) 20%, transparent 100%);
-}
-.scroll-picker-fade-bottom {
-  bottom: 0;
-  background: linear-gradient(to top, var(--bg-input) 20%, transparent 100%);
-}
-.scroll-picker-list {
-  height: 100%;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.scroll-picker-list::-webkit-scrollbar { display: none; }
-.scroll-picker-spacer { height: 80px; }
-.scroll-picker-item {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  scroll-snap-align: center;
-  user-select: none;
-  opacity: 0.35;
-  transition: opacity 0.1s, color 0.1s;
-}
-.scroll-picker-item.selected {
-  color: var(--primary);
-  font-size: 1.5rem;
-  font-weight: 800;
-  opacity: 1;
-}
-
-@media (max-width: 480px) {
-  .pericias-por-atributo { columns: 1; }
-  .pericias-lista-custom { columns: 1; }
-}
-
-/* ============================================================
-   Level Up — Cards Dinâmicos
-   ============================================================ */
-
-/* Barra de progresso / steps */
-.levelup-progress {
-  display: flex; gap: 4px; margin-bottom: 16px; overflow-x: auto;
-  padding-bottom: 4px; -webkit-overflow-scrolling: touch;
-}
-.levelup-step {
-  display: flex; align-items: center; gap: 4px;
-  padding: 6px 10px; border-radius: var(--radius-sm);
-  font-size: 0.75rem; white-space: nowrap; cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  border: 1px solid var(--border-light);
-  flex-shrink: 0;
-}
-.levelup-step-num {
-  width: 20px; height: 20px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem; font-weight: 700;
-  background: var(--border-light); color: var(--text-muted);
-}
-.levelup-step-label { font-weight: 500; }
-.levelup-step-ativo {
-  background: var(--accent); color: #fff; border-color: var(--accent);
-}
-.levelup-step-ativo .levelup-step-num {
-  background: rgba(255,255,255,0.25); color: #fff;
-}
-.levelup-step-completo {
-  background: var(--success); color: #fff; border-color: var(--success);
-}
-.levelup-step-completo .levelup-step-num {
-  background: rgba(255,255,255,0.25); color: #fff;
-}
-.levelup-step-pendente {
-  background: var(--bg-input); color: var(--text-muted);
-}
-.levelup-step-pendente:hover {
-  background: var(--border-light);
-}
-
-/* Cards */
-.levelup-card {
-  background: var(--bg-card); border: 1px solid var(--border-light);
-  border-radius: var(--radius); margin-bottom: 12px;
-  box-shadow: var(--shadow); overflow: hidden;
-}
-.levelup-card-header {
-  padding: 10px 14px; font-weight: 700; font-size: 0.9rem;
-  border-bottom: 1px solid var(--border-light);
-  background: var(--bg-input); color: var(--accent);
-}
-.levelup-card-body { padding: 12px 14px; }
-.levelup-list { list-style: disc inside; font-size: 0.85rem; }
-.levelup-list li { padding: 2px 0; }
-.levelup-counter { font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; text-align: center; }
-
-/* Check labels para expertise / luta */
-.levelup-check-label {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 8px; border: 1px solid var(--border-light);
-  border-radius: 6px; font-size: 0.85rem; cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.levelup-check-label:has(input:checked) {
-  border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent);
-}
-
-/* Seletor "Em qual classe você sobe?" (levelup-cards.js:renderCardEscolhaClasse).
-   Reusa .levelup-check-label como base da linha; aqui só o que é próprio
-   dele: os dois grupos ("SUAS CLASSES" / "NOVA CLASSE") e o estado
-   TRAVADO -- a classe cujo pré-requisito de atributo (livro:2033) o
-   personagem não atende. A opção travada continua legível de propósito:
-   ela precisa dizer POR QUE está travada, senão o jogador não sabe o que
-   mudar. */
-.levelup-grupo { margin-bottom: 12px; }
-.levelup-grupo:last-child { margin-bottom: 0; }
-.levelup-grupo h4 {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--text-muted); margin-bottom: 6px;
-}
-.levelup-opcao { margin-bottom: 6px; flex-wrap: wrap; }
-.levelup-opcao-travada { cursor: not-allowed; opacity: 0.7; }
-.levelup-motivo { font-size: 0.78rem; color: var(--danger); margin-left: auto; }
-
-/* Grid de atributos */
-.atributos-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-}
-@media (min-width: 480px) {
-  .atributos-grid { grid-template-columns: repeat(6, 1fr); }
-}
-
-/* --- Notas de versão --- */
-.nv-container { display: flex; flex-direction: column; gap: 10px; }
-.nv-versao {
-  border: 1px solid var(--border-light); border-radius: var(--radius);
-  background: var(--bg-card); padding: 8px 12px;
-}
-.nv-versao-atual { border-color: var(--primary); box-shadow: var(--shadow); }
-.nv-versao-cabecalho {
-  cursor: pointer; display: flex; align-items: center; gap: 8px;
-  font-weight: 700; list-style: none;
-}
-.nv-versao-cabecalho::-webkit-details-marker { display: none; }
-.nv-versao-numero { color: var(--primary); font-size: 1rem; }
-/* Resumo de uma ou duas palavras no cabecalho recolhido -- substituiu a
-   data, que so aparecia como ruido numa lista de dez versoes. A data
-   continua visivel, dentro da versao aberta (.nv-data). */
-.nv-versao-rotulo {
-  color: var(--text-muted); font-size: 0.85rem; font-weight: 400;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
-}
-.nv-data { color: var(--text-light); font-size: 0.75rem; font-weight: 400; margin: 6px 0 0; }
-.nv-marcador {
-  margin-left: auto; font-size: 0.75rem; font-weight: 700;
-  color: var(--primary); background: var(--bg-input);
-  border-radius: var(--radius-sm); padding: 2px 8px; white-space: nowrap;
-}
-.nv-resumo { color: var(--text-muted); font-size: 0.85rem; margin: 8px 0 4px; }
-.nv-grupo { margin-top: 10px; }
-.nv-grupo-titulo { font-size: 0.9rem; margin: 0 0 4px; color: var(--text); }
-.nv-lista { margin: 0; padding-left: 20px; }
-.nv-item { font-size: 0.85rem; color: var(--text); margin-bottom: 3px; }
-.nv-build {
-  margin-top: 14px; padding-top: 8px; border-top: 1px solid var(--border-light);
-  font-size: 0.75rem; color: var(--text-light);
-}
-
-/* Tag de origem (site/js/fontes.js) */
-.selo-fonte {
-  display: inline-flex; align-items: center; margin-left: 6px; padding: 1px 8px;
-  border: 1px solid var(--accent); border-radius: 999px; background: transparent;
-  color: var(--accent); font-size: 0.68rem; font-weight: 700; line-height: 1.4;
-  cursor: pointer; vertical-align: middle; white-space: nowrap;
-}
-.selo-fonte:hover, .selo-fonte:focus-visible { background: var(--accent); color: #fff; }
-.popover-fonte {
-  position: absolute; z-index: 250; max-width: min(320px, calc(100vw - 16px));
-  padding: 8px 12px; border: 1px solid var(--border-light); border-radius: 8px;
-  background: var(--bg-card); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-}
-.popover-fonte-rotulo { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
-.popover-fonte-nome { font-size: 0.9rem; font-weight: 700; }
-
-/* Faixa de recursos de classe (chips) no card Magias e no card Recursos de Classe */
-.recursos-faixa { margin-bottom: 10px; }
-.recursos-grupo { margin-bottom: 8px; display: flex; flex-direction: column; gap: 6px; }
-.recursos-grupo-titulo { font-size: 0.85rem; cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
-.recursos-grupo:not([open]) > .recursos-grupo-titulo { margin-bottom: 0; }
-.recursos-grupo[open] > .recursos-grupo-titulo { margin-bottom: 6px; }
-.recursos-resumo { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 0.72rem; min-width: 0; }
-.recursos-grupo[open] > .recursos-grupo-titulo .recursos-resumo { display: none; }
-.recursos-resumo-item { white-space: nowrap; }
-.recursos-resumo-item.ok { color: var(--success); }
-.recursos-resumo-item.warn { color: var(--warning); }
-.recursos-resumo-item.off { color: var(--text-muted); }
-@media (max-width: 640px) {
-  .recursos-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .recurso-chip { padding: 5px 6px; }
-}
-.recursos-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
-.recurso-chip {
-  background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 8px;
-  padding: 6px 8px; display: flex; flex-direction: column; gap: 3px; min-width: 0;
-  cursor: pointer; color: var(--text);
-}
-.recurso-chip:hover, .recurso-chip:focus-visible { border-color: var(--accent); outline: none; }
-.recurso-chip-larga { grid-column: 1 / -1; }
-.recurso-chip-nome { font-size: 0.8rem; font-weight: 700; overflow-wrap: anywhere; }
-.recurso-chip-i { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; }
-.recurso-chip-estado { font-size: 0.75rem; font-weight: 600; overflow-wrap: anywhere; }
-.recurso-chip-estado::before { content: "\25CF\00a0"; }
-.recurso-chip-estado.ok { color: var(--success); }
-.recurso-chip-estado.warn { color: var(--warning); }
-.recurso-chip-estado.off { color: var(--text-muted); }
-.recurso-chip-detalhe { font-size: 0.72rem; color: var(--text-muted); overflow-wrap: anywhere; }
-.recurso-chip-acoes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; min-width: 0; }
-/* Botão dentro do chip nunca passa da largura do card: o texto quebra em vez de vazar */
-.recurso-chip-acoes .btn { max-width: 100%; white-space: normal; text-align: center; line-height: 1.25; overflow-wrap: anywhere; }
-.recurso-chip-nome, .recurso-chip-estado { min-width: 0; }
-.recursos-notas { font-size: 0.75rem; color: var(--text-muted); }
-
-/* Descrição das invocações do Bruxo: popup sobre o modal, sem esticar o card */
-.inv-popup-sobreposicao {
-  position: fixed; inset: 0; z-index: 1100; background: rgba(0, 0, 0, 0.45);
-  display: flex; align-items: center; justify-content: center; padding: 16px;
-}
-.inv-popup {
-  background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px;
-  padding: 14px; width: min(480px, 100%); max-height: 80vh; overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  #app-header, #rodape, .no-print, .wizard-nav, .recurso-botoes, .barra-ajuste, .botoes-escolha { display: none !important; }
+  body { padding: 0; background: #fff; color: #000; }
+  details.bloco > .card-corpo { display: block; }
 }
