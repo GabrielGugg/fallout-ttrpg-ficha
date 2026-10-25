@@ -1,2 +1,2 @@
 // Versão exibida no cabeçalho. Muda à mão a cada lançamento.
-export const VERSAO_ATUAL = '0.1.0';
+export const VERSAO_ATUAL = '0.2.0';

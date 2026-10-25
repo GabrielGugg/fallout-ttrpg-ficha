@@ -4,7 +4,7 @@
 import { renderHome } from './pages/home.js';
 import { renderCreator } from './creator/wizard.js';
 import { renderSheet } from './sheet/ficha.js';
-import { fecharModal } from './utils.js';
+import { fecharModal, fecharModalTodos } from './utils.js';
 import { VERSAO_ATUAL } from './versao.js';
 
 /** Página do hash -> função que a desenha (lista fixa, sem busca por nome). */
@@ -36,6 +36,7 @@ export function definirTitulo(texto) {
 /** Desenha a rota atual. */
 function processarRota() {
   const [pagina, ...resto] = (window.location.hash.slice(1) || 'home').split('/');
+  fecharModalTodos(); // um modal aberto não sobrevive à troca de tela
   const content = document.getElementById('app-content');
   const voltar = document.getElementById('btn-voltar');
   document.getElementById('header-acoes').innerHTML = '';

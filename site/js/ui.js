@@ -130,3 +130,39 @@ export function escolherAtributo(c, nivel, depois) {
     };
   });
 }
+
+/** Expressão que acha o nome da propriedade no texto, aceitando masculino e feminino (Automático/Automática). */
+function regexPropriedade(nome) {
+  const esc = nome.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const corpo = /[oa]$/i.test(nome) ? esc.slice(0, -1) + '[oa]' : esc;
+  return new RegExp(`(?<![\\p{L}])${corpo}(?![\\p{L}])`, 'giu');
+}
+
+/**
+ * Escapa o texto e marca cada propriedade de item conhecida com uma dica:
+ * passar o mouse mostra a regra; tocar (celular) abre o popup.
+ */
+export function realcarPropriedades(texto, propriedades = []) {
+  let html = escHtml(texto);
+  const marcas = [];
+  const ordenadas = [...propriedades].sort((a, b) => b.nome.length - a.nome.length);
+  for (const p of ordenadas) {
+    const base = p.nome.replace(/\s*\(.*?\)$/, '').replace(/:.*$/, '').trim();
+    html = html.replace(regexPropriedade(base), achado => {
+      marcas.push(`<button type="button" class="prop-tip" data-prop="${escHtml(p.nome)}" data-tip="${escHtml(p.texto)}">${achado}</button>`);
+      return `\u0000${marcas.length - 1}\u0000`;
+    });
+  }
+  return html.replace(/\u0000(\d+)\u0000/g, (_, i) => marcas[Number(i)]);
+}
+
+/** Liga o toque nas dicas de propriedade (abre popup com a regra). */
+export function ligarPropriedades(raiz, propriedades = []) {
+  raiz.querySelectorAll('.prop-tip').forEach(b => {
+    b.onclick = e => {
+      e.stopPropagation();
+      const p = propriedades.find(x => x.nome === b.dataset.prop);
+      if (p) popupDetalhe(p.nome, p.texto);
+    };
+  });
+}

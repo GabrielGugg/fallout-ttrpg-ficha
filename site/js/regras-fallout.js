@@ -189,6 +189,8 @@ export function detalharPericia(char, idPericia, antecedente = null) {
   if (char?.raca === 'necrotico' && temVariante(char, 'Muitas Estradas Percorridas')) {
     partes.push({ rotulo: 'Muitas Estradas Percorridas', valor: 2 });
   }
+  const penal = penalidadeD20(char);
+  if (penal) partes.push({ rotulo: 'Fome, sede, fadiga, exaustão e rads', valor: -penal });
   const extra = char?.bonus_pericia?.[idPericia] || 0;
   if (extra) partes.push({ rotulo: 'Ajuste manual', valor: extra });
   return { atributo, partes, total: partes.reduce((s, p) => s + p.valor, 0) };
@@ -197,6 +199,36 @@ export function detalharPericia(char, idPericia, antecedente = null) {
 /** Só o total do bônus de perícia. */
 export function bonusPericia(char, idPericia, antecedente = null) {
   return detalharPericia(char, idPericia, antecedente).total;
+}
+
+// ---------------------------------------------------------------- sobrevivência
+
+/**
+ * Contadores de nível que reduzem em 1 cada d20 (exceto Sorte) por nível.
+ * `limite`: o máximo possível; `morte`: chegar nele mata.
+ */
+export const CONTADORES_SOBREVIVENCIA = [
+  { id: 'fome', nome: 'Fome', condicao: 'Fome', limite: 10, morte: true },
+  { id: 'desidratacao', nome: 'Desidratação', condicao: 'Desidratação', limite: 10, morte: true },
+  { id: 'fadiga', nome: 'Fadiga', condicao: 'Fadiga', limite: 9, morte: false },
+  { id: 'exaustao', nome: 'Exaustão', condicao: 'Exaustão', limite: 10, morte: true },
+  { id: 'radiacao', nome: 'Radiação', condicao: 'Radiação ou Rads', limite: 10, morte: true },
+];
+
+/**
+ * Contadores que se aplicam à raça: Sintético Gen 2 e Robô não comem, não
+ * bebem e não ganham rads; Necrótico e Super Mutante não ganham rads.
+ */
+export function contadoresDaRaca(char) {
+  const fora = new Set();
+  if (['sintetico', 'robo'].includes(char?.raca)) ['fome', 'desidratacao', 'radiacao'].forEach(x => fora.add(x));
+  if (['necrotico', 'super_mutante'].includes(char?.raca)) fora.add('radiacao');
+  return CONTADORES_SOBREVIVENCIA.filter(c => !fora.has(c.id));
+}
+
+/** Redutor total dos d20 (exceto Sorte) pelos níveis de sobrevivência. */
+export function penalidadeD20(char) {
+  return contadoresDaRaca(char).reduce((s, c) => s + Math.max(0, char?.[c.id] || 0), 0);
 }
 
 // ---------------------------------------------------------------- progressão
@@ -591,4 +623,52 @@ export function efeitoDescanso(char, tipo, confortavel = true) {
     exaustao = Math.max(0, exaustao - 1);
   }
   return { pe_atual: pe, pv_atual: pv, exaustao, pe_temp: 0, pv_temp: 0 };
+}
+
+// ---------------------------------------------------------------- munição
+
+/**
+ * Munição de uma arma à distância, lida de "Munição e Recarga":
+ * "10mm, 12 balas" (pente em balas) ou "1 Célula de Energia = 30 disparos"
+ * (cada célula enche o pente com N disparos). null se não usar munição.
+ */
+export function municaoDaArma(item) {
+  const txt = String(item?.campos?.['Munição e Recarga'] || '').trim();
+  let m = txt.match(/^\(?1\)?\s+(.+?)\s*=\s*(\d+)\s*disparos?/i);
+  if (m) return { tipo: m[1].trim(), capacidade: Number(m[2]), porCarga: true };
+  m = txt.match(/^(.+?),\s*(\d+)\s*balas?/i);
+  if (m && m[1].length <= 30) return { tipo: m[1].trim(), capacidade: Number(m[2]), porCarga: false };
+  return null;
+}
+
+/**
+ * Linhas do inventário que servem de reserva para o tipo de munição: itens do
+ * catálogo de Munição ou itens livres cujo nome contém o tipo ("Balas .44").
+ */
+export function linhasDeMunicao(inventario, catalogo, tipo) {
+  const k = chaveNome(tipo);
+  if (!k) return [];
+  return (inventario || []).filter(l => {
+    const item = catalogo?.[l.ref];
+    if (item && item.categoria !== 'Munição') return false;
+    const nome = ` ${chaveNome(item?.nome || l.nome)} `;
+    return nome.includes(` ${k} `) || (item && ` ${k} `.includes(` ${chaveNome(item.nome)} `));
+  });
+}
+
+/** Total de munição de reserva no inventário. */
+export function municaoNoInventario(inventario, catalogo, tipo) {
+  return linhasDeMunicao(inventario, catalogo, tipo).reduce((s, l) => s + (l.qtd || 0), 0);
+}
+
+/**
+ * Recarrega: armas de bala tiram do inventário o que falta no pente; armas
+ * de carga gastam 1 carga (célula, núcleo) e enchem o pente.
+ * Devolve { pente, gasto } (gasto = quanto sai do inventário).
+ */
+export function recarregar(municao, pente, reserva) {
+  if (!municao || pente >= municao.capacidade || reserva <= 0) return { pente, gasto: 0 };
+  if (municao.porCarga) return { pente: municao.capacidade, gasto: 1 };
+  const gasto = Math.min(municao.capacidade - pente, reserva);
+  return { pente: pente + gasto, gasto };
 }

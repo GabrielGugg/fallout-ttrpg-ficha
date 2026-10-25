@@ -169,3 +169,27 @@ test('descanso: orgânico e máquina', () => {
   assert.equal(R.efeitoDescanso(robo, 'curto').pe_atual, 12);
   assert.equal(R.efeitoDescanso(robo, 'longo').pv_atual, 7);         // (1+9)/2 = 5
 });
+
+test('fome, sede, fadiga, exaustão e rads reduzem as perícias', () => {
+  const c = base({ special: { ...R.specialInicial(), AGI: 7 }, fome: 1, desidratacao: 2, exaustao: 1, fadiga: 1, radiacao: 1 });
+  assert.equal(R.penalidadeD20(c), 6);
+  assert.equal(R.bonusPericia(c, 'disparo'), 2 - 6);
+  const robo = { ...c, raca: 'robo' };
+  assert.equal(R.penalidadeD20(robo), 2); // só fadiga e exaustão
+  assert.deepEqual(R.contadoresDaRaca(robo).map(x => x.id), ['fadiga', 'exaustao']);
+  assert.ok(!R.contadoresDaRaca({ raca: 'necrotico' }).some(x => x.id === 'radiacao'));
+});
+
+test('munição: pente, reserva e recarga', () => {
+  const pistola = { campos: { 'Munição e Recarga': '10mm, 12 balas' } };
+  const laser = { campos: { 'Munição e Recarga': '1 Célula de Energia = 30 disparos' } };
+  assert.deepEqual(R.municaoDaArma(pistola), { tipo: '10mm', capacidade: 12, porCarga: false });
+  assert.deepEqual(R.municaoDaArma(laser), { tipo: 'Célula de Energia', capacidade: 30, porCarga: true });
+  assert.equal(R.municaoDaArma({ campos: { 'Munição e Recarga': 'A arma pode disparar enquanto estiver sob a luz do sol.' } }), null);
+  const cat = { m10: { nome: '10mm', categoria: 'Munição' }, p10: { nome: 'Pistola 10mm', categoria: 'Tabelas de Armas à Distância' } };
+  const inv = [{ ref: 'p10', nome: 'Pistola 10mm', qtd: 1 }, { ref: 'm10', nome: '10mm', qtd: 10 }, { ref: null, nome: 'Munição 10mm', qtd: 5 }];
+  assert.equal(R.municaoNoInventario(inv, cat, '10mm'), 15);
+  assert.deepEqual(R.recarregar(R.municaoDaArma(pistola), 4, 15), { pente: 12, gasto: 8 });
+  assert.deepEqual(R.recarregar(R.municaoDaArma(pistola), 4, 3), { pente: 7, gasto: 3 });
+  assert.deepEqual(R.recarregar(R.municaoDaArma(laser), 2, 1), { pente: 30, gasto: 1 });
+});

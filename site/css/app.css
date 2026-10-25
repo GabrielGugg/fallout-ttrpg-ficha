@@ -207,8 +207,17 @@ details.bloco[open] > summary::after { transform: rotate(90deg); }
 .recurso-botoes { display: flex; gap: 8px; margin-bottom: 10px; }
 .recurso-botoes .btn { flex: 1; padding: 8px; font-size: 0.82rem; }
 .tampas { display: flex; gap: 6px; margin-top: 4px; }
-.tampa { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--primary); background: none; color: var(--primary); cursor: pointer; font-size: 1rem; }
-.tampa.virada { background: var(--primary); color: #04140a; }
+.tampa { width: 48px; height: 48px; padding: 0; border: none; background: none; cursor: pointer; transition: transform 0.25s; }
+.tampa svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)); }
+.tampa-borda { fill: #b3121f; stroke: #7a0a13; stroke-width: 1.5; }
+.tampa-face { fill: #d7182a; }
+.tampa-anel { fill: none; stroke: #fff; stroke-width: 3; }
+.tampa-estrela { fill: #fff; }
+/* Virada: a tampa mostra o lado de baixo, metálico e sem estampa. */
+.tampa.virada { transform: rotateY(180deg); }
+.tampa.virada .tampa-borda { fill: #8d9399; stroke: #5d6267; }
+.tampa.virada .tampa-face { fill: #b9bec3; }
+.tampa.virada .tampa-anel, .tampa.virada .tampa-estrela { display: none; }
 .suspiros { margin-top: 10px; padding: 10px; border: 1px solid var(--danger); border-radius: var(--radius); }
 .suspiros > div { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
 .bolha { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--text-muted); background: none; cursor: pointer; }
@@ -245,6 +254,37 @@ details.bloco[open] > summary::after { transform: rotate(90deg); }
 .lista-ganhos { margin-left: 20px; }
 .lista-ganhos li { margin-bottom: 4px; }
 .ficha-rodape { display: flex; justify-content: center; margin-top: 16px; }
+
+/* --- Abas estilo Pip-Boy --- */
+.pipboy-abas {
+  position: sticky; top: calc(var(--header-h) + var(--safe-top)); z-index: 40;
+  display: flex; margin: 0 -16px 12px; padding: 0 8px;
+  background: var(--bg); border-bottom: 2px solid var(--primary-dim);
+}
+.pipboy-aba {
+  flex: 1; padding: 12px 4px 10px; background: none; border: 2px solid transparent; border-bottom: none;
+  color: var(--text-muted); font-family: var(--mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;
+  position: relative; top: 2px;
+}
+.pipboy-aba.ativa { color: var(--primary); border-color: var(--primary-dim); background: var(--bg); border-radius: 4px 4px 0 0; text-shadow: 0 0 6px rgba(62, 240, 122, 0.6); }
+
+/* --- Munição --- */
+.municao { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
+.municao-linha { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.85rem; }
+.municao-linha strong { font-family: var(--mono); color: var(--primary); font-size: 1.05rem; }
+.municao .btn { align-self: flex-start; }
+
+/* --- Dica das propriedades de item (a caixa ocupa a largura da célula) --- */
+.tabela-campos td, .ataque-extra { position: relative; }
+.prop-tip { background: none; border: none; padding: 0; color: var(--primary); text-decoration: underline dotted; text-underline-offset: 3px; cursor: help; font: inherit; }
+@media (hover: hover) {
+  .prop-tip:hover::after {
+    content: attr(data-tip); position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 400;
+    padding: 8px 10px; white-space: normal; text-align: left;
+    background: #07100a; border: 1px solid var(--primary); border-radius: var(--radius);
+    color: var(--text); font-size: 0.82rem; line-height: 1.4; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  }
+}
 
 /* --- Modal e toast --- */
 .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0, 0, 0, 0.75); display: flex; align-items: flex-end; justify-content: center; }

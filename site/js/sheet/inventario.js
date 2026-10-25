@@ -3,6 +3,7 @@
 // ============================================================
 import { escHtml, abrirModal, fecharModal, toast, gerarId, semAcento } from '../utils.js';
 import * as R from '../regras-fallout.js';
+import { realcarPropriedades, ligarPropriedades } from '../ui.js';
 
 /** Itens que podem ser equipados (armas e armaduras). */
 function equipavel(item) {
@@ -115,17 +116,17 @@ export function ligarInventario(raiz, ctx) {
   });
 }
 
-/** Tabela com os campos de um item do catálogo. */
-function camposHtml(item) {
+/** Tabela com os campos de um item do catálogo; propriedades ganham dica com a regra. */
+function camposHtml(item, propriedades) {
   return `<table class="tabela-campos">${Object.entries(item.campos).filter(([k, v]) => v && v !== item.nome)
-    .map(([k, v]) => `<tr><th>${escHtml(k.replace(/ \d+$/, ''))}</th><td>${escHtml(v)}</td></tr>`).join('')}</table>`;
+    .map(([k, v]) => `<tr><th>${escHtml(k.replace(/ \d+$/, ''))}</th><td>${/Propriedades|Efeito|Descrição/.test(k) ? realcarPropriedades(v, propriedades) : escHtml(v)}</td></tr>`).join('')}</table>`;
 }
 
 /** Popup de uma linha do inventário: campos, desgaste, notas, carga. */
 function abrirDetalheLinha(l, { char, regras, salvar, redesenhar }) {
   const item = regras.catalogo[l.ref];
   abrirModal(l.nome, `
-    ${item ? camposHtml(item) : '<p class="texto-suave">Item livre, fora do catálogo.</p>'}
+    ${item ? camposHtml(item, regras.propriedades) : '<p class="texto-suave">Item livre, fora do catálogo.</p>'}
     <div class="form-group"><label class="form-label" for="det-desgaste">Níveis de Desgaste</label>
       <input type="number" class="form-input" id="det-desgaste" min="0" value="${l.desgaste || 0}"></div>
     ${!item ? `<div class="form-group"><label class="form-label" for="det-carga">Carga (cada)</label>
@@ -133,6 +134,7 @@ function abrirDetalheLinha(l, { char, regras, salvar, redesenhar }) {
     <div class="form-group"><label class="form-label" for="det-nota">Notas (melhorias, modificações)</label>
       <textarea class="form-textarea" id="det-nota" rows="2">${escHtml(l.nota || '')}</textarea></div>`,
     '<button class="btn btn-secondary" onclick="fecharModal()">Fechar</button><button class="btn btn-primary" id="btn-ok-linha">Salvar</button>');
+  ligarPropriedades(document.getElementById('modal-corpo'), regras.propriedades);
   document.getElementById('btn-ok-linha').onclick = () => {
     l.desgaste = Math.max(0, Number(document.getElementById('det-desgaste').value) || 0);
     l.nota = document.getElementById('det-nota').value;
@@ -171,12 +173,13 @@ function abrirCatalogo(ctx) {
 }
 
 /** Popup de um item do catálogo, com quantidade e opção de pagar. */
-function abrirItemCatalogo(item, { char, salvar, redesenhar }) {
+function abrirItemCatalogo(item, { char, regras, salvar, redesenhar }) {
   const custo = custoDoItem(item);
-  abrirModal(item.nome, `${camposHtml(item)}
+  abrirModal(item.nome, `${camposHtml(item, regras.propriedades)}
     <div class="form-group"><label class="form-label" for="cat-qtd">Quantidade</label><input type="number" class="form-input" id="cat-qtd" value="1" min="1"></div>
     ${custo != null ? `<label class="form-check"><input type="checkbox" id="cat-pagar"> Pagar com tampinhas (${custo} tp cada; você tem ${char.tampinhas || 0})</label>` : ''}`,
     '<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button><button class="btn btn-primary" id="btn-ok-cat">Adicionar</button>');
+  ligarPropriedades(document.getElementById('modal-corpo'), regras.propriedades);
   document.getElementById('btn-ok-cat').onclick = () => {
     const qtd = Math.max(1, Number(document.getElementById('cat-qtd').value) || 1);
     if (document.getElementById('cat-pagar')?.checked) {

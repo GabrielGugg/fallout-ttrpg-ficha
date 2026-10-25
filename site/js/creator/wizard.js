@@ -163,12 +163,18 @@ function passoRaca(el) {
       }).join('')}</div>`;
   }
   if (raca.variantes.length) {
-    const unica = raca.id === 'super_mutante';
-    html += `<h3>Variantes <span class="texto-suave">(opcional, se o MJ permitir)</span></h3>
-      ${unica ? '<p class="texto-suave">A variante do Super Mutante substitui Força Superior: escolha no máximo uma.</p>' : ''}
-      <div class="lista-check">${raca.variantes.map(v => `
-        <label class="check-card"><input type="checkbox" data-variante="${escHtml(v.nome)}" ${char.variantes.includes(v.nome) ? 'checked' : ''}>
-        <span><strong>${escHtml(v.nome)}.</strong> ${escHtml(v.texto)}</span></label>`).join('')}</div>`;
+    // A variante é um pacote: ou a raça normal, ou todos os traços variantes.
+    // O Super Mutante é a exceção: escolhe uma das variantes, que substitui Força Superior.
+    const porEscolha = raca.id === 'super_mutante';
+    const opcoes = porEscolha
+      ? [{ id: '', rotulo: `${raca.nome} normal`, tracos: [] }, ...raca.variantes.map(v => ({ id: v.nome, rotulo: v.nome, tracos: [v] }))]
+      : [{ id: '', rotulo: `${raca.nome} normal`, tracos: [] }, { id: 'variante', rotulo: `${raca.nome} variante`, tracos: raca.variantes }];
+    const atual = porEscolha ? (char.variantes[0] || '') : (char.variantes.length ? 'variante' : '');
+    html += `<h3>Variante <span class="texto-suave">(opcional, se o MJ permitir)</span></h3>
+      ${porEscolha ? '<p class="texto-suave">A variante do Super Mutante substitui o traço Força Superior.</p>' : '<p class="texto-suave">A variante vem completa: você ganha todos os traços abaixo.</p>'}
+      <div class="lista-check">${opcoes.map(o => `
+        <label class="check-card"><input type="radio" name="variante" data-variante="${escHtml(o.id)}" ${o.id === atual ? 'checked' : ''}>
+        <span><strong>${escHtml(o.rotulo)}</strong>${o.tracos.map(v => `<br><small><strong>${escHtml(v.nome)}.</strong> ${escHtml(v.texto)}</small>`).join('')}</span></label>`).join('')}</div>`;
   }
   extra.innerHTML = html;
   ligarCards(extra, id => {
@@ -195,15 +201,10 @@ function passoRaca(el) {
       redesenharCorpo();
     };
   });
-  extra.querySelectorAll('[data-variante]').forEach(cb => {
-    cb.onchange = () => {
-      const nome = cb.dataset.variante;
-      if (cb.checked) {
-        if (raca.id === 'super_mutante') char.variantes = [];
-        char.variantes.push(nome);
-      } else {
-        char.variantes = char.variantes.filter(v => v !== nome);
-      }
+  extra.querySelectorAll('[data-variante]').forEach(r => {
+    r.onchange = () => {
+      const id = r.dataset.variante;
+      char.variantes = !id ? [] : id === 'variante' ? raca.variantes.map(v => v.nome) : [id];
       redesenharCorpo();
     };
   });

@@ -280,6 +280,23 @@ def _desdobrar_pares(linhas):
     return saida
 
 
+def extrair_propriedades(pasta):
+    """Glossário das propriedades de itens (Superestimulante, Duas Mãos...):
+    parágrafos ***Nome.*** das seções cujo título tem "Propriedades"."""
+    texto = ler(pasta, 'Itens e Custo.md')
+    glossario = {}
+    for nivel in (2, 3):
+        for titulo, corpo in secoes(texto, nivel):
+            if 'Propriedades' not in titulo:
+                continue
+            trecho = corpo.split('\n## ')[0].split('\n### ')[0] if nivel == 2 else corpo.split('\n## ')[0]
+            for t in tracos_em_negrito(trecho):
+                nome = re.sub(r'\s*\(.*?\)$', '', t['nome']).strip()
+                nome = re.sub(r':.*$', '', nome).strip()
+                glossario.setdefault(nome, {'nome': t['nome'], 'texto': t['texto'], 'secao': titulo})
+    return list(glossario.values())
+
+
 # ---------------------------------------------------------------- Condições
 def extrair_condicoes(pasta):
     texto = ler(pasta, 'Combate.md')
@@ -302,6 +319,7 @@ def main():
         'antecedentes.json': extrair_antecedentes(pasta),
         'itens.json': extrair_itens(pasta),
         'condicoes.json': extrair_condicoes(pasta),
+        'propriedades.json': extrair_propriedades(pasta),
     }
     for nome, dados in arquivos.items():
         (SAIDA / nome).write_text(json.dumps(dados, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')

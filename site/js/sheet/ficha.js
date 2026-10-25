@@ -3,8 +3,8 @@
 // ============================================================
 import { carregarRegras } from '../db.js';
 import { getPersonagem, salvarPersonagem, exportar } from '../store.js';
-import { escHtml, mdParaHtml, abrirModal, fecharModal, toast, baixarArquivo } from '../utils.js';
-import { popupDetalhe, markdownTalento, markdownTraco, tabelaPericias, gradeCards, ligarCards } from '../ui.js';
+import { escHtml, mdParaHtml, abrirModal, fecharModal, toast, baixarArquivo, gerarId } from '../utils.js';
+import { popupDetalhe, markdownTalento, markdownTraco, tabelaPericias, gradeCards, ligarCards, realcarPropriedades, ligarPropriedades } from '../ui.js';
 import { definirTitulo } from '../app.js';
 import { secaoInventario, ligarInventario } from './inventario.js';
 import { abrirSubidaDeNivel, secaoPontosPericia, ligarPontosPericia } from './nivel.js';
@@ -13,6 +13,23 @@ import * as R from '../regras-fallout.js';
 let regras = null;
 let char = null;
 let raiz = null;
+
+/** Abas da ficha, como no menu do Pip-Boy. */
+const ABAS = [
+  { id: 'status', nome: 'Status' },
+  { id: 'pericias', nome: 'Perícias' },
+  { id: 'inventario', nome: 'Inventário' },
+  { id: 'notas', nome: 'Notas' },
+];
+let abaAtual = 'status';
+
+/** Aba guardada por personagem nesta sessão do navegador. */
+function lerAba(id) {
+  try { return sessionStorage.getItem(`fallout_aba_${id}`) || 'status'; } catch { return 'status'; }
+}
+function gravarAba(id, aba) {
+  try { sessionStorage.setItem(`fallout_aba_${id}`, aba); } catch { /* sem armazenamento: só não lembra */ }
+}
 
 const NOMES_RACA = {
   humano: 'Humano', necrotico: 'Necrótico', sintetico: 'Sintético Gen 2', robo: 'Robô', super_mutante: 'Super Mutante',
@@ -34,6 +51,7 @@ export async function renderSheet(container, id) {
     return;
   }
   definirTitulo(char.nome || 'Ficha');
+  abaAtual = lerAba(char.id);
   desenhar();
 }
 
@@ -59,6 +77,20 @@ function normalizarRecursos() {
   if (char.pe_atual == null || char.pe_atual > peMax) char.pe_atual = Math.min(char.pe_atual ?? peMax, peMax);
 }
 
+/** Tampinha de Nuka-Cola em SVG (borda serrilhada vermelha, anel e estrela brancos). */
+const TAMPA_NUKA = (() => {
+  const dentes = 21;
+  const pts = [];
+  for (let i = 0; i < dentes * 2; i++) {
+    const ang = (Math.PI * i) / dentes;
+    const r = i % 2 ? 46 : 50;
+    pts.push(`${(50 + r * Math.cos(ang)).toFixed(1)},${(50 + r * Math.sin(ang)).toFixed(1)}`);
+  }
+  return `<svg viewBox="0 0 100 100" aria-hidden="true"><polygon class="tampa-borda" points="${pts.join(' ')}"/>
+    <circle class="tampa-face" cx="50" cy="50" r="40"/><circle class="tampa-anel" cx="50" cy="50" r="33"/>
+    <polygon class="tampa-estrela" points="50,24 54.7,36.5 68,37 57.5,45 61.2,58 50,50.5 38.8,58 42.5,45 32,37 45.3,36.5"/></svg>`;
+})();
+
 // ---------------------------------------------------------------- desenho
 
 /** Desenha a ficha inteira, mantendo a rolagem e os blocos abertos. */
@@ -67,22 +99,23 @@ function desenhar() {
   const abertos = new Set([...raiz.querySelectorAll('details[data-details-id][open]')].map(d => d.dataset.detailsId));
   normalizarRecursos();
   const ant = antecedente();
+  const conteudo = {
+    status: `${secaoRecursos()}${secaoSpecial()}${secaoDerivados()}${secaoAtaques(ant)}
+      ${bloco('sobrevivencia', 'Sobrevivência e condições', secaoSobrevivencia())}
+      ${bloco('talentos', 'Talentos e traços', secaoTalentosTracos())}
+      ${bloco('raca', `Traços de ${escHtml(NOMES_RACA[char.raca] || 'raça')}`, secaoRaca())}`,
+    pericias: `<div class="card">${penalidadeHtml()}${tabelaPericias(char, ant, true)}${secaoPontosPericia(contexto())}</div>`,
+    inventario: `<div class="card">${secaoInventario(contexto())}</div>`,
+    notas: `<div class="card">${secaoDetalhes()}</div>
+      <div class="ficha-rodape"><button class="btn btn-secondary" id="btn-exportar-ficha">Exportar ficha (JSON)</button></div>`,
+  };
   raiz.innerHTML = `
     <div class="ficha">
       ${secaoCabecalho(ant)}
-      ${secaoRecursos()}
-      ${secaoSpecial()}
-      ${secaoDerivados()}
-      ${secaoAtaques(ant)}
-      ${bloco('pericias', 'Perícias', tabelaPericias(char, ant, true) + secaoPontosPericia(contexto()))}
-      ${bloco('sobrevivencia', 'Sobrevivência e condições', secaoSobrevivencia())}
-      ${bloco('talentos', 'Talentos e traços', secaoTalentosTracos())}
-      ${bloco('raca', `Traços de ${escHtml(NOMES_RACA[char.raca] || 'raça')}`, secaoRaca())}
-      ${bloco('inventario', 'Inventário', secaoInventario(contexto()))}
-      ${bloco('detalhes', 'Detalhes e notas', secaoDetalhes())}
-      <div class="ficha-rodape">
-        <button class="btn btn-secondary" id="btn-exportar-ficha">Exportar ficha (JSON)</button>
-      </div>
+      <nav class="pipboy-abas" role="tablist">${ABAS.map(a => `
+        <button type="button" role="tab" class="pipboy-aba${a.id === abaAtual ? ' ativa' : ''}" aria-selected="${a.id === abaAtual}" data-aba="${a.id}">${a.nome}</button>`).join('')}
+      </nav>
+      <div class="ficha-aba" role="tabpanel">${conteudo[abaAtual] || conteudo.status}</div>
     </div>`;
   abertos.forEach(id => raiz.querySelector(`details[data-details-id="${id}"]`)?.setAttribute('open', ''));
   ligarEventos();
@@ -133,7 +166,7 @@ function secaoRecursos() {
       <div class="stats-row">
         <div class="stat-box"><span class="stat-value">${R.pontosDeAcao(char)}</span><span class="stat-label">Pontos de Ação</span></div>
         <div class="stat-box karma"><span class="stat-label">Tampas de Karma</span>
-          <span class="tampas">${Array.from({ length: karma }, (_, i) => `<button type="button" class="tampa${i < (char.karma_viradas || 0) ? ' virada' : ''}" data-tampa="${i}" aria-label="Tampa ${i + 1}">${i < (char.karma_viradas || 0) ? '✦' : '◎'}</button>`).join('')}</span></div>
+          <span class="tampas">${Array.from({ length: karma }, (_, i) => `<button type="button" class="tampa${i < (char.karma_viradas || 0) ? ' virada' : ''}" data-tampa="${i}" aria-label="Tampa ${i + 1}${i < (char.karma_viradas || 0) ? ' (virada)' : ''}">${TAMPA_NUKA}</button>`).join('')}</span></div>
       </div>
       ${morrendo ? secaoSuspiros() : ''}
     </div>`;
@@ -202,7 +235,7 @@ function secaoAtaques(ant) {
   for (const l of char.inventario || []) {
     const item = regras.catalogo[l.ref];
     if (!l.equipado || !R.periciaDaArma(item)) continue;
-    linhas.push({ nome: l.nome, a: R.calcularAtaque(char, item, ant), extra: item.campos['Propriedades Especiais'] || '' });
+    linhas.push({ nome: l.nome, a: R.calcularAtaque(char, item, ant), extra: item.campos['Propriedades Especiais'] || '', linha: l, municao: R.municaoDaArma(item) });
   }
   const sub = subtipo();
   for (const nome of char.ferramentas_robo || []) {
@@ -216,7 +249,7 @@ function secaoAtaques(ant) {
     a: { acerto: R.bonusPericia(char, 'pugilismo', ant), dano: '1d4 contusão', bonusDano: Math.max(mods.FOR, mods.AGI), pa: '', critico: '20, dano dobrado' },
     extra: 'Pode ser não letal.',
   });
-  return `<div class="card"><div class="card-header">Ataques</div><div class="ataques">${linhas.map(({ nome, a, extra }) => `
+  return `<div class="card"><div class="card-header">Ataques</div><div class="ataques">${linhas.map(({ nome, a, extra, linha, municao }) => `
     <div class="ataque">
       <div class="ataque-nome">${escHtml(nome)}${a.desvantagemForca ? ' <span class="badge badge-warning" title="Força abaixo do requisito">desvantagem</span>' : ''}</div>
       <div class="ataque-dados">
@@ -226,20 +259,49 @@ function secaoAtaques(ant) {
         ${a.alcance ? `<span><small>Alcance</small><strong>${a.alcance.normal}/${a.alcance.longo} pés</strong></span>` : ''}
         ${a.critico ? `<span><small>Crítico</small><strong>${escHtml(a.critico)}</strong></span>` : ''}
       </div>
-      ${extra ? `<div class="ataque-extra">${escHtml(extra)}</div>` : ''}
+      ${municao ? municaoHtml(linha, municao) : ''}
+      ${extra ? `<div class="ataque-extra">${realcarPropriedades(extra, regras.propriedades)}</div>` : ''}
     </div>`).join('')}</div>
     <p class="texto-suave">Equipe armas no inventário para que apareçam aqui.</p></div>`;
 }
 
+/** Aviso do redutor de d20 por fome, sede, fadiga, exaustão e rads. */
+function penalidadeHtml() {
+  const n = R.penalidadeD20(char);
+  return n ? `<p class="aviso">Fome, sede, fadiga, exaustão e rads: −${n} em todos os d20, exceto Sorte (já descontado nas perícias e ataques).</p>` : '';
+}
+
+/** Contadores de munição (pente e inventário) de uma arma equipada. */
+function municaoHtml(linha, municao) {
+  const pente = Math.min(linha.pente ?? 0, municao.capacidade);
+  const reserva = R.municaoNoInventario(char.inventario, regras.catalogo, municao.tipo);
+  const unidade = municao.porCarga ? 'disparos' : 'balas';
+  const id = escHtml(linha.id);
+  return `<div class="municao">
+    <div class="municao-linha"><span><small>No pente</small> <strong>${pente}</strong>/${municao.capacidade} ${unidade}</span>
+      <span class="stepper"><button type="button" data-pente="${id}" data-delta="-1" ${pente ? '' : 'disabled'} aria-label="Gastar um disparo">−</button>
+      <button type="button" data-pente="${id}" data-delta="1" ${pente >= municao.capacidade ? 'disabled' : ''} aria-label="Pôr um no pente">+</button></span></div>
+    <div class="municao-linha"><span><small>No inventário</small> <strong>${reserva}</strong> ${escHtml(municao.tipo)}${municao.porCarga ? ' (cargas)' : ''}</span>
+      <span class="stepper"><button type="button" data-reserva="${id}" data-delta="-1" ${reserva ? '' : 'disabled'} aria-label="Tirar um do inventário">−</button>
+      <button type="button" data-reserva="${id}" data-delta="1" aria-label="Pôr um no inventário">+</button></span></div>
+    <button type="button" class="btn btn-secondary btn-sm" data-recarregar="${id}" ${pente >= municao.capacidade || !reserva ? 'disabled' : ''}>Recarregar</button>
+  </div>`;
+}
+
 function secaoSobrevivencia() {
-  const contadores = [['fome', 'Fome'], ['desidratacao', 'Desidratação'], ['exaustao', 'Exaustão'], ['radiacao', 'Radiação']];
-  const imuneRad = ['necrotico', 'sintetico', 'robo', 'super_mutante'].includes(char.raca);
+  const contadores = R.contadoresDaRaca(char);
+  const fora = R.CONTADORES_SOBREVIVENCIA.filter(c => !contadores.includes(c)).map(c => c.nome.toLowerCase());
   return `
-    <div class="contadores">${contadores.map(([k, n]) => `
-      <div class="contador-linha"><button type="button" class="link" data-ver-condicao="${k}">${n}</button>
-        <span class="stepper"><button type="button" data-contador="${k}" data-delta="-1" ${char[k] ? '' : 'disabled'}>−</button><span>${char[k] || 0}</span>
-        <button type="button" data-contador="${k}" data-delta="1" ${k === 'radiacao' && imuneRad ? 'disabled title="Sua raça não ganha níveis de radiação"' : ''}>+</button></span></div>`).join('')}
+    ${penalidadeHtml()}
+    <div class="contadores">${contadores.map(c => {
+      const n = char[c.id] || 0;
+      return `<div class="contador-linha"><button type="button" class="link" data-ver-condicao="${c.id}">${c.nome}</button>
+        <span class="stepper"><button type="button" data-contador="${c.id}" data-delta="-1" ${n ? '' : 'disabled'} aria-label="${c.nome} −1">−</button><span>${n}<small>/${c.limite}</small></span>
+        <button type="button" data-contador="${c.id}" data-delta="1" ${n >= c.limite ? 'disabled' : ''} aria-label="${c.nome} +1">+</button></span></div>
+        ${c.morte && n >= c.limite ? `<p class="aviso">${c.nome} no nível ${c.limite}: o personagem morre.</p>` : ''}`;
+    }).join('')}
     </div>
+    ${fora.length ? `<p class="texto-suave">Sua raça não sofre ${fora.join(', ').replace(/, ([^,]*)$/, ' nem $1')}.</p>` : ''}
     <h4>Condições</h4>
     <div class="chips">${(char.condicoes || []).map((c, i) => `<span class="chip"><button type="button" class="link" data-ver-condicao-id="${escHtml(c)}">${escHtml(regras.condicoes.find(x => x.id === c)?.nome || c)}</button>
       <button type="button" class="chip-x" data-remover-condicao="${i}" aria-label="Remover">✕</button></span>`).join('') || '<span class="texto-suave">Nenhuma.</span>'}</div>
@@ -292,14 +354,19 @@ function ligarEventos() {
   const $ = s => raiz.querySelector(s);
   const $$ = s => raiz.querySelectorAll(s);
 
+  $$('[data-aba]').forEach(b => {
+    b.onclick = () => { abaAtual = b.dataset.aba; gravarAba(char.id, abaAtual); desenhar(); window.scrollTo(0, 0); };
+  });
+  ligarMunicao($$);
+  ligarPropriedades(raiz, regras.propriedades);
   $('#input-xp').onchange = e => { char.xp = Math.max(0, Number(e.target.value) || 0); salvar(); desenhar(); };
   $('#btn-subir-nivel').onclick = () => abrirSubidaDeNivel(contexto());
-  $('#btn-dano').onclick = abrirDano;
-  $('#btn-cura').onclick = abrirCura;
-  $('#btn-descanso').onclick = abrirDescanso;
-  $('#btn-exportar-ficha').onclick = () => {
+  $('#btn-dano')?.addEventListener('click', abrirDano);
+  $('#btn-cura')?.addEventListener('click', abrirCura);
+  $('#btn-descanso')?.addEventListener('click', abrirDescanso);
+  $('#btn-exportar-ficha')?.addEventListener('click', () => {
     baixarArquivo(new Blob([exportar(char.id)], { type: 'application/json' }), `${(char.nome || 'personagem').replace(/[^\w-]+/g, '_')}.json`);
-  };
+  });
 
   $$('[data-ajuste]').forEach(b => {
     b.onclick = () => {
@@ -354,13 +421,14 @@ function ligarEventos() {
   $$('[data-contador]').forEach(b => {
     b.onclick = () => {
       const k = b.dataset.contador;
-      char[k] = Math.max(0, (char[k] || 0) + Number(b.dataset.delta));
+      const def = R.CONTADORES_SOBREVIVENCIA.find(c => c.id === k);
+      char[k] = Math.max(0, Math.min(def?.limite ?? 99, (char[k] || 0) + Number(b.dataset.delta)));
       salvar(); desenhar();
     };
   });
   $$('[data-ver-condicao]').forEach(b => {
     b.onclick = () => {
-      const nome = { fome: 'Fome', desidratacao: 'Desidratação', exaustao: 'Exaustão', radiacao: 'Radiação ou Rads' }[b.dataset.verCondicao];
+      const nome = R.CONTADORES_SOBREVIVENCIA.find(c => c.id === b.dataset.verCondicao)?.condicao;
       const c = regras.condicoes.find(x => x.nome === nome);
       if (c) popupDetalhe(c.nome, c.texto);
     };
@@ -374,7 +442,7 @@ function ligarEventos() {
   $$('[data-remover-condicao]').forEach(b => {
     b.onclick = () => { char.condicoes.splice(Number(b.dataset.removerCondicao), 1); salvar(); desenhar(); };
   });
-  $('#btn-add-condicao').onclick = abrirCondicoes;
+  $('#btn-add-condicao')?.addEventListener('click', abrirCondicoes);
   ligarCards(raiz, idx => {
     const p = char.progressao[Number(idx)];
     const t = regras.talentoPorId[p.talento];
@@ -388,14 +456,62 @@ function ligarEventos() {
     if (def) popupDetalhe(def.nome + (t.ermo ? ' (Ermo Selvagem)' : ''), markdownTraco(def));
   }, 'data-ver-traco-idx');
 
-  $('#det-nome-ficha').onchange = e => { char.nome = e.target.value.trim() || char.nome; salvar(); definirTitulo(char.nome); };
+  $('#det-nome-ficha')?.addEventListener('change', e => { char.nome = e.target.value.trim() || char.nome; salvar(); definirTitulo(char.nome); desenhar(); });
   $$('[data-detalhe]').forEach(t => {
     t.onchange = () => { char.detalhes = { ...(char.detalhes || {}), [t.dataset.detalhe]: t.value }; salvar(); };
   });
-  $('#det-notas').onchange = e => { char.notas = e.target.value; salvar(); };
+  $('#det-notas')?.addEventListener('change', e => { char.notas = e.target.value; salvar(); });
 
   ligarInventario(raiz, contexto());
   ligarPontosPericia(raiz, contexto());
+}
+
+/** Eventos dos contadores de munição: pente, inventário e recarga. */
+function ligarMunicao($$) {
+  const contexto = id => {
+    const linha = char.inventario.find(l => l.id === id);
+    return { linha, municao: R.municaoDaArma(regras.catalogo[linha?.ref]) };
+  };
+  /** Soma (ou tira) munição do inventário, criando a linha do catálogo se faltar. */
+  const mexerReserva = (municao, delta) => {
+    const linhas = R.linhasDeMunicao(char.inventario, regras.catalogo, municao.tipo);
+    if (delta > 0) {
+      if (linhas[0]) { linhas[0].qtd = (linhas[0].qtd || 0) + delta; return; }
+      const item = regras.itens.find(i => i.categoria === 'Munição' && R.linhasDeMunicao([{ ref: i.id, nome: i.nome }], regras.catalogo, municao.tipo).length);
+      char.inventario.push({ id: gerarId(), ref: item?.id || null, nome: item?.nome || municao.tipo, qtd: delta, equipado: false, desgaste: 0 });
+      return;
+    }
+    let falta = -delta;
+    for (const l of linhas) {
+      const tira = Math.min(falta, l.qtd || 0);
+      l.qtd -= tira; falta -= tira;
+      if (!falta) break;
+    }
+    char.inventario = char.inventario.filter(l => !(linhas.includes(l) && l.qtd <= 0));
+  };
+  $$('[data-pente]').forEach(b => {
+    b.onclick = () => {
+      const { linha, municao } = contexto(b.dataset.pente);
+      linha.pente = Math.max(0, Math.min(municao.capacidade, (linha.pente || 0) + Number(b.dataset.delta)));
+      salvar(); desenhar();
+    };
+  });
+  $$('[data-reserva]').forEach(b => {
+    b.onclick = () => {
+      const { municao } = contexto(b.dataset.reserva);
+      mexerReserva(municao, Number(b.dataset.delta));
+      salvar(); desenhar();
+    };
+  });
+  $$('[data-recarregar]').forEach(b => {
+    b.onclick = () => {
+      const { linha, municao } = contexto(b.dataset.recarregar);
+      const r = R.recarregar(municao, linha.pente || 0, R.municaoNoInventario(char.inventario, regras.catalogo, municao.tipo));
+      linha.pente = r.pente;
+      if (r.gasto) mexerReserva(municao, -r.gasto);
+      salvar(); desenhar();
+    };
+  });
 }
 
 // ---------------------------------------------------------------- modais
@@ -478,7 +594,7 @@ function abrirDescanso() {
 
 /** Seletor de condições. */
 function abrirCondicoes() {
-  const ocultas = ['Fome', 'Desidratação', 'Exaustão', 'Radiação ou Rads'];
+  const ocultas = R.CONTADORES_SOBREVIVENCIA.map(c => c.condicao);
   const lista = regras.condicoes.filter(c => !ocultas.includes(c.nome));
   abrirModal('Adicionar condição', gradeCards(lista.map(c => ({ id: c.id, titulo: c.nome, selecionado: (char.condicoes || []).includes(c.id) }))),
     '<button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>');

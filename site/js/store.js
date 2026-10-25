@@ -112,6 +112,7 @@ export function criarPersonagemVazio() {
     karma_viradas: 0,
     fome: 0,
     desidratacao: 0,
+    fadiga: 0,
     exaustao: 0,
     radiacao: 0,
     condicoes: [],
