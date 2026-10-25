@@ -10,6 +10,10 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="img/icon-192.png">
   <link rel="stylesheet" href="css/app.css">
+  <script>
+    // Aplica o tema salvo antes de desenhar, para não piscar o tema padrão.
+    try { var t = (JSON.parse(localStorage.getItem('fallout_config') || '{}') || {}).tema; if (t) document.documentElement.dataset.tema = t; } catch (e) {}
+  </script>
 </head>
 <body>
   <header id="app-header">

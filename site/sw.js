@@ -21,7 +21,10 @@ const STATIC_ASSETS = [
   './js/creator/wizard.js',
   './js/sheet/ficha.js',
   './js/sheet/inventario.js',
-  './js/sheet/nivel.js'
+  './js/sheet/nivel.js',
+  './js/config.js',
+  './js/pages/config.js',
+  './CHANGELOG.md'
 ];
 
 self.addEventListener('install', (event) => {
@@ -167,7 +170,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Assets estaticos (JS, CSS, imagens): rede primeiro, fallback cache; nunca null
-  if (url.pathname.match(/\.(js|css|png|jpg|jpeg|ico|svg|woff2?)$/)) {
+  if (url.pathname.match(/\.(js|css|md|png|jpg|jpeg|ico|svg|woff2?)$/)) {
     event.respondWith((async () => {
       try {
         const fresh = await fetch(request, { cache: 'no-store' });

@@ -31,6 +31,8 @@ jobs:
           mkdir -p _dist
           cp index.html _dist/index.html
           cp -r site _dist/site
+          # Changelog ao lado do app, para a tela de Configurações (e o precache).
+          cp CHANGELOG.md _dist/site/CHANGELOG.md
           cp -r dados _dist/dados
           # Lista de todos os JSON de dados para precache offline do Service Worker.
           # URLs relativas ao escopo do SW (/site/): ../dados/....json

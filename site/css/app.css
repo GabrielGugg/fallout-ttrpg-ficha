@@ -1,5 +1,6 @@
 /* ============================================================
-   Ficha Fallout TTRPG 2.1 — tema Pip-Boy (verde fósforo sobre preto)
+   Ficha Fallout TTRPG 2.1. Temas: Pip-Boy (padrão, verde fósforo sobre
+   preto), Vault-Tec Escuro e Vault-Tec Claro (data-tema no <html>).
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,12 +18,70 @@
   --danger: #ff6b5a;
   --warning: #ffc94a;
   --success: #3ef07a;
+  --bg-header: #07100a;
+  --on-primary: #04140a;
+  --primary-hover: #6af59a;
+  --brilho: rgba(62, 240, 122, 0.6);
+  --barra-pe: #7fd8ff;
   --radius: 6px;
   --header-h: 54px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --mono: 'Share Tech Mono', 'Courier New', ui-monospace, monospace;
 }
+
+/* Vault-Tec Escuro: amarelo Vault-Tec sobre azul-marinho. */
+:root[data-tema="vault-escuro"] {
+  --bg: #001423;
+  --bg-card: #03213a;
+  --bg-input: #001a2d;
+  --bg-hover: #0a2e4d;
+  --primary: #fff773;
+  --primary-dim: #0066b1;
+  --primary-faint: rgba(255, 247, 115, 0.12);
+  --text: #ffffff;
+  --text-muted: #9fb7cc;
+  --border: #0f4f82;
+  --danger: #ff7a6b;
+  --warning: #ffb547;
+  --success: #fff773;
+  --bg-header: #000c16;
+  --on-primary: #001423;
+  --primary-hover: #fffaa6;
+  --brilho: rgba(255, 247, 115, 0.5);
+  --barra-pe: #4aa8ec;
+}
+
+/* Vault-Tec Claro: fundo branco, texto azul-marinho, cabeçalho azul com amarelo. */
+:root[data-tema="vault-claro"] {
+  --bg: #eef4fa;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --bg-hover: #dceaf6;
+  --primary: #0066b1;
+  --primary-dim: #0066b1;
+  --primary-faint: rgba(0, 102, 177, 0.1);
+  --text: #001423;
+  --text-muted: #4b6378;
+  --border: #b5cde2;
+  --danger: #c62828;
+  --warning: #9a5b00;
+  --success: #1b7a3d;
+  --bg-header: #0066b1;
+  --on-primary: #ffffff;
+  --primary-hover: #00528f;
+  --brilho: transparent;
+  --barra-pe: #4aa8ec;
+}
+:root[data-tema="vault-claro"] #app-header {
+  --primary: #fff773;
+  --text: #ffffff;
+  --text-muted: #cfe2f3;
+  --border: #4d95d0;
+  --bg-input: #00589a;
+  --primary-faint: rgba(255, 247, 115, 0.15);
+}
+:root[data-tema="vault-claro"] .barra { background: #dfe9f2; }
 
 html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 body {
@@ -48,7 +107,7 @@ button { font: inherit; color: inherit; }
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   height: calc(var(--header-h) + var(--safe-top)); padding: var(--safe-top) 12px 0;
   display: flex; align-items: center; gap: 8px;
-  background: #07100a; border-bottom: 1px solid var(--border);
+  background: var(--bg-header); border-bottom: 1px solid var(--border);
 }
 #app-header h1 { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; font-size: 1.05rem; color: var(--primary); text-transform: uppercase; }
 .header-nome, .header-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -61,7 +120,7 @@ button { font: inherit; color: inherit; }
 .header-nivel span { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); }
 .header-nivel strong { font-family: var(--mono); font-size: 1.15rem; color: var(--primary); }
 .header-nivel small { grid-column: 1 / -1; font-size: 0.6rem; text-transform: uppercase; text-align: center; }
-.header-nivel.pode-subir { border-color: var(--primary); box-shadow: 0 0 8px rgba(51, 255, 102, 0.45); }
+.header-nivel.pode-subir { border-color: var(--primary); box-shadow: 0 0 8px var(--brilho); }
 .header-nivel.pode-subir small { color: var(--primary); }
 .header-nivel:disabled { cursor: default; opacity: 0.7; }
 .header-btn { background: none; border: none; color: var(--primary); padding: 6px; cursor: pointer; display: flex; }
@@ -77,8 +136,8 @@ button { font: inherit; color: inherit; }
 }
 .btn:hover:not(:disabled) { background: var(--primary-faint); }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-primary { background: var(--primary); color: #04140a; border-color: var(--primary); font-weight: 700; }
-.btn-primary:hover:not(:disabled) { background: #6af59a; }
+.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); font-weight: 700; }
+.btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
 .btn-danger { border-color: var(--danger); color: var(--danger); }
 .btn-success { border-color: var(--success); }
 .btn-sm { padding: 6px 12px; min-height: 36px; font-size: 0.82rem; }
@@ -171,7 +230,7 @@ details.bloco[open] > summary::after { transform: rotate(90deg); }
 .wizard-steps li.feito button { color: var(--text); }
 .wizard-num { font-family: var(--mono); }
 .wizard-corpo { padding-bottom: 88px; }
-.wizard-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px calc(10px + var(--safe-bottom)); background: #07100a; border-top: 1px solid var(--border); }
+.wizard-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px calc(10px + var(--safe-bottom)); background: var(--bg-header); border-top: 1px solid var(--border); }
 .wizard-nav .btn { flex: 1; max-width: 240px; }
 .pontos-restantes { font-family: var(--mono); padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); margin: 10px 0; }
 .pontos-restantes.ok { border-color: var(--primary); color: var(--primary); }
@@ -215,7 +274,7 @@ button.stat-box { cursor: pointer; font: inherit; }
 .barra-valor .temp { color: var(--warning); font-size: 0.85rem; }
 .barra { height: 10px; border: 1px solid var(--primary-dim); border-radius: 2px; overflow: hidden; margin: 4px 0; }
 .barra-preench { height: 100%; background: var(--primary); transition: width 0.2s; }
-.pe .barra-preench { background: #7fd8ff; }
+.pe .barra-preench { background: var(--barra-pe); }
 .barra-ajuste { display: flex; gap: 6px; align-items: center; }
 .barra-ajuste button:not(.link) { width: 32px; height: 28px; border-radius: 4px; border: 1px solid var(--border); background: none; color: var(--primary); cursor: pointer; }
 .barra-ajuste .link { margin-left: auto; font-size: 0.8rem; }
@@ -281,7 +340,7 @@ button.stat-box { cursor: pointer; font: inherit; }
   color: var(--text-muted); font-family: var(--mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;
   position: relative; top: 2px;
 }
-.pipboy-aba.ativa { color: var(--primary); border-color: var(--primary-dim); background: var(--bg); border-radius: 4px 4px 0 0; text-shadow: 0 0 6px rgba(62, 240, 122, 0.6); }
+.pipboy-aba.ativa { color: var(--primary); border-color: var(--primary-dim); background: var(--bg); border-radius: 4px 4px 0 0; text-shadow: 0 0 6px var(--brilho); }
 
 /* --- Munição --- */
 .municao { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
@@ -296,7 +355,7 @@ button.stat-box { cursor: pointer; font: inherit; }
   .prop-tip:hover::after {
     content: attr(data-tip); position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 400;
     padding: 8px 10px; white-space: normal; text-align: left;
-    background: #07100a; border: 1px solid var(--primary); border-radius: var(--radius);
+    background: var(--bg-card); border: 1px solid var(--primary); border-radius: var(--radius);
     color: var(--text); font-size: 0.82rem; line-height: 1.4; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   }
 }
@@ -311,7 +370,7 @@ button.stat-box { cursor: pointer; font: inherit; }
 .modal-acoes { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 12px 16px calc(12px + var(--safe-bottom)); border-top: 1px solid var(--border); }
 .modal-acoes:empty { display: none; }
 .toast-container { position: fixed; left: 50%; bottom: calc(80px + var(--safe-bottom)); transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 6px; width: min(92vw, 420px); }
-.toast { padding: 10px 14px; border-radius: var(--radius); background: #07100a; border: 1px solid var(--primary-dim); color: var(--text); font-size: 0.9rem; }
+.toast { padding: 10px 14px; border-radius: var(--radius); background: var(--bg-card); border: 1px solid var(--primary-dim); color: var(--text); font-size: 0.9rem; }
 .toast.erro { border-color: var(--danger); color: var(--danger); }
 .toast.sucesso { border-color: var(--primary); color: var(--primary); }
 
@@ -353,3 +412,13 @@ button.stat-box { cursor: pointer; font: inherit; }
 .pericia-nome-btn { background: none; border: none; padding: 0; color: inherit; text-align: left; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
 @media (min-width: 600px) { .header-xp .mini-input { width: 80px; } }
 .desgaste-ctrl { position: relative; }
+
+/* --- v0.5: configurações e changelog --- */
+.config-temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.tema-card { display: flex; flex-direction: column; gap: 8px; padding: 10px; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg-input); color: var(--text); cursor: pointer; text-align: left; font: inherit; }
+.tema-card.ativo { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+.tema-card strong { font-family: var(--mono); text-transform: uppercase; font-size: 0.85rem; }
+.tema-amostra { display: flex; height: 36px; border-radius: 4px; overflow: hidden; border: 1px solid rgba(127, 127, 127, 0.4); }
+.tema-amostra span { flex: 1; }
+.config-linha { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.changelog h4 { margin-top: 18px; }
