@@ -16,6 +16,9 @@ export function custoDoItem(item) {
   return m ? Number(m[1]) : null;
 }
 
+/** Ordena por nome, em português (acentos e maiúsculas não atrapalham). */
+const porNome = (a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR', { sensitivity: 'base' });
+
 /** Carga com uma casa decimal e vírgula. */
 const fmtCarga = n => String(Math.round(n * 10) / 10).replace('.', ',');
 
@@ -71,7 +74,7 @@ function cartaoCarga({ char, regras }) {
 /** HTML da aba de inventário: card de carga e card dos itens. */
 export function secaoInventario(ctx) {
   const { char, regras } = ctx;
-  const linhas = char.inventario || [];
+  const linhas = [...(char.inventario || [])].sort(porNome);
   return `${cartaoCarga(ctx)}
     <div class="card">
     <div class="tampinhas-linha">
@@ -187,9 +190,9 @@ function camposHtml(item, propriedades) {
 }
 
 /** Controle de desgaste: − N/10 + e a regra de como o item ganha desgaste. */
-function desgasteHtml(l, item) {
+function desgasteHtml(l, item, catalogo) {
   const n = l.desgaste || 0;
-  const regra = R.regraDeDesgaste(item);
+  const regra = R.regraDeDesgaste(item, l, catalogo);
   return `<div class="form-group desgaste-bloco">
     <span class="form-label">Níveis de Desgaste</span>
     <div class="desgaste-ctrl">
@@ -207,7 +210,7 @@ function melhoriasHtml(l, item, regras) {
   const esp = R.espacosDaArmadura(l, item, regras.catalogo);
   const todas = R.melhoriasDaArmadura(l, item);
   const usadas = new Set(todas.map(m => m.id));
-  const livres = regras.itens.filter(i => i.subcategoria === 'Melhorias de Armadura' && !usadas.has(R.idMelhoria(i)));
+  const livres = regras.itens.filter(i => i.subcategoria === 'Melhorias de Armadura' && !usadas.has(R.idMelhoria(i))).sort(porNome);
   const texto = (id, nivel) => {
     const c = regras.catalogo[`melhorias_de_armadura_${id}`]?.campos || {};
     return [1, 2, 3].filter(n => n <= nivel).map(n => c[`Nível ${n}`]).filter(t => t && t !== '—').join(' ');
@@ -223,7 +226,7 @@ function melhoriasHtml(l, item, regras) {
           <button type="button" data-mel-nivel="${i - embutidas}" data-delta="1" ${m.nivel >= 3 ? 'disabled' : ''} aria-label="Nível +1">+</button></span>`}</li>`).join('') || '<li class="texto-suave">Nenhuma.</li>'}
     </ul>
     ${esp.usados < esp.total && livres.length ? `<div class="inst-add">
-      <select class="form-select" id="sel-melhoria">${livres.map(i => `<option value="${escHtml(R.idMelhoria(i))}">${escHtml(i.nome)} (${escHtml(i.campos['Custo Base'] || '')})</option>`).join('')}</select>
+      <select class="form-select" id="sel-melhoria"><option value="" selected disabled>Selecione</option>${livres.map(i => `<option value="${escHtml(R.idMelhoria(i))}">${escHtml(i.nome)} (${escHtml(i.campos['Custo Base'] || '')})</option>`).join('')}</select>
       <button type="button" class="btn btn-secondary btn-sm" id="btn-add-melhoria">Instalar</button></div>` : ''}
     <p class="texto-suave">Uma melhoria de cada tipo por armadura; os níveis não ocupam espaço. DF, TD, LR, carga, Força, PE e PA já entram na ficha; o resto fica no texto.</p>`;
 }
@@ -231,7 +234,7 @@ function melhoriasHtml(l, item, regras) {
 /** Modificações da arma: instaladas, espaços e o seletor das compatíveis. */
 function modsHtml(l, item, regras) {
   const est = R.estatisticasDaArma(l, item, regras.catalogo);
-  const compat = R.modsCompativeis(item, regras.itens).filter(m => !(l.mods || []).includes(m.id));
+  const compat = R.modsCompativeis(item, regras.itens).filter(m => !(l.mods || []).includes(m.id)).sort(porNome);
   const porQtd = est.espacos.tipo === 'quantidade';
   const limite = porQtd ? `${est.espacos.usados}/1 modificação` : `${est.espacos.usados}/6 espaços`;
   return `<h4>Arma</h4>
@@ -245,7 +248,7 @@ function modsHtml(l, item, regras) {
         <button type="button" class="btn-icon perigo" data-mod-remover="${escHtml(m.id)}" aria-label="Remover ${escHtml(m.nome)}">✕</button></li>`).join('') || '<li class="texto-suave">Nenhuma.</li>'}
     </ul>
     ${(!porQtd || est.espacos.usados < 1) && compat.length ? `<div class="inst-add">
-      <select class="form-select" id="sel-mod">${compat.map(m => `<option value="${escHtml(m.id)}">${escHtml(m.nome)}${!porQtd ? ` (${R.espacosDaMod(m)} esp.)` : ''}</option>`).join('')}</select>
+      <select class="form-select" id="sel-mod"><option value="" selected disabled>Selecione</option>${compat.map(m => `<option value="${escHtml(m.id)}">${escHtml(m.nome)}${!porQtd ? ` (${R.espacosDaMod(m)} esp.)` : ''}</option>`).join('')}</select>
       <button type="button" class="btn btn-secondary btn-sm" id="btn-add-mod">Instalar</button></div>
       <p class="texto-suave">Confira na descrição se a modificação serve nesta arma. Acerto, carga, Força, PA e pente já entram na ficha.</p>` : ''}
     ${R.cabeNaBolsaDeArmas(item) ? `<label class="form-check"><input type="checkbox" id="chk-na-bolsa" ${l.na_bolsa ? 'checked' : ''}>
@@ -262,11 +265,14 @@ function abrirDetalheLinha(l, ctx) {
   const tipo = R.tipoEquipavel(item);
 
   const corpo = () => `
+    <div class="form-group"><label class="form-label" for="det-nome">Nome na ficha</label>
+      <input class="form-input" id="det-nome" value="${escHtml(l.nome)}">
+      ${item && l.nome !== item.nome ? `<small>No catálogo: ${escHtml(item.nome)}</small>` : ''}</div>
     ${item ? camposHtml(item, regras.propriedades) : '<p class="texto-suave">Item livre, fora do catálogo.</p>'}
     ${tipo === 'vestivel' ? `<p class="texto-suave">Vestido: ${escHtml(R.efeitosDoVestivel(item).join(' · ') || 'sem efeito na ficha')}.</p>` : ''}
     ${tipo === 'armadura' ? melhoriasHtml(l, item, regras) : ''}
     ${tipo === 'arma' && R.periciaDaArma(item) !== 'explosivos' ? modsHtml(l, item, regras) : ''}
-    ${desgasteHtml(l, item)}
+    ${desgasteHtml(l, item, regras.catalogo)}
     ${!item ? `<div class="form-group"><label class="form-label" for="det-carga">Carga (cada)</label>
       <input type="number" class="form-input" id="det-carga" min="0" step="0.5" value="${l.carga || 0}"></div>` : ''}
     <div class="form-group"><label class="form-label" for="det-nota">Notas</label>
@@ -302,19 +308,28 @@ function abrirDetalheLinha(l, ctx) {
       };
     });
     el.querySelector('#btn-add-melhoria')?.addEventListener('click', () => {
-      l.melhorias = [...(l.melhorias || []), { id: document.getElementById('sel-melhoria').value, nivel: 1 }];
+      const id = document.getElementById('sel-melhoria').value;
+      if (!id) { toast('Selecione uma melhoria.', 'erro'); return; }
+      l.melhorias = [...(l.melhorias || []), { id, nivel: 1 }];
       atualizar();
     });
     el.querySelectorAll('[data-mod-remover]').forEach(b => {
       b.onclick = () => { l.mods = (l.mods || []).filter(id => id !== b.dataset.modRemover); atualizar(); };
     });
     el.querySelector('#btn-add-mod')?.addEventListener('click', () => {
-      l.mods = [...(l.mods || []), document.getElementById('sel-mod').value];
+      const id = document.getElementById('sel-mod').value;
+      if (!id) { toast('Selecione uma modificação.', 'erro'); return; }
+      l.mods = [...(l.mods || []), id];
       atualizar();
     });
     el.querySelector('#chk-na-bolsa')?.addEventListener('change', e => { l.na_bolsa = e.target.checked; atualizar(); });
     el.querySelector('#det-carga')?.addEventListener('change', e => { l.carga = Number(e.target.value) || 0; atualizar(); });
     el.querySelector('#det-nota').addEventListener('change', e => { l.nota = e.target.value; salvar(); });
+    el.querySelector('#det-nome').addEventListener('change', e => {
+      l.nome = e.target.value.trim() || item?.nome || l.nome;
+      document.getElementById('modal-titulo').textContent = l.nome;
+      atualizar();
+    });
   };
 
   abrirModal(l.nome, corpo(), '<button class="btn btn-primary" onclick="fecharModal()">Fechar</button>');
@@ -324,7 +339,7 @@ function abrirDetalheLinha(l, ctx) {
 /** Catálogo de itens com busca e filtro por categoria; permite comprar. */
 function abrirCatalogo(ctx) {
   const { regras } = ctx;
-  const categorias = [...new Set(regras.itens.map(i => i.subcategoria || i.categoria))];
+  const categorias = [...new Set(regras.itens.map(i => i.subcategoria || i.categoria))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
   abrirModal('Catálogo de itens', `
     <div class="filtros">
       <input class="form-input" id="cat-busca" placeholder="Buscar item...">
@@ -335,7 +350,7 @@ function abrirCatalogo(ctx) {
   const desenhar = () => {
     const q = semAcento(document.getElementById('cat-busca').value);
     const cat = document.getElementById('cat-categoria').value;
-    const lista = regras.itens.filter(i => (!cat || (i.subcategoria || i.categoria) === cat) && (!q || semAcento(i.nome).includes(q))).slice(0, 120);
+    const lista = regras.itens.filter(i => (!cat || (i.subcategoria || i.categoria) === cat) && (!q || semAcento(i.nome).includes(q))).sort(porNome).slice(0, 120);
     const el = document.getElementById('cat-lista');
     el.innerHTML = lista.length ? lista.map(i => {
       const custo = custoDoItem(i);

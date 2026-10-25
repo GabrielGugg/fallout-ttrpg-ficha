@@ -5,12 +5,19 @@ import { escHtml, mdParaHtml, abrirModal, fecharModal, semAcento } from './utils
 import * as R from './regras-fallout.js';
 const { cumpreRequisitos } = R;
 
+/** Comparador em ordem alfabética do português (sem diferenciar acento e caixa). */
+export function ordemAlfabetica(a, b) {
+  return String(a).localeCompare(String(b), 'pt-BR', { sensitivity: 'base' });
+}
+
 /**
- * Grade de cards. Cada opção: { id, titulo, subtitulo?, selecionado?, bloqueado?, motivo? }.
- * Clicar no card chama aoClicar(id); quem chama decide se abre popup ou seleciona.
+ * Grade de cards em ordem alfabética. Cada opção: { id, titulo, subtitulo?,
+ * selecionado?, bloqueado?, motivo? }. Clicar no card chama aoClicar(id);
+ * quem chama decide se abre popup ou seleciona.
  */
 export function gradeCards(opcoes, attr = 'data-card-id') {
-  return `<div class="opcao-grid">${opcoes.map(o => `
+  const ordenadas = [...opcoes].sort((a, b) => ordemAlfabetica(a.titulo, b.titulo));
+  return `<div class="opcao-grid">${ordenadas.map(o => `
     <button type="button" class="opcao-card${o.selecionado ? ' selecionado' : ''}${o.bloqueado ? ' bloqueado' : ''}" ${attr}="${escHtml(o.id)}">
       <span class="opcao-titulo">${escHtml(o.titulo)}</span>
       ${o.subtitulo ? `<span class="opcao-sub">${escHtml(o.subtitulo)}</span>` : ''}
@@ -58,7 +65,7 @@ export function markdownTraco(t) {
  * aoEscolher(idTalento) é chamado ao confirmar no popup.
  */
 export function abrirSeletorTalento(char, talentos, jaTem, aoEscolher) {
-  const grupos = [...new Set(talentos.map(t => t.grupo))];
+  const grupos = [...new Set(talentos.map(t => t.grupo))].sort(ordemAlfabetica);
   const estado = { busca: '', grupo: '', soDisponiveis: true };
   abrirModal('Escolher talento', `
     <div class="filtros">

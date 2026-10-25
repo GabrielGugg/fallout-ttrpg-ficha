@@ -15,22 +15,22 @@ export const ATRIBUTOS = [
   { id: 'SOR', nome: 'Sorte', letra: 'L' },
 ];
 
-/** Perícias e atributos possíveis; o primeiro é o padrão. */
+/** Perícias (em ordem alfabética) e atributos possíveis; o primeiro é o padrão. */
 export const PERICIAS = [
   { id: 'barganha', nome: 'Barganha', atributos: ['CAR'] },
-  { id: 'sabotagem', nome: 'Sabotagem', atributos: ['PER', 'INT'] },
+  { id: 'ciencia', nome: 'Ciência', atributos: ['INT'] },
+  { id: 'corpo_a_corpo', nome: 'Corpo a Corpo', atributos: ['FOR'] },
   { id: 'criacao', nome: 'Criação', atributos: ['INT'] },
+  { id: 'disparo', nome: 'Disparo', atributos: ['AGI'] },
   { id: 'energia', nome: 'Energia', atributos: ['PER'] },
   { id: 'explosivos', nome: 'Explosivos', atributos: ['PER'] },
-  { id: 'disparo', nome: 'Disparo', atributos: ['AGI'] },
+  { id: 'furtividade', nome: 'Furtividade', atributos: ['AGI'] },
   { id: 'intimidacao', nome: 'Intimidação', atributos: ['FOR', 'CAR'] },
   { id: 'medicina', nome: 'Medicina', atributos: ['PER', 'INT'] },
-  { id: 'corpo_a_corpo', nome: 'Corpo a Corpo', atributos: ['FOR'] },
-  { id: 'ciencia', nome: 'Ciência', atributos: ['INT'] },
-  { id: 'furtividade', nome: 'Furtividade', atributos: ['AGI'] },
   { id: 'persuasao', nome: 'Persuasão', atributos: ['CAR'] },
-  { id: 'sobrevivencia', nome: 'Sobrevivência', atributos: ['RES'] },
   { id: 'pugilismo', nome: 'Pugilismo', atributos: ['FOR'] },
+  { id: 'sabotagem', nome: 'Sabotagem', atributos: ['PER', 'INT'] },
+  { id: 'sobrevivencia', nome: 'Sobrevivência', atributos: ['RES'] },
 ];
 
 export const NIVEL_MAXIMO = 30;
@@ -205,31 +205,83 @@ export function bonusPericia(char, idPericia, antecedente = null) {
 // ---------------------------------------------------------------- sobrevivência
 
 /**
- * Contadores de nível que reduzem em 1 cada d20 (exceto Sorte) por nível.
- * `limite`: o máximo possível; `morte`: chegar nele mata.
+ * Condições com níveis. `d20`: cada nível reduz em 1 os d20 (exceto Sorte);
+ * `paMetade`: tira do PA máximo metade dos níveis; `paPorNivel`: tira 1 de PA
+ * por nível. `limite`: o máximo possível; `morte`: chegar nele mata.
  */
 export const CONTADORES_SOBREVIVENCIA = [
-  { id: 'fome', nome: 'Fome', condicao: 'Fome', limite: 10, morte: true },
-  { id: 'desidratacao', nome: 'Desidratação', condicao: 'Desidratação', limite: 10, morte: true },
-  { id: 'fadiga', nome: 'Fadiga', condicao: 'Fadiga', limite: 9, morte: false },
-  { id: 'exaustao', nome: 'Exaustão', condicao: 'Exaustão', limite: 10, morte: true },
-  { id: 'radiacao', nome: 'Radiação', condicao: 'Radiação ou Rads', limite: 10, morte: true },
+  { id: 'fome', nome: 'Fome', condicao: 'Fome', limite: 10, morte: true, d20: true },
+  { id: 'desidratacao', nome: 'Desidratação', condicao: 'Desidratação', limite: 10, morte: true, d20: true },
+  { id: 'fadiga', nome: 'Fadiga', condicao: 'Fadiga', limite: 9, morte: false, d20: true },
+  { id: 'exaustao', nome: 'Exaustão', condicao: 'Exaustão', limite: 10, morte: true, d20: true },
+  { id: 'radiacao', nome: 'Radiação', condicao: 'Radiação ou Rads', limite: 10, morte: true, d20: true },
+  { id: 'hipotermia', nome: 'Hipotermia', condicao: 'Hipotermia', limite: 10, morte: true, d20: true, paMetade: true },
+  { id: 'superaquecimento', nome: 'Superaquecimento', condicao: 'Superaquecimento', limite: 10, morte: true, d20: true, paMetade: true },
+  { id: 'sangramento', nome: 'Sangramento', condicao: 'Sangramento', limite: 99, morte: false },
+  { id: 'curto_circuito', nome: 'Curto-Circuito', condicao: 'Curto-Circuito', limite: 99, morte: false, paPorNivel: true },
 ];
 
 /**
  * Contadores que se aplicam à raça: Sintético Gen 2 e Robô não comem, não
- * bebem e não ganham rads; Necrótico e Super Mutante não ganham rads.
+ * bebem, não ganham rads nem sangram; Necrótico e Super Mutante não ganham
+ * rads; Curto-Circuito só aparece para Robô e Sintético.
  */
 export function contadoresDaRaca(char) {
   const fora = new Set();
-  if (['sintetico', 'robo'].includes(char?.raca)) ['fome', 'desidratacao', 'radiacao'].forEach(x => fora.add(x));
+  const maquina = ['sintetico', 'robo'].includes(char?.raca);
+  if (maquina) ['fome', 'desidratacao', 'radiacao', 'sangramento'].forEach(x => fora.add(x));
+  else fora.add('curto_circuito');
   if (['necrotico', 'super_mutante'].includes(char?.raca)) fora.add('radiacao');
   return CONTADORES_SOBREVIVENCIA.filter(c => !fora.has(c.id));
 }
 
-/** Redutor total dos d20 (exceto Sorte) pelos níveis de sobrevivência. */
+/**
+ * Efeitos das condições na ficha (Combate > Condições). Bêbado, Mamado e
+ * Esbagaçado incluem os efeitos das anteriores, como o texto manda.
+ * Devolve { pa, paTeto, pe, d20, desvantagem, notas: [{ nome, texto }] }.
+ */
+export function efeitosDeCondicoes(char, catalogo = null) {
+  const tem = id => (char?.condicoes || []).includes(id);
+  const nivel = char?.nivel || 1;
+  const ef = { pa: 0, paTeto: null, pe: 0, d20: 0, notas: [] };
+  const nota = (nome, texto) => ef.notas.push({ nome, texto });
+  const esbagacado = tem('esbagacado');
+  const mamado = tem('mamado') || esbagacado;
+  const bebado = tem('bebado') || mamado;
+  const leso = tem('leso') || bebado;
+  if (tem('atordoado')) { ef.pa -= 3; nota('Atordoado', 'PA máximo −3; não pode reciclar PA.'); }
+  if (bebado) { ef.pa -= 2; ef.pe += nivel; nota('Bêbado', `PA −2 e PE máximo +${nivel}.`); }
+  if (mamado) { ef.pe += nivel; ef.d20 += 5; nota('Mamado', `PE máximo +${nivel} e −5 em todo d20 (exceto Sorte).`); }
+  if (esbagacado) nota('Esbagaçado', 'Não lembra de nada do período e cai inconsciente depois de uma hora.');
+  if (leso) nota('Léso', 'Desvantagem em testes de Inteligência e Percepção; vantagem em testes de Resistência e Força.');
+  if (tem('envenenado')) nota('Envenenado', 'Desvantagem em todas as rolagens de d20.');
+  if (tem('choque')) nota('Choque', 'Não recupera PE e tem desvantagem em todas as rolagens de d20.');
+  if (tem('caido')) nota('Caído', 'Desvantagem nas rolagens de ataque; só rasteja.');
+  if (tem('contido')) nota('Contido', 'Não se move; dano não pode sair dos PE.');
+  if (tem('agarrado')) nota('Agarrado', 'Não pode gastar PA para se mover.');
+  if (tem('cego')) nota('Cego', 'Falha em testes que exigem visão; ataques contra você têm vantagem.');
+  if (tem('invisivel')) nota('Invisível', 'Ataques contra você têm desvantagem e os seus têm vantagem.');
+  for (const c of contadoresDaRaca(char)) {
+    const n = Math.max(0, char?.[c.id] || 0);
+    if (!n) continue;
+    if (c.paMetade && Math.floor(n / 2)) { ef.pa -= Math.floor(n / 2); nota(c.nome, `PA máximo −${Math.floor(n / 2)} (metade dos níveis).`); }
+    if (c.paPorNivel) { ef.pa -= n; nota(c.nome, `PA máximo −${n}; 1d12 de dano de eletricidade por nível no início do turno.`); }
+  }
+  // Lento: pela condição ou por vestir armadura sem a Força pedida (o talento Acumulador evita).
+  let lento = tem('lento');
+  const arm = catalogo ? armaduraVestida(char?.inventario, catalogo) : null;
+  if (!lento && arm && !talentosEscolhidos(char).includes('acumulador')) {
+    const req = estatisticasDaArmadura(arm.linha, arm.item, catalogo).forca;
+    if (req != null && atributosEfetivos(char).FOR < req) { lento = true; nota('Lento', `A armadura pede Força ${req}: começa o turno com no máximo 6 PA.`); }
+  }
+  if (lento) { ef.paTeto = 6; if (tem('lento')) nota('Lento', 'Começa o turno com no máximo 6 PA.'); }
+  return ef;
+}
+
+/** Redutor total dos d20 (exceto Sorte) pelos níveis de sobrevivência e por Mamado. */
 export function penalidadeD20(char) {
-  return contadoresDaRaca(char).reduce((s, c) => s + Math.max(0, char?.[c.id] || 0), 0);
+  const niveis = contadoresDaRaca(char).filter(c => c.d20).reduce((s, c) => s + Math.max(0, char?.[c.id] || 0), 0);
+  return niveis + efeitosDeCondicoes(char).d20;
 }
 
 // ---------------------------------------------------------------- progressão
@@ -274,6 +326,7 @@ export function peMaximo(char, catalogo = null) {
   if (temTraco(char, 'robusto')) pe -= tracoErmo(char, 'robusto') ? 2 * nivel : nivel;
   const arm = catalogo ? armaduraVestida(char?.inventario, catalogo) : null;
   if (arm && nivelMelhoria(arm, 'justa') >= 2) pe += nivel;
+  pe += efeitosDeCondicoes(char, catalogo).pe;
   return Math.max(0, pe);
 }
 
@@ -287,7 +340,10 @@ export function pontosDeAcao(char, catalogo = null) {
   const arm = catalogo ? armaduraVestida(char?.inventario, catalogo) : null;
   if (arm && nivelMelhoria(arm, 'isolamento') === 1) reducao -= 1;
   if (reducao) pa = Math.max(Math.min(pa, 6), pa + reducao);
-  return pa;
+  const cond = efeitosDeCondicoes(char, catalogo);
+  pa += cond.pa;
+  if (cond.paTeto != null) pa = Math.min(pa, cond.paTeto);
+  return Math.max(0, pa);
 }
 
 /** Ponto de Talento ganho em um nível específico (todos, exceto 5, 9, 13, 17 e 19). */
@@ -542,22 +598,48 @@ export function estatisticasDaArmadura(linha, item, catalogo = null) {
 const EFEITOS_MOD = {
   mira_holografica: { acerto: 1, carga: 1 },
   luneta_infravermelha: { acerto: 2, carga: 2 },
-  mira_laser: { carga: 1 },
-  construcao_leve: { cargaMult: 0.5, forca: -1 },
+  mira_laser: { carga: 1, props: ['Certeiro'] },
+  construcao_leve: { cargaMult: 0.5, forca: -1, props: ['Quebrável'] },
   cano_longo: { carga: 4 },
   freio_de_boca: { acerto: 1, forca: -1, carga: 2 },
   coronha: { acerto: 1, carga: 4 },
   silenciador: { carga: 2 },
-  reforco_estrutural: { carga: 2 },
+  reforco_estrutural: { carga: 2, props: ['Robusto', 'Defensivo'] },
   luneta: { carga: 2 },
-  receptor_endurecido: { carga: 2 },
+  receptor_endurecido: { carga: 2, props: ['Destrutivo', 'Poderoso'] },
+  semiautomatica: { props: ['Semiautomática'] },
   acao_dupla: { pa: -1, paMin: 1 },
   carregador_ampliado: { pente: 3 },
   // corpo a corpo
-  cc_construcao_leve: { cargaMult: 0.5, forca: -1, pa: -1, paMin: 3 },
-  cc_lamina_dupla: { cargaMult: 2, forca: 1 },
-  cc_pesada: { cargaMult: 1.5, forca: 1, pa: 1, paMax: 6 },
+  cc_construcao_leve: { cargaMult: 0.5, forca: -1, pa: -1, paMin: 3, props: ['Quebrável'] },
+  cc_lamina_dupla: { cargaMult: 2, forca: 1, props: ['Defensivo', 'Duas Mãos'] },
+  cc_pesada: { cargaMult: 1.5, forca: 1, pa: 1, paMax: 6, props: ['Pesado'] },
+  cc_fortificada: { props: ['Durável'] },
+  cc_afiada_serrilhada_ou_farpada: { props: ['Mutilar'] },
 };
+
+/** Propriedades que mudam como a arma ganha desgaste ou o que ele faz. */
+const PROPS_DESGASTE = ['Robusto', 'Durável', 'Quebrável', 'Instável', 'Frágil'];
+
+/** A propriedade aparece no texto de propriedades da arma? (aceita masculino e feminino) */
+function temPropriedade(texto, nome) {
+  const raiz = nome.replace(/[oa]$/, '');
+  return new RegExp(`(?<![\\p{L}])${raiz}[oa]?(?![\\p{L}])`, 'iu').test(texto);
+}
+
+/**
+ * Propriedades de desgaste da arma: as do catálogo mais as que as
+ * modificações dão (Construção Leve -> Quebrável, Reforço Estrutural ->
+ * Robusto, Fortificada -> Durável).
+ */
+export function propriedadesDeDesgaste(linha, item, catalogo = null) {
+  const texto = String(item?.campos?.['Propriedades Especiais'] || item?.campos?.Propriedades || '');
+  const props = new Set(PROPS_DESGASTE.filter(n => temPropriedade(texto, n)));
+  for (const id of linha?.mods || []) {
+    for (const p of EFEITOS_MOD[chaveMod(catalogo?.[id])]?.props || []) if (PROPS_DESGASTE.includes(p)) props.add(p);
+  }
+  return props;
+}
 
 /** A modificação é de arma corpo a corpo? */
 function modCorpoACorpo(mod) {
@@ -615,6 +697,9 @@ export function estatisticasDaArma(linha, item, catalogo = null) {
     }
   }
   const desgaste = linha?.desgaste || 0;
+  const props = propriedadesDeDesgaste(linha, item, catalogo);
+  // Robusto ignora os 2 primeiros níveis; Frágil quebra no primeiro.
+  const desgastePenaliza = props.has('Robusto') ? Math.max(0, desgaste - 2) : desgaste;
   const bonusMods = efeitos.reduce((s, e) => s + (e.acerto || 0), 0);
   const limite = limiteDeMods(item);
   const usados = limite.tipo === 'quantidade' ? mods.length : mods.reduce((s, m) => s + espacosDaMod(m), 0);
@@ -623,14 +708,16 @@ export function estatisticasDaArma(linha, item, catalogo = null) {
     forca,
     pa,
     paBase,
-    acerto: bonusMods - desgaste,
+    acerto: bonusMods - desgastePenaliza,
     bonusMods,
-    desgaste,
+    desgaste: desgastePenaliza,
+    propriedades: [...props],
+    recargasPorDesgaste: props.has('Instável') ? 5 : RECARGAS_POR_DESGASTE,
     pente: efeitos.reduce((s, e) => s + (e.pente || 0), 0),
     mods,
     espacos: { ...limite, usados },
     excedeu: usados > limite.max,
-    quebrada: desgaste >= 10,
+    quebrada: desgaste >= 10 || (props.has('Frágil') && desgaste >= 1),
   };
 }
 
@@ -1099,21 +1186,33 @@ export function municaoDaArma(item, linha = null, catalogo = null) {
 /** A cada quantas recargas uma arma à distância ganha um nível de desgaste. */
 export const RECARGAS_POR_DESGASTE = 10;
 
-/** Como o item ganha níveis de desgaste e o que eles fazem (Itens e Custo, Fabricação). */
-export function regraDeDesgaste(item) {
+/**
+ * Como o item ganha níveis de desgaste e o que eles fazem (Itens e Custo,
+ * Fabricação), já com as propriedades de desgaste da arma.
+ */
+export function regraDeDesgaste(item, linha = null, catalogo = null) {
   const pericia = periciaDaArma(item);
   const fim = ' No 10º nível o item quebra e para de funcionar.';
-  if (['corpo_a_corpo', 'pugilismo'].includes(pericia)) {
-    return 'Toda arma corpo a corpo ganha um nível de desgaste quando você tira 1 em uma rolagem de ataque ou quando você arremessa uma arma corpo a corpo que não tem a propriedade Arremessável. Cada nível reduz em 1 as rolagens de ataque.' + fim;
-  }
   if (pericia && pericia !== 'explosivos') {
-    return 'Toda arma à distância ganha um nível de desgaste quando você a recarrega pela décima vez e quando você tira 1 em uma rolagem de ataque, a menos que se diga o contrário. Cada nível reduz em 1 as rolagens de ataque.' + fim;
+    const cc = ['corpo_a_corpo', 'pugilismo'].includes(pericia);
+    const p = propriedadesDeDesgaste(linha, item, catalogo);
+    const ganha = [];
+    if (!cc) ganha.push(p.has('Instável') ? 'a cada cinco recargas (Instável)' : 'na décima recarga');
+    if (p.has('Quebrável')) ganha.push('quando você tira 3 ou menos na rolagem de ataque (Quebrável)');
+    else if (!p.has('Durável')) ganha.push('quando você tira 1 na rolagem de ataque');
+    if (cc) ganha.push('quando você a arremessa sem ela ter a propriedade Arremessável');
+    let txt = `${cc ? 'Esta arma corpo a corpo' : 'Esta arma à distância'} ganha um nível de desgaste ${ganha.join(', ').replace(/, ([^,]*)$/, ' e $1')}.`;
+    if (p.has('Durável')) txt += ' Durável: não ganha desgaste ao tirar 1.';
+    txt += ' Cada nível reduz em 1 as rolagens de ataque.';
+    if (p.has('Robusto')) txt += ' Robusto: ignora os 2 primeiros níveis.';
+    if (p.has('Frágil')) return txt + ' Frágil: quebra e para de funcionar ao ganhar o primeiro nível.';
+    return txt + fim;
   }
   if (/traje_hazmat/.test(item?.id || '')) {
     return 'A cada 5 pontos de dano que você sofre nos PV enquanto veste o traje, ele ganha um nível de desgaste.' + fim;
   }
   if (ehArmadura(item)) {
-    return 'A armadura ganha um nível de desgaste se você a está vestindo e é alvo de um acerto crítico, ou sempre que você chega a 0 PV. DF e TD caem metade dos níveis (para baixo); a DF não fica abaixo de 10 nem a TD abaixo de 0.' + fim;
+    return 'A armadura ganha um nível de desgaste se você a está vestindo e é alvo de um acerto crítico, ou sempre que você chega a 0 PV. DF e TD caem metade dos níveis (para baixo); a DF não fica abaixo de 10 nem a TD abaixo de 0. A melhoria Robusta ignora os 2 ou 4 primeiros níveis.' + fim;
   }
   return 'Itens só ganham desgaste se a descrição disser, se sofrerem dano de um ataque mirado ou por decisão do MJ.' + fim;
 }

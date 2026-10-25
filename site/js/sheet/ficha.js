@@ -155,7 +155,6 @@ function desenharCabecalho(ant) {
 function secaoRecursos() {
   const pvMax = R.pvMaximo(char);
   const peMax = R.peMaximo(char, regras.catalogo);
-  const karma = R.tampasDeKarma(char);
   const morrendo = char.pv_atual === 0;
   return `
     <div class="card recursos">
@@ -170,11 +169,28 @@ function secaoRecursos() {
       </div>
       <div class="stats-row">
         <div class="stat-box"><span class="stat-value">${R.pontosDeAcao(char, regras.catalogo)}</span><span class="stat-label">Pontos de Ação</span></div>
-        <div class="stat-box karma"><span class="stat-label">Tampas de Karma</span>
-          <span class="tampas">${Array.from({ length: karma }, (_, i) => `<button type="button" class="tampa${i < (char.karma_viradas || 0) ? ' virada' : ''}" data-tampa="${i}" aria-label="Tampa ${i + 1}${i < (char.karma_viradas || 0) ? ' (virada)' : ''}">${TAMPA_NUKA}</button>`).join('')}</span></div>
+        <div class="stat-box karma" title="Tampas de Karma" role="group" aria-label="Tampas de Karma">
+          <span class="tampas">${tampasViradas().map((virada, i) => `<button type="button" class="tampa${virada ? ' virada' : ''}" data-tampa="${i}" aria-label="Tampa de Karma ${i + 1}${virada ? ' (virada)' : ''}">${TAMPA_NUKA}</button>`).join('')}</span></div>
       </div>
+      ${efeitosHtml()}
       ${morrendo ? secaoSuspiros() : ''}
     </div>`;
+}
+
+/**
+ * Estado de cada Tampa de Karma (true = virada), uma por tampa. Fichas antigas
+ * guardavam só quantas estavam viradas (karma_viradas).
+ */
+function tampasViradas() {
+  const n = R.tampasDeKarma(char);
+  const salvo = Array.isArray(char.karma_tampas) ? char.karma_tampas : Array.from({ length: n }, (_, i) => i < (char.karma_viradas || 0));
+  return Array.from({ length: n }, (_, i) => !!salvo[i]);
+}
+
+/** Efeitos das condições que mexem na ficha (PA, PE, d20, vantagem). */
+function efeitosHtml() {
+  const { notas } = R.efeitosDeCondicoes(char, regras.catalogo);
+  return notas.length ? `<div class="efeitos-condicoes">${notas.map(n => `<p class="aviso"><strong>${escHtml(n.nome)}:</strong> ${escHtml(n.texto)}</p>`).join('')}</div>` : '';
 }
 
 /** Barra de PV ou PE com o valor temporário ao lado. */
@@ -270,10 +286,15 @@ function secaoAtaques(ant) {
     <p class="texto-suave">Equipe armas no inventário para que apareçam aqui.</p></div>`;
 }
 
-/** Aviso do redutor de d20 por fome, sede, fadiga, exaustão e rads. */
+/** Aviso do redutor de d20 pelas condições com níveis (fome, sede, fadiga, rads...) e Mamado. */
 function penalidadeHtml() {
   const n = R.penalidadeD20(char);
-  return n ? `<p class="aviso">Fome, sede, fadiga, exaustão e rads: −${n} em todos os d20, exceto Sorte (já descontado nas perícias e ataques).</p>` : '';
+  return n ? `<p class="aviso">Condições: −${n} em todos os d20, exceto Sorte (já descontado nas perícias e ataques).</p>` : '';
+}
+
+/** Recargas até a arma ganhar um nível de desgaste (5 se Instável, 10 nas outras). */
+function recargasPorDesgaste(linha) {
+  return R.estatisticasDaArma(linha, regras.catalogo[linha.ref], regras.catalogo).recargasPorDesgaste;
 }
 
 /** Contadores de munição (pente e inventário) de uma arma equipada. */
@@ -290,27 +311,29 @@ function municaoHtml(linha, municao) {
       <span class="stepper"><button type="button" data-reserva="${id}" data-delta="-1" ${reserva ? '' : 'disabled'} aria-label="Tirar um do inventário">−</button>
       <button type="button" data-reserva="${id}" data-delta="1" aria-label="Pôr um no inventário">+</button></span></div>
     <div class="municao-linha"><button type="button" class="btn btn-secondary btn-sm" data-recarregar="${id}" ${pente >= municao.capacidade || !reserva ? 'disabled' : ''}>Recarregar</button>
-      <small class="texto-suave" title="A 10ª recarga dá um nível de desgaste à arma">recargas ${(linha.recargas || 0) % R.RECARGAS_POR_DESGASTE}/${R.RECARGAS_POR_DESGASTE}</small></div>
+      <small class="texto-suave" title="Ao completar as recargas, a arma ganha um nível de desgaste">recargas ${(linha.recargas || 0) % recargasPorDesgaste(linha)}/${recargasPorDesgaste(linha)}</small></div>
   </div>`;
 }
 
 function secaoSobrevivencia() {
   const contadores = R.contadoresDaRaca(char);
-  const fora = R.CONTADORES_SOBREVIVENCIA.filter(c => !contadores.includes(c)).map(c => c.nome.toLowerCase());
+  const fora = R.CONTADORES_SOBREVIVENCIA.filter(c => !contadores.includes(c) && c.id !== 'curto_circuito').map(c => c.nome.toLowerCase());
+  const carga = R.estadoDeCarga(char, regras.catalogo);
+  const automatica = carga.muitoSobrecarregado ? 'Muito Sobrecarregado' : carga.sobrecarregado ? 'Sobrecarregado' : null;
   return `
     ${penalidadeHtml()}
     <div class="contadores">${contadores.map(c => {
       const n = char[c.id] || 0;
       return `<div class="contador-linha"><button type="button" class="link" data-ver-condicao="${c.id}">${c.nome}</button>
-        <span class="stepper"><button type="button" data-contador="${c.id}" data-delta="-1" ${n ? '' : 'disabled'} aria-label="${c.nome} −1">−</button><span>${n}<small>/${c.limite}</small></span>
+        <span class="stepper"><button type="button" data-contador="${c.id}" data-delta="-1" ${n ? '' : 'disabled'} aria-label="${c.nome} −1">−</button><span>${n}${c.limite < 99 ? `<small>/${c.limite}</small>` : ''}</span>
         <button type="button" data-contador="${c.id}" data-delta="1" ${n >= c.limite ? 'disabled' : ''} aria-label="${c.nome} +1">+</button></span></div>
         ${c.morte && n >= c.limite ? `<p class="aviso">${c.nome} no nível ${c.limite}: o personagem morre.</p>` : ''}`;
     }).join('')}
     </div>
     ${fora.length ? `<p class="texto-suave">Sua raça não sofre ${fora.join(', ').replace(/, ([^,]*)$/, ' nem $1')}.</p>` : ''}
     <h4>Condições</h4>
-    <div class="chips">${(char.condicoes || []).map((c, i) => `<span class="chip"><button type="button" class="link" data-ver-condicao-id="${escHtml(c)}">${escHtml(regras.condicoes.find(x => x.id === c)?.nome || c)}</button>
-      <button type="button" class="chip-x" data-remover-condicao="${i}" aria-label="Remover">✕</button></span>`).join('') || '<span class="texto-suave">Nenhuma.</span>'}</div>
+    <div class="chips">${automatica ? `<span class="chip" title="Calculada pela carga do inventário"><button type="button" class="link" data-ver-condicao-id="${automatica === 'Sobrecarregado' ? 'sobrecarregado' : 'muito_sobrecarregado'}">${automatica}</button> <small>(carga)</small></span>` : ''}${(char.condicoes || []).map((c, i) => `<span class="chip"><button type="button" class="link" data-ver-condicao-id="${escHtml(c)}">${escHtml(regras.condicoes.find(x => x.id === c)?.nome || c)}</button>
+      <button type="button" class="chip-x" data-remover-condicao="${i}" aria-label="Remover">✕</button></span>`).join('') || (automatica ? '' : '<span class="texto-suave">Nenhuma.</span>')}</div>
     <button class="btn btn-secondary btn-sm" id="btn-add-condicao">+ Condição</button>`;
 }
 
@@ -395,7 +418,10 @@ function ligarEventos() {
   $$('[data-tampa]').forEach(b => {
     b.onclick = () => {
       const i = Number(b.dataset.tampa);
-      char.karma_viradas = i < (char.karma_viradas || 0) ? i : i + 1;
+      const estado = tampasViradas();
+      estado[i] = !estado[i];
+      char.karma_tampas = estado;
+      char.karma_viradas = estado.filter(Boolean).length;
       salvar(); desenhar();
     };
   });
@@ -513,9 +539,11 @@ function ligarMunicao($$) {
       if (r.gasto) {
         mexerReserva(municao, -r.gasto);
         linha.recargas = (linha.recargas || 0) + 1;
-        if (linha.recargas % R.RECARGAS_POR_DESGASTE === 0) {
+        const limite = recargasPorDesgaste(linha);
+        if (linha.recargas % limite === 0) {
           linha.desgaste = Math.min(10, (linha.desgaste || 0) + 1);
-          toast(`${R.RECARGAS_POR_DESGASTE}ª recarga: ${linha.nome} ganhou um nível de desgaste (agora ${linha.desgaste}).`, 'erro');
+          const quebrou = R.estatisticasDaArma(linha, regras.catalogo[linha.ref], regras.catalogo).quebrada;
+          toast(`${limite}ª recarga: ${linha.nome} ganhou um nível de desgaste (agora ${linha.desgaste})${quebrou ? ' e quebrou' : ''}.`, 'erro');
         }
       }
       salvar(); desenhar();
@@ -604,8 +632,9 @@ function abrirDescanso() {
 
 /** Seletor de condições. */
 function abrirCondicoes() {
-  const ocultas = R.CONTADORES_SOBREVIVENCIA.map(c => c.condicao);
-  const lista = regras.condicoes.filter(c => !ocultas.includes(c.nome));
+  // As de nível têm contador próprio; as de carga são calculadas pelo inventário.
+  const ocultas = [...R.CONTADORES_SOBREVIVENCIA.map(c => c.condicao), 'Sobrecarregado', 'Muito Sobrecarregado'];
+  const lista = regras.condicoes.filter(c => !ocultas.includes(c.nome)).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
   abrirModal('Adicionar condição', gradeCards(lista.map(c => ({ id: c.id, titulo: c.nome, selecionado: (char.condicoes || []).includes(c.id) }))),
     '<button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>');
   ligarCards(document.getElementById('modal-corpo'), id => {
@@ -613,6 +642,7 @@ function abrirCondicoes() {
     const tem = (char.condicoes || []).includes(id);
     popupDetalhe(c.nome, c.texto, tem ? null : 'Adicionar', () => {
       char.condicoes = [...(char.condicoes || []), id];
+      if (id === 'inconsciente') { char.pe_atual = 0; toast('Inconsciente: PE caem para 0.', 'erro'); }
       fecharModal(); salvar(); desenhar();
     });
   });

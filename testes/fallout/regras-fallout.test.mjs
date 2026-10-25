@@ -176,7 +176,7 @@ test('fome, sede, fadiga, exaustão e rads reduzem as perícias', () => {
   assert.equal(R.bonusPericia(c, 'disparo'), 2 - 6);
   const robo = { ...c, raca: 'robo' };
   assert.equal(R.penalidadeD20(robo), 2); // só fadiga e exaustão
-  assert.deepEqual(R.contadoresDaRaca(robo).map(x => x.id), ['fadiga', 'exaustao']);
+  assert.deepEqual(R.contadoresDaRaca(robo).map(x => x.id), ['fadiga', 'exaustao', 'hipotermia', 'superaquecimento', 'curto_circuito']);
   assert.ok(!R.contadoresDaRaca({ raca: 'necrotico' }).some(x => x.id === 'radiacao'));
 });
 
@@ -299,4 +299,29 @@ test('pacote: nome limpo, desgaste e melhoria separados', () => {
   const r = R.interpretarPacote('x1 armadura de tecido (com melhoria Chumbada nível 1), x1 pistola de sucata com dois Níveis de Desgaste.', itens);
   assert.deepEqual(r.linhas[0], { nome: 'Armadura de tecido', qtd: 1, ref: 'armaduras_tecido', desgaste: 0, melhorias: [{ id: 'chumbada', nivel: 1 }] });
   assert.deepEqual(r.linhas[1], { nome: 'Pistola de Sucata', qtd: 1, ref: 'sucata', desgaste: 2 });
+});
+
+// ---------------------------------------------------------------- v0.4: desgaste por propriedade e condições
+
+test('desgaste: Robusto ignora 2 níveis, Frágil quebra, Instável a cada 5 recargas', () => {
+  const arma = props => ({ subcategoria: 'Armas de Mão', campos: { PA: '4 PA', 'Propriedades Especiais': props, 'Carga e Req. de FOR': 'Carga 3, FOR 1' } });
+  assert.equal(R.estatisticasDaArma({ desgaste: 3 }, arma('Robusto.')).acerto, -1);
+  assert.equal(R.estatisticasDaArma({ desgaste: 1 }, arma('Frágil.')).quebrada, true);
+  assert.equal(R.estatisticasDaArma({ desgaste: 1 }, arma('')).quebrada, false);
+  assert.equal(R.estatisticasDaArma({}, arma('Instável. Automática: 2.')).recargasPorDesgaste, 5);
+  assert.match(R.regraDeDesgaste(arma('Quebrável.')), /3 ou menos/);
+  assert.doesNotMatch(R.regraDeDesgaste(arma('Durável.')), /tira 1 na/);
+  const cat = { m: { nome: 'Reforço Estrutural', categoria: 'Modificações de Armas à Distância', campos: {} } };
+  assert.equal(R.estatisticasDaArma({ desgaste: 2, mods: ['m'] }, arma(''), cat).acerto, 0);
+});
+
+test('condições: Atordoado, Bêbado, Mamado, Lento, Hipotermia', () => {
+  const c = base({ special: { ...R.specialInicial(), AGI: 7 } }); // PA 12
+  assert.equal(R.pontosDeAcao({ ...c, condicoes: ['atordoado'] }), 9);
+  assert.equal(R.pontosDeAcao({ ...c, condicoes: ['bebado'] }), 10);
+  assert.equal(R.peMaximo({ ...c, condicoes: ['bebado'] }) - R.peMaximo(c), 1);
+  assert.equal(R.penalidadeD20({ ...c, condicoes: ['mamado'] }), 5);
+  assert.equal(R.pontosDeAcao({ ...c, condicoes: ['lento'] }), 6);
+  assert.equal(R.pontosDeAcao({ ...c, hipotermia: 3 }), 11);
+  assert.equal(R.penalidadeD20({ ...c, hipotermia: 3 }), 3);
 });
