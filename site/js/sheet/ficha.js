@@ -4,7 +4,7 @@
 import { carregarRegras } from '../db.js';
 import { getPersonagem, salvarPersonagem, exportar } from '../store.js';
 import { escHtml, mdParaHtml, abrirModal, fecharModal, toast, baixarArquivo, gerarId } from '../utils.js';
-import { popupDetalhe, markdownTalento, markdownTraco, tabelaPericias, gradeCards, ligarCards, realcarPropriedades, ligarPropriedades } from '../ui.js';
+import { popupDetalhe, markdownTalento, markdownTraco, tabelaPericias, ligarPericias, gradeCards, ligarCards, realcarPropriedades, ligarPropriedades } from '../ui.js';
 import { definirTitulo } from '../app.js';
 import { secaoInventario, ligarInventario } from './inventario.js';
 import { abrirSubidaDeNivel, secaoPontosPericia, ligarPontosPericia } from './nivel.js';
@@ -50,7 +50,6 @@ export async function renderSheet(container, id) {
     container.innerHTML = '<div class="empty-state"><h2>Não deu para carregar as regras.</h2></div>';
     return;
   }
-  definirTitulo(char.nome || 'Ficha');
   abaAtual = lerAba(char.id);
   desenhar();
 }
@@ -72,7 +71,7 @@ const subtipo = () => raca()?.subtipos.find(s => s.id === char.subtipo) || null;
 /** Garante PV/PE atuais dentro do máximo (o máximo muda com nível e atributos). */
 function normalizarRecursos() {
   const pvMax = R.pvMaximo(char);
-  const peMax = R.peMaximo(char);
+  const peMax = R.peMaximo(char, regras.catalogo);
   if (char.pv_atual == null || char.pv_atual > pvMax) char.pv_atual = Math.min(char.pv_atual ?? pvMax, pvMax);
   if (char.pe_atual == null || char.pe_atual > peMax) char.pe_atual = Math.min(char.pe_atual ?? peMax, peMax);
 }
@@ -105,13 +104,12 @@ function desenhar() {
       ${bloco('talentos', 'Talentos e traços', secaoTalentosTracos())}
       ${bloco('raca', `Traços de ${escHtml(NOMES_RACA[char.raca] || 'raça')}`, secaoRaca())}`,
     pericias: `<div class="card">${penalidadeHtml()}${tabelaPericias(char, ant, true)}${secaoPontosPericia(contexto())}</div>`,
-    inventario: `<div class="card">${secaoInventario(contexto())}</div>`,
-    notas: `<div class="card">${secaoDetalhes()}</div>
-      <div class="ficha-rodape"><button class="btn btn-secondary" id="btn-exportar-ficha">Exportar ficha (JSON)</button></div>`,
+    inventario: secaoInventario(contexto()),
+    notas: `<div class="card">${secaoDetalhes()}</div>`,
   };
+  desenharCabecalho(ant);
   raiz.innerHTML = `
     <div class="ficha">
-      ${secaoCabecalho(ant)}
       <nav class="pipboy-abas" role="tablist">${ABAS.map(a => `
         <button type="button" role="tab" class="pipboy-aba${a.id === abaAtual ? ' ativa' : ''}" aria-selected="${a.id === abaAtual}" data-aba="${a.id}">${a.nome}</button>`).join('')}
       </nav>
@@ -127,29 +125,36 @@ function bloco(id, titulo, conteudo) {
   return `<details class="card bloco" data-details-id="${id}"><summary class="card-header">${titulo}</summary><div class="card-corpo">${conteudo}</div></details>`;
 }
 
-function secaoCabecalho(ant) {
+/**
+ * Cabeçalho do app na ficha: nome com raça e antecedente embaixo; à direita
+ * nível (que abre a subida de nível), XP e exportar.
+ */
+function desenharCabecalho(ant) {
   const proximo = R.xpDoNivel(char.nivel + 1);
   const podeSubir = char.nivel < R.NIVEL_MAXIMO && (char.xp || 0) >= proximo;
-  return `
-    <div class="card cabecalho">
-      <div class="cab-linha">
-        <div>
-          <div class="cab-nome">${escHtml(char.nome)}</div>
-          <div class="cab-sub">${escHtml(NOMES_RACA[char.raca] || '')}${subtipo() ? ` (${escHtml(subtipo().nome)})` : ''} · ${escHtml(ant?.nome || '')}</div>
-        </div>
-        <div class="cab-nivel"><span>Nível</span><strong>${char.nivel}</strong></div>
-      </div>
-      <div class="cab-xp">
-        <label>XP <input type="number" class="mini-input" id="input-xp" min="0" step="50" value="${char.xp || 0}"></label>
-        <span class="texto-suave">próximo nível: ${proximo}</span>
-        <button class="btn ${podeSubir ? 'btn-primary' : 'btn-secondary'} btn-sm" id="btn-subir-nivel" ${char.nivel >= R.NIVEL_MAXIMO ? 'disabled' : ''}>Subir de nível</button>
-      </div>
-    </div>`;
+  definirTitulo(char.nome || 'Ficha',
+    `${NOMES_RACA[char.raca] || ''}${subtipo() ? ` (${subtipo().nome})` : ''}${ant ? ` · ${ant.nome}` : ''}`);
+  const acoes = document.getElementById('header-acoes');
+  acoes.innerHTML = `
+    <label class="header-xp" title="Pontos de experiência">XP
+      <input type="number" class="mini-input" id="input-xp" min="0" step="50" inputmode="numeric" value="${char.xp || 0}"></label>
+    <button type="button" class="header-nivel${podeSubir ? ' pode-subir' : ''}" id="btn-subir-nivel"
+      title="${char.nivel >= R.NIVEL_MAXIMO ? 'Nível máximo' : `Subir de nível (o nível ${char.nivel + 1} pede ${proximo} XP)`}"
+      ${char.nivel >= R.NIVEL_MAXIMO ? 'disabled' : ''}>
+      <span>Nível</span><strong>${char.nivel}</strong><small>${podeSubir ? '▲ subir' : 'subir'}</small></button>
+    <button type="button" class="header-btn" id="btn-exportar-ficha" title="Exportar ficha (JSON)" aria-label="Exportar ficha (JSON)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+    </button>`;
+  acoes.querySelector('#input-xp').onchange = e => { char.xp = Math.max(0, Number(e.target.value) || 0); salvar(); desenhar(); };
+  acoes.querySelector('#btn-subir-nivel').onclick = () => abrirSubidaDeNivel(contexto());
+  acoes.querySelector('#btn-exportar-ficha').onclick = () => {
+    baixarArquivo(new Blob([exportar(char.id)], { type: 'application/json' }), `${(char.nome || 'personagem').replace(/[^\w-]+/g, '_')}.json`);
+  };
 }
 
 function secaoRecursos() {
   const pvMax = R.pvMaximo(char);
-  const peMax = R.peMaximo(char);
+  const peMax = R.peMaximo(char, regras.catalogo);
   const karma = R.tampasDeKarma(char);
   const morrendo = char.pv_atual === 0;
   return `
@@ -164,7 +169,7 @@ function secaoRecursos() {
         <button class="btn btn-secondary" id="btn-descanso">Descansar</button>
       </div>
       <div class="stats-row">
-        <div class="stat-box"><span class="stat-value">${R.pontosDeAcao(char)}</span><span class="stat-label">Pontos de Ação</span></div>
+        <div class="stat-box"><span class="stat-value">${R.pontosDeAcao(char, regras.catalogo)}</span><span class="stat-label">Pontos de Ação</span></div>
         <div class="stat-box karma"><span class="stat-label">Tampas de Karma</span>
           <span class="tampas">${Array.from({ length: karma }, (_, i) => `<button type="button" class="tampa${i < (char.karma_viradas || 0) ? ' virada' : ''}" data-tampa="${i}" aria-label="Tampa ${i + 1}${i < (char.karma_viradas || 0) ? ' (virada)' : ''}">${TAMPA_NUKA}</button>`).join('')}</span></div>
       </div>
@@ -204,28 +209,28 @@ function secaoSpecial() {
   return `<div class="card special-card">${R.ATRIBUTOS.map(a => `
     <button type="button" class="atributo-box" data-ver-atributo="${a.id}">
       <span class="atributo-letra">${a.letra}</span>
-      <span class="atributo-valor">${v[a.id]}</span>
-      <span class="atributo-mod">${R.fmtSinal(R.modificador(v[a.id]))}</span>
+      <span class="atributo-mod" title="Modificador">${R.fmtSinal(R.modificador(v[a.id]))}</span>
+      <span class="atributo-valor" title="Valor">${v[a.id]}</span>
       <span class="atributo-nome">${a.nome}</span>
     </button>`).join('')}</div>`;
 }
 
 function secaoDerivados() {
   const d = R.defesas(char, regras.catalogo);
-  const lr = R.limiarDeRadiacao(char);
-  const carga = R.cargaTotal(char, regras.catalogo);
-  const cap = R.capacidadeDeCarga(char);
+  const lr = R.limiarDeRadiacao(char, regras.catalogo);
+  const carga = R.estadoDeCarga(char, regras.catalogo);
   const itens = [
-    ['DF', d.df, d.armadura ? `Defesa (${d.armadura})` : 'Defesa'],
+    ['DF', d.df, 'Defesa', d.armadura ? `Defesa com ${d.armadura}` : 'Defesa sem armadura'],
     ['TD', d.td, 'Tolerância a Dano'],
     ['FC', R.fatorDeCura(char), 'Fator de Cura'],
-    ['SP', R.sentidosPassivos(char), 'Sentidos Passivos'],
-    ['INI', 10 + R.modificadores(char).PER, 'Iniciativa passiva'],
+    ['SP', R.sentidosPassivos(char, regras.catalogo), 'Sentidos Passivos'],
+    ['INI', R.iniciativa(char), 'Iniciativa passiva'],
   ];
   if (lr != null) itens.push(['LR', lr, 'Limiar de Radiação']);
-  return `<div class="card"><div class="stats-row">${itens.map(([s, v, n]) => `
-    <div class="stat-box"><span class="stat-value">${v}</span><span class="stat-label">${n}</span></div>`).join('')}
-    <div class="stat-box ${carga > cap ? 'alerta' : ''}"><span class="stat-value">${carga}<small>/${cap}</small></span><span class="stat-label">Carga</span></div>
+  return `<div class="card"><div class="stats-row">${itens.map(([, v, n, dica]) => `
+    <div class="stat-box"${dica ? ` title="${escHtml(dica)}"` : ''}><span class="stat-value">${v}</span><span class="stat-label">${n}</span></div>`).join('')}
+    <button type="button" class="stat-box ${carga.sobrecarregado ? 'alerta' : ''}" data-aba="inventario" title="Ver a carga no Inventário">
+      <span class="stat-value">${String(carga.atual).replace('.', ',')}<small>/${carga.maximo}</small></span><span class="stat-label">Carga</span></button>
   </div></div>`;
 }
 
@@ -235,7 +240,7 @@ function secaoAtaques(ant) {
   for (const l of char.inventario || []) {
     const item = regras.catalogo[l.ref];
     if (!l.equipado || !R.periciaDaArma(item)) continue;
-    linhas.push({ nome: l.nome, a: R.calcularAtaque(char, item, ant), extra: item.campos['Propriedades Especiais'] || '', linha: l, municao: R.municaoDaArma(item) });
+    linhas.push({ nome: l.nome, a: R.calcularAtaque(char, item, ant, l, regras.catalogo), extra: item.campos['Propriedades Especiais'] || '', linha: l, municao: R.municaoDaArma(item, l, regras.catalogo) });
   }
   const sub = subtipo();
   for (const nome of char.ferramentas_robo || []) {
@@ -251,9 +256,9 @@ function secaoAtaques(ant) {
   });
   return `<div class="card"><div class="card-header">Ataques</div><div class="ataques">${linhas.map(({ nome, a, extra, linha, municao }) => `
     <div class="ataque">
-      <div class="ataque-nome">${escHtml(nome)}${a.desvantagemForca ? ' <span class="badge badge-warning" title="Força abaixo do requisito">desvantagem</span>' : ''}</div>
+      <div class="ataque-nome">${escHtml(nome)}${a.desvantagemForca ? ' <span class="badge badge-warning" title="Força abaixo do requisito">desvantagem</span>' : ''}${a.quebrada ? ' <span class="badge badge-danger" title="10 níveis de desgaste ou espaços de modificação demais">não funciona</span>' : ''}</div>
       <div class="ataque-dados">
-        <span><small>Acerto</small><strong>${R.fmtSinal(a.acerto)}</strong></span>
+        <span${a.ajusteAcerto?.desgaste || a.ajusteAcerto?.mods ? ` title="${escHtml([a.ajusteAcerto.mods ? `modificações ${R.fmtSinal(a.ajusteAcerto.mods)}` : '', a.ajusteAcerto.desgaste ? `desgaste −${a.ajusteAcerto.desgaste}` : ''].filter(Boolean).join(', '))}"` : ''}><small>Acerto</small><strong>${R.fmtSinal(a.acerto)}</strong></span>
         <span><small>Dano</small><strong>${escHtml(a.dano)}${a.bonusDano ? ` ${a.bonusDano > 0 ? '+' : '−'} ${Math.abs(a.bonusDano)}` : ''}</strong></span>
         ${a.pa ? `<span><small>Custo</small><strong>${escHtml(a.pa)}</strong></span>` : ''}
         ${a.alcance ? `<span><small>Alcance</small><strong>${a.alcance.normal}/${a.alcance.longo} pés</strong></span>` : ''}
@@ -284,7 +289,8 @@ function municaoHtml(linha, municao) {
     <div class="municao-linha"><span><small>No inventário</small> <strong>${reserva}</strong> ${escHtml(municao.tipo)}${municao.porCarga ? ' (cargas)' : ''}</span>
       <span class="stepper"><button type="button" data-reserva="${id}" data-delta="-1" ${reserva ? '' : 'disabled'} aria-label="Tirar um do inventário">−</button>
       <button type="button" data-reserva="${id}" data-delta="1" aria-label="Pôr um no inventário">+</button></span></div>
-    <button type="button" class="btn btn-secondary btn-sm" data-recarregar="${id}" ${pente >= municao.capacidade || !reserva ? 'disabled' : ''}>Recarregar</button>
+    <div class="municao-linha"><button type="button" class="btn btn-secondary btn-sm" data-recarregar="${id}" ${pente >= municao.capacidade || !reserva ? 'disabled' : ''}>Recarregar</button>
+      <small class="texto-suave" title="A 10ª recarga dá um nível de desgaste à arma">recargas ${(linha.recargas || 0) % R.RECARGAS_POR_DESGASTE}/${R.RECARGAS_POR_DESGASTE}</small></div>
   </div>`;
 }
 
@@ -359,19 +365,15 @@ function ligarEventos() {
   });
   ligarMunicao($$);
   ligarPropriedades(raiz, regras.propriedades);
-  $('#input-xp').onchange = e => { char.xp = Math.max(0, Number(e.target.value) || 0); salvar(); desenhar(); };
-  $('#btn-subir-nivel').onclick = () => abrirSubidaDeNivel(contexto());
+  ligarPericias(raiz, regras.pericias, char, antecedente());
   $('#btn-dano')?.addEventListener('click', abrirDano);
   $('#btn-cura')?.addEventListener('click', abrirCura);
   $('#btn-descanso')?.addEventListener('click', abrirDescanso);
-  $('#btn-exportar-ficha')?.addEventListener('click', () => {
-    baixarArquivo(new Blob([exportar(char.id)], { type: 'application/json' }), `${(char.nome || 'personagem').replace(/[^\w-]+/g, '_')}.json`);
-  });
 
   $$('[data-ajuste]').forEach(b => {
     b.onclick = () => {
       const chave = b.dataset.ajuste === 'pv' ? 'pv_atual' : 'pe_atual';
-      const max = b.dataset.ajuste === 'pv' ? R.pvMaximo(char) : R.peMaximo(char);
+      const max = b.dataset.ajuste === 'pv' ? R.pvMaximo(char) : R.peMaximo(char, regras.catalogo);
       char[chave] = Math.max(0, Math.min(max, char[chave] + Number(b.dataset.delta)));
       if (chave === 'pv_atual' && char.pv_atual > 0) char.suspiros = { sucessos: 0, falhas: 0 };
       salvar(); desenhar();
@@ -456,7 +458,7 @@ function ligarEventos() {
     if (def) popupDetalhe(def.nome + (t.ermo ? ' (Ermo Selvagem)' : ''), markdownTraco(def));
   }, 'data-ver-traco-idx');
 
-  $('#det-nome-ficha')?.addEventListener('change', e => { char.nome = e.target.value.trim() || char.nome; salvar(); definirTitulo(char.nome); desenhar(); });
+  $('#det-nome-ficha')?.addEventListener('change', e => { char.nome = e.target.value.trim() || char.nome; salvar(); desenhar(); });
   $$('[data-detalhe]').forEach(t => {
     t.onchange = () => { char.detalhes = { ...(char.detalhes || {}), [t.dataset.detalhe]: t.value }; salvar(); };
   });
@@ -470,7 +472,7 @@ function ligarEventos() {
 function ligarMunicao($$) {
   const contexto = id => {
     const linha = char.inventario.find(l => l.id === id);
-    return { linha, municao: R.municaoDaArma(regras.catalogo[linha?.ref]) };
+    return { linha, municao: R.municaoDaArma(regras.catalogo[linha?.ref], linha, regras.catalogo) };
   };
   /** Soma (ou tira) munição do inventário, criando a linha do catálogo se faltar. */
   const mexerReserva = (municao, delta) => {
@@ -508,7 +510,14 @@ function ligarMunicao($$) {
       const { linha, municao } = contexto(b.dataset.recarregar);
       const r = R.recarregar(municao, linha.pente || 0, R.municaoNoInventario(char.inventario, regras.catalogo, municao.tipo));
       linha.pente = r.pente;
-      if (r.gasto) mexerReserva(municao, -r.gasto);
+      if (r.gasto) {
+        mexerReserva(municao, -r.gasto);
+        linha.recargas = (linha.recargas || 0) + 1;
+        if (linha.recargas % R.RECARGAS_POR_DESGASTE === 0) {
+          linha.desgaste = Math.min(10, (linha.desgaste || 0) + 1);
+          toast(`${R.RECARGAS_POR_DESGASTE}ª recarga: ${linha.nome} ganhou um nível de desgaste (agora ${linha.desgaste}).`, 'erro');
+        }
+      }
       salvar(); desenhar();
     };
   });
@@ -556,16 +565,17 @@ function abrirCura() {
     <div class="form-group"><label class="form-label" for="input-cura">Quantidade</label><input type="number" class="form-input" id="input-cura" min="0" inputmode="numeric"></div>
     <div class="botoes-rapidos"><button type="button" class="btn btn-secondary btn-sm" id="btn-cura-fc">Fator de Cura (${R.fatorDeCura(char)})</button></div>
     <label class="form-check"><input type="radio" name="alvo-cura" value="pv" checked> Pontos de Vida</label>
-    <label class="form-check"><input type="radio" name="alvo-cura" value="pe"> Pontos de Estamina</label>`,
+    <label class="form-check"><input type="radio" name="alvo-cura" value="pe"> Pontos de Estamina</label>
+    ${R.bonusCuraPipBoy(char, regras.catalogo) ? `<p class="texto-suave">Pip-Boy com Traje de Refúgio: cura de PV ganha +${R.bonusCuraPipBoy(char, regras.catalogo)} (seu nível), já somado ao aplicar.</p>` : ''}`,
     '<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button><button class="btn btn-success" id="btn-ok-cura">Curar</button>');
   document.getElementById('btn-cura-fc').onclick = () => { document.getElementById('input-cura').value = R.fatorDeCura(char); };
   document.getElementById('btn-ok-cura').onclick = () => {
     const n = Math.max(0, Number(document.getElementById('input-cura').value) || 0);
     if (document.querySelector('input[name="alvo-cura"]:checked').value === 'pv') {
-      char.pv_atual = Math.min(R.pvMaximo(char), char.pv_atual + n);
+      char.pv_atual = Math.min(R.pvMaximo(char), char.pv_atual + n + (n ? R.bonusCuraPipBoy(char, regras.catalogo) : 0));
       if (char.pv_atual > 0) char.suspiros = { sucessos: 0, falhas: 0 };
     } else {
-      char.pe_atual = Math.min(R.peMaximo(char), char.pe_atual + n);
+      char.pe_atual = Math.min(R.peMaximo(char, regras.catalogo), char.pe_atual + n);
     }
     fecharModal(); salvar(); desenhar();
   };
@@ -585,7 +595,7 @@ function abrirDescanso() {
   document.getElementById('btn-ok-desc').onclick = () => {
     const tipo = document.querySelector('input[name="tipo-desc"]:checked').value;
     const confortavel = maquina || document.getElementById('chk-confortavel').checked;
-    Object.assign(char, R.efeitoDescanso(char, tipo, confortavel));
+    Object.assign(char, R.efeitoDescanso(char, tipo, confortavel, regras.catalogo));
     if (char.pv_atual > 0) char.suspiros = { sucessos: 0, falhas: 0 };
     fecharModal(); salvar(); desenhar();
     toast('Descanso aplicado.', 'sucesso');

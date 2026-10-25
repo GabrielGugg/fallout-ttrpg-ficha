@@ -22,6 +22,7 @@ export function mdParaHtml(texto) {
     .replace(/\*(.+?)\*/g, '<em>$1</em>');
   return String(texto || '').split(/\n{2,}/).map(bloco => {
     const linhas = bloco.split('\n');
+    if (linhas.length === 1 && /^#{1,4} /.test(linhas[0])) return `<h4>${inline(linhas[0].replace(/^#+ /, ''))}</h4>`;
     if (linhas.every(l => /^\s*[-*] /.test(l))) {
       return '<ul>' + linhas.map(l => `<li>${inline(l.replace(/^\s*[-*] /, ''))}</li>`).join('') + '</ul>';
     }

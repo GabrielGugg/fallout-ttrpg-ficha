@@ -10,7 +10,8 @@
    "TD": "0",
    "Espaços": "8",
    "Carga e Req. de FOR": "Carga 5, FOR 1"
-  }
+  },
+  "descricao": "A armadura de tecido não oferece muita proteção. Em compensação, a simplicidade dela a deixa leve e com o maior número de espaços de melhoria. A maioria dos trajes de Vault conta como armadura de tecido."
  },
  {
   "id": "armaduras_couro",
@@ -23,7 +24,8 @@
    "TD": "1",
    "Espaços": "6",
    "Carga e Req. de FOR": "Carga 15, FOR 1"
-  }
+  },
+  "descricao": "Uma jaqueta, reforços nos braços, joelheiras e botas contam como armadura de couro. O couro não é muito resistente, mas se ajusta fácil ao corpo."
  },
  {
   "id": "armaduras_metal",
@@ -36,7 +38,8 @@
    "TD": "0",
    "Espaços": "4",
    "Carga e Req. de FOR": "Carga 20, FOR 5"
-  }
+  },
+  "descricao": "No ermo, você pega o que consegue. A armadura de metal é uma combinação de várias peças soldadas ou encaixadas no corpo. Dá resistência, mas cobre menos."
  },
  {
   "id": "armaduras_multicamadas",
@@ -49,7 +52,8 @@
    "TD": "2",
    "Espaços": "5",
    "Carga e Req. de FOR": "Carga 40, FOR 3"
-  }
+  },
+  "descricao": "Uma combinação de vestes. Camadas de couro, tecido, lona, metal, qualquer coisa jogada por aí que sirva de armadura conta como multicamadas. Essa armadura dá cobertura máxima, mas sacrifica a resistência."
  },
  {
   "id": "armaduras_fibra_balistica",
@@ -62,7 +66,8 @@
    "TD": "3",
    "Espaços": "2",
    "Carga e Req. de FOR": "Carga 10, FOR 3"
-  }
+  },
+  "descricao": "Coletes à prova de bala, kevlar ou jaquetas de nível militar. A fibra balística é uma fibra sintética pré-guerra cuja reprodução se perdeu com a guerra. Extremamente rara, mas oferece o melhor de todos os aspectos de armadura: cobertura, resistência e peso."
  },
  {
   "id": "armaduras_aco",
@@ -75,7 +80,8 @@
    "TD": "2",
    "Espaços": "2",
    "Carga e Req. de FOR": "Carga 50, FOR 6"
-  }
+  },
+  "descricao": "Placas de metal sob medida que cobrem o corpo como as de um cavaleiro são uma solução moderna no apocalipse para lidar com ameaças. O aço maximiza cobertura e resistência, desde que você tenha a força."
  },
  {
   "id": "melhorias_de_armadura_isolamento",
@@ -1545,7 +1551,8 @@
   "subcategoria": "Munição de Energia",
   "campos": {
    "Custo": "200 tp"
-  }
+  },
+  "descricao": "A Armadura Potente precisa de um tipo especial de energia nuclear condensada, chamado Núcleo de Fusão, para funcionar. Ele se encaixa nas costas e dá uma autonomia de operação. Você pode gastar 5 PA no seu turno para trocar o Núcleo de Fusão de uma Armadura Potente. Quando a autonomia acaba, a Armadura Potente puxa energia das reservas de emergência, o que dá a ela um minuto de operação. Passado o minuto, a armadura usa o último resquício de energia para abrir as costas e deixar o usuário sair. Depois disso, para de funcionar. Se necessário, você pode escolher anular essa função para continuar dentro da armadura potente. Porém, nesse estado você fica agarrado e contido e só consegue escapar se seu valor de Força for igual a 20. Escapar assim desgasta a Armadura Potente em 10 níveis."
  },
  {
   "id": "municao_de_energia_celula_de_energia",
@@ -3109,7 +3116,8 @@
    "Tempo para Instalar/Remover": "60 − (5 x seu valor de Inteligência), em minutos",
    "Descrição": "**Espaços: 3.** Uma revisão do mecanismo de disparo da arma para permitir que as balas sejam carregadas na câmara com muito mais rapidez. A arma ganha Semiautomática.",
    "Armas Compatíveis": "Qualquer arma que não tenha Recarga Manual, Recarga Ágil, Automática, Área de Efeito nem Arma de Energia."
-  }
+  },
+  "descricao": "Se você gasta PA para atacar com esta arma logo depois de gastar PA para atacar com ela no mesmo turno, pode fazer outro ataque sem gastar nenhum PA. (Exemplo: se você gasta 4 PA para atacar com uma Pistola Laser no seu turno e logo depois gasta 4 PA para atacar de novo com a Pistola Laser, pode atacar mais uma vez sem gastar nenhum PA.)"
  },
  {
   "id": "modificacoes_de_armas_a_distancia_silenciador",
@@ -3411,7 +3419,8 @@
   "campos": {
    "Custo": "20 tp",
    "Carga": "10 quando não vestida"
-  }
+  },
+  "descricao": "Uma bolsa de couro, estopa ou tecido com alças ou tira para dar mais espaço de armazenamento. Enquanto você veste uma mochila, sua Capacidade de Carga aumenta em 50."
  },
  {
   "id": "itens_e_equipamentos_mochila_de_acampamento",
@@ -3421,7 +3430,8 @@
   "campos": {
    "Custo": "100 tp",
    "Carga": "20 quando não vestida"
-  }
+  },
+  "descricao": "Esta mochila grande e reforçada tem cordas de nylon para ajustar, um cinto de cintura para ajudar no equilíbrio, vários bolsos e um compartimento superior para itens maiores. Enquanto você veste uma mochila de acampamento, sua Capacidade de Carga aumenta em 100."
  },
  {
   "id": "itens_e_equipamentos_bolsa_de_armas",
@@ -3431,7 +3441,8 @@
   "campos": {
    "Custo": "50 tp",
    "Carga": "12 quando não vestida"
-  }
+  },
+  "descricao": "Esta bolsa única, de uma só alça, é mais comprida para guardar armas com facilidade. Você pode guardar na bolsa até três armas que tenham a propriedade Duas Mãos ou Desajeitada; se fizer isso, a carga de cada arma é pela metade."
  },
  {
   "id": "itens_e_equipamentos_bandoleira",
@@ -3441,7 +3452,8 @@
   "campos": {
    "Custo": "30 tp",
    "Carga": "8 quando não vestida"
-  }
+  },
+  "descricao": "Esta tira com bolsos se encaixa em qualquer parte do corpo para permitir carregar itens adicionais. Ela não é considerada uma bolsa, então você pode vesti-la junto com uma mochila sem ficar sobrecarregado. Enquanto você veste uma bandoleira, sua Capacidade de Carga aumenta em 25."
  },
  {
   "id": "itens_e_equipamentos_esferas_de_aco",
@@ -3451,7 +3463,8 @@
   "campos": {
    "Custo": "10 tp",
    "Carga": "2"
-  }
+  },
+  "descricao": "Você pode gastar 3 PA para espalhar essas esferinhas de metal em uma superfície plana, num raio de 1,5 m. Qualquer criatura que ande ou corra pela área cai caída e sofre 1d4 de dano de impacto, a menos que a criatura tenha Sentidos Passivos acima de 15 ou tenha notado as esferas de outro jeito; nesse caso, ela deve gastar 2 PA a cada 1,5 m de movimento."
  },
  {
   "id": "itens_e_equipamentos_armadilha_de_urso",
@@ -3461,7 +3474,8 @@
   "campos": {
    "Custo": "60 tp",
    "Carga": "30"
-  }
+  },
+  "descricao": "Você pode gastar 6 pontos de ação para armar esta armadilha de urso em uma área de 1,5 m. Se a armadilha já foi disparada, você pode rearmá-la com 6 PA e um teste de Força com CD 15. Se uma criatura entra na área, a armadilha dispara, e ela sofre 3d4 de dano perfurante nos pontos de vida e fica agarrada. Você pode desarmar uma armadilha de urso não disparada com 6 PA e um teste da perícia Criação com CD 15. Você pode tentar abrir à força uma armadilha de urso disparada com 6 PA e um teste de atributo de Força com CD 15. Se você está agarrado pela armadilha de urso quando tenta esse teste de atributo, tem desvantagem na rolagem, a menos que sua Resistência seja 6 ou maior. Em caso de sucesso, você abre a armadilha e as criaturas agarradas por ela deixam de estar agarradas. Em caso de falha, a armadilha se fecha de novo sobre a criatura agarrada e ela sofre 1d4 de dano perfurante."
  },
  {
   "id": "itens_e_equipamentos_binoculos",
@@ -3471,7 +3485,8 @@
   "campos": {
    "Custo": "25 tp",
    "Carga": "2"
-  }
+  },
+  "descricao": "Você pode gastar 3 PA para olhar pelos binóculos. Enquanto olha por eles, sua visão é ampliada. Você tem vantagem em qualquer teste de atributo de Percepção que dependa da visão ao observar objetos, criaturas ou um local a pelo menos 30 m de distância."
  },
  {
   "id": "itens_e_equipamentos_abrolhos",
@@ -3481,7 +3496,8 @@
   "campos": {
    "Custo": "50 tp",
    "Carga": "2"
-  }
+  },
+  "descricao": "Você pode gastar 3 PA para espalhar esses pequenos objetos pontiagudos em uma superfície plana, num raio de 1,5 m. Qualquer criatura que ande ou corra pela área sofre 2 de dano perfurante nos pontos de vida a cada 30 cm de movimento pela área (esse dano não é reduzido pela TD), a menos que a criatura tenha Sentidos Passivos acima de 15 ou tenha notado os abrolhos de outro jeito; nesse caso, ela deve gastar 2 PA a cada 1,5 m de movimento."
  },
  {
   "id": "itens_e_equipamentos_cantil",
@@ -3491,7 +3507,8 @@
   "campos": {
    "Custo": "10 tp",
    "Carga": "1, 2 quando cheio"
-  }
+  },
+  "descricao": "O cantil de metal comporta cerca de 1 litro (32 onças) de líquido."
  },
  {
   "id": "itens_e_equipamentos_corrente",
@@ -3501,7 +3518,8 @@
   "campos": {
    "Custo": "15 tp",
    "Carga": "12"
-  }
+  },
+  "descricao": "Além dos usos práticos típicos de uma corrente: se você está segurando uma corrente ao tentar agarrar ou estrangular outra criatura, tem vantagem nas suas rolagens de Força. Correntes têm DF 10, TD 10, 10 pontos de vida e vulnerabilidade a dano balístico, de laser e de plasma."
  },
  {
   "id": "itens_e_equipamentos_sinalizador",
@@ -3511,7 +3529,8 @@
   "campos": {
    "Custo": "10 tp",
    "Carga": "1"
-  }
+  },
+  "descricao": "Você pode gastar 6 PA no seu turno para acender este sinalizador. Ele cria luz vermelha forte em um raio de 9 m e luz vermelha fraca por mais 9 m. A luz dura 1 hora."
  },
  {
   "id": "itens_e_equipamentos_lanterna",
@@ -3521,7 +3540,8 @@
   "campos": {
    "Custo": "100 tp",
    "Carga": "2"
-  }
+  },
+  "descricao": "Você pode gastar 1 PA enquanto segura esta lanterna para criar luz forte em um cone de 6 m e luz fraca por mais 6 m. A luz dura 8 horas, desde que você gaste 6 PA para colocar uma célula de energia na lanterna."
  },
  {
   "id": "itens_e_equipamentos_mascara_de_gas",
@@ -3531,7 +3551,8 @@
   "campos": {
    "Custo": "80 tp",
    "Carga": "12"
-  }
+  },
+  "descricao": "Enquanto você veste esta máscara, seu Limiar de Radiação diminui em 3 e seus Sentidos Passivos diminuem em 2."
  },
  {
   "id": "itens_e_equipamentos_contador_geiger",
@@ -3541,7 +3562,8 @@
   "campos": {
    "Custo": "200 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Quando você entra em uma zona irradiada, este aparelho detecta o nível de radiação e você descobre a Pontuação de Severidade de Radiação."
  },
  {
   "id": "itens_e_equipamentos_gancho_de_escalada",
@@ -3551,7 +3573,8 @@
   "campos": {
    "Custo": "35 tp",
    "Carga": "10"
-  }
+  },
+  "descricao": "Um gancho de metal que pode ser amarrado e preso a uma corda com 6 PA."
  },
  {
   "id": "itens_e_equipamentos_traje_hazmat",
@@ -3561,7 +3584,8 @@
   "campos": {
    "Custo": "10 tp",
    "Carga": "50 (igual a 10 quando vestido)"
-  }
+  },
+  "descricao": "Este traje amarelo grande é forrado com camadas de chumbo para dar a maior proteção contra radiação possível sem vestir armadura potente. Por causa do design volumoso, leva 1 minuto para vestir ou tirar, e você não pode vestir armadura por cima do traje. Porém, você pode vestir armadura por baixo do traje. Enquanto você veste o traje hazmat, seu Limiar de Radiação diminui em 10 e você é imune a dano de radiação. Se você falhar em um teste de radiação, seu Limiar de Radiação não aumenta. A cada 5 pontos de dano que você sofre nos seus pontos de vida enquanto veste um traje hazmat, ele ganha um nível de desgaste. Cada nível de desgaste aumenta sua pontuação de radiação em 1. Para reparar um traje hazmat, a CD de Criação é 12 (+2) e exige x2 de chumbo e x1 de tecido."
  },
  {
   "id": "itens_e_equipamentos_traje_hazmat_motorizado",
@@ -3571,7 +3595,8 @@
   "campos": {
    "Custo": "450 tp",
    "Carga": "80 (igual a 5 quando vestido)"
-  }
+  },
+  "descricao": "Este traje inclui um contador Geiger, um sistema de purificação de ar, absorção de impacto, mais acolchoamento, e é arrematado por um capacete bulboso parecido com o de um traje espacial. O traje precisa de energia para funcionar. Você pode gastar 6 PA para colocar 3 células de energia no traje, o que o mantém energizado por até 6 horas. Graças ao sistema automático de ajuste, leva 30 segundos para vestir ou tirar, porém você não pode vestir armadura enquanto usa este traje. Enquanto você veste o traje hazmat, sua TD aumenta em 3, você não pode ganhar níveis de radiação e é imune a dano de radiação. A cada 5 pontos de dano que você sofre nos seus pontos de vida enquanto veste um traje hazmat, ele ganha um nível de desgaste. Se o traje ganha 10 níveis de desgaste, ele para de funcionar até ser reparado. Para reparar um traje hazmat, a CD de Criação é 15 (+5) e exige x3 de chumbo, x2 de couro e x2 de circuitos."
  },
  {
   "id": "itens_e_equipamentos_roupa_termica",
@@ -3581,7 +3606,8 @@
   "campos": {
    "Custo": "50 tp",
    "Carga": "20 (igual a 5 quando vestida)"
-  }
+  },
+  "descricao": "Roupas que retêm calor, peles, jaquetas pesadas, botas, chapéus, luvas, tudo o que mantém você aquecido. Leva 1 minuto para vestir a roupa térmica e 1 minuto para tirar. Você é considerado isolado enquanto veste esta roupa. Você não pode vestir armadura por cima desta roupa (porém, existe uma melhoria de armadura de isolamento). Enquanto você veste roupa térmica, seu máximo de PA diminui em 1, até o mínimo de 6."
  },
  {
   "id": "itens_e_equipamentos_roupa_termica_leve",
@@ -3591,7 +3617,8 @@
   "campos": {
    "Custo": "750 tp",
    "Carga": "10 (igual a 2 quando vestida)"
-  }
+  },
+  "descricao": "As maravilhas da engenhosidade térmica pré-guerra. Este conjunto elegante de nylon, tecido e algodão que retém calor mantém você aquecido sem todo o volume. As propriedades desta roupa são idênticas às da roupa térmica normal, porém seus PA não diminuem."
  },
  {
   "id": "itens_e_equipamentos_gazuas",
@@ -3601,7 +3628,8 @@
   "campos": {
    "Custo": "100 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Estas ferramentas de metal permitem arrombar fechaduras com muito mais proficiência. Quando você faz um teste da perícia Sabotagem para arrombar uma fechadura, a CD diminui em 5. Depois de usar essas gazuas um total de cinco vezes, elas quebram e param de funcionar."
  },
  {
   "id": "itens_e_equipamentos_corda",
@@ -3611,7 +3639,8 @@
   "campos": {
    "Custo": "10 tp",
    "Carga": "8"
-  }
+  },
+  "descricao": "A corda pode ser usada para amarrar itens, montar um sistema de polias, escalar ou amarrar alguém. Se você está segurando uma corda ao tentar agarrar ou estrangular outra criatura, tem vantagem nas suas rolagens de Força. A corda tem DF 10, TD 2, 5 pontos de vida e vulnerabilidade a dano balístico, de laser, de plasma e cortante."
  },
  {
   "id": "itens_e_equipamentos_saco_de_dormir",
@@ -3621,7 +3650,8 @@
   "campos": {
    "Custo": "25 tp",
    "Carga": "10"
-  }
+  },
+  "descricao": "Este saco de nylon, tecido ou couro permite dormir até no terreno mais acidentado."
  },
  {
   "id": "itens_e_equipamentos_barraca_uma_pessoa",
@@ -3631,7 +3661,8 @@
   "campos": {
    "Custo": "20 tp",
    "Carga": "12"
-  }
+  },
+  "descricao": "Esta barraca pequena dá abrigo contra fontes externas, clima e terreno."
  },
  {
   "id": "itens_e_equipamentos_barraca_duas_pessoas",
@@ -3641,7 +3672,8 @@
   "campos": {
    "Custo": "25 tp",
    "Carga": "18"
-  }
+  },
+  "descricao": "Esta barraca maior dá abrigo contra fontes externas, clima e terreno."
  },
  {
   "id": "itens_e_equipamentos_odre",
@@ -3651,7 +3683,8 @@
   "campos": {
    "Custo": "30 tp",
    "Carga": "2, 4 quando cheio"
-  }
+  },
+  "descricao": "Esta bolsa de couro tem tampa e bico e comporta cerca de 1,8 litro (60 onças) de líquido."
  },
  {
   "id": "itens_e_equipamentos_kit_de_reparo_de_armas",
@@ -3661,7 +3694,8 @@
   "campos": {
    "Custo": "90 tp",
    "Carga": "10"
-  }
+  },
+  "descricao": "Esta caixa de plástico cheia de ferramentas e mecanismos foi usada na Grande Guerra para reparar armas de soldados com facilidade. Embora a tecnologia usada para criá-los tenha sido esquecida há muito tempo, muitos ainda são encontrados pelo ermo. Você pode gastar 6 PA para inserir qualquer arma no kit de reparo. Depois de 1 minuto, a arma é ejetada e perde 2 níveis de desgaste. O kit de reparo de armas para de funcionar depois de ser usado um total de três vezes."
  },
  {
   "id": "comida_pronta_macarrao_com_queijo_blamco",
@@ -4584,7 +4618,8 @@
   "campos": {
    "Custo": "125 tp",
    "Carga": "1"
-  }
+  },
+  "descricao": "Este remédio milagroso vem em um inalador. Você pode gastar 4 PA para consumi-lo. Quando faz isso, você é curado de todos os vícios. Porém, você ganha três níveis de desidratação, de fome e de exaustão."
  },
  {
   "id": "medicina_antibioticos",
@@ -4594,7 +4629,8 @@
   "campos": {
    "Custo": "75 tp",
    "Carga": "1"
-  }
+  },
+  "descricao": "Este remédio engarrafado pode deter doenças. Como ele afeta a doença que você contraiu depende da doença. Você pode consumir este remédio engarrafado com 5 PA."
  },
  {
   "id": "medicina_antiveneno",
@@ -4604,7 +4640,8 @@
   "campos": {
    "Custo": "25 tp",
    "Carga": "3"
-  }
+  },
+  "descricao": "Você pode consumir este remédio engarrafado com 5 PA. Se fizer isso, você fica resistente a dano de veneno causado nos seus pontos de vida pelas próximas 6 horas."
  },
  {
   "id": "medicina_olho_de_gato",
@@ -4614,7 +4651,8 @@
   "campos": {
    "Custo": "20 tp",
    "Carga": "x10 = 1"
-  }
+  },
+  "descricao": "Você pode consumir esta pílula pequena com 3 PA. Se fizer isso, você tem visão noturna pelas próximas 3 horas."
  },
  {
   "id": "medicina_maleta_medica",
@@ -4624,7 +4662,8 @@
   "campos": {
    "Custo": "300 tp",
    "Carga": "15"
-  }
+  },
+  "descricao": "Esta maleta inclui ferramentas especializadas, bandagens, gaze e soros de cura para dar auxílio médico. Você pode usar este kit em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Quando usar, escolha uma das ações a seguir."
  },
  {
   "id": "medicina_corretivo",
@@ -4634,7 +4673,8 @@
   "campos": {
    "Custo": "50 tp",
    "Carga": "x10 = 1"
-  }
+  },
+  "descricao": "Uma pílula pequena, em geral encontrada em uma lata com até 5. Você pode gastar 4 PA para consumi-la. Quando faz isso, você é curado de um vício à sua escolha. Porém, você ganha um nível de desidratação, de fome e de exaustão."
  },
  {
   "id": "medicina_kit_de_primeiros_socorros",
@@ -4644,7 +4684,8 @@
   "campos": {
    "Custo": "80 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Você pode usar este kit em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Quando usar, escolha uma das ações a seguir."
  },
  {
   "id": "medicina_po_curativo",
@@ -4654,7 +4695,8 @@
   "campos": {
    "Custo": "30 tp",
    "Carga": "3"
-  }
+  },
+  "descricao": "Você pode gastar 6 PA para usar este item medicinal em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Se a criatura é humana, mutante, abominação, animal ou inseto, no início de cada turno dela ela cura pontos de vida iguais à metade do Fator de Cura dela (arredondada para baixo). Depois de curar por três rodadas, os efeitos cessam. Necróticos, robôs e sintéticos de segunda geração não são afetados pelo pó curativo."
  },
  {
   "id": "medicina_tirarad",
@@ -4664,7 +4706,8 @@
   "campos": {
    "Custo": "80 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Você pode gastar 15 minutos para usar este item medicinal em si mesmo ou em uma criatura a até 1,5 m de você. Ao fim da hora, a criatura afetada remove dois níveis de radiação, mas ganha um nível de sede (desidratação)."
  },
  {
   "id": "medicina_tirarad_diluido",
@@ -4674,7 +4717,8 @@
   "campos": {
    "Custo": "30 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Você pode gastar 15 minutos para usar este item medicinal em si mesmo ou em uma criatura a até 1,5 m de você. Ao fim da hora, a criatura afetada remove um nível de radiação, mas ganha um nível de sede (desidratação)."
  },
  {
   "id": "medicina_rad_x",
@@ -4684,7 +4728,8 @@
   "campos": {
    "Custo": "40 tp",
    "Carga": "x10 = 1"
-  }
+  },
+  "descricao": "Você pode consumir esta pílula pequena com 3 PA. Se fizer isso, seu Limiar de Radiação diminui em 2 pelas próximas 3 horas. Você pode consumir um total de três Rad-X ao mesmo tempo para ganhar os benefícios deles; se consumir mais de três, não ganha nenhum benefício adicional."
  },
  {
   "id": "medicina_robco_consertaja_1_0",
@@ -4694,7 +4739,8 @@
   "campos": {
    "Custo": "40 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "O RobCo ConsertaJá 1.0 é um stim de cura, mas para robôs! Você pode gastar 4 PA para usar este item em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Se a criatura é um robô ou sintético de segunda geração, ela cura pontos de vida iguais à metade do Fator de Cura dela."
  },
  {
   "id": "medicina_robco_consertaja_2_0",
@@ -4704,7 +4750,8 @@
   "campos": {
    "Custo": "75 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "O RobCo ConsertaJá 2.0 é o novo e aprimorado stim de cura para robôs! Você pode gastar 4 PA para usar este item em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Se a criatura é um robô ou sintético de segunda geração, ela cura pontos de vida iguais ao Fator de Cura dela."
  },
  {
   "id": "medicina_robco_consertaja_2_0_para_danos_extremos",
@@ -4714,7 +4761,8 @@
   "campos": {
    "Custo": "150 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "O RobCo ConsertaJá 2.0 para Danos Extremos é um stim de cura para robôs em casos graves de grandes danos! Você pode gastar 4 PA para usar este item em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Se a criatura é um robô ou sintético de segunda geração, ela cura pontos de vida iguais ao dobro do Fator de Cura dela."
  },
  {
   "id": "medicina_stimpak",
@@ -4724,7 +4772,8 @@
   "campos": {
    "Custo": "75 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Você pode gastar 4 PA para usar este item medicinal em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Se a criatura é humana, mutante, abominação, animal ou inseto, ela cura pontos de vida iguais ao Fator de Cura dela. Se a criatura é um necrótico, ela cura pontos de vida iguais à metade do Fator de Cura dela."
  },
  {
   "id": "medicina_stimpak_diluido",
@@ -4734,7 +4783,8 @@
   "campos": {
    "Custo": "40 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Você pode gastar 4 PA para usar este item medicinal em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Se a criatura é humana, mutante, sintética de segunda geração, abominação, animal ou inseto, ela cura pontos de vida iguais à metade do Fator de Cura dela. Se a criatura é um necrótico, ela cura pontos de vida iguais a um quarto do Fator de Cura dela."
  },
  {
   "id": "medicina_super_stimpak",
@@ -4744,7 +4794,8 @@
   "campos": {
    "Custo": "150 tp",
    "Carga": "6"
-  }
+  },
+  "descricao": "Você pode gastar 4 PA para usar este item medicinal em si mesmo ou em outra criatura, desde que ela esteja ao seu lado. Se a criatura é humana, mutante, sintética de segunda geração, abominação, animal ou inseto, ela cura pontos de vida iguais ao dobro do Fator de Cura dela. Se a criatura é um necrótico, ela cura pontos de vida iguais ao Fator de Cura dela."
  },
  {
   "id": "medicina_stimpak_de_autoinjecao",
@@ -4754,7 +4805,8 @@
   "campos": {
    "Custo": "150 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Quando seus pontos de vida são iguais ou menores que a metade do máximo (arredondada para baixo) pela primeira vez em um turno, você ganha automaticamente os efeitos de um stimpak."
  },
  {
   "id": "medicina_super_stimpak_de_autoinjecao",
@@ -4764,7 +4816,8 @@
   "campos": {
    "Custo": "300 tp",
    "Carga": "6"
-  }
+  },
+  "descricao": "Quando seus pontos de vida são iguais ou menores que a metade do máximo (arredondada para baixo) pela primeira vez em um turno, você ganha automaticamente os efeitos de um super stimpak."
  },
  {
   "id": "revistas_de_pericia_excedentes_militares",
@@ -5263,7 +5316,8 @@
   "campos": {
    "Custo": "1.300 tp",
    "Carga": "5"
-  }
+  },
+  "descricao": "Este macacão justo de peça única, de borracha e tecido, vem equipado com sensores biométricos, uma faixa dourada de dissipação de calor e uma antena para monitoramento de saúde. Qualquer traje de refúgio funciona como armadura de tecido com melhoria Chumbada nível 1, melhoria Reforçada nível 1, melhoria Justa nível 1 e melhoria Robusta nível 1."
  },
  {
   "id": "itens_unicos_pip_boy_2000",
@@ -5273,7 +5327,8 @@
   "campos": {
    "Custo": "300 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "O tipo mais básico de Pip-Boy; este modelo não tem nenhum outro recurso."
  },
  {
   "id": "itens_unicos_pip_boy_2000_mark_vi",
@@ -5283,7 +5338,8 @@
   "campos": {
    "Custo": "600 tp",
    "Carga": "3"
-  }
+  },
+  "descricao": "Este modelo tem um sensor de batimentos cardíacos e eletromagnético; você pode gastar 2 PA para ativar esse sensor e saber a direção cardeal de qualquer criatura pequena ou maior a até 18 m de você que não esteja coberta por pelo menos 30 cm de chumbo ou aço."
  },
  {
   "id": "itens_unicos_pip_boy_3000",
@@ -5293,7 +5349,8 @@
   "campos": {
    "Custo": "550 tp",
    "Carga": "4"
-  }
+  },
+  "descricao": "Este modelo tem várias funções novas e melhoradas. Ele funciona como contador Geiger e lanterna e pode se conectar a estações de rádio próximas."
  },
  {
   "id": "itens_unicos_pip_boy_3000_mark_iv",
@@ -5303,7 +5360,8 @@
   "campos": {
    "Custo": "850 tp",
    "Carga": "3"
-  }
+  },
+  "descricao": "Este modelo tem um sensor de batimentos cardíacos e eletromagnético; você pode gastar 2 PA para ativar esse sensor e saber a direção cardeal de qualquer criatura pequena ou maior a até 18 m de você que não esteja coberta por pelo menos 30 cm de chumbo ou aço. Além disso, este modelo funciona como contador Geiger e lanterna e pode se conectar a estações de rádio próximas."
  },
  {
   "id": "itens_unicos_stealth_boy",
@@ -5313,7 +5371,8 @@
   "campos": {
    "Custo": "500 tp",
    "Carga": "3"
-  }
+  },
+  "descricao": "Um dispositivo de furtividade pessoal RobCo Stealth Boy 3001. Esta maravilha tecnológica pré-guerra gera um campo modulado que transmite a luz refletida de um lado de um objeto para o outro. Você pode gastar 3 PA para ativar um stealth boy; depois de ativado, você fica invisível por 1 minuto, desde que mantenha o stealth boy no corpo. Depois que um stealth boy foi ativado, ele não pode ser ativado de novo."
  },
  {
   "id": "itens_unicos_radio_comunicador",
@@ -5323,7 +5382,8 @@
   "campos": {
    "Custo": "120 tp",
    "Carga": "2"
-  }
+  },
+  "descricao": "Estes pequenos aparelhos militares permitem comunicação a longa distância. O par de rádios funciona desde que você gaste 6 PA para colocar uma célula de energia em cada um, e assim cada um dura um total de 100 ativações. Você pode gastar 3 PA para ativar um dos rádios; quando você o ativa, qualquer som feito a até 1,5 m do rádio é transmitido ao outro rádio, onde pode ser ouvido a até 1,5 m. Se os dois rádios forem ativados ao mesmo tempo, nenhum emite som."
  },
  {
   "id": "itens_unicos_gazua_eletronica",
@@ -5343,6 +5403,7 @@
   "campos": {
    "Custo": "750 tp",
    "Carga": "3"
-  }
+  },
+  "descricao": "Bem mais elegante e robusta no design, a função deste item é idêntica à da gazua eletrônica, exceto que ela quebra depois de três usos, em vez de um."
  }
 ]

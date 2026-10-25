@@ -23,14 +23,24 @@ export function navegar(rota) {
 }
 window.navegar = navegar;
 
-/** Define o título do cabeçalho, com o selo da versão. */
-export function definirTitulo(texto) {
+/** Define o título do cabeçalho, com o selo da versão e um subtítulo opcional. */
+export function definirTitulo(texto, subtitulo = '') {
   const el = document.getElementById('header-titulo');
-  el.textContent = texto;
+  el.textContent = '';
+  const nome = document.createElement('span');
+  nome.className = 'header-nome';
+  nome.textContent = texto;
   const v = document.createElement('span');
   v.className = 'header-versao';
   v.textContent = ` v${VERSAO_ATUAL}`;
-  el.appendChild(v);
+  nome.appendChild(v);
+  el.appendChild(nome);
+  if (subtitulo) {
+    const sub = document.createElement('span');
+    sub.className = 'header-sub';
+    sub.textContent = subtitulo;
+    el.appendChild(sub);
+  }
 }
 
 /** Desenha a rota atual. */

@@ -1,0 +1,154 @@
+[
+ {
+  "id": "barganha",
+  "nome": "Barganha",
+  "textos": [
+   {
+    "atributo": "Carisma",
+    "texto": "A perícia Barganha mede sua expertise em comércio, seja com mercadores ao trocar objetos de valor ou com figuras poderosas para discutir termos. Barganha abrange todo tipo de troca, isto por aquilo. Quanto maior sua perícia Barganha, mais convincente você é na hora de melhorar seus acordos. Você também pode usar esta perícia com uma habilidade única chamada Desconto: ao comprar um item de um mercador com qualquer tipo de moeda, você pode ganhar um desconto percentual nesse item igual ao seu bônus da perícia Barganha. Depois de usar esta habilidade, você não pode usá-la de novo até descansar por 8 horas."
+   }
+  ]
+ },
+ {
+  "id": "sabotagem",
+  "nome": "Sabotagem",
+  "textos": [
+   {
+    "atributo": "Percepção",
+    "texto": "A perícia Sabotagem mede sua habilidade de abrir fechaduras, hackear computadores, desarmar armadilhas ou qualquer coisa que permita chegar a lugares aonde você não deveria ir. Sempre que fizer um teste de Sabotagem, você pode rolar o teste de novo um número de vezes igual ao seu modificador de Sorte (a critério do MJ). Você pode, opcionalmente, escolher que sua perícia Sabotagem seja modificada pelo seu modificador de Percepção em vez de Inteligência."
+   },
+   {
+    "atributo": "Inteligência",
+    "texto": "A perícia Sabotagem mede sua habilidade de abrir fechaduras, hackear computadores, desarmar armadilhas ou qualquer coisa que permita chegar a lugares aonde você não deveria ir. Sempre que fizer um teste de Sabotagem, você pode rolar o teste de novo um número de vezes igual ao seu modificador de Sorte (a critério do MJ). Você pode, opcionalmente, escolher que sua perícia Sabotagem seja modificada pelo seu modificador de Inteligência em vez de Percepção. (Veja Sabotagem.)"
+   }
+  ]
+ },
+ {
+  "id": "criacao",
+  "nome": "Criação",
+  "textos": [
+   {
+    "atributo": "Inteligência",
+    "texto": "A perícia Criação mede seu conhecimento de esquemas para reparar e fabricar itens. Para fabricar a maioria das armas, armaduras, modificações e melhorias, sua perícia Criação deve ser igual ou maior que o requisito. Se você não cumprir o requisito, pode fazer um teste da perícia Criação com CD igual a 12 + o bônus do requisito de Criação. Em caso de sucesso, você fabrica os itens; em caso de falha, você não os fabrica e gasta metade dos materiais necessários, à sua escolha. Se um item tiver um Nível de Desgaste (ND), você pode usar sua perícia Criação para repará-lo e remover o nível de Desgaste. Os requisitos para reparar itens estão listados nas tabelas de fabricação em Desgaste e Reparos."
+   }
+  ]
+ },
+ {
+  "id": "energia",
+  "nome": "Energia",
+  "textos": [
+   {
+    "atributo": "Percepção",
+    "texto": "A perícia Energia mede sua expertise no uso de armas tecnológicas que disparam lasers poderosos, lançam arcos de eletricidade, atiram projéteis de plasma superaquecido e até lançam munição com bobinas eletromagnéticas para acelerar projéteis a velocidades extremas. Ao fazer uma rolagem de ataque com uma arma de energia, você soma seu bônus da perícia Energia à rolagem."
+   }
+  ]
+ },
+ {
+  "id": "explosivos",
+  "nome": "Explosivos",
+  "textos": [
+   {
+    "atributo": "Percepção",
+    "texto": "A perícia Explosivos mede seu conhecimento em armar, desarmar e manusear de forma geral qualquer dispositivo explosivo, seja uma granada de fragmentação, explosivo C-4, coquetel molotov, granada de plasma ou bomba de fumaça. Quando você usa seus PA para armar e lançar um explosivo, role um d20 e some seu bônus de Explosivos. Se o total for 1, o explosivo detona imediatamente antes de ser lançado. Se o total for 2 ou 3, o explosivo é lançado à metade da distância e detona no início do seu próximo turno. Se o total estiver entre 3 e 14, o explosivo detona no início do seu próximo turno. Se o resultado for 15 ou mais, o explosivo detona no fim do seu turno. Quando você usa seus PA para lançar um explosivo que já foi armado, faça um teste de Explosivos. Se o resultado for 12 ou menos, o explosivo não é lançado e explode imediatamente. Se o resultado for acima de 13, o explosivo detona no fim do seu turno."
+   }
+  ]
+ },
+ {
+  "id": "disparo",
+  "nome": "Disparo",
+  "textos": [
+   {
+    "atributo": "Agilidade",
+    "texto": "A perícia Disparo mede sua habilidade de empunhar e atirar com todo tipo de arma de fogo, de revólveres a rifles de precisão e miniguns. Ao fazer uma rolagem de ataque com uma arma pesada, pistola, rifle, escopeta ou submetralhadora, você soma seu bônus da perícia Disparo à rolagem."
+   }
+  ]
+ },
+ {
+  "id": "intimidacao",
+  "nome": "Intimidação",
+  "textos": [
+   {
+    "atributo": "Força",
+    "texto": "A perícia Intimidação mede o quão fisicamente imponente você é, sua capacidade de assustar os outros ou até mesmo fazê-los reconsiderar o confronto com você. Você pode, opcionalmente, escolher que sua perícia Intimidação seja modificada pelo seu modificador de Força em vez de Carisma."
+   },
+   {
+    "atributo": "Carisma",
+    "texto": "A perícia Intimidação mede o quão ameaçador você pode ser, sua capacidade de assustar os outros ou até mesmo fazê-los reconsiderar o confronto com você. Você pode, opcionalmente, escolher que sua perícia Intimidação seja modificada pelo seu modificador de Carisma em vez de Força. (Veja Intimidação.)"
+   }
+  ]
+ },
+ {
+  "id": "medicina",
+  "nome": "Medicina",
+  "textos": [
+   {
+    "atributo": "Percepção",
+    "texto": "A perícia Medicina mede sua aptidão em identificar sintomas e tratá-los, com o devido cuidado, sob pressão. O conhecimento de Medicina também permite fabricar químicos. Para fabricar a maioria das receitas de químicos, sua perícia Medicina deve ser igual ou maior que o requisito da receita. Se você estiver a até 1,5 m de uma criatura com a condição sangramento, você pode gastar 6 PA, usar 1 item de sucata de pano e ser bem-sucedido em um teste de Medicina com CD 15 para encerrar a condição. Se outro personagem estiver morrendo e não tiver falhado em todos os seus Suspiros Finais, você pode (a critério do MJ) gastar 6 PA para fazer um teste de Medicina com CD igual a 10 + os Suspiros Finais que ele falhou − os que ele passou. Em caso de sucesso, a criatura ganha 1 ponto de vida. Você pode, opcionalmente, escolher que sua perícia Medicina seja modificada pelo seu modificador de Percepção em vez de Inteligência."
+   },
+   {
+    "atributo": "Inteligência",
+    "texto": "A perícia Medicina mede seu conhecimento de anatomia, fisiologia e métodos para manter criaturas vivas. O conhecimento de Medicina também permite fabricar químicos. Para fabricar a maioria das receitas de químicos, sua perícia Medicina deve ser igual ou maior que o requisito. Se você estiver a até 1,5 m de uma criatura com a condição sangramento, você pode gastar 6 PA, usar 1 item de sucata de pano e ser bem-sucedido em um teste de Medicina com CD 15 para encerrar a condição. Se outro personagem estiver inconsciente e não tiver falhado em todos os seus Suspiros Finais, você pode (a critério do MJ) gastar 6 PA para fazer um teste de Medicina com CD igual a 10 + os Suspiros Finais que ele falhou − os que ele passou. Em caso de sucesso, a criatura ganha 1 ponto de vida. Você pode, opcionalmente, escolher que sua perícia Medicina seja modificada pelo seu modificador de Inteligência em vez de Percepção. (Veja Medicina.)"
+   }
+  ]
+ },
+ {
+  "id": "corpo_a_corpo",
+  "nome": "Corpo a Corpo",
+  "textos": [
+   {
+    "atributo": "Força",
+    "texto": "A perícia Corpo a Corpo mede sua habilidade de cortar, esfaquear ou golpear com armas como facas, tábuas, ferros-9 ou até motosserras. Ao fazer uma rolagem de ataque com uma arma corpo a corpo, você soma seu bônus da perícia Corpo a Corpo à rolagem."
+   }
+  ]
+ },
+ {
+  "id": "ciencia",
+  "nome": "Ciência",
+  "textos": [
+   {
+    "atributo": "Inteligência",
+    "texto": "A perícia Ciência mede seu conhecimento e raciocínio dedutivo em todo tipo de estudo: biologia, historiografia, cosmologia, química, geologia etc. Você pode usar a perícia Ciência para elaborar teorias e produzir um resultado provável. Se seu personagem encontrar algo misterioso, você pode fazer um teste de Ciência para deduzir a explicação. Como alternativa, se o seu MJ permitir, você pode fazer ao MJ uma pergunta sobre um assunto específico cuja resposta você talvez não saiba, mas seu personagem poderia saber. Em uma rolagem bem-sucedida, você pode descobrir a informação."
+   }
+  ]
+ },
+ {
+  "id": "furtividade",
+  "nome": "Furtividade",
+  "textos": [
+   {
+    "atributo": "Agilidade",
+    "texto": "A perícia Furtividade mede sua habilidade de permanecer quieto ou discreto. No seu turno, você pode gastar 6 PA para se esconder. Ao se esconder, você faz um teste da perícia Furtividade; se você tiver cobertura contra alguma criatura e o total do seu teste for igual ou maior que os Sentidos Passivos dela, então você está escondido dela e ela não pode vê-lo. Se você atacar uma criatura da qual está escondido, você ganha vantagem na rolagem de ataque. Se uma criatura souber da sua presença, mas não puder vê-lo porque você está escondido, ela pode fazer um teste de Percepção contra um teste de Furtividade seu. Se o total dela for maior, você deixa de estar escondido. Se o seu total for maior, você continua escondido. Personagens dos jogadores, ao viajar, podem se mover em meio ritmo e usar a Furtividade da Equipe para permanecerem furtivos durante a viagem. Sua Furtividade da Equipe é igual ao modificador de Furtividade de cada personagem dos jogadores somado, dividido pelo número de personagens dos jogadores. (Simplificando: a Furtividade da Equipe é a média dos modificadores de Furtividade de cada personagem dos jogadores.)"
+   }
+  ]
+ },
+ {
+  "id": "persuasao",
+  "nome": "Persuasão",
+  "textos": [
+   {
+    "atributo": "Carisma",
+    "texto": "A perícia Persuasão mede sua capacidade de se comunicar e de ler os outros. Persuasão abrange sua capacidade de persuadir, dissuadir, convencer ou enganar. Conhecimento de idiomas, oratória e expressão também se enquadram em Persuasão. Você pode usar a perícia Persuasão para convencer personagens não jogadores a concordar com você, fazer um favor para você ou até arriscar a vida por você (a critério do MJ). Você também pode usar Persuasão para contar uma mentira convincente, ler as intenções de alguém que pode ter más intenções contra você ou para se comunicar de forma não verbal."
+   }
+  ]
+ },
+ {
+  "id": "sobrevivencia",
+  "nome": "Sobrevivência",
+  "textos": [
+   {
+    "atributo": "Resistência",
+    "texto": "A perícia Sobrevivência mede uma mistura da sua adaptação, conhecimento da terra, habilidade de caça e expertise em culinária. Você pode usar sua perícia Sobrevivência para rastrear outras criaturas (o original indica uma seção de rastreamento, mas ela não existe; veja as Notas da Tradução). Para fabricar a maioria das receitas de comidas e bebidas, sua perícia Sobrevivência deve ser igual ou maior que o requisito. Além disso, aprender mais sobre os hábitos, o tipo ou as habilidades físicas de uma criatura pode exigir um teste de Sobrevivência (a critério do MJ)."
+   }
+  ]
+ },
+ {
+  "id": "pugilismo",
+  "nome": "Pugilismo",
+  "textos": [
+   {
+    "atributo": "Força",
+    "texto": "A perícia Pugilismo mede sua capacidade de socar, golpear, lutar, chutar, dar cotoveladas, joelhadas ou agarrar outras criaturas. Ao fazer uma rolagem de ataque desarmado, você soma seu bônus da perícia Pugilismo à rolagem. Ataques desarmados causam 1d4 + seu modificador de Força ou Agilidade de dano de contusão, acertam criticamente quando você rola um 20 na rolagem de ataque e causam dano extra igual ao dobro do dano total. Ataques desarmados podem ser não letais."
+   }
+  ]
+ }
+]

@@ -8,6 +8,8 @@ computador, funciona offline (PWA) e guarda os personagens no próprio aparelho.
 > [criador de fichas D&D 5.5 de ZaitBr-bit](https://github.com/ZaitBr-bit/D-D_2024)
 > (licença MIT).
 
+**[▶ Abrir o app](https://gabrielgugg.github.io/fallout-ttrpg-ficha/)** &nbsp;·&nbsp;
+
 ## O que dá para fazer
 
 - **Criar o personagem** em 8 passos: raça (com variantes e os três tipos de

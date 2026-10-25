@@ -189,6 +189,7 @@ export function detalharPericia(char, idPericia, antecedente = null) {
   if (char?.raca === 'necrotico' && temVariante(char, 'Muitas Estradas Percorridas')) {
     partes.push({ rotulo: 'Muitas Estradas Percorridas', valor: 2 });
   }
+  if (temTraco(char, 'dotado')) partes.push({ rotulo: 'Traço Dotado', valor: tracoErmo(char, 'dotado') ? -6 : -3 });
   const penal = penalidadeD20(char);
   if (penal) partes.push({ rotulo: 'Fome, sede, fadiga, exaustão e rads', valor: -penal });
   const extra = char?.bonus_pericia?.[idPericia] || 0;
@@ -256,17 +257,37 @@ function maximoTabela(nivel, mod) {
 
 /** Pontos de Vida máximos (Resistência), recalculados como se o mod. fosse o atual desde o 1º nível. */
 export function pvMaximo(char) {
-  return Math.max(1, maximoTabela(char?.nivel || 1, modificadores(char).RES) + (char?.ajuste_pv || 0));
+  const nivel = char?.nivel || 1;
+  let pv = maximoTabela(nivel, modificadores(char).RES) + (char?.ajuste_pv || 0);
+  if (temTraco(char, 'robusto')) pv += tracoErmo(char, 'robusto') ? 2 * nivel : nivel;
+  return Math.max(1, pv);
 }
 
-/** Pontos de Estamina máximos (Agilidade), com a mesma regra retroativa. */
-export function peMaximo(char) {
-  return Math.max(0, maximoTabela(char?.nivel || 1, modificadores(char).AGI) + (char?.ajuste_pe || 0));
+/**
+ * Pontos de Estamina máximos (Agilidade), com a mesma regra retroativa;
+ * Robusto tira o nível (o dobro no Ermo Selvagem) e a melhoria Justa nível 2
+ * da armadura vestida soma o nível.
+ */
+export function peMaximo(char, catalogo = null) {
+  const nivel = char?.nivel || 1;
+  let pe = maximoTabela(nivel, modificadores(char).AGI) + (char?.ajuste_pe || 0);
+  if (temTraco(char, 'robusto')) pe -= tracoErmo(char, 'robusto') ? 2 * nivel : nivel;
+  const arm = catalogo ? armaduraVestida(char?.inventario, catalogo) : null;
+  if (arm && nivelMelhoria(arm, 'justa') >= 2) pe += nivel;
+  return Math.max(0, pe);
 }
 
-/** Pontos de Ação: 10 + mod. de Agilidade, no máximo 15. */
-export function pontosDeAcao(char) {
-  return Math.min(15, 10 + modificadores(char).AGI);
+/**
+ * Pontos de Ação: 10 + mod. de Agilidade, no máximo 15. Roupa Térmica e a
+ * melhoria Isolamento nível 1 tiram 1, até o mínimo de 6.
+ */
+export function pontosDeAcao(char, catalogo = null) {
+  let pa = Math.min(15, 10 + modificadores(char).AGI);
+  let reducao = vestidos(char, catalogo).reduce((s, v) => s + (v.efeito.pa || 0), 0);
+  const arm = catalogo ? armaduraVestida(char?.inventario, catalogo) : null;
+  if (arm && nivelMelhoria(arm, 'isolamento') === 1) reducao -= 1;
+  if (reducao) pa = Math.max(Math.min(pa, 6), pa + reducao);
+  return pa;
 }
 
 /** Ponto de Talento ganho em um nível específico (todos, exceto 5, 9, 13, 17 e 19). */
@@ -315,32 +336,41 @@ export function fatorDeCura(char) {
   return fc;
 }
 
-/** Capacidade de Carga: Força × 10 (+40 para Super Mutante). */
-export function capacidadeDeCarga(char) {
-  let c = atributosEfetivos(char).FOR * 10;
-  if (char?.raca === 'super_mutante') c += 40;
-  return c;
+/** Sentidos Passivos: 12 + mod. de Percepção (− 2 com Máscara de Gás vestida). */
+export function sentidosPassivos(char, catalogo = null) {
+  let sp = 12 + modificadores(char).PER;
+  for (const v of vestidos(char, catalogo)) sp += v.efeito.sentidos || 0;
+  return sp;
 }
 
-/** Sentidos Passivos: 12 + mod. de Percepção. */
-export function sentidosPassivos(char) {
-  return 12 + modificadores(char).PER;
-}
-
-/** Limiar de Radiação (só Humano): 12 − mod. de Resistência (+3 com Metabolismo Rápido). */
-export function limiarDeRadiacao(char) {
+/**
+ * Limiar de Radiação (só Humano): 12 − mod. de Resistência (+3 com Metabolismo
+ * Rápido), menos o que a máscara, os trajes e a melhoria Chumbada tiram.
+ */
+export function limiarDeRadiacao(char, catalogo = null) {
   if (char?.raca !== 'humano') return null;
   let lr = 12 - modificadores(char).RES;
   if (temTraco(char, 'metabolismo_rapido') && !tracoErmo(char, 'metabolismo_rapido')) lr += 3;
+  for (const v of vestidos(char, catalogo)) lr += v.efeito.lr || 0;
+  const arm = armaduraVestida(char?.inventario, catalogo);
+  if (arm) lr -= 2 * nivelMelhoria(arm, 'chumbada');
   return lr;
 }
 
-/** Tampas de Karma: 1, +1 com Sorte 10, +1 com Engenhoso (Humano variante). */
+/** Tampas de Karma: 1, +1 com Sorte 10, +1 com Engenhoso (Humano variante), +1/+2 com Dotado. */
 export function tampasDeKarma(char) {
   let n = 1;
   if (atributosEfetivos(char).SOR >= 10) n++;
   if (char?.raca === 'humano' && temVariante(char, 'Engenhoso')) n++;
+  if (temTraco(char, 'dotado')) n += tracoErmo(char, 'dotado') ? 2 : 1;
   return n;
+}
+
+/** Iniciativa passiva: 10 + mod. de Percepção (+1/+2 com Dotado). */
+export function iniciativa(char) {
+  let ini = 10 + modificadores(char).PER;
+  if (temTraco(char, 'dotado')) ini += tracoErmo(char, 'dotado') ? 2 : 1;
+  return ini;
 }
 
 /** Quantos Suspiros Finais falhos matam: 4 para Humano (Tenacidade), 3 para os demais. */
@@ -360,12 +390,78 @@ export function requisitoForca(item) {
   return campo ? numeroApos(campo[1], 'FOR') : null;
 }
 
-/** Carga unitária de um item do catálogo. */
+/**
+ * Carga unitária de um item do catálogo. Em textos como "10 quando não vestida"
+ * ou "1, 2 quando cheio" vale o primeiro número (a carga guardada/vazia).
+ */
 export function cargaDoItem(item) {
   const campo = Object.entries(item?.campos || {}).find(([k]) => k.startsWith('Carga'));
   if (!campo) return 0;
   const n = numeroApos(campo[1], 'Carga');
-  return n ?? (Number(String(campo[1]).replace(',', '.')) || 0);
+  if (n != null) return n;
+  const m = String(campo[1]).match(/\d+(?:[.,]\d+)?/);
+  return m ? Number(m[0].replace(',', '.')) : 0;
+}
+
+// ---------------------------------------------------------------- itens de vestir
+
+/**
+ * Itens que se vestem (fora as armaduras) e o que fazem enquanto vestidos.
+ * carga: aumento da Capacidade de Carga. cargaVestido: carga do próprio item
+ * vestido. bolsa: conta para a regra de mais de uma bolsa. lr, sentidos, td,
+ * pa: ajustes. semArmadura: não se veste armadura junto.
+ */
+export const VESTIVEIS = {
+  itens_e_equipamentos_mochila: { bolsa: true, carga: 50, cargaVestido: 0 },
+  itens_e_equipamentos_mochila_de_acampamento: { bolsa: true, carga: 100, cargaVestido: 0 },
+  itens_e_equipamentos_bolsa_de_armas: { bolsa: true, bolsaDeArmas: true, cargaVestido: 0 },
+  itens_e_equipamentos_bandoleira: { carga: 25, cargaVestido: 0 },
+  itens_e_equipamentos_mascara_de_gas: { lr: -3, sentidos: -2 },
+  itens_e_equipamentos_traje_hazmat: { lr: -10, cargaVestido: 10, nota: 'Imune a dano de radiação; falhar no teste de radiação não aumenta o LR.' },
+  itens_e_equipamentos_traje_hazmat_motorizado: { td: 3, cargaVestido: 5, semArmadura: true, nota: 'Não ganha níveis de radiação e é imune a dano de radiação (precisa de energia).' },
+  itens_e_equipamentos_roupa_termica: { pa: -1, cargaVestido: 5, semArmadura: true, nota: 'Isolado contra hipotermia.' },
+  itens_e_equipamentos_roupa_termica_leve: { cargaVestido: 2, semArmadura: true, nota: 'Isolado contra hipotermia.' },
+  itens_unicos_pip_boy_2000: {},
+  itens_unicos_pip_boy_2000_mark_vi: {},
+  itens_unicos_pip_boy_3000: {},
+  itens_unicos_pip_boy_3000_mark_iv: {},
+};
+
+/**
+ * Armaduras que não estão na tabela de armaduras: funcionam como o tipo `base`
+ * com as melhorias embutidas (que não ocupam espaço).
+ */
+export const ARMADURAS_ESPECIAIS = {
+  itens_unicos_traje_de_refugio: {
+    base: 'armaduras_tecido',
+    melhorias: [{ id: 'chumbada', nivel: 1 }, { id: 'reforcada', nivel: 1 }, { id: 'justa', nivel: 1 }, { id: 'robusta', nivel: 1 }],
+  },
+};
+
+const PREFIXO_MELHORIA = 'melhorias_de_armadura_';
+
+/** O item é uma armadura (da tabela ou especial)? */
+export function ehArmadura(item) {
+  return !!item && ((item.categoria === 'Armaduras' && !item.subcategoria) || !!ARMADURAS_ESPECIAIS[item.id]);
+}
+
+/** Tipo de uso de um item: 'armadura', 'arma', 'vestivel' ou null. */
+export function tipoEquipavel(item) {
+  if (ehArmadura(item)) return 'armadura';
+  if (periciaDaArma(item)) return 'arma';
+  if (item && VESTIVEIS[item.id]) return 'vestivel';
+  return null;
+}
+
+/** Itens de vestir (não armaduras) vestidos, com o efeito de cada um. */
+function vestidos(char, catalogo) {
+  if (!catalogo) return [];
+  const r = [];
+  for (const linha of char?.inventario || []) {
+    const item = catalogo[linha.ref];
+    if (linha.equipado && item && VESTIVEIS[item.id]) r.push({ linha, item, efeito: VESTIVEIS[item.id] });
+  }
+  return r;
 }
 
 /** Armadura vestida no inventário (a primeira marcada como equipada). */
@@ -373,20 +469,321 @@ export function armaduraVestida(inventario, catalogo) {
   for (const linha of inventario || []) {
     if (!linha.equipado) continue;
     const item = catalogo?.[linha.ref];
-    if (item?.categoria === 'Armaduras' && !item.subcategoria) return { linha, item };
+    if (ehArmadura(item)) return { linha, item };
   }
   return null;
 }
 
+/** Melhorias de uma armadura: as embutidas (Traje de Refúgio) + as instaladas. */
+export function melhoriasDaArmadura(linha, item) {
+  const embutidas = (ARMADURAS_ESPECIAIS[item?.id]?.melhorias || []).map(m => ({ ...m, embutida: true }));
+  const instaladas = (linha?.melhorias || []).filter(m => m?.id && m.nivel > 0);
+  return [...embutidas, ...instaladas];
+}
+
+/** Nível de uma melhoria na armadura vestida (0 se não tiver; a maior, se repetida). */
+function nivelMelhoria(vestida, id) {
+  return melhoriasDaArmadura(vestida.linha, vestida.item)
+    .filter(m => m.id === id).reduce((n, m) => Math.max(n, Math.min(3, m.nivel)), 0);
+}
+
 /**
- * Defesa e Tolerância a Dano: da armadura vestida (ou 10 e 0), com os ajustes de
- * raça e traços. A DF não fica abaixo de 10, exceto quando um traço manda reduzir.
+ * Espaços de melhoria da armadura. Os níveis não ocupam espaço; numa armadura
+ * especial as melhorias embutidas ocupam os espaços do tipo base.
+ */
+export function espacosDaArmadura(linha, item, catalogo = null) {
+  const esp = ARMADURAS_ESPECIAIS[item?.id];
+  const total = esp
+    ? Math.max(0, (Number(catalogo?.[esp.base]?.campos?.['Espaços']) || 0) - esp.melhorias.length)
+    : Number(item?.campos?.['Espaços']) || 0;
+  return { total, usados: (linha?.melhorias || []).length };
+}
+
+/** Id curto de uma melhoria do catálogo ("melhorias_de_armadura_leve" -> "leve"). */
+export function idMelhoria(itemCatalogo) {
+  return String(itemCatalogo?.id || '').replace(PREFIXO_MELHORIA, '');
+}
+
+/**
+ * Estatísticas de uma armadura com melhorias e desgaste: DF e TD (o desgaste
+ * tira metade dos níveis, arredondada para baixo, de cada; a Robusta ignora os
+ * 2 ou 4 primeiros níveis), carga e requisito de Força (Leve).
+ */
+export function estatisticasDaArmadura(linha, item, catalogo = null) {
+  const baseItem = ARMADURAS_ESPECIAIS[item?.id] ? catalogo?.[ARMADURAS_ESPECIAIS[item.id].base] : item;
+  const vest = { linha, item };
+  const nv = id => nivelMelhoria(vest, id);
+  let df = Number(baseItem?.campos?.DF) || 10;
+  let td = Number(baseItem?.campos?.TD) || 0;
+  let carga = linha?.carga != null ? Number(linha.carga) : (ARMADURAS_ESPECIAIS[item?.id] ? cargaDoItem(item) : cargaDoItem(baseItem));
+  let forca = requisitoForca(baseItem);
+
+  td += [0, 1, 2, 4][nv('reforcada')];
+  df += nv('endurecida');
+  const leve = nv('leve');
+  if (leve >= 1) { td -= 1; if (forca != null) forca = Math.max(0, forca - 1); }
+  if (leve === 1) carga = Math.max(0, carga - 5);
+  if (leve >= 2) carga = Math.max(3, carga - 10);
+
+  const ignorado = [0, 2, 4, 4][nv('robusta')];
+  const desgaste = Math.max(0, (linha?.desgaste || 0) - ignorado);
+  const perda = Math.floor(desgaste / 2);
+  df = Math.max(10, df - perda);
+  td = Math.max(0, td - perda);
+  return { df, td, carga, forca, perdaDesgaste: perda, quebrada: (linha?.desgaste || 0) >= 10 };
+}
+
+// ---------------------------------------------------------------- modificações de arma
+
+/**
+ * Efeitos automáticos das modificações de arma (o resto fica no texto):
+ * acerto, carga (+), cargaMult (×), forca (requisito), pa (com piso/teto) e pente.
+ */
+const EFEITOS_MOD = {
+  mira_holografica: { acerto: 1, carga: 1 },
+  luneta_infravermelha: { acerto: 2, carga: 2 },
+  mira_laser: { carga: 1 },
+  construcao_leve: { cargaMult: 0.5, forca: -1 },
+  cano_longo: { carga: 4 },
+  freio_de_boca: { acerto: 1, forca: -1, carga: 2 },
+  coronha: { acerto: 1, carga: 4 },
+  silenciador: { carga: 2 },
+  reforco_estrutural: { carga: 2 },
+  luneta: { carga: 2 },
+  receptor_endurecido: { carga: 2 },
+  acao_dupla: { pa: -1, paMin: 1 },
+  carregador_ampliado: { pente: 3 },
+  // corpo a corpo
+  cc_construcao_leve: { cargaMult: 0.5, forca: -1, pa: -1, paMin: 3 },
+  cc_lamina_dupla: { cargaMult: 2, forca: 1 },
+  cc_pesada: { cargaMult: 1.5, forca: 1, pa: 1, paMax: 6 },
+};
+
+/** A modificação é de arma corpo a corpo? */
+function modCorpoACorpo(mod) {
+  return mod?.subcategoria === 'Modificações de Armas Corpo a Corpo';
+}
+
+/** Chave de efeito de uma modificação do catálogo. */
+function chaveMod(mod) {
+  const nome = chaveNome(mod?.nome).replace(/ /g, '_');
+  return modCorpoACorpo(mod) ? `cc_${nome}` : nome;
+}
+
+/** Espaços de modificação que a modificação ocupa ("**Espaços: 3.**"). */
+export function espacosDaMod(mod) {
+  if (modCorpoACorpo(mod)) return 1;
+  const m = String(mod?.campos?.['Descrição'] || '').match(/Espaços:\s*(\d+)/);
+  return m ? Number(m[1]) : 0;
+}
+
+/** Modificações que servem para a arma (corpo a corpo ou à distância). */
+export function modsCompativeis(item, itens = []) {
+  const pericia = periciaDaArma(item);
+  if (!pericia || pericia === 'explosivos') return [];
+  const cc = ['corpo_a_corpo', 'pugilismo'].includes(pericia);
+  return itens.filter(i => cc ? modCorpoACorpo(i) : i.categoria === 'Modificações de Armas à Distância');
+}
+
+/** Limite de modificações: 1 em corpo a corpo, 6 espaços à distância. */
+export function limiteDeMods(item) {
+  const cc = ['corpo_a_corpo', 'pugilismo'].includes(periciaDaArma(item));
+  return cc ? { tipo: 'quantidade', max: 1 } : { tipo: 'espacos', max: 6 };
+}
+
+/**
+ * Estatísticas de uma arma com modificações e desgaste: carga, requisito de
+ * Força, ajuste de PA, bônus de acerto (mods − desgaste), balas extras no pente
+ * e espaços usados.
+ */
+export function estatisticasDaArma(linha, item, catalogo = null) {
+  const mods = (linha?.mods || []).map(id => catalogo?.[id]).filter(Boolean);
+  const efeitos = mods.map(m => EFEITOS_MOD[chaveMod(m)] || {});
+  let carga = linha?.carga != null ? Number(linha.carga) : cargaDoItem(item);
+  for (const e of efeitos) if (e.cargaMult) carga *= e.cargaMult;
+  for (const e of efeitos) carga += e.carga || 0;
+  let forca = requisitoForca(item);
+  if (forca != null) forca = Math.max(0, forca + efeitos.reduce((s, e) => s + (e.forca || 0), 0));
+  const paBase = Number(String(item?.campos?.PA || '').match(/\d+/)?.[0]) || null;
+  let pa = paBase;
+  if (pa != null) {
+    for (const e of efeitos) {
+      if (!e.pa) continue;
+      pa += e.pa;
+      if (e.paMin != null) pa = Math.max(e.paMin, pa);
+      if (e.paMax != null) pa = Math.min(e.paMax, pa);
+    }
+  }
+  const desgaste = linha?.desgaste || 0;
+  const bonusMods = efeitos.reduce((s, e) => s + (e.acerto || 0), 0);
+  const limite = limiteDeMods(item);
+  const usados = limite.tipo === 'quantidade' ? mods.length : mods.reduce((s, m) => s + espacosDaMod(m), 0);
+  return {
+    carga: Math.round(carga * 10) / 10,
+    forca,
+    pa,
+    paBase,
+    acerto: bonusMods - desgaste,
+    bonusMods,
+    desgaste,
+    pente: efeitos.reduce((s, e) => s + (e.pente || 0), 0),
+    mods,
+    espacos: { ...limite, usados },
+    excedeu: usados > limite.max,
+    quebrada: desgaste >= 10,
+  };
+}
+
+// ---------------------------------------------------------------- carga
+
+/** Quantas vezes o personagem pegou um talento. */
+function vezesTalento(char, id) {
+  return talentosEscolhidos(char).filter(t => t === id).length;
+}
+
+/**
+ * Capacidade de Carga máxima com a origem de cada parcela: Força × 10, Super
+ * Mutante, traços (Acumulador, Dotado), talentos (Acumulador, Rato de Carga),
+ * bolsas e bandoleira vestidas, melhoria Cheia de Bolsos e bônus manual
+ * (Rato de Carga de outro personagem, comida Substanciosa...).
+ */
+export function detalharCapacidade(char, catalogo = null) {
+  const partes = [{ rotulo: `Força ${atributosEfetivos(char).FOR} × 10`, valor: atributosEfetivos(char).FOR * 10 }];
+  if (char?.raca === 'super_mutante') partes.push({ rotulo: 'Super Mutante', valor: 40 });
+  if (temTraco(char, 'acumulador') && !tracoErmo(char, 'acumulador')) partes.push({ rotulo: 'Traço Acumulador', valor: 25 });
+  if (temTraco(char, 'dotado')) partes.push({ rotulo: 'Traço Dotado', valor: tracoErmo(char, 'dotado') ? 20 : 10 });
+  if (vezesTalento(char, 'acumulador')) partes.push({ rotulo: 'Talento Acumulador', valor: 50 });
+  const rato = Math.min(3, vezesTalento(char, 'rato_de_carga'));
+  if (rato) partes.push({ rotulo: `Talento Rato de Carga${rato > 1 ? ` ×${rato}` : ''}`, valor: 10 * rato });
+  for (const v of vestidos(char, catalogo)) {
+    if (v.efeito.carga) partes.push({ rotulo: `${v.item.nome} (vestida)`, valor: v.efeito.carga });
+  }
+  const arm = catalogo ? armaduraVestida(char?.inventario, catalogo) : null;
+  if (arm) {
+    const bolsos = nivelMelhoria(arm, 'cheia_de_bolsos');
+    if (bolsos) partes.push({ rotulo: `Cheia de Bolsos nível ${bolsos}`, valor: [0, 10, 15, 25][bolsos] });
+  }
+  const extra = Number(char?.ajuste_carga) || 0;
+  if (extra) partes.push({ rotulo: 'Outros bônus', valor: extra });
+  return { partes, total: Math.max(0, partes.reduce((s, p) => s + p.valor, 0)) };
+}
+
+/** Capacidade de Carga máxima (total de detalharCapacidade). */
+export function capacidadeDeCarga(char, catalogo = null) {
+  return detalharCapacidade(char, catalogo).total;
+}
+
+/** O personagem veste uma Bolsa de Armas? */
+function vesteBolsaDeArmas(char, catalogo) {
+  return vestidos(char, catalogo).some(v => v.efeito.bolsaDeArmas);
+}
+
+/** A arma pode ir na Bolsa de Armas (Duas Mãos ou Desajeitada)? */
+export function cabeNaBolsaDeArmas(item) {
+  const txt = Object.values(item?.campos || {}).join(' ');
+  return !!periciaDaArma(item) && /Duas Mãos|Desajeitad/i.test(txt);
+}
+
+/**
+ * Carga de uma linha do inventário (já multiplicada pela quantidade):
+ * armadura vestida conta pela metade, itens de vestir usam a carga de vestido,
+ * armas somam as modificações, a Bolsa de Armas divide por 2 e o Rato de
+ * Carga faz itens com carga menor que 3 valerem 1.
+ */
+export function cargaDaLinha(char, linha, catalogo = null) {
+  const item = catalogo?.[linha?.ref];
+  let unit;
+  if (ehArmadura(item)) {
+    unit = estatisticasDaArmadura(linha, item, catalogo).carga;
+    if (linha.equipado) unit /= 2;
+  } else if (periciaDaArma(item)) {
+    unit = estatisticasDaArma(linha, item, catalogo).carga;
+    if (linha.na_bolsa && cabeNaBolsaDeArmas(item) && vesteBolsaDeArmas(char, catalogo)) unit /= 2;
+  } else {
+    unit = linha?.carga != null ? Number(linha.carga) : cargaDoItem(item);
+    const v = item && VESTIVEIS[item.id];
+    if (v && linha.equipado && v.cargaVestido != null) unit = v.cargaVestido;
+  }
+  if (vezesTalento(char, 'rato_de_carga') && unit > 1 && unit < 3) unit = 1;
+  return unit * (linha?.qtd || 1);
+}
+
+/** Carga total do inventário. */
+export function cargaTotal(char, catalogo) {
+  const total = (char?.inventario || []).reduce((s, l) => s + cargaDaLinha(char, l, catalogo), 0);
+  return Math.round(total * 10) / 10;
+}
+
+/**
+ * Situação da carga: atual, máximo, parcelas, sobrecarregado (acima do máximo),
+ * muito sobrecarregado (acima do dobro) e avisos de regras.
+ */
+export function estadoDeCarga(char, catalogo) {
+  const atual = cargaTotal(char, catalogo);
+  const { partes, total: maximo } = detalharCapacidade(char, catalogo);
+  const avisos = [];
+  const imune = temTraco(char, 'acumulador') && tracoErmo(char, 'acumulador');
+  const attr = atributosEfetivos(char);
+  const bolsas = vestidos(char, catalogo).filter(v => v.efeito.bolsa);
+  let sobrecarregado = atual > maximo;
+  if (bolsas.length > 1 && attr.FOR < 8 && attr.RES < 8) {
+    sobrecarregado = true;
+    avisos.push('Mais de uma bolsa vestida: você fica sobrecarregado (a menos que Força ou Resistência seja 8 ou mais).');
+  }
+  const muito = atual > maximo * 2;
+  if (imune) {
+    sobrecarregado = false;
+    avisos.push('Acumulador (Ermo Selvagem): imune a sobrecarregado; ganha um nível de fadiga sempre que a carga atual fica abaixo do máximo.');
+  } else if (temTraco(char, 'acumulador') && atual < 50) {
+    avisos.push('Acumulador: desvantagem em testes de atributo, de perícia e ataques enquanto carregar menos de 50 de carga.');
+  }
+  if (vezesTalento(char, 'acumulador')) avisos.push('Talento Acumulador: objetos pesados não deixam você lento.');
+  const arm = catalogo ? armaduraVestida(char?.inventario, catalogo) : null;
+  const semArm = vestidos(char, catalogo).find(v => v.efeito.semArmadura);
+  if (arm && semArm) avisos.push(`${semArm.item.nome}: não dá para vestir armadura junto.`);
+  if (arm) {
+    const est = estatisticasDaArmadura(arm.linha, arm.item, catalogo);
+    if (est.forca != null && attr.FOR < est.forca && !vezesTalento(char, 'acumulador')) {
+      avisos.push(`${arm.linha.nome || arm.item.nome} pede Força ${est.forca}: você fica lento.`);
+    }
+  }
+  const naBolsa = (char?.inventario || []).filter(l => l.na_bolsa).reduce((s, l) => s + (l.qtd || 1), 0);
+  if (naBolsa > 3) avisos.push('A Bolsa de Armas guarda no máximo três armas.');
+  return {
+    atual, maximo, partes, avisos,
+    sobrecarregado: sobrecarregado && !imune,
+    muitoSobrecarregado: muito && !imune,
+  };
+}
+
+/** Efeitos dos itens vestidos para mostrar no inventário ("LR −3", "Sentidos Passivos −2"...). */
+export function efeitosDoVestivel(item) {
+  const v = VESTIVEIS[item?.id];
+  if (!v) return [];
+  const r = [];
+  if (v.carga) r.push(`Capacidade de Carga +${v.carga}`);
+  if (v.cargaVestido != null) r.push(`carga ${v.cargaVestido} vestido`);
+  if (v.bolsaDeArmas) r.push('metade da carga de até 3 armas de Duas Mãos ou Desajeitadas');
+  if (v.lr) r.push(`LR ${fmtSinal(v.lr)}`);
+  if (v.sentidos) r.push(`Sentidos Passivos ${fmtSinal(v.sentidos)}`);
+  if (v.td) r.push(`TD ${fmtSinal(v.td)}`);
+  if (v.pa) r.push(`PA máximo ${fmtSinal(v.pa)} (mínimo 6)`);
+  if (v.nota) r.push(v.nota);
+  return r;
+}
+
+/**
+ * Defesa e Tolerância a Dano: da armadura vestida (ou 10 e 0), com melhorias,
+ * desgaste e os ajustes de raça, traços e trajes. A DF não fica abaixo de 10,
+ * exceto quando um traço manda reduzir.
  */
 export function defesas(char, catalogo) {
   const vestida = armaduraVestida(char?.inventario, catalogo);
-  let df = vestida ? Number(vestida.item.campos.DF) || 10 : 10;
-  let td = vestida ? Number(vestida.item.campos.TD) || 0 : 0;
+  const est = vestida ? estatisticasDaArmadura(vestida.linha, vestida.item, catalogo) : null;
+  let df = est ? est.df : 10;
+  let td = est ? est.td : 0;
   df = Math.max(10, df);
+  for (const v of vestidos(char, catalogo)) td += v.efeito.td || 0;
   if (char?.raca === 'robo' && char?.subtipo === 'guardatron') td += 1;
   if (temTraco(char, 'pecas_baratas')) {
     df -= 1;
@@ -394,19 +791,7 @@ export function defesas(char, catalogo) {
   }
   df += char?.ajuste_df || 0;
   td += char?.ajuste_td || 0;
-  return { df, td: Math.max(0, td), armadura: vestida?.item?.nome || null };
-}
-
-/** Carga total do inventário; armadura vestida conta pela metade. */
-export function cargaTotal(char, catalogo) {
-  let total = 0;
-  for (const linha of char?.inventario || []) {
-    const item = catalogo?.[linha.ref];
-    const unit = linha.carga != null ? Number(linha.carga) : cargaDoItem(item);
-    const vestida = linha.equipado && item?.categoria === 'Armaduras' && !item?.subcategoria;
-    total += (vestida ? unit / 2 : unit) * (linha.qtd || 1);
-  }
-  return Math.round(total * 10) / 10;
+  return { df, td: Math.max(0, td), armadura: vestida ? (vestida.linha.nome || vestida.item.nome || null) : null };
 }
 
 // ---------------------------------------------------------------- ataques
@@ -420,20 +805,23 @@ export function periciaDaArma(item) {
  * Ataque com uma arma: bônus de acerto (perícia da arma), dano (dados da tabela
  * + mod. do atributo da perícia), alcance (× Percepção) e desvantagem por Força.
  */
-export function calcularAtaque(char, item, antecedente = null) {
+export function calcularAtaque(char, item, antecedente = null, linha = null, catalogo = null) {
   const pericia = periciaDaArma(item);
   if (!pericia) return null;
   const atributo = atributoDaPericia(char, pericia);
   const mods = modificadores(char);
   const attr = atributosEfetivos(char);
-  const req = requisitoForca(item);
+  const est = estatisticasDaArma(linha, item, catalogo);
+  const req = est.forca;
   const alcance = String(item.campos?.Alcance || '').match(/x(\d+)\s*\/\s*x(\d+)/);
   return {
     pericia,
-    acerto: bonusPericia(char, pericia, antecedente),
+    acerto: bonusPericia(char, pericia, antecedente) + est.acerto,
+    ajusteAcerto: { mods: est.bonusMods, desgaste: est.desgaste },
+    quebrada: est.quebrada || est.excedeu,
     dano: item.campos?.Dano || '',
     bonusDano: pericia === 'explosivos' ? 0 : mods[atributo],
-    pa: item.campos?.PA || '',
+    pa: est.pa != null && est.pa !== est.paBase ? `${est.pa} PA` : (item.campos?.PA || ''),
     critico: item.campos?.['Crítico'] || '',
     alcance: alcance ? { normal: Number(alcance[1]) * attr.PER, longo: Number(alcance[2]) * attr.PER } : null,
     desvantagemForca: req != null && attr.FOR < req,
@@ -519,13 +907,55 @@ function chaveNome(s) {
 }
 
 /**
+ * Nomes dos pacotes de antecedente que não batem com o catálogo
+ * (tradução diferente ou nome genérico) -> id do item.
+ */
+const APELIDOS_DE_ITEM = {
+  'barraca individual': 'itens_e_equipamentos_barraca_uma_pessoa',
+  'roupa do refúgio': 'itens_unicos_traje_de_refugio',
+  'pip-boy': 'itens_unicos_pip_boy_2000',
+  'balas .44': 'municao_de_armas_de_fogo_44_magnum',
+  'escopeta de cano único': 'escopetas_escopeta_de_tiro_unico',
+  'escopeta de um tiro': 'escopetas_escopeta_de_tiro_unico',
+  'bastão policial': 'armas_contundentes_cassetete',
+  'carabina de caça': 'rifles_carabina_de_trilha',
+  'armadura improvisada': 'armaduras_multicamadas',
+  'bife salisbury': 'comida_pronta_bife_a_salisbury',
+  'blamco mac&queijo': 'comida_pronta_macarrao_com_queijo_blamco',
+  'ovos yum yum': 'comida_pronta_ovos_recheados_yum_yum',
+  'ração de cachorro enlatada': 'comida_pronta_racao_de_cachorro_em_lata',
+  'batatinha': 'comida_pronta_batatinhas_crocantes',
+  'ensopado mutacervo': 'comida_cozida_ensopado_de_radcervo',
+  'sopa de vegetais': 'comida_cozida_sopa_de_legumes',
+  'bife de lagartixa': 'comida_cozida_bife_de_lagarto',
+  'robco consertajá': 'medicina_robco_consertaja_1_0',
+  'rolamentos': 'itens_e_equipamentos_esferas_de_aco',
+  'mutamaçã': 'produtos_mutfruta',
+  'seringas disparáveis de stimpak': 'municao_especial_seringador_carregador_de_stimpak',
+  'seringa': 'rifles_seringador',
+  'seringa de tétano': 'municao_especial_seringador_articulacao_travada',
+};
+const APELIDOS = Object.fromEntries(Object.entries(APELIDOS_DE_ITEM).map(([k, v]) => [chaveNome(k), v]));
+
+/** Lê "dois Níveis de Desgaste" -> 2. */
+function lerNumero(txt) {
+  const t = String(txt).toLowerCase();
+  return NUMEROS_POR_EXTENSO[t] ?? Number(t);
+}
+
+/**
  * Converte o texto de um pacote de equipamento ("x1 faca, x2 Stimpaks e x50
  * tampinhas.") em linhas de inventário. Cada item é ligado ao catálogo quando
- * o nome bate (inteiro, ou o catálogo contido no texto); tampinhas viram moeda.
- * Devolve { linhas: [{ nome, qtd, ref, nota }], tampinhas }.
+ * o nome bate (inteiro, apelido ou o catálogo contido no texto) e recebe o nome
+ * do catálogo; "com dois Níveis de Desgaste" vira o campo desgaste e "com
+ * melhoria Chumbada nível 1" vira melhoria instalada (em armaduras). O que
+ * sobra de observação vai para a nota. Tampinhas viram moeda.
+ * Devolve { linhas: [{ nome, qtd, ref, desgaste, melhorias, nota }], tampinhas }.
  */
 export function interpretarPacote(texto, itens = []) {
   const indice = itens.map(i => ({ i, k: chaveNome(i.nome) })).filter(x => x.k).sort((a, b) => b.k.length - a.k.length);
+  const porId = Object.fromEntries(itens.map(i => [i.id, i]));
+  const melhoriasArmadura = itens.filter(i => i.subcategoria === 'Melhorias de Armadura');
   const partes = String(texto || '').replace(/\.\s*$/, '').split(/,\s*|\s+e\s+(?=x?\d)/);
   const linhas = [];
   let tampinhas = 0;
@@ -536,21 +966,42 @@ export function interpretarPacote(texto, itens = []) {
     const qtd = m ? Number(m[1]) : 1;
     const nome = (m ? m[2] : parte).trim();
     if (/^tampinhas?$/i.test(nome)) { tampinhas += qtd; continue; }
-    // Para casar com o catálogo, tira o que é observação: "(com melhoria...)",
-    // "com dois Níveis de Desgaste" e o prefixo "armadura de".
+    // O nome do item é o que vem antes de "(...)" e de " com ...".
     const base = nome.replace(/\(.*?\)/g, '').replace(/\s+com\s+.*$/i, '').trim();
+    const extra = [...nome.matchAll(/\((.*?)\)/g)].map(x => x[1]).join(' ')
+      + ' ' + (nome.replace(/\(.*?\)/g, '').match(/\s+com\s+(.*)$/i)?.[1] || '');
     const kBase = chaveNome(base);
     const kArmadura = kBase.startsWith('armadura de ') ? kBase.slice(12) : null;
-    const achado = (kArmadura && indice.find(x => x.k === kArmadura && x.i.categoria === 'Armaduras'))
+    const achado = (APELIDOS[kBase] && porId[APELIDOS[kBase]] && { i: porId[APELIDOS[kBase]] })
+      || (kArmadura && indice.find(x => x.k === kArmadura && x.i.categoria === 'Armaduras'))
       || indice.find(x => x.k === kBase)
       || indice.find(x => (` ${kBase} `).includes(` ${x.k} `));
-    const desgaste = nome.match(/(\d+|um|dois|três|quatro|cinco|seis)\s+Níve(?:l|is) de Desgaste/i);
-    linhas.push({
-      nome: nome.charAt(0).toUpperCase() + nome.slice(1),
+    const item = achado?.i || null;
+
+    let resto = extra.trim();
+    let desgaste = 0;
+    const d = resto.match(/(\d+|um|dois|três|quatro|cinco|seis)\s+Níve(?:l|is) de Desgaste/i);
+    if (d) { desgaste = lerNumero(d[1]); resto = resto.replace(d[0], ''); }
+    const melhorias = [];
+    if (item && ehArmadura(item)) {
+      const mm = resto.match(/melhoria\s+([\p{L} ]+?)(?:\s+nível\s+(\d+))?\s*$/iu);
+      const mel = mm && melhoriasArmadura.find(x => chaveNome(x.nome) === chaveNome(mm[1]));
+      if (mel) { melhorias.push({ id: idMelhoria(mel), nivel: Number(mm[2]) || 1 }); resto = resto.replace(mm[0], ''); }
+    }
+    resto = resto.replace(/^\s*(com|e)\s+|\s+(com|e)\s*$/gi, '').trim();
+    // Fica o nome do catálogo; munição e armadura mantêm o nome do pacote
+    // ("Munição 9mm", "Armadura de couro"), que diz mais que "9mm" ou "Couro".
+    const manterBase = !item || item.categoria === 'Munição' || (ehArmadura(item) && /^armadura/i.test(base));
+    const linha = {
+      nome: manterBase ? base.charAt(0).toUpperCase() + base.slice(1) : item.nome,
       qtd,
-      ref: achado?.i.id || null,
-      desgaste: desgaste ? (NUMEROS_POR_EXTENSO[desgaste[1].toLowerCase()] ?? Number(desgaste[1])) : 0,
-    });
+      ref: item?.id || null,
+      desgaste,
+    };
+    if (melhorias.length) linha.melhorias = melhorias;
+    if (/^qualquer$/i.test(resto)) resto = 'qualquer modelo';
+    if (resto) linha.nota = resto.charAt(0).toUpperCase() + resto.slice(1);
+    linhas.push(linha);
   }
   return { linhas, tampinhas };
 }
@@ -601,9 +1052,9 @@ export function descansaComoMaquina(char) {
  *   maior entre INT e PER no lugar da RES), −1 Exaustão; orgânicos que dormem
  *   confortáveis enchem os PE. Sem conforto, PE e PV recuperados caem à metade.
  */
-export function efeitoDescanso(char, tipo, confortavel = true) {
+export function efeitoDescanso(char, tipo, confortavel = true, catalogo = null) {
   const maqui = descansaComoMaquina(char);
-  const peMax = peMaximo(char);
+  const peMax = peMaximo(char, catalogo);
   const pvMax = pvMaximo(char);
   const peAtual = char?.pe_atual ?? peMax;
   const pvAtual = char?.pv_atual ?? pvMax;
@@ -632,13 +1083,51 @@ export function efeitoDescanso(char, tipo, confortavel = true) {
  * "10mm, 12 balas" (pente em balas) ou "1 Célula de Energia = 30 disparos"
  * (cada célula enche o pente com N disparos). null se não usar munição.
  */
-export function municaoDaArma(item) {
+export function municaoDaArma(item, linha = null, catalogo = null) {
   const txt = String(item?.campos?.['Munição e Recarga'] || '').trim();
   let m = txt.match(/^\(?1\)?\s+(.+?)\s*=\s*(\d+)\s*disparos?/i);
   if (m) return { tipo: m[1].trim(), capacidade: Number(m[2]), porCarga: true };
   m = txt.match(/^(.+?),\s*(\d+)\s*balas?/i);
-  if (m && m[1].length <= 30) return { tipo: m[1].trim(), capacidade: Number(m[2]), porCarga: false };
+  if (m && m[1].length <= 30) {
+    // Carregador Ampliado: +3 balas.
+    const extra = linha ? estatisticasDaArma(linha, item, catalogo).pente : 0;
+    return { tipo: m[1].trim(), capacidade: Number(m[2]) + extra, porCarga: false };
+  }
   return null;
+}
+
+/** A cada quantas recargas uma arma à distância ganha um nível de desgaste. */
+export const RECARGAS_POR_DESGASTE = 10;
+
+/** Como o item ganha níveis de desgaste e o que eles fazem (Itens e Custo, Fabricação). */
+export function regraDeDesgaste(item) {
+  const pericia = periciaDaArma(item);
+  const fim = ' No 10º nível o item quebra e para de funcionar.';
+  if (['corpo_a_corpo', 'pugilismo'].includes(pericia)) {
+    return 'Toda arma corpo a corpo ganha um nível de desgaste quando você tira 1 em uma rolagem de ataque ou quando você arremessa uma arma corpo a corpo que não tem a propriedade Arremessável. Cada nível reduz em 1 as rolagens de ataque.' + fim;
+  }
+  if (pericia && pericia !== 'explosivos') {
+    return 'Toda arma à distância ganha um nível de desgaste quando você a recarrega pela décima vez e quando você tira 1 em uma rolagem de ataque, a menos que se diga o contrário. Cada nível reduz em 1 as rolagens de ataque.' + fim;
+  }
+  if (/traje_hazmat/.test(item?.id || '')) {
+    return 'A cada 5 pontos de dano que você sofre nos PV enquanto veste o traje, ele ganha um nível de desgaste.' + fim;
+  }
+  if (ehArmadura(item)) {
+    return 'A armadura ganha um nível de desgaste se você a está vestindo e é alvo de um acerto crítico, ou sempre que você chega a 0 PV. DF e TD caem metade dos níveis (para baixo); a DF não fica abaixo de 10 nem a TD abaixo de 0.' + fim;
+  }
+  return 'Itens só ganham desgaste se a descrição disser, se sofrerem dano de um ataque mirado ou por decisão do MJ.' + fim;
+}
+
+/**
+ * Pip-Boy vestido com Traje de Refúgio de até 5 níveis de desgaste: cura de PV
+ * ganha um adicional igual ao nível. Devolve o adicional (0 se não vale).
+ */
+export function bonusCuraPipBoy(char, catalogo) {
+  if (!catalogo) return 0;
+  const vestidos = (char?.inventario || []).filter(l => l.equipado);
+  const pip = vestidos.some(l => /^itens_unicos_pip_boy/.test(l.ref || ''));
+  const traje = vestidos.some(l => l.ref === 'itens_unicos_traje_de_refugio' && (l.desgaste || 0) <= 5);
+  return pip && traje ? (char?.nivel || 1) : 0;
 }
 
 /**

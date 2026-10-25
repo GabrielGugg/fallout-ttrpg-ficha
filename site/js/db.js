@@ -17,13 +17,13 @@ async function fetchJSON(nome) {
 
 /** Carrega todos os dados de regras de uma vez e monta índices por id. */
 export async function carregarRegras() {
-  const [racas, antecedentes, tracos, talentos, itens, condicoes, propriedades] = await Promise.all([
+  const [racas, antecedentes, tracos, talentos, itens, condicoes, propriedades, pericias] = await Promise.all([
     fetchJSON('racas.json'), fetchJSON('antecedentes.json'), fetchJSON('tracos.json'),
     fetchJSON('talentos.json'), fetchJSON('itens.json'), fetchJSON('condicoes.json'),
-    fetchJSON('propriedades.json'),
+    fetchJSON('propriedades.json'), fetchJSON('pericias.json'),
   ]);
   return {
-    racas, antecedentes, tracos, talentos, itens, condicoes, propriedades,
+    racas, antecedentes, tracos, talentos, itens, condicoes, propriedades, pericias,
     catalogo: Object.fromEntries(itens.map(i => [i.id, i])),
     talentoPorId: Object.fromEntries(talentos.map(t => [t.id, t])),
   };

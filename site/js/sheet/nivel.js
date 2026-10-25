@@ -27,14 +27,14 @@ export function abrirSubidaDeNivel(ctx) {
     const c = simulado();
     const ganhaTalento = R.ganhaTalentoNoNivel(novo);
     const dPv = R.pvMaximo(c) - R.pvMaximo(char);
-    const dPe = R.peMaximo(c) - R.peMaximo(char);
+    const dPe = R.peMaximo(c, regras.catalogo) - R.peMaximo(char, regras.catalogo);
     const dPericia = R.pontosDePericiaTotais(c) - R.pontosDePericiaTotais(char);
     const corpo = `
       ${(char.xp || 0) < xpNec ? `<p class="aviso">Você tem ${char.xp || 0} XP e o nível ${novo} pede ${xpNec}. Se o MJ liberou, pode subir assim mesmo: o XP vai para ${xpNec}.</p>` : ''}
       <h3>Nível ${novo} concede</h3>
       <ul class="lista-ganhos">
         <li>PV máximo: ${R.pvMaximo(char)} → <strong>${R.pvMaximo(c)}</strong>${dPv ? ` (+${dPv})` : ' (sobe só nos níveis ímpares)'}</li>
-        <li>PE máximo: ${R.peMaximo(char)} → <strong>${R.peMaximo(c)}</strong>${dPe ? ` (+${dPe})` : ''}</li>
+        <li>PE máximo: ${R.peMaximo(char, regras.catalogo)} → <strong>${R.peMaximo(c, regras.catalogo)}</strong>${dPe ? ` (+${dPe})` : ''}</li>
         ${dPericia ? `<li><strong>${dPericia} Pontos de Perícia</strong> para distribuir na seção Perícias</li>` : ''}
         <li>Fator de Cura: ${R.fatorDeCura(char)} → <strong>${R.fatorDeCura(c)}</strong></li>
         <li>${ganhaTalento ? '<strong>1 Ponto de Talento</strong>' : 'Sem Ponto de Talento neste nível'}</li>
@@ -79,12 +79,12 @@ export function abrirSubidaDeNivel(ctx) {
   document.getElementById('nv-confirmar').onclick = () => {
     if (R.ganhaTalentoNoNivel(novo) && !escolha.tipo) { toast('Use o Ponto de Talento deste nível.', 'erro'); return; }
     const pvAntes = R.pvMaximo(char);
-    const peAntes = R.peMaximo(char);
+    const peAntes = R.peMaximo(char, regras.catalogo);
     char.nivel = novo;
     char.xp = Math.max(char.xp || 0, xpNec);
     if (escolha.tipo) char.progressao.push({ nivel: novo, tipo: escolha.tipo, ...(escolha.tipo === 'talento' ? { talento: escolha.talento } : { atributo: escolha.atributo }) });
     char.pv_atual = Math.max(0, (char.pv_atual ?? pvAntes) + R.pvMaximo(char) - pvAntes);
-    char.pe_atual = Math.max(0, (char.pe_atual ?? peAntes) + R.peMaximo(char) - peAntes);
+    char.pe_atual = Math.max(0, (char.pe_atual ?? peAntes) + R.peMaximo(char, regras.catalogo) - peAntes);
     fecharModal(); salvar(); redesenhar();
     toast(`Nível ${novo}!`, 'sucesso');
   };
@@ -100,7 +100,7 @@ export function abrirSubidaDeNivel(ctx) {
         while (excesso > 0 && char.pontos_pericia[id] > 0) { char.pontos_pericia[id]--; excesso--; }
       }
       char.pv_atual = Math.min(char.pv_atual, R.pvMaximo(char));
-      char.pe_atual = Math.min(char.pe_atual, R.peMaximo(char));
+      char.pe_atual = Math.min(char.pe_atual, R.peMaximo(char, regras.catalogo));
       fecharModal(); fecharModal(); salvar(); redesenhar();
     };
   });

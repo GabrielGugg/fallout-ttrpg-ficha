@@ -6,7 +6,7 @@
 import { carregarRegras } from '../db.js';
 import { criarPersonagemVazio, salvarPersonagem } from '../store.js';
 import { escHtml, mdParaHtml, toast, gerarId } from '../utils.js';
-import { gradeCards, ligarCards, popupDetalhe, markdownTraco, abrirSeletorTalento, tabelaPericias, escolherAtributo } from '../ui.js';
+import { gradeCards, ligarCards, popupDetalhe, markdownTraco, abrirSeletorTalento, tabelaPericias, ligarPericias, escolherAtributo } from '../ui.js';
 import * as R from '../regras-fallout.js';
 
 const PASSOS = ['Raça', 'S.P.E.C.I.A.L.', 'Antecedente', 'Perícias', 'Talento', 'Traços', 'Equipamento', 'Detalhes'];
@@ -306,6 +306,7 @@ function passoPericias(el) {
   el.querySelectorAll('[data-atributo-pericia]').forEach(s => {
     s.onchange = () => { char.atributo_pericia[s.dataset.atributoPericia] = s.value; redesenharCorpo(); };
   });
+  ligarPericias(el, regras.pericias, char, antecedenteAtual());
 }
 
 // ---------------------------------------------------------------- 5. Talento
@@ -446,21 +447,26 @@ function finalizar() {
     const pacote = ant.equipamento.find(p => p.rotulo === char.pacote_rotulo) || R.pacoteDaRaca(ant, char.raca);
     const { linhas, tampinhas } = R.interpretarPacote(pacote.itens, regras.itens);
     char.tampinhas = tampinhas;
-    let vestiu = false;
+    // Já começa vestido: a primeira armadura, a primeira bolsa, a bandoleira e o Pip-Boy.
+    const vestiu = { armadura: false, bolsa: false, outro: new Set() };
     char.inventario = linhas.map(l => {
       const item = regras.catalogo[l.ref];
-      const armadura = item?.categoria === 'Armaduras' && !item.subcategoria;
-      const equipado = armadura && !vestiu;
-      if (equipado) vestiu = true;
+      const v = item && R.VESTIVEIS[item.id];
+      let equipado = false;
+      if (R.ehArmadura(item) && !vestiu.armadura) equipado = vestiu.armadura = true;
+      else if (v?.bolsa && !vestiu.bolsa) equipado = vestiu.bolsa = true;
+      else if (item && (/^itens_unicos_pip_boy/.test(item.id) || item.id === 'itens_e_equipamentos_bandoleira') && !vestiu.outro.has(item.id)) {
+        equipado = true; vestiu.outro.add(item.id);
+      }
       return {
-        id: gerarId(), ref: l.ref, nome: item && item.nome.toLowerCase() === l.nome.toLowerCase() ? item.nome : l.nome,
-        qtd: l.qtd, equipado, desgaste: l.desgaste || 0,
+        id: gerarId(), ref: l.ref, nome: l.nome, qtd: l.qtd, equipado, desgaste: l.desgaste || 0,
+        ...(l.melhorias ? { melhorias: l.melhorias } : {}), ...(l.nota ? { nota: l.nota } : {}),
       };
     });
   }
   char.nivel = 1;
   char.pv_atual = R.pvMaximo(char);
-  char.pe_atual = R.peMaximo(char);
+  char.pe_atual = R.peMaximo(char, regras.catalogo);
   const salvo = salvarPersonagem(char);
   toast('Personagem criado!', 'sucesso');
   window.navegar(`ficha/${salvo.id}`);

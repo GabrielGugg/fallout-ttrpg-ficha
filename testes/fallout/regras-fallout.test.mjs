@@ -193,3 +193,110 @@ test('munição: pente, reserva e recarga', () => {
   assert.deepEqual(R.recarregar(R.municaoDaArma(pistola), 4, 3), { pente: 7, gasto: 3 });
   assert.deepEqual(R.recarregar(R.municaoDaArma(laser), 2, 1), { pente: 30, gasto: 1 });
 });
+
+// ---------------------------------------------------------------- v0.3: carga e inventário
+// (Itens e Custo, Talentos, Traços, Fabricação > Desgaste e Reparos)
+
+const CAT = {
+  armaduras_tecido: { id: 'armaduras_tecido', nome: 'Tecido', categoria: 'Armaduras', subcategoria: '', campos: { DF: '10', TD: '0', 'Espaços': '8', 'Carga e Req. de FOR': 'Carga 5, FOR 1' } },
+  armaduras_aco: { id: 'armaduras_aco', nome: 'Aço', categoria: 'Armaduras', subcategoria: '', campos: { DF: '13', TD: '2', 'Espaços': '2', 'Carga e Req. de FOR': 'Carga 50, FOR 6' } },
+  itens_unicos_traje_de_refugio: { id: 'itens_unicos_traje_de_refugio', nome: 'Traje de Refúgio', categoria: 'Itens Únicos', subcategoria: '', campos: { Carga: '5' } },
+  itens_e_equipamentos_mochila: { id: 'itens_e_equipamentos_mochila', nome: 'Mochila', categoria: 'Itens e Equipamentos', subcategoria: '', campos: { Carga: '10 quando não vestida' } },
+  itens_e_equipamentos_mochila_de_acampamento: { id: 'itens_e_equipamentos_mochila_de_acampamento', nome: 'Mochila de Acampamento', categoria: 'Itens e Equipamentos', subcategoria: '', campos: { Carga: '20 quando não vestida' } },
+  itens_e_equipamentos_bandoleira: { id: 'itens_e_equipamentos_bandoleira', nome: 'Bandoleira', categoria: 'Itens e Equipamentos', subcategoria: '', campos: { Carga: '8 quando não vestida' } },
+  itens_e_equipamentos_mascara_de_gas: { id: 'itens_e_equipamentos_mascara_de_gas', nome: 'Máscara de Gás', categoria: 'Itens e Equipamentos', subcategoria: '', campos: { Carga: '12' } },
+  itens_e_equipamentos_roupa_termica: { id: 'itens_e_equipamentos_roupa_termica', nome: 'Roupa Térmica', categoria: 'Itens e Equipamentos', subcategoria: '', campos: { Carga: '20 (igual a 5 quando vestida)' } },
+  pistola: { id: 'pistola', nome: 'Pistola', categoria: 'Tabelas de Armas à Distância', subcategoria: 'Armas de Mão', campos: { PA: '4 PA', 'Carga e Req. de FOR': 'Carga 3, FOR 2' } },
+  mira: { id: 'mira', nome: 'Mira Holográfica', categoria: 'Modificações de Armas à Distância', subcategoria: '', campos: { 'Descrição': '**Espaços: 2.** ...' } },
+  leve: { id: 'leve', nome: 'Construção Leve', categoria: 'Modificações de Armas à Distância', subcategoria: '', campos: { 'Descrição': '**Espaços: 2.** ...' } },
+  gazua: { id: 'gazua', nome: 'Gazua', categoria: 'Itens e Equipamentos', subcategoria: '', campos: { Carga: '2' } },
+};
+
+test('carga máxima: Força, traço e talento Acumulador, Rato de Carga, Dotado', () => {
+  const c = base(); // FOR 5
+  assert.equal(R.capacidadeDeCarga(c, CAT), 50);
+  const tr = id => ({ tracos: { personagem: [{ id }] } });
+  assert.equal(R.capacidadeDeCarga(base(tr('acumulador')), CAT), 75);
+  assert.equal(R.capacidadeDeCarga(base({ tracos: { personagem: [{ id: 'acumulador', ermo: true }] } }), CAT), 50);
+  assert.equal(R.capacidadeDeCarga(base(tr('dotado')), CAT), 60);
+  const tal = (...ids) => ({ nivel: 4, progressao: ids.map((t, i) => ({ nivel: i + 1, tipo: 'talento', talento: t })) });
+  assert.equal(R.capacidadeDeCarga(base(tal('acumulador')), CAT), 100);
+  assert.equal(R.capacidadeDeCarga(base(tal('rato_de_carga', 'rato_de_carga')), CAT), 70);
+  assert.equal(R.capacidadeDeCarga(base({ ajuste_carga: 10 }), CAT), 60);
+});
+
+test('bolsas vestidas: aumentam a capacidade e não pesam; duas bolsas sobrecarregam', () => {
+  const inv = [{ ref: 'itens_e_equipamentos_mochila', qtd: 1, equipado: true }, { ref: 'itens_e_equipamentos_bandoleira', qtd: 1, equipado: true }];
+  const c = base({ inventario: inv });
+  assert.equal(R.capacidadeDeCarga(c, CAT), 125);
+  assert.equal(R.cargaTotal(c, CAT), 0);
+  assert.equal(R.cargaTotal(base({ inventario: inv.map(l => ({ ...l, equipado: false })) }), CAT), 18);
+  const duas = base({ inventario: [...inv, { ref: 'itens_e_equipamentos_mochila_de_acampamento', qtd: 1, equipado: true }] });
+  assert.equal(R.estadoDeCarga(duas, CAT).sobrecarregado, true);
+  const forte = { ...duas, special: { ...R.specialInicial(), FOR: 8, PER: 2 } };
+  assert.equal(R.estadoDeCarga(forte, CAT).sobrecarregado, false);
+});
+
+test('Rato de Carga: itens com carga menor que 3 valem 1', () => {
+  const c = base({ nivel: 2, progressao: [{ nivel: 1, tipo: 'talento', talento: 'rato_de_carga' }], inventario: [{ ref: 'gazua', qtd: 3 }] });
+  assert.equal(R.cargaTotal(c, CAT), 3);
+});
+
+test('Máscara de Gás, Roupa Térmica e Traje de Refúgio', () => {
+  const c = base({ inventario: [{ ref: 'itens_e_equipamentos_mascara_de_gas', qtd: 1, equipado: true }] });
+  assert.equal(R.sentidosPassivos(c, CAT), 10);
+  assert.equal(R.limiarDeRadiacao(c, CAT), 9);
+  const t = base({ special: { ...R.specialInicial(), AGI: 8, PER: 2 }, inventario: [{ ref: 'itens_e_equipamentos_roupa_termica', qtd: 1, equipado: true }] });
+  assert.equal(R.pontosDeAcao(t, CAT), 12);
+  assert.equal(R.cargaTotal(t, CAT), 5);
+  const v = base({ inventario: [{ ref: 'itens_unicos_traje_de_refugio', qtd: 1, equipado: true }] });
+  assert.deepEqual(R.defesas(v, CAT), { df: 10, td: 1, armadura: 'Traje de Refúgio' });
+  assert.equal(R.limiarDeRadiacao(v, CAT), 10);
+  assert.equal(R.cargaTotal(v, CAT), 2.5);
+});
+
+test('melhorias de armadura e desgaste', () => {
+  const linha = { ref: 'armaduras_aco', qtd: 1, equipado: true, melhorias: [{ id: 'reforcada', nivel: 3 }, { id: 'cheia_de_bolsos', nivel: 2 }] };
+  const c = base({ inventario: [linha] });
+  assert.equal(R.defesas(c, CAT).td, 6);
+  assert.equal(R.capacidadeDeCarga(c, CAT), 65);
+  // Livro: armadura de aço com 4 níveis de desgaste -> DF 11, TD 0.
+  const gasta = base({ inventario: [{ ref: 'armaduras_aco', qtd: 1, equipado: true, desgaste: 4 }] });
+  assert.deepEqual([R.defesas(gasta, CAT).df, R.defesas(gasta, CAT).td], [11, 0]);
+  const robusta = base({ inventario: [{ ref: 'armaduras_aco', qtd: 1, equipado: true, desgaste: 4, melhorias: [{ id: 'robusta', nivel: 1 }] }] });
+  assert.equal(R.defesas(robusta, CAT).df, 12);
+  const leve = R.estatisticasDaArmadura({ melhorias: [{ id: 'leve', nivel: 2 }] }, CAT.armaduras_aco, CAT);
+  assert.deepEqual([leve.carga, leve.forca, leve.td], [40, 5, 1]);
+});
+
+test('modificações de arma: acerto, carga, Força e desgaste', () => {
+  const c = base({ special: { ...R.specialInicial(), AGI: 7 } });
+  const linha = { ref: 'pistola', mods: ['mira', 'leve'], desgaste: 2 };
+  const est = R.estatisticasDaArma(linha, CAT.pistola, CAT);
+  assert.equal(est.carga, 2.5); // 3 ÷ 2 + 1
+  assert.equal(est.forca, 1);
+  assert.equal(est.espacos.usados, 4);
+  const a = R.calcularAtaque(c, CAT.pistola, null, linha, CAT);
+  assert.equal(a.acerto, 2 + 1 - 2);
+});
+
+test('Robusto e Dotado', () => {
+  const r = base({ nivel: 3, tracos: { personagem: [{ id: 'robusto' }] } });
+  assert.equal(R.pvMaximo(r) - R.pvMaximo(base({ nivel: 3 })), 3);
+  assert.equal(R.peMaximo(base({ nivel: 3 })) - R.peMaximo(r), 3);
+  const d = base({ tracos: { personagem: [{ id: 'dotado' }] } });
+  assert.equal(R.bonusPericia(d, 'barganha'), -3);
+  assert.equal(R.tampasDeKarma(d), 2);
+  assert.equal(R.iniciativa(d), 11);
+});
+
+test('pacote: nome limpo, desgaste e melhoria separados', () => {
+  const itens = [
+    { id: 'armaduras_tecido', nome: 'Tecido', categoria: 'Armaduras', subcategoria: '' },
+    { id: 'melhorias_de_armadura_chumbada', nome: 'Chumbada', categoria: 'Armaduras', subcategoria: 'Melhorias de Armadura' },
+    { id: 'sucata', nome: 'Pistola de Sucata' },
+  ];
+  const r = R.interpretarPacote('x1 armadura de tecido (com melhoria Chumbada nível 1), x1 pistola de sucata com dois Níveis de Desgaste.', itens);
+  assert.deepEqual(r.linhas[0], { nome: 'Armadura de tecido', qtd: 1, ref: 'armaduras_tecido', desgaste: 0, melhorias: [{ id: 'chumbada', nivel: 1 }] });
+  assert.deepEqual(r.linhas[1], { nome: 'Pistola de Sucata', qtd: 1, ref: 'sucata', desgaste: 2 });
+});

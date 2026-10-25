@@ -248,6 +248,7 @@ def extrair_itens(pasta):
     """Cada linha de tabela com coluna Nome/Tipo de Armadura vira um item, com a
     categoria (##) e a subcategoria (###) de onde veio."""
     texto = ler(pasta, 'Itens e Custo.md')
+    descricoes = _descricoes_de_itens(texto)
     itens = []
     for cat, corpo in secoes(texto, 2):
         blocos = [('', corpo.split('\n### ')[0])] + secoes(corpo, 3)
@@ -259,9 +260,31 @@ def extrair_itens(pasta):
                     if not nome:
                         continue
                     campos = {k: v for k, v in row.items() if v not in ('Nome', 'Tipo de Armadura') and k not in ('Nome', 'Tipo de Armadura')}
-                    itens.append({'id': slug(f'{sub or cat}-{nome}'), 'nome': nome, 'categoria': cat,
-                                  'subcategoria': sub, 'campos': campos})
+                    item = {'id': slug(f'{sub or cat}-{nome}'), 'nome': nome, 'categoria': cat,
+                            'subcategoria': sub, 'campos': campos}
+                    desc = descricoes.get(slug(nome))
+                    if desc:
+                        item['descricao'] = desc
+                    itens.append(item)
     return itens
+
+
+def _descricoes_de_itens(texto):
+    """Parágrafos ***Nome.*** das notas de itens, por slug do nome. "Bolsa,
+    Mochila" também responde por "Mochila". Nomes que se repetem com textos
+    diferentes (regras gerais) ficam de fora."""
+    vistos = {}
+    for t in tracos_em_negrito(texto):
+        nomes = [t['nome']]
+        if ',' in t['nome']:
+            nomes.append(t['nome'].split(',', 1)[1].strip())
+        for n in nomes:
+            k = slug(n)
+            if k in vistos and vistos[k] != t['texto']:
+                vistos[k] = None
+            else:
+                vistos[k] = t['texto']
+    return {k: v for k, v in vistos.items() if v}
 
 
 def _desdobrar_pares(linhas):
@@ -297,6 +320,38 @@ def extrair_propriedades(pasta):
     return list(glossario.values())
 
 
+# ---------------------------------------------------------------- Perícias
+def extrair_pericias(pasta):
+    """Descrição de cada perícia: os parágrafos ***Nome (perícia).*** de
+    Atributos e Perícias (e os parágrafos soltos logo depois), com o atributo
+    (##) em que aparecem. A mesma perícia pode aparecer em mais de um atributo."""
+    texto = ler(pasta, 'Atributos e Perícias.md')
+    saida = {pid: {'id': pid, 'nome': nome, 'textos': []} for nome, pid in PERICIAS.items()}
+    atributo, atual = None, None
+    for par in re.split(r'\n\s*\n', texto):
+        par = par.strip()
+        if par.startswith('## '):
+            atributo, atual = par[3:].strip(), None
+            continue
+        if par.startswith('#') or par.startswith('>') or par.startswith('|'):
+            atual = None
+            continue
+        m = re.match(r'^\*\*\*(.+?) \(perícia\)\.\*\*\*\s*(.*)$', par, re.S)
+        if m and m.group(1).strip() in PERICIAS:
+            pid = PERICIAS[m.group(1).strip()]
+            corpo = limpar(m.group(2))
+            if any(t['texto'] == corpo for t in saida[pid]['textos']):
+                atual = None
+                continue
+            atual = {'atributo': atributo, 'texto': corpo}
+            saida[pid]['textos'].append(atual)
+        elif par.startswith('***'):
+            atual = None
+        elif atual is not None:
+            atual['texto'] += '\n\n' + limpar(par)
+    return list(saida.values())
+
+
 # ---------------------------------------------------------------- Condições
 def extrair_condicoes(pasta):
     texto = ler(pasta, 'Combate.md')
@@ -320,6 +375,7 @@ def main():
         'itens.json': extrair_itens(pasta),
         'condicoes.json': extrair_condicoes(pasta),
         'propriedades.json': extrair_propriedades(pasta),
+        'pericias.json': extrair_pericias(pasta),
     }
     for nome, dados in arquivos.items():
         (SAIDA / nome).write_text(json.dumps(dados, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')

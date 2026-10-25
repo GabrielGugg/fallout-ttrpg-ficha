@@ -111,9 +111,25 @@ export function tabelaPericias(c, antecedente, editavel) {
       : `<span class="pericia-atributo">${d.atributo}</span>`;
     const doAnt = R.periciasDoAntecedente(c, antecedente).includes(p.id);
     return `<div class="pericia-item${doAnt ? ' destaque' : ''}" title="${escHtml(titulo)}">
-      <span class="pericia-nome">${p.nome}</span>${seletor}<span class="pericia-bonus">${R.fmtSinal(d.total)}</span>
+      <button type="button" class="pericia-nome pericia-nome-btn" data-ver-pericia="${p.id}" aria-label="${p.nome}: ver a descrição">${p.nome}</button>${seletor}<span class="pericia-bonus">${R.fmtSinal(d.total)}</span>
       <span class="pericia-origem">${escHtml(titulo)}</span></div>`;
   }).join('')}</div>`;
+}
+
+/** Liga o clique no nome da perícia: popup com a descrição das notas e o cálculo do bônus. */
+export function ligarPericias(raiz, pericias, c, antecedente) {
+  raiz.querySelectorAll('[data-ver-pericia]').forEach(b => {
+    b.onclick = () => {
+      const id = b.dataset.verPericia;
+      const p = R.PERICIAS.find(x => x.id === id);
+      const def = (pericias || []).find(x => x.id === id);
+      const d = R.detalharPericia(c, id, antecedente);
+      const calculo = d.partes.map(x => `${x.rotulo} ${R.fmtSinal(x.valor)}`).join(' · ');
+      const textos = def?.textos || [];
+      const corpo = textos.map(t => (textos.length > 1 ? `#### ${t.atributo}\n\n` : '') + t.texto).join('\n\n');
+      popupDetalhe(p.nome, `**Bônus atual: ${R.fmtSinal(d.total)}** (${calculo})\n\n**Atributo:** ${p.atributos.join(' ou ')}\n\n${corpo || '*Sem descrição nas notas.*'}`);
+    };
+  });
 }
 
 /** Popup para gastar um Ponto de Talento em +1 num atributo (até 10). */
